@@ -112,6 +112,7 @@ export AM_HOME=/home/suyi/ics2020/abstract-machine
 export NEMU_HOME=/home/suyi/ics2020/nemu
 export NAVY_HOME=/home/suyi/ics2020/navy-apps
 
+
 # alias proxy="source ~/proxy.sh"
 # . ~/proxy.sh set
 . proxy set
@@ -126,8 +127,10 @@ function zvm_after_init() {
 
 # [create alias name]
 # change vim to nvim
-alias vim=nvim
-alias fd=fdfind
+alias vim='nvim'
+alias fd='fdfind'
+alias ls='exa'
+alias ll='exa -all'
 
 
 # [end alias name]
