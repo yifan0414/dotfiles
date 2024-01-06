@@ -1,0 +1,36 @@
+return {
+  "nvim-lualine/lualine.nvim",
+  event = "VeryLazy",
+  opts = function(_, opts)
+    -- table.insert(opts.sections.lualine_x, {
+    --   function()
+    --     local msg = "No Active Lsp"
+    --     local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
+    --     local clients = vim.lsp.get_active_clients()
+    --     if next(clients) == nil then
+    --       return msg
+    --     end
+    --     for _, client in ipairs(clients) do
+    --       local filetypes = client.config.filetypes
+    --       if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+    --         return client.name
+    --       end
+    --     end
+    --     return msg
+    --   end,
+    --   icon = " LSP:",
+    --   color = { fg = "#7fB4CA", gui = "bold" },
+    -- })
+    table.insert(opts.sections.lualine_b, {
+      function()
+        return vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+      end,
+      icon = "",
+    })
+    table.remove(opts.sections.lualine_c)
+    table.insert(opts.sections.lualine_c, {
+      "filename",
+      path = 1,
+    })
+  end,
+}
