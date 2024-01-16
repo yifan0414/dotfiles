@@ -4,7 +4,19 @@
 --
 --
 --
-
+vim.g.clipboard = {
+  name = 'win32yank',
+  copy = {
+     ["+"] = 'win32yank.exe -i --crlf',
+     ["*"] = 'win32yank.exe -i --crlf',
+   },
+  paste = {
+     ["+"] = 'win32yank.exe -o --lf',
+     ["*"] = 'win32yank.exe -o --lf',
+  },
+  cache_enabled = 0,
+}
+vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 vim.opt.list = false
 vim.opt.swapfile = false
 vim.opt.backup = false
@@ -15,6 +27,7 @@ vim.opt.autoread = true
 vim.opt.scrolloff = 7 -- Lines of context
 vim.go.guicursor = "a:block"
 vim.g.autoformat = false
+vim.g.python3_host_prog = "/usr/bin/python3"
 -- init.lua
 
 -- 启用当前行高亮
