@@ -28,6 +28,10 @@ vim.opt.scrolloff = 7 -- Lines of context
 vim.go.guicursor = "a:block"
 vim.g.autoformat = false
 vim.g.python3_host_prog = "/usr/bin/python3"
+vim.g.node_host_prog = "/usr/local/lib/node_modules/neovim/bin/cli.js"
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 -- init.lua
 
 -- 启用当前行高亮

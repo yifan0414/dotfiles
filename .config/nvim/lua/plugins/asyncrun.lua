@@ -3,7 +3,6 @@ return {
     "skywind3000/asyncrun.vim",
     -- event = "VeryLazy",
     cmd = "AsyncRun",
-    opt = {},
   },
   {
     "skywind3000/asynctasks.vim",
@@ -35,6 +34,5 @@ return {
   {
     "SnakeHit/vimux",
     event = "VeryLazy",
-    opt = {},
   },
 }

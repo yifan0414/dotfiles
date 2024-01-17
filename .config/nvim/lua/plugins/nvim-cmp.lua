@@ -10,11 +10,11 @@ return {
     {
       "hrsh7th/cmp-cmdline",
       event = "CmdlineEnter",
-      opt = function()
-        return {
-          mapping = {},
-        }
-      end,
+      -- opt = function()
+      --   return {
+      --     mapping = {},
+      --   }
+      -- end,
       config = function()
         local cmp = require("cmp")
         cmp.setup.cmdline("/", {
