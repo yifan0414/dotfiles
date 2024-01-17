@@ -111,6 +111,7 @@ source $ZSH/oh-my-zsh.sh
 export AM_HOME=/home/suyi/ics2020/abstract-machine
 export NEMU_HOME=/home/suyi/ics2020/nemu
 export NAVY_HOME=/home/suyi/ics2020/navy-apps
+export NPC_HOME=/home/suyi/ysyx-workbench/npc
 
 
 # alias proxy="source ~/proxy.sh"

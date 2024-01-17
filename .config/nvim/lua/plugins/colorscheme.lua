@@ -1,6 +1,6 @@
 return {
   {
-    "rebelot/kanagawa.nvim",
+    "SnakeHit/kanagawa.nvim",
     -- commit = "476eb2289d47d132ebacc1a4d459e3204866599b",
     commit = "476eb2289d47d132ebacc1a4d459e3204866599b"
   },
