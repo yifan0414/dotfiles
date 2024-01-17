@@ -23,12 +23,12 @@ vim.keymap.set("n", ";", ":", { desc = "CmdLine" })
 
 vim.keymap.set({ "n", "v" }, "0", "^", { noremap = true, silent = true })
 
-vim.keymap.set(
-  "n",
-  "<leader>fa",
-  "<cmd>lua vim.lsp.buf.format()<CR>",
-  { noremap = true, silent = true, desc = "Format" }
-)
+-- vim.keymap.set(
+--   "n",
+--   "<leader>fa",
+--   "<cmd>lua vim.lsp.buf.format()<CR>",
+--   { noremap = true, silent = true, desc = "Format" }
+-- )
 
 -- 将滚轮向下映射为Ctrl-e
 -- vim.keymap.set("n", "<ScrollWheelDown>", "<C-e>", { noremap = true, silent = true })

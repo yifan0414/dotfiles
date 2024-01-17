@@ -5,16 +5,16 @@
 --
 --
 vim.g.clipboard = {
-  name = 'win32yank',
+  name = 'TmuxClipboard',
   copy = {
-     ["+"] = 'win32yank.exe -i --crlf',
-     ["*"] = 'win32yank.exe -i --crlf',
+     ["+"] = 'tmux load-buffer -w -',
+     ["*"] = 'tmux load-buffer -w -',
    },
   paste = {
-     ["+"] = 'win32yank.exe -o --lf',
-     ["*"] = 'win32yank.exe -o --lf',
+     ["+"] = 'tmux save-buffer -',
+     ["*"] = 'tmux save-buffer -',
   },
-  cache_enabled = 0,
+  cache_enabled = 1,
 }
 vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 vim.opt.list = false
