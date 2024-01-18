@@ -2,20 +2,36 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 --
---
---
-vim.g.clipboard = {
-  name = 'TmuxClipboard',
-  copy = {
-     ["+"] = 'tmux load-buffer -w -',
-     ["*"] = 'tmux load-buffer -w -',
-   },
-  paste = {
-     ["+"] = 'tmux save-buffer -',
-     ["*"] = 'tmux save-buffer -',
-  },
-  cache_enabled = 1,
-}
+
+-- 检查 tmux 环境的 Lua 脚本
+
+if os.getenv("TMUX") then
+  vim.g.clipboard = {
+    name = "TmuxClipboard",
+    copy = {
+      ["+"] = "tmux load-buffer -w -",
+      ["*"] = "tmux load-buffer -w -",
+    },
+    paste = {
+      ["+"] = "tmux save-buffer -",
+      ["*"] = "tmux save-buffer -",
+    },
+    cache_enabled = 1,
+  }
+else
+  vim.g.clipboard = {
+    name = "WslClipboard",
+    copy = {
+      ["+"] = "clip.exe",
+      ["*"] = "clip.exe",
+    },
+    paste = {
+      ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    },
+    cache_enabled = 1,
+  }
+end
 vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 vim.opt.list = false
 vim.opt.swapfile = false
@@ -60,11 +76,10 @@ vim.cmd([[
 --   augroup END
 -- ]])
 
-
 -- NOTE: asyncrun 的配置
-vim.g.asyncrun_open=10
-vim.g.VimuxHeight="50"
-vim.g.VimuxOrientation="h"
+vim.g.asyncrun_open = 10
+vim.g.VimuxHeight = "50"
+vim.g.VimuxOrientation = "h"
 
 -- 手动fold
-vim.opt.foldmethod="manual"
+vim.opt.foldmethod = "manual"

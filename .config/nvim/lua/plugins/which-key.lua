@@ -1,3 +1,7 @@
+require('which-key.plugins.presets').operators['v'] = nil
+require('which-key.plugins.presets').operators['d'] = nil
+require('which-key.plugins.presets').operators['c'] = nil
+
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
