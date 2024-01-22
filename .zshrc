@@ -137,6 +137,7 @@ alias ll='exa -all'
 alias make='make -j8'
 
 bindkey "^[l" clear-screen
+bindkey "^L" clear-screen
 
 # [end alias name]
 

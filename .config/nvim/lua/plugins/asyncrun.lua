@@ -32,7 +32,7 @@ return {
     },
   },
   {
-    "SnakeHit/vimux",
+    "blob42/vimux",
     event = "VeryLazy",
   },
 }

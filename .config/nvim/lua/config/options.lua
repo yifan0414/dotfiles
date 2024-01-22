@@ -37,6 +37,7 @@ vim.opt.list = false
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
+vim.opt.relativenumber = false
 
 vim.opt.autowrite = true
 vim.opt.autoread = true
