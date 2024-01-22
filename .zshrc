@@ -80,6 +80,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git fzf fast-syntax-highlighting zsh-autosuggestions z fzf-tab sudo)
 
+DISABLE_MAGIC_FUNCTIONS=true
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -108,6 +109,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+
 export AM_HOME=/home/suyi/ics2020/abstract-machine
 export NEMU_HOME=/home/suyi/ics2020/nemu
 export NAVY_HOME=/home/suyi/ics2020/navy-apps
@@ -134,6 +136,7 @@ alias ls='exa'
 alias ll='exa -all'
 alias make='make -j8'
 
+bindkey "^[l" clear-screen
 
 # [end alias name]
 
