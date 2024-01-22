@@ -38,9 +38,8 @@ vim.keymap.set({ "n", "v" }, "0", "^", { noremap = true, silent = true })
 
 -- TODO: notify 插件如何将指针切换到弹出的messages
 
-
 -- 配置bufferline
-vim.keymap.set("n", "t", "<cmd>BufferLinePick<CR>", {noremap = true, silent = true})
+vim.keymap.set("n", "t", "<cmd>BufferLinePick<CR>", { noremap = true, silent = true })
 
 -- AsyncRun
 vim.keymap.set(
@@ -57,7 +56,6 @@ vim.keymap.set(
   { desc = "search word in quickfix(cwd)", noremap = true, silent = true }
 )
 
-
 vim.keymap.set(
   "v",
   "<leader>xw",
@@ -72,3 +70,9 @@ vim.keymap.set(
   { desc = "search word in quickfix(root dir)", noremap = true, silent = true }
 )
 
+-- So I can move around in insert
+
+vim.keymap.set("i", "<C-k>", "<C-o>gk", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-j>", "<C-o>gj", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })

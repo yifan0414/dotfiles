@@ -5,33 +5,33 @@
 
 -- 检查 tmux 环境的 Lua 脚本
 
-if os.getenv("TMUX") then
-  vim.g.clipboard = {
-    name = "TmuxClipboard",
-    copy = {
-      ["+"] = "tmux load-buffer -w -",
-      ["*"] = "tmux load-buffer -w -",
-    },
-    paste = {
-      ["+"] = "tmux save-buffer -",
-      ["*"] = "tmux save-buffer -",
-    },
-    cache_enabled = 1,
-  }
-else
-  vim.g.clipboard = {
-    name = "WslClipboard",
-    copy = {
-      ["+"] = "clip.exe",
-      ["*"] = "clip.exe",
-    },
-    paste = {
-      ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-      ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-    },
-    cache_enabled = 1,
-  }
-end
+-- if os.getenv("TMUX") then
+vim.g.clipboard = {
+  name = "TmuxClipboard",
+  copy = {
+    ["+"] = "tmux load-buffer -w -",
+    ["*"] = "tmux load-buffer -w -",
+  },
+  paste = {
+    ["+"] = "tmux save-buffer -",
+    ["*"] = "tmux save-buffer -",
+  },
+  cache_enabled = 0,
+}
+-- else
+--   vim.g.clipboard = {
+--     name = "WslClipboard",
+--     copy = {
+--       ["+"] = "clip.exe",
+--       ["*"] = "clip.exe",
+--     },
+--     paste = {
+--       ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+--       ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+--     },
+--     cache_enabled = 1,
+--   }
+-- end
 vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 vim.opt.list = false
 vim.opt.swapfile = false
