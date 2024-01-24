@@ -29,3 +29,11 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.spell = false
   end,
 })
+
+local group = vim.api.nvim_create_augroup("SetCommentString", { clear = true })
+
+vim.api.nvim_create_autocmd({"BufEnter", "BufFilePost"}, {
+    group = group,
+    pattern = {"*.cpp", "*.h"},
+    command = "lua vim.api.nvim_buf_set_option(0, 'commentstring', '// %s')"
+})

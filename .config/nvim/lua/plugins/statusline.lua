@@ -52,9 +52,9 @@ return {
       icon = "",
     })
     table.remove(opts.sections.lualine_c)
-    table.insert(opts.sections.lualine_c, {
-      "filename",
-      path = 1,
-    })
+    -- table.insert(opts.sections.lualine_c, {
+    --   "filename",
+    --   path = 1,
+    -- })
   end,
 }

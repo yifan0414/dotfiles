@@ -17,7 +17,7 @@
 --   end
 -- end
 
-vim.keymap.set("n", "<leader>;", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+vim.keymap.set("n", "<leader>;", "<cmd>e #<cr>", { desc = "Switch to Last Buffer" })
 
 vim.keymap.set("n", ";", ":", { desc = "CmdLine" })
 
