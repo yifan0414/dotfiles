@@ -76,3 +76,12 @@ vim.keymap.set("i", "<C-k>", "<C-o>gk", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-j>", "<C-o>gj", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
+
+
+vim.keymap.set("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
+vim.keymap.set("n", "<leader>lr", "<cmd>Leet run<cr>", {desc = "Leet run"})
+vim.keymap.set("n", "<leader>ls", "<cmd>Leet submit<cr>", {desc = "Leet submit"})
+vim.keymap.set("n", "<leader>lt", "<cmd>Leet tabs<cr>", {desc = "Leet tabs"})
+vim.keymap.set("n", "<leader>li", "<cmd>Leet info<cr>", {desc = "Leet info"})
+vim.keymap.set("n", "<leader>lb", "<cmd>Leet list<cr>", {desc = "Leet list"})
+vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", {desc = "Leet console"})
