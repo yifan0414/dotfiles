@@ -16,7 +16,7 @@ vim.g.clipboard = {
     ["+"] = "tmux save-buffer -",
     ["*"] = "tmux save-buffer -",
   },
-  cache_enabled = 0,
+  cache_enabled = 1, -- 要设置成1，不然使用x或者d的时候鼠标会闪烁
 }
 -- else
 --   vim.g.clipboard = {
