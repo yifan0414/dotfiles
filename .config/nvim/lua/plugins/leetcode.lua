@@ -30,4 +30,12 @@ return {
       },
     },
   },
+  -- keys = {
+  --   { "<leader>lr", "<cmd>Leet run<cr>", desc = "Leet run" },
+  --   { "<leader>ls", "<cmd>Leet submit<cr>", desc = "Leet submit" },
+  --   { "<leader>lt", "<cmd>Leet tabs<cr>", desc = "Leet tabs" },
+  --   { "<leader>li", "<cmd>Leet info<cr>", desc = "Leet info" },
+  --   { "<leader>lb", "<cmd>Leet list<cr>", desc = "Leet list" },
+  --   { "<leader>lc", "<cmd>Leet console<cr>", desc = "Leet console" },
+  -- },
 }
