@@ -40,8 +40,18 @@ return {
       --     -- },
       --   },
       -- },
+      signature = {
+        enabled = true,
+        auto_open = {
+          enabled = false,
+        }
+      },
       documentation = {
         opts = {
+          size = {
+            max_width = 50,
+            -- max_length = 50,
+          },
           border = { style = "rounded" },
           relative = "cursor",
           -- position = {

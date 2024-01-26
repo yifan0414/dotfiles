@@ -19,7 +19,7 @@
 
 vim.keymap.set("n", "<leader>;", "<cmd>e #<cr>", { noremap = true, silent = true })
 
-vim.keymap.set("n", ";", ":", { noremap = true, silent = true })
+vim.keymap.set("n", ";", ":", { noremap = true})
 
 vim.keymap.set({ "n", "v" }, "0", "^", { noremap = true, silent = true })
 
@@ -76,7 +76,6 @@ vim.keymap.set("i", "<C-k>", "<C-o>gk", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-j>", "<C-o>gj", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
-
 
 -- config for leetcode
 vim.keymap.del("n", "<leader>l")

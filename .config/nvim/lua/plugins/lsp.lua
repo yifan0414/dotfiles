@@ -13,6 +13,8 @@ return {
         source = "always",
         header = "",
         prefix = "",
+        -- max_width = 20,
+        -- width = 20,
       },
       -- virtual_text = {
       --   spacing = 4,
