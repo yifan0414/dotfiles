@@ -118,7 +118,7 @@ export NPC_HOME=/home/suyi/ysyx-workbench/npc
 
 # alias proxy="source ~/proxy.sh"
 # . ~/proxy.sh set
-. proxy set
+# . proxy set
 
 
 # The plugin will auto execute this zvm_after_init function
