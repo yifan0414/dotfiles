@@ -29,6 +29,15 @@ return {
         before = "import java.util.*;",
       },
     },
+    keys = {
+        toggle = { "q"}, ---@type string|string[]
+        confirm = { "<CR>" }, ---@type string|string[]
+
+        reset_testcases = "r", ---@type string
+        use_testcase = "U", ---@type string
+        focus_testcases = "H", ---@type string
+        focus_result = "L", ---@type string
+    },
   },
   -- keys = {
   --   { "<leader>lr", "<cmd>Leet run<cr>", desc = "Leet run" },

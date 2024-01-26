@@ -1,8 +1,8 @@
 return {
   {
     "SnakeHit/kanagawa.nvim",
-    -- commit = "476eb2289d47d132ebacc1a4d459e3204866599b",
-    commit = "476eb2289d47d132ebacc1a4d459e3204866599b"
+    branch = "dev",
+    -- commit = "476eb2289d47d132ebacc1a4d459e3204866599b"
   },
   -- {
   --   "catppuccin/nvim",

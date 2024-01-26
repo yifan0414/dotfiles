@@ -23,6 +23,7 @@ vim.keymap.set("n", ";", ":", { noremap = true})
 
 vim.keymap.set({ "n", "v" }, "0", "^", { noremap = true, silent = true })
 
+
 -- vim.keymap.set(
 --   "n",
 --   "<leader>fa",
@@ -86,3 +87,14 @@ vim.keymap.set("n", "<leader>lt", "<cmd>Leet tabs<cr>", { desc = "Leet tabs" })
 vim.keymap.set("n", "<leader>li", "<cmd>Leet info<cr>", { desc = "Leet info" })
 vim.keymap.set("n", "<leader>lb", "<cmd>Leet list<cr>", { desc = "Leet list" })
 vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet console" })
+
+
+function ToggleStatusline()
+  if vim.o.laststatus == 0 then
+    vim.o.laststatus = 2
+  else
+    vim.o.laststatus = 0
+  end
+end
+
+vim.api.nvim_set_keymap("n", "<leader>h", "<cmd>lua ToggleStatusline()<cr>", { noremap = true, silent = true })

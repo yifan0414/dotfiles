@@ -126,18 +126,21 @@ return {
     local luasnip = require("luasnip")
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
-    -- local defaults = require("cmp.config.default")()
     return {
       window = {
-        -- How to disable scrollbar?
         completion = cmp.config.window.bordered({
-          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None"
+          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
         }),
-        documentation = cmp.config.window.bordered({
-          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None"
-        }),
+        -- documentation = cmp.config.window.bordered({
+        --   winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+        -- }),
+        documentation = {
+          border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+          max_width = 50,
+          max_height = math.floor(vim.o.lines * 0.5)
+        }
       },
-
       completion = {
         -- completeopt = "menu,menuone,noinsert",
       },
