@@ -13,22 +13,22 @@ return {
     cmd = "AsyncTask",
     keys = {
       {
-        "<F1>",
+        "<leader>a1",
         "<cmd>AsyncTask file-build<cr>",
         mode = "n",
       },
       {
-        "<F2>",
+        "<leader>a2",
         "<cmd>AsyncTask file-run<cr>",
         mode = "n",
       },
       {
-        "<F3>",
+        "<leader>a3",
         "<cmd>AsyncTask project-build<cr>",
         mode = "n",
       },
       {
-        "<F4>",
+        "<leader>a4",
         "<cmd>AsyncTask project-run<cr>",
         mode = "n",
       },
@@ -45,19 +45,19 @@ return {
     "Theprimeagen/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
-    -- config = function()
-    --   require("harpoon"):setup()
-    -- end,
+    config = function()
+      require("harpoon"):setup()
+    end,
     keys = {
       {
-        "<leader>A",
+        "<leader>H",
         function()
           require("harpoon"):list():append()
         end,
         desc = "harpoon file",
       },
       {
-        "<leader>a",
+        "<leader>h",
         function()
           local harpoon = require("harpoon")
           harpoon.ui:toggle_quick_menu(harpoon:list())

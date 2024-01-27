@@ -97,4 +97,22 @@ function ToggleStatusline()
   end
 end
 
-vim.api.nvim_set_keymap("n", "<leader>h", "<cmd>lua ToggleStatusline()<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>bh", "<cmd>lua ToggleStatusline()<cr>", { noremap = true, silent = true })
+
+
+-- FloatermNew
+vim.api.nvim_set_keymap('n', '<F4>', '<cmd>FloatermNew<CR>', { silent = true, noremap = true })
+vim.api.nvim_set_keymap('t', '<F4>', '<C-\\><C-n>:FloatermNew<CR>', { silent = true, noremap = true })
+
+-- FloatermPrev
+vim.api.nvim_set_keymap('n', '<F2>', '<cmd>FloatermPrev<CR>', { silent = true, noremap = true })
+vim.api.nvim_set_keymap('t', '<F2>', '<C-\\><C-n><cmd>FloatermPrev<CR>', { silent = true, noremap = true })
+
+-- FloatermNext
+vim.api.nvim_set_keymap('n', '<F3>', '<cmd>FloatermNext<CR>', { silent = true, noremap = true })
+vim.api.nvim_set_keymap('t', '<F3>', '<C-\\><C-n><cmd>FloatermNext<CR>', { silent = true, noremap = true })
+
+-- FloatermToggle
+vim.api.nvim_set_keymap('n', '<F1>', '<cmd>FloatermToggle<CR>', { silent = true, noremap = true })
+vim.api.nvim_set_keymap('t', '<F1>', '<C-\\><C-n><cmd>FloatermToggle<CR>', { silent = true, noremap = true })
+
