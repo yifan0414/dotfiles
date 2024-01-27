@@ -19,10 +19,9 @@
 
 vim.keymap.set("n", "<leader>;", "<cmd>e #<cr>", { noremap = true, silent = true })
 
-vim.keymap.set("n", ";", ":", { noremap = true})
+vim.keymap.set("n", ";", ":", { noremap = true })
 
 vim.keymap.set({ "n", "v" }, "0", "^", { noremap = true, silent = true })
-
 
 -- vim.keymap.set(
 --   "n",
@@ -88,7 +87,6 @@ vim.keymap.set("n", "<leader>li", "<cmd>Leet info<cr>", { desc = "Leet info" })
 vim.keymap.set("n", "<leader>lb", "<cmd>Leet list<cr>", { desc = "Leet list" })
 vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet console" })
 
-
 function ToggleStatusline()
   if vim.o.laststatus == 0 then
     vim.o.laststatus = 2
@@ -99,20 +97,30 @@ end
 
 vim.api.nvim_set_keymap("n", "<leader>bh", "<cmd>lua ToggleStatusline()<cr>", { noremap = true, silent = true })
 
-
 -- FloatermNew
-vim.api.nvim_set_keymap('n', '<F4>', '<cmd>FloatermNew<CR>', { silent = true, noremap = true })
-vim.api.nvim_set_keymap('t', '<F4>', '<C-\\><C-n>:FloatermNew<CR>', { silent = true, noremap = true })
+vim.api.nvim_set_keymap("n", "<F4>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true })
+vim.api.nvim_set_keymap("t", "<F4>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true })
 
 -- FloatermPrev
-vim.api.nvim_set_keymap('n', '<F2>', '<cmd>FloatermPrev<CR>', { silent = true, noremap = true })
-vim.api.nvim_set_keymap('t', '<F2>', '<C-\\><C-n><cmd>FloatermPrev<CR>', { silent = true, noremap = true })
+vim.api.nvim_set_keymap("n", "<F2>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true })
+vim.api.nvim_set_keymap("t", "<F2>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true })
 
 -- FloatermNext
-vim.api.nvim_set_keymap('n', '<F3>', '<cmd>FloatermNext<CR>', { silent = true, noremap = true })
-vim.api.nvim_set_keymap('t', '<F3>', '<C-\\><C-n><cmd>FloatermNext<CR>', { silent = true, noremap = true })
+vim.api.nvim_set_keymap("n", "<F3>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true })
+vim.api.nvim_set_keymap("t", "<F3>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true })
 
 -- FloatermToggle
-vim.api.nvim_set_keymap('n', '<F1>', '<cmd>FloatermToggle<CR>', { silent = true, noremap = true })
-vim.api.nvim_set_keymap('t', '<F1>', '<C-\\><C-n><cmd>FloatermToggle<CR>', { silent = true, noremap = true })
+vim.api.nvim_set_keymap("n", "<F1>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true })
+vim.api.nvim_set_keymap("t", "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true })
+
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>th",
+  "<cmd>FloatermNew man -k . | fzf | awk '{print $1}' | xargs man<cr>",
+  { silent = true, noremap = true, desc = "Man" }
+)
+
+
+-- 在 Visual 模式下绑定 <leader>y 到复制到剪贴板(wsl2)命令
+vim.api.nvim_set_keymap('x', '<leader>y', [[:w !clip.exe<CR>]], { noremap = true, silent = true })
 

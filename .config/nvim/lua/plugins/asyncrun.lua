@@ -8,7 +8,7 @@ return {
     },
   },
   {
-    "skywind3000/asynctasks.vim",
+    "yifan0414/asynctasks.vim",
     -- event = "VeryLazy",
     cmd = "AsyncTask",
     keys = {
