@@ -42,7 +42,7 @@ return {
   --   event = "VeryLazy",
   -- },
   {
-    "Theprimeagen/harpoon",
+    "yifan0414/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
