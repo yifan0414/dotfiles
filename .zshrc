@@ -142,6 +142,13 @@ bindkey "^[l" clear-screen
 bindkey "^L" clear-screen
 
 # [end alias name]
+#
+
+# function
+Man() {
+    man -k . | fzf | awk '{print $1}' | xargs man
+}
+
 
 # disable Bracketed Paste Mode
 # unset zle_bracketed_paste
