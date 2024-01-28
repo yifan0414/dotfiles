@@ -1,6 +1,5 @@
 local picker = {}
 
-
 function picker.telescope_func_picker(commands)
   local actions = require("telescope.actions")
   local action_state = require("telescope.actions.state")
@@ -63,6 +62,52 @@ function picker.show_telescope_picker(commands)
           -- vim.api.nvim_out_write(selection.display .. "\n")
           actions.close(prompt_bufnr)
           vim.cmd(selection.value)
+        end)
+        return true
+      end,
+    })
+    :find()
+end
+
+function picker.asyncfunc()
+  local tasks = vim.fn["asynctasks#source"](math.floor(vim.go.columns * 48 / 100))
+  local task_entries = {}
+
+  for _, task in ipairs(tasks) do
+    table.insert(task_entries, {
+      value = task[1],
+      display = task[1] .. " " .. task[2] .. ": " .. task[3],
+      ordinal = task[1] .. " " .. task[2] .. ": " .. task[3],
+    })
+  end
+
+  -- vim.api.nvim_out_write("task_entries: " .. task_entries[1] .. "\n")
+  local pickers = require("telescope.pickers")
+  local finders = require("telescope.finders")
+  local actions = require("telescope.actions")
+  local action_state = require("telescope.actions.state")
+
+  pickers
+    .new({}, {
+      prompt_title = "Select a task",
+      finder = finders.new_table({
+        results = task_entries,
+        entry_maker = function(entry)
+          return {
+            value = entry.value,
+            display = entry.display,
+            ordinal = entry.ordinal,
+          }
+        end,
+      }),
+      sorter = require("telescope.sorters").get_generic_fuzzy_sorter(),
+      attach_mappings = function(prompt_bufnr)
+        actions.select_default:replace(function()
+          local selection = action_state.get_selected_entry()
+          actions.close(prompt_bufnr)
+          local task_name = selection.value
+          local command = "AsyncTask " .. task_name
+          vim.cmd(command)
         end)
         return true
       end,

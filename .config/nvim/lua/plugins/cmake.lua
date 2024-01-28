@@ -104,21 +104,4 @@ return {
       refresh_rate_ms = 100, -- how often to iterate icons
     },
   },
-  {
-    "voldikss/vim-floaterm",
-    event = "VeryLazy",
-    keys = {
-      { "<F4>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true } },
-      { "<F4>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true } },
-
-      { "<F2>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
-      { "<F2>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
-
-      { "<F3>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true } },
-      { "<F3>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true } },
-
-      { "<F1>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true } },
-      { "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true } },
-    },
-  },
 }
