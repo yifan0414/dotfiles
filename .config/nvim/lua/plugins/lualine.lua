@@ -190,6 +190,8 @@ return {
         Robot = "󰚩 ",
         Squirrel = "  ",
         Tag = " ",
+        Vim = " ",
+        Neovim = " ",
       },
     }
 
@@ -205,7 +207,7 @@ return {
         local filepath = vim.fn.expand("%:p:h")
         local gitdir = vim.fn.finddir(".git", filepath .. ";")
         return gitdir and #gitdir > 0 and #gitdir < #filepath
-      end,
+      end, 
     }
 
     local colors = {
@@ -336,7 +338,7 @@ return {
     ins_left({
       -- mode component
       function()
-        return icons.ui.Evil
+        return icons.misc.Neovim
       end,
       color = function()
         -- auto change color according to neovims mode
@@ -360,11 +362,11 @@ return {
           rm = colors.cyan,
           ["r?"] = colors.cyan,
           ["!"] = colors.red,
-          t = colors.red,
+          t = colors.violet,
         }
         return { fg = mode_color[vim.fn.mode()] }
       end,
-      padding = { left = 1, right = 1 },
+      padding = { left = 1, right = 0 },
     })
 
     -- ins_left({

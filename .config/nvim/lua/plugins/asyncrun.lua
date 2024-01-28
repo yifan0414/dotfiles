@@ -15,22 +15,78 @@ return {
       {
         "<leader>a1",
         "<cmd>AsyncTask file-build<cr>",
+        desc = "AsyncTask file-build",
         mode = "n",
       },
       {
         "<leader>a2",
         "<cmd>AsyncTask file-run<cr>",
+        desc = "AsyncTask file-run",
         mode = "n",
       },
       {
         "<leader>a3",
         "<cmd>AsyncTask project-build<cr>",
+        desc = "AsyncTask project-build",
         mode = "n",
       },
       {
         "<leader>a4",
         "<cmd>AsyncTask project-run<cr>",
+        desc = "AsyncTask project-run",
         mode = "n",
+      },
+      {
+        "<leader>at",
+        function()
+          local tasks = vim.fn["asynctasks#source"](math.floor(vim.go.columns * 48 / 100))
+          local task_entries = {}
+
+          for _, task in ipairs(tasks) do
+            table.insert(task_entries, {
+              value = task[1],
+              display = task[1] .. " " .. task[2] .. ": " .. task[3],
+              ordinal = task[1] .. " " .. task[2] .. ": " .. task[3],
+            })
+          end
+
+          -- vim.api.nvim_out_write("task_entries: " .. task_entries[1] .. "\n")
+          local pickers = require("telescope.pickers")
+          local finders = require("telescope.finders")
+          local actions = require("telescope.actions")
+          local action_state = require("telescope.actions.state")
+
+          pickers
+            .new({}, {
+              prompt_title = "Select a task",
+              finder = finders.new_table({
+                results = task_entries,
+                entry_maker = function(entry)
+                  return {
+                    value = entry.value,
+                    display = entry.display,
+                    ordinal = entry.ordinal,
+                  }
+                end,
+              }),
+              sorter = require("telescope.sorters").get_generic_fuzzy_sorter(),
+              attach_mappings = function(prompt_bufnr, map)
+                actions.select_default:replace(function()
+                  local selection = action_state.get_selected_entry()
+                  actions.close(prompt_bufnr)
+                  local task_name = selection.value
+                  -- vim.api.nvim_out_write("task: " .. task_name .. "\n")
+                  local command = "AsyncTask " .. task_name
+                  -- vim.api.nvim_out_write("command: " .. command .. "\n")
+                  vim.cmd(command)
+                end)
+                return true
+              end,
+            })
+            :find()
+        end,
+        desc = "AsyncTask: select",
+        { noremap = true, silent = true ,},
       },
     },
     dependencies = {
@@ -41,6 +97,9 @@ return {
   --   "blob42/vimux",
   --   event = "VeryLazy",
   -- },
+  {
+    "ibhagwan/fzf-lua",
+  },
   {
     "yifan0414/harpoon",
     branch = "harpoon2",

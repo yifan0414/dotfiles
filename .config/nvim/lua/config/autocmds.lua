@@ -56,10 +56,128 @@ vim.api.nvim_create_autocmd("FileType", {
     "neotest-output-panel",
     "fugitive",
     "git",
-    "floaterm"
+    "floaterm",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
   end,
 })
+
+-- local fzf_lua = require("fzf-lua")
+-- vim.keymap.set("n", "<leader>af", function()
+--   local rows = vim.fn["asynctasks#source"](math.floor(vim.go.columns * 48 / 100))
+--   fzf_lua.fzf_exec(function(cb)
+--     for _, e in ipairs(rows) do
+--       local color = fzf_lua.utils.ansi_codes
+--       local line = color.green(e[1]) .. " " .. color.cyan(e[2]) .. ": " .. color.yellow(e[3])
+--       cb(line)
+--     end
+--     cb()
+--   end, {
+--     actions = {
+--       ["default"] = function(selected)
+--         local str = fzf_lua.utils.strsplit(selected[1], " ")
+--         local command = "AsyncTask " .. vim.fn.fnameescape(str[1])
+--         vim.api.nvim_exec(command, false)
+--       end,
+--     },
+--     fzf_opts = {
+--       ["--no-multi"] = "",
+--       ["--nth"] = "1",
+--     },
+--     winopts = {
+--       height = 0.6,
+--       width = 0.6,
+--     },
+--   })
+-- end, { noremap = true, silent = true })
+--
+-- vim.keymap.set("n", "<leader>ad", function()
+--   local tasks = vim.fn["asynctasks#source"](math.floor(vim.go.columns * 48 / 100))
+--   local task_list = {}
+--
+--   for _, task in ipairs(tasks) do
+--     table.insert(task_list, task[1] .. " " .. task[2] .. ": " .. task[3])
+--   end
+--
+--   vim.ui.select(task_list, {
+--     prompt = "Select a task:",
+--   }, function(choice)
+--     if choice then
+--       -- vim.api.nvim_out_write("choice: " .. choice .. "\n")
+--       local task_name = choice:match("^%S+")
+--       -- vim.api.nvim_out_write("task: " .. task_name .. "\n")
+--       local command = "AsyncTask " .. vim.fn.fnameescape(task_name)
+--       -- vim.api.nvim_out_write("command: " .. command .. "\n")
+--       vim.cmd(command)
+--     end
+--   end)
+-- end, { noremap = true, silent = true })
+--
+-- vim.keymap.set("n", "<leader>at", function()
+--   local tasks = vim.fn["asynctasks#source"](math.floor(vim.go.columns * 48 / 100))
+--   local task_entries = {}
+--
+--   for _, task in ipairs(tasks) do
+--     table.insert(task_entries, {
+--       value = task[1],
+--       display = task[1] .. " " .. task[2] .. ": " .. task[3],
+--       ordinal = task[1] .. " " .. task[2] .. ": " .. task[3],
+--     })
+--   end
+--
+--   -- vim.api.nvim_out_write("task_entries: " .. task_entries[1] .. "\n")
+--   local pickers = require("telescope.pickers")
+--   local finders = require("telescope.finders")
+--   local actions = require("telescope.actions")
+--   local action_state = require("telescope.actions.state")
+--
+--   pickers
+--     .new({}, {
+--       prompt_title = "Select a task",
+--       finder = finders.new_table({
+--         results = task_entries,
+--         entry_maker = function(entry)
+--           return {
+--             value = entry.value,
+--             display = entry.display,
+--             ordinal = entry.ordinal,
+--           }
+--         end,
+--       }),
+--       sorter = require("telescope.sorters").get_generic_fuzzy_sorter(),
+--       attach_mappings = function(prompt_bufnr, map)
+--         actions.select_default:replace(function()
+--           local selection = action_state.get_selected_entry()
+--           actions.close(prompt_bufnr)
+--           local task_name = selection.value
+--           -- vim.api.nvim_out_write("task: " .. task_name .. "\n")
+--           local command = "AsyncTask " .. task_name
+--           -- vim.api.nvim_out_write("command: " .. command .. "\n")
+--           vim.cmd(command)
+--         end)
+--         return true
+--       end,
+--     })
+--     :find()
+-- end, { noremap = true, silent = true })
+--
+-- local pickers = require("telescope.pickers")
+-- local finders = require("telescope.finders")
+-- local conf = require("telescope.config").values
+--
+-- -- our picker function: colors
+-- local colors = function(opts)
+--   opts = opts or {}
+--   pickers
+--     .new(opts, {
+--       prompt_title = "colors",
+--       finder = finders.new_table({
+--         results = { "red", "green", "blue" },
+--       }),
+--       sorter = conf.generic_sorter(opts),
+--     })
+--     :find()
+-- end
+--
