@@ -76,6 +76,8 @@ return {
                   actions.close(prompt_bufnr)
                   local task_name = selection.value
                   -- vim.api.nvim_out_write("task: " .. task_name .. "\n")
+                  -- vim.api.nvim_out_write("task display: " .. selection.display .. "\n")
+                  -- vim.api.nvim_out_write("task ordinal: " .. selection.ordinal .. "\n")
                   local command = "AsyncTask " .. task_name
                   -- vim.api.nvim_out_write("command: " .. command .. "\n")
                   vim.cmd(command)
@@ -93,19 +95,12 @@ return {
       "blob42/vimux",
     },
   },
-  -- {
-  --   "blob42/vimux",
-  --   event = "VeryLazy",
-  -- },
-  {
-    "ibhagwan/fzf-lua",
-  },
   {
     "yifan0414/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      require("harpoon"):setup()
+      require("harpoon"):setup({})
     end,
     keys = {
       {

@@ -1,22 +1,3 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
---
-
--- local function map(mode, lhs, rhs, opts)
---   local keys = require("lazy.core.handler").handlers.keys
---   ---@cast keys LazyKeysHandler
---   -- do not create the keymap if a lazy keys handler exists
---   if not keys.active[keys.parse({ lhs, mode = mode }).id] then
---     opts = opts or {}
---     opts.silent = opts.silent ~= false
---     if opts.remap and not vim.g.vscode then
---       opts.remap = nil
---     end
---     vim.keymap.set(mode, lhs, rhs, opts)
---   end
--- end
-
 vim.keymap.set("n", "<leader>;", "<cmd>e #<cr>", { noremap = true, silent = true })
 
 vim.keymap.set("n", ";", ":", { noremap = true })
@@ -87,15 +68,19 @@ vim.keymap.set("n", "<leader>li", "<cmd>Leet info<cr>", { desc = "Leet info" })
 vim.keymap.set("n", "<leader>lb", "<cmd>Leet list<cr>", { desc = "Leet list" })
 vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet console" })
 
-function ToggleStatusline()
-  if vim.o.laststatus == 0 then
-    vim.o.laststatus = 2
-  else
-    vim.o.laststatus = 0
-  end
-end
+-- function ToggleStatusline()
+--   if vim.o.laststatus == 0 then
+--     vim.o.laststatus = 2
+--   else
+--     vim.o.laststatus = 0
+--   end
+-- end
+--
+-- vim.api.nvim_set_keymap("n", "<leader>bh", "<cmd>lua ToggleStatusline()<cr>", { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("n", "<leader>bh", "<cmd>lua ToggleStatusline()<cr>", { noremap = true, silent = true })
+require("lazyvim.util").safe_keymap_set("n", "<leader>bh", function()
+  require("lazyvim.util").toggle("laststatus", false, { 0, 2 })
+end, { noremap = true, silent = true })
 
 -- FloatermNew
 vim.api.nvim_set_keymap("n", "<F4>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true })
@@ -116,11 +101,9 @@ vim.api.nvim_set_keymap("t", "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { sil
 vim.api.nvim_set_keymap(
   "n",
   "<leader>th",
-  "<cmd>FloatermNew man -k . | fzf | awk '{print $1}' | xargs man<cr>",
+  "<cmd>FloatermNew --width=0.8 --height=0.8 man -k . | fzf | awk '{print $1}' | xargs man<cr>",
   { silent = true, noremap = true, desc = "Man" }
 )
 
-
 -- 在 Visual 模式下绑定 <leader>y 到复制到剪贴板(wsl2)命令
-vim.api.nvim_set_keymap('x', '<leader>y', [[:w !clip.exe<CR>]], { noremap = true, silent = true })
-
+vim.api.nvim_set_keymap("x", "<leader>y", [[:w !clip.exe<CR>]], { noremap = true, silent = true })
