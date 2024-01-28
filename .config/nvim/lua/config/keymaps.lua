@@ -168,18 +168,41 @@ vim.keymap.set({ "n", "v" }, "<leader>tx", function()
 end)
 
 vim.keymap.set({ "n", "v" }, "<leader>t1", function()
-  local row1 = vim.api.nvim_buf_get_mark(0, "<")
-  local row2 = vim.api.nvim_buf_get_mark(0, ">")
-  vim.api.nvim_out_write(row1[1] .. " " .. row2[1] .. "\n")
+  -- 获取当前光标位置（可能是选区的开始或结束）
+  local cursor_pos = vim.fn.getpos(".")
+  local v_pos = vim.fn.getpos("v")
+
+  -- 检查 cursor_pos 和 v_pos 是否为有效的列表
+  if not (cursor_pos and #cursor_pos >= 2) or not (v_pos and #v_pos >= 2) then
+    -- print("Error: Invalid position data")
+    return
+  end
+
+  local start_line, end_line
+
+  -- 比较两个位置，确定选区的实际开始和结束
+  if cursor_pos[2] < v_pos[2] then
+    start_line = cursor_pos[2]
+    end_line = v_pos[2]
+  else
+    start_line = v_pos[2]
+    end_line = cursor_pos[2]
+  end
+
+  -- 打印或返回开始和结束行号
+  print("Start line: " .. start_line .. ", End line: " .. end_line)
 end)
 
 vim.keymap.set({ "n", "v" }, "<leader>t2", function()
-  local start_pos = vim.fn.getpos(".")
-  local end_pos = vim.fn.getpos("v")
+  local start_pos = vim.fn.getpos(".") --end
+  local end_pos = vim.fn.getpos("v") --start [2,3]
   -- vim.api.nvim_out_write(start_pos[2] .. " " .. end_pos[2] .. "\n")
 
   for i, line in ipairs(start_pos) do
     vim.api.nvim_out_write(i .. " " .. start_pos[i] .. "\n")
   end
-end)
 
+  for i, line in ipairs(end_pos) do
+    vim.api.nvim_out_write(i .. " " .. end_pos[i] .. "\n")
+  end
+end)

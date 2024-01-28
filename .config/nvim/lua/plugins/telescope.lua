@@ -1,6 +1,5 @@
 local row1
 local row2
-
 -- {"命令名称", "执行的命令"},
 local tmux_command = {
   { "sent current line to tmux 2 pane", "silent .w !awk '{$1=$1;print}' | xargs -0ri tmux send -t2 {}" },
@@ -23,7 +22,7 @@ local frequent_command = {
 }
 
 -- 在 Neovim 配置文件中定义本地函数
-function myLocalFunction()
+local function myLocalFunction()
   -- 这里是函数的实现
   print("这是一个本地函数")
 end
@@ -41,15 +40,33 @@ function! YankWithLine()
 endfunction
 ]])
 
+local function YankLua()
+  -- 使用 row1 和 row2 定义 Vim 命令
+  local vim_command = row1 .. "," .. row2 .. "number"
+
+  -- 执行 Vim 命令并获取输出
+  local command_output = vim.api.nvim_exec(vim_command, true)
+
+  -- 将输出存入 'n' 寄存器
+  vim.fn.setreg("n", command_output)
+
+  local filename = vim.fn.expand("%")
+
+  local decoration = string.rep("-", #filename + 1)
+
+  vim.fn.setreg("+", decoration .. "\n" .. filename .. ":" .. "\n" .. decoration .. "\n" .. vim.fn.getreg("n"))
+end
+
 -- 调用Vimscript函数
 
-function CompleteYank()
+local function CompleteYank()
   -- 获取选中文本的行号和内容
   -- vim.cmd("call YankWithLine()")
   -- 获取当前缓冲区的句柄
   local bufnr = vim.api.nvim_get_current_buf()
 
-  -- vim.api.nvim_out_write(row1 .. " " .. row2 .. "\n")
+  -- vim.api.nvim_out_write(vim.fn.getpos("v")[2] .. " " .. vim.fn.getpos(".")[2] .. "\n")
+  vim.api.nvim_out_write(row1 .. " " .. row2 .. "\n")
   -- 获取缓冲区中的行（例如第 1 行到第 10 行，注意 Lua 中索引是从 1 开始的）
   local lines = vim.api.nvim_buf_get_lines(bufnr, row1, row2, false)
 
@@ -60,22 +77,21 @@ function CompleteYank()
   vim.fn.setreg("+", text_to_copy)
 end
 
-vim.keymap.set({ "v" }, "<leader>tc", function()
-  CompleteYank()
-end)
-
-function_command = {
+local function_command = {
   { name = "test", func = myLocalFunction },
   { name = "统计选中的字符数", func = CompleteYank },
+  { name = "YankLua", func = YankLua },
 }
 
-function telescope_func_picker(commands)
+local function telescope_func_picker(commands)
   local actions = require("telescope.actions")
   local action_state = require("telescope.actions.state")
   local pickers = require("telescope.pickers")
   local finders = require("telescope.finders")
   local conf = require("telescope.config").values
 
+  -- vim.api.nvim_out_write(vim.fn.getpos("v")[2] .. " " .. vim.fn.getpos(".")[2] .. "\n")
+  -- 在这之后就无法得到visual的坐标了
   pickers
     .new({}, {
       prompt_title = "Select a Command",
@@ -138,28 +154,6 @@ local function show_telescope_picker(commands)
     :find()
 end
 
-vim.keymap.set({ "n", "v" }, "<leader>tb", function()
-  local task_list = {
-    "hello",
-    "Nice",
-  }
-
-  local function_command = {
-    { name = "test", func = myLocalFunction },
-    { name = "统计选中的字符数", func = CompleteYank },
-  }
-
-  vim.ui.select(task_list, {
-    prompt = "Select a task:",
-    telescope = require("telescope.themes"),
-  }, function(choice)
-    if choice then
-      -- vim.cmd(command)
-      CompleteYank()
-    end
-  end)
-end, { noremap = true, silent = true })
-
 return {
   "nvim-telescope/telescope.nvim",
   opts = {
@@ -202,9 +196,8 @@ return {
     {
       "<Leader>tf",
       function()
-        row1 = vim.api.nvim_buf_get_mark(0, "<")[1]
-        row2 = vim.api.nvim_buf_get_mark(0, ">")[1]
-        vim.api.nvim_out_write(row1 .. " " .. row2 .. "\n")
+        row1 = vim.fn.getpos("v")[2]
+        row2 = vim.fn.getpos(".")[2]
         telescope_func_picker(function_command)
       end,
       { noremap = true, silent = true },
