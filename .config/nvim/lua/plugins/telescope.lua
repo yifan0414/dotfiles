@@ -22,7 +22,7 @@ return {
   },
   keys = {
     {
-      "<Leader>mb",
+      "<Leader>t",
       function()
         local actions = require("telescope.actions")
         local action_state = require("telescope.actions.state")
@@ -31,7 +31,21 @@ return {
         local conf = require("telescope.config").values
 
         local my_commands = {
-          { "Show File Path", "call setqflist([{'text': execute('echomsg expand(''%:p'')')}]) | copen" },
+          { "Show File Path", "call setqflist([{'text': execute('echomsg expand(\"%:p\")')}]) | copen" },
+          {
+            "Open Man In Floaterm",
+            "FloatermNew --width=0.8 --height=0.8 man -k . | fzf | awk '{print $1}' | xargs man | less",
+          },
+          {
+            "输出一个msg到quickfix",
+            "execute 'call setqflist([{\"text\": \"' . input('Enter message: ') . '\"}], \"a\") | copen'",
+          },
+          { "sent current line to tmux 2 pane", "silent .w !awk '{$1=$1;print}' | xargs -0ri tmux send -t2 {}" },
+          {
+            "sent current line to popup",
+            "silent .w !awk '{$1=$1;print}' | xargs -0ri tmux send -t popup:1 {}; tmux display-popup -d '\\#{pane_current_path}' -xC -yC -w 90\\% -h 85\\% -E 'tmux attach-session -t popup || tmux new-session -s popup'",
+          },
+
           -- 在这里添加更多命令
           -- {"命令名称", "执行的命令"},
         }
@@ -52,6 +66,7 @@ return {
             attach_mappings = function(prompt_bufnr)
               actions.select_default:replace(function()
                 local selection = action_state.get_selected_entry()
+                -- vim.api.nvim_out_write(selection.display .. "\n")
                 actions.close(prompt_bufnr)
                 vim.cmd(selection.value)
               end)
