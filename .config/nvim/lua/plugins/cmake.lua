@@ -1,6 +1,7 @@
 return {
   {
     "Civitasv/cmake-tools.nvim",
+    enabled = false,
     event = "LazyFile",
     opts = {
       cmake_executor = { -- executor to use
@@ -103,20 +104,21 @@ return {
       refresh_rate_ms = 100, -- how often to iterate icons
     },
   },
-  -- {
-  --   "akinsho/toggleterm.nvim",
-  --   version = "*",
-  --   -- event = "VeryLazy",
-  --   cmd = "ToggleTerm",
-  --   opts = {--[[ things you want to change go here]]
-  --   },
-  -- },
   {
     "voldikss/vim-floaterm",
     event = "VeryLazy",
-    -- keys = {
-    --   { "<F1>", ":FloatermToggle<CR>", { noremap = true, silent = true, mode = "t" } },
-    --   { "<F1>", "<C-\\><C-n>:FloatermToggle<CR>", { noremap = true, silent = true, mode = "t" } },
-    -- },
+    keys = {
+      { "<F4>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true } },
+      { "<F4>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true } },
+
+      { "<F2>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
+      { "<F2>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
+
+      { "<F3>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true } },
+      { "<F3>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true } },
+
+      { "<F1>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true } },
+      { "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true } },
+    },
   },
 }

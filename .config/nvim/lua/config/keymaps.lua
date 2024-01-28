@@ -78,9 +78,9 @@ vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet consol
 --
 -- vim.api.nvim_set_keymap("n", "<leader>bh", "<cmd>lua ToggleStatusline()<cr>", { noremap = true, silent = true })
 
-require("lazyvim.util").safe_keymap_set("n", "<leader>bh", function()
-  require("lazyvim.util").toggle("laststatus", false, { 0, 2 })
-end, { noremap = true, silent = true })
+-- require("lazyvim.util").safe_keymap_set("n", "<leader>bh", function()
+--   require("lazyvim.util").toggle("laststatus", false, { 0, 2 })
+-- end, { noremap = true, silent = true })
 
 -- FloatermNew
 vim.api.nvim_set_keymap("n", "<F4>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true })
@@ -98,12 +98,88 @@ vim.api.nvim_set_keymap("t", "<F3>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silen
 vim.api.nvim_set_keymap("n", "<F1>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true })
 vim.api.nvim_set_keymap("t", "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true })
 
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>th",
-  "<cmd>FloatermNew --width=0.8 --height=0.8 man -k . | fzf | awk '{print $1}' | xargs man<cr>",
-  { silent = true, noremap = true, desc = "Man" }
-)
+-- vim.api.nvim_set_keymap(
+--   "n",
+--   "<leader>th",
+--   "<cmd>FloatermNew --width=0.8 --height=0.8 man -k . | fzf | awk '{print $1}' | xargs man<cr>",
+--   { silent = true, noremap = true, desc = "Man" }
+-- )
 
 -- 在 Visual 模式下绑定 <leader>y 到复制到剪贴板(wsl2)命令
 vim.api.nvim_set_keymap("x", "<leader>y", [[:w !clip.exe<CR>]], { noremap = true, silent = true })
+
+-- vim.cmd([[
+--   function! YankWithLine()
+--     :'<,'>y
+--   endfunction
+-- ]])
+--
+-- -- 调用Vimscript函数
+--
+-- function CompleteYank()
+--   -- 获取选中文本的行号和内容
+--   vim.cmd("call YankWithLine()")
+-- end
+
+-- vim.keymap.set({ "n", "v" }, "<leader>tz", function()
+--   local actions = require("telescope.actions")
+--   local action_state = require("telescope.actions.state")
+--   local pickers = require("telescope.pickers")
+--   local finders = require("telescope.finders")
+--   local conf = require("telescope.config").values
+--
+--   local function_command = {
+--     { name = "test", func = myLocalFunction },
+--     { name = "统计选中的字符数", func = CompleteYank },
+--   }
+--   pickers
+--     .new({}, {
+--       prompt_title = "Select a Command",
+--       finder = finders.new_table({
+--         results = function_command,
+--         entry_maker = function(entry)
+--           return {
+--             value = entry.func,
+--             display = entry.name,
+--             ordinal = entry.name,
+--           }
+--         end,
+--       }),
+--       sorter = conf.generic_sorter({}),
+--       attach_mappings = function(prompt_bufnr)
+--         actions.select_default:replace(function()
+--           local selection = action_state.get_selected_entry()
+--           actions.close(prompt_bufnr)
+--           -- vim.cmd("lua " .. selection.value .. "()")
+--           -- selection.value() -- 调用选定的函数
+--           vim.cmd("call YankWithLine()")
+--         end)
+--         return true
+--       end,
+--     })
+--     :find()
+-- end, { desc = "hello" })
+
+vim.keymap.set({ "n", "v" }, "<leader>tx", function()
+  local lines = vim.api.nvim_buf_get_lines(0, 1, 5, false)
+  for i, line in ipairs(lines) do
+    vim.api.nvim_out_write(i .. " " .. line .. "\n")
+  end
+end)
+
+vim.keymap.set({ "n", "v" }, "<leader>t1", function()
+  local row1 = vim.api.nvim_buf_get_mark(0, "<")
+  local row2 = vim.api.nvim_buf_get_mark(0, ">")
+  vim.api.nvim_out_write(row1[1] .. " " .. row2[1] .. "\n")
+end)
+
+vim.keymap.set({ "n", "v" }, "<leader>t2", function()
+  local start_pos = vim.fn.getpos(".")
+  local end_pos = vim.fn.getpos("v")
+  -- vim.api.nvim_out_write(start_pos[2] .. " " .. end_pos[2] .. "\n")
+
+  for i, line in ipairs(start_pos) do
+    vim.api.nvim_out_write(i .. " " .. start_pos[i] .. "\n")
+  end
+end)
+

@@ -71,7 +71,7 @@ return {
   config = function()
     local lualine = require("lualine")
 
-    local cmake = require("cmake-tools")
+    -- local cmake = require("cmake-tools")
 
     -- you can find the icons from https://github.com/Civitasv/runvim/blob/master/lua/config/icons.lua
     -- local icons = require("config.icons")
