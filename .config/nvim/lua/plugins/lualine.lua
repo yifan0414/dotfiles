@@ -207,7 +207,7 @@ return {
         local filepath = vim.fn.expand("%:p:h")
         local gitdir = vim.fn.finddir(".git", filepath .. ";")
         return gitdir and #gitdir > 0 and #gitdir < #filepath
-      end, 
+      end,
     }
 
     local colors = {
@@ -579,6 +579,12 @@ return {
     -- })
 
     -- Add components to right sections
+    ins_right({
+      require("noice").api.status.command.get,
+      cond = require("noice").api.status.command.has,
+      color = { fg = "#ff9e64" },
+    })
+
     ins_right({
       "o:encoding", -- option component same as &encoding in viml
       fmt = string.upper, -- I'm not sure why it's upper case either ;)
