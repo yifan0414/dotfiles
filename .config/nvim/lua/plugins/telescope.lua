@@ -48,7 +48,7 @@ return {
     {
       "<Leader>tt",
       function()
-        picker.show_telescope_picker(tmux_command)
+        picker.telescope_command_picker(tmux_command)
       end,
       { noremap = true, silent = true },
       desc = "tmux command",
@@ -56,7 +56,7 @@ return {
     {
       "<Leader>tr",
       function()
-        picker.show_telescope_picker(frequent_command)
+        picker.telescope_command_picker(frequent_command)
       end,
       { noremap = true, silent = true },
       desc = "frequent command",

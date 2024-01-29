@@ -107,3 +107,13 @@ vim.api.nvim_set_keymap("t", "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { sil
 
 -- 在 Visual 模式下绑定 <leader>y 到复制到剪贴板(wsl2)命令
 vim.api.nvim_set_keymap("x", "<leader>y", [[:w !clip.exe<CR>]], { noremap = true, silent = true })
+
+
+function Replace()
+    local old_word = vim.fn.expand "<cword>"
+    local new_word = vim.fn.input("Replace " .. old_word .. " by? ", old_word)
+    -- Check if the new_word is different from the old_word and is not empty
+    if new_word ~= old_word and new_word ~= "" then
+      vim.cmd(":%s/\\<" .. old_word .. "\\>/" .. new_word .. "/g")
+    end
+end

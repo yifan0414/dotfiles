@@ -1,17 +1,23 @@
 local picker = {}
 
-function picker.telescope_func_picker(commands)
+local function init_telescope_modules()
   local actions = require("telescope.actions")
   local action_state = require("telescope.actions.state")
   local pickers = require("telescope.pickers")
   local finders = require("telescope.finders")
   local conf = require("telescope.config").values
 
+  return actions, action_state, pickers, finders, conf
+end
+
+function picker.telescope_func_picker(commands)
+  local actions, action_state, pickers, finders, conf = init_telescope_modules()
+
   -- vim.api.nvim_out_write(vim.fn.getpos("v")[2] .. " " .. vim.fn.getpos(".")[2] .. "\n")
   -- 在这之后就无法得到visual的坐标了
   pickers
     .new({}, {
-      prompt_title = "Select a Command",
+      prompt_title = "Select a func",
       finder = finders.new_table({
         results = commands,
         entry_maker = function(entry)
@@ -35,12 +41,8 @@ function picker.telescope_func_picker(commands)
     :find()
 end
 
-function picker.show_telescope_picker(commands)
-  local actions = require("telescope.actions")
-  local action_state = require("telescope.actions.state")
-  local pickers = require("telescope.pickers")
-  local finders = require("telescope.finders")
-  local conf = require("telescope.config").values
+function picker.telescope_command_picker(commands)
+  local actions, action_state, pickers, finders, conf = init_telescope_modules()
 
   pickers
     .new({}, {
@@ -81,11 +83,7 @@ function picker.asyncfunc()
     })
   end
 
-  -- vim.api.nvim_out_write("task_entries: " .. task_entries[1] .. "\n")
-  local pickers = require("telescope.pickers")
-  local finders = require("telescope.finders")
-  local actions = require("telescope.actions")
-  local action_state = require("telescope.actions.state")
+  local actions, action_state, pickers, finders, conf = init_telescope_modules()
 
   pickers
     .new({}, {
@@ -100,7 +98,7 @@ function picker.asyncfunc()
           }
         end,
       }),
-      sorter = require("telescope.sorters").get_generic_fuzzy_sorter(),
+      sorter = conf.generic_sorter({}),
       attach_mappings = function(prompt_bufnr)
         actions.select_default:replace(function()
           local selection = action_state.get_selected_entry()
