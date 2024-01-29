@@ -61,9 +61,14 @@ function picker.telescope_command_picker(commands)
       attach_mappings = function(prompt_bufnr)
         actions.select_default:replace(function()
           local selection = action_state.get_selected_entry()
-          -- vim.api.nvim_out_write(selection.display .. "\n")
+          vim.api.nvim_out_write(selection.value .. "\n")
           actions.close(prompt_bufnr)
           vim.cmd(selection.value)
+          -- if selection.value == "FloatermNew" then
+            -- vim.defer_fn(function()
+            --   vim.cmd("startinsert")
+            -- end, 1) -- 延时 100 毫秒
+          -- end
         end)
         return true
       end,

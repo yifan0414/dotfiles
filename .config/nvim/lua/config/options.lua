@@ -78,7 +78,7 @@ vim.cmd([[
 -- ]])
 
 -- NOTE: asyncrun 的配置
-vim.g.asyncrun_open = 10
+vim.g.asyncrun_open = 12
 vim.g.VimuxHeight = "50"
 vim.g.VimuxOrientation = "h"
 

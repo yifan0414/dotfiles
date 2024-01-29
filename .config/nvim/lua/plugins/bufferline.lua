@@ -1,7 +1,10 @@
 return {
   {
     "akinsho/bufferline.nvim",
-    event = "VeryLazy",
+    lazy = true,
+    event = function()
+      return "BufAdd"
+    end,
     opts = {
       options = {
         max_name_length = 7,
@@ -48,7 +51,7 @@ return {
     opts = {
       outline_window = {
         width = 20,
-      }
+      },
     },
   },
 }

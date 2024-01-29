@@ -3,13 +3,23 @@ local picker = require("plugins.util.picker")
 return {
   {
     "skywind3000/asyncrun.vim",
+    -- event = "VeryLazy",
     cmd = "AsyncRun",
+    -- config = function()
+    --   -- 定义自动命令
+    --   vim.api.nvim_create_autocmd("User", {
+    --     pattern = "AsyncRunStart",
+    --     group = "asyncrun_augroup",
+    --     command = "copen",
+    --   })
+    -- end,
     dependencies = {
       "blob42/vimux",
     },
   },
   {
     "yifan0414/asynctasks.vim",
+    -- event = "VeryLazy",
     cmd = "AsyncTask",
     keys = {
       { "<leader>a1", "<cmd>AsyncTask file-build<cr>", desc = "AsyncTask file-build", mode = "n" },
@@ -37,18 +47,61 @@ return {
       require("harpoon"):setup({})
     end,
     keys = {
-      { "<leader>H", function() require("harpoon"):list():append() end, desc = "harpoon file", },
-      { "<leader>h", function() local harpoon = require("harpoon") harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "harpoon quick menu", },
-      { "<leader>1", function() require("harpoon"):list():select(1) end, desc = "harpoon to file 1", },
-      { "<leader>2", function() require("harpoon"):list():select(2) end, desc = "harpoon to file 2", },
-      { "<leader>3", function() require("harpoon"):list():select(3) end, desc = "harpoon to file 3", },
-      { "<leader>4", function() require("harpoon"):list():select(4) end, desc = "harpoon to file 4", },
-      { "<leader>5", function() require("harpoon"):list():select(5) end, desc = "harpoon to file 5", },
+      {
+        "<leader>H",
+        function()
+          require("harpoon"):list():append()
+        end,
+        desc = "harpoon file",
+      },
+      {
+        "<leader>h",
+        function()
+          local harpoon = require("harpoon")
+          harpoon.ui:toggle_quick_menu(harpoon:list())
+        end,
+        desc = "harpoon quick menu",
+      },
+      {
+        "<leader>1",
+        function()
+          require("harpoon"):list():select(1)
+        end,
+        desc = "harpoon to file 1",
+      },
+      {
+        "<leader>2",
+        function()
+          require("harpoon"):list():select(2)
+        end,
+        desc = "harpoon to file 2",
+      },
+      {
+        "<leader>3",
+        function()
+          require("harpoon"):list():select(3)
+        end,
+        desc = "harpoon to file 3",
+      },
+      {
+        "<leader>4",
+        function()
+          require("harpoon"):list():select(4)
+        end,
+        desc = "harpoon to file 4",
+      },
+      {
+        "<leader>5",
+        function()
+          require("harpoon"):list():select(5)
+        end,
+        desc = "harpoon to file 5",
+      },
     },
   },
   {
     "voldikss/vim-floaterm",
-    cmd = {"FloatermNew", "FloatermToggle"},
+    cmd = { "FloatermNew", "FloatermToggle" },
     -- event = "VeryLazy",
     -- lazy = true,
     keys = {

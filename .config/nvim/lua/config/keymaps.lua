@@ -1,4 +1,5 @@
 vim.keymap.set("n", "<leader>;", "<cmd>e #<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>`", "<cmd>wincmd p<cr>", { noremap = true, silent = true })
 
 vim.keymap.set("n", ";", ":", { noremap = true })
 
@@ -26,7 +27,8 @@ vim.keymap.set("n", "t", "<cmd>BufferLinePick<CR>", { noremap = true, silent = t
 vim.keymap.set(
   "n",
   "<leader>xw",
-  "<cmd>AsyncRun rg -ni <cword> <root><CR>",
+  -- "<cmd>AsyncRun -strip rg -ni <cword> <root><CR>",
+  "<cmd>AsyncRun -strip -silent -post=Trouble\\ quickfix rg -ni <cword> <root><cr>",
   { desc = "search word in quickfix(root dir)", noremap = true, silent = true }
 )
 
