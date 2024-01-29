@@ -22,6 +22,14 @@ local frequent_command = {
   },
 }
 
+local yadm_command = {
+  { "Yadm log", "call asyncrun#run('', {'scroll':'0'}, 'cd ~ && yadm log')" },
+  {
+    "Yadm nvim",
+    "call asyncrun#run('', {},'cd ~ && yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push' ",
+  },
+}
+
 return {
   "nvim-telescope/telescope.nvim",
   opts = {
@@ -60,6 +68,14 @@ return {
       end,
       { noremap = true, silent = true },
       desc = "frequent command",
+    },
+    {
+      "<Leader>ty",
+      function()
+        picker.telescope_command_picker(yadm_command)
+      end,
+      { noremap = true, silent = true },
+      desc = "yadm command",
     },
     {
       "<Leader>tf",
