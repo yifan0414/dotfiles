@@ -26,7 +26,7 @@ local yadm_command = {
   { "Yadm log", "call asyncrun#run('', {'scroll':'0'}, 'cd ~ && yadm log')" },
   {
     "Yadm nvim",
-    "call asyncrun#run('', {},'cd ~ && yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push' ",
+    "call asyncrun#run('', {},'cd ~ && yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
   },
 }
 
