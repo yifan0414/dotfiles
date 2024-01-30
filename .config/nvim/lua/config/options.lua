@@ -1,7 +1,6 @@
--- Options are automatically loaded before lazy.nvim startup
+-- INFO: Options are automatically loaded before lazy.nvim startup
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
---
 
 -- 检查 tmux 环境的 Lua 脚本
 
@@ -60,14 +59,6 @@ vim.wo.cursorlineopt = "number"
 -- 改变QuickFixLine的颜色
 vim.cmd([[autocmd VimEnter * hi QuickFixLine ctermfg=NONE cterm=bold guifg=NONE gui=bold]])
 
--- NOTE: 在最后执行设置浮动窗口的颜色
-vim.cmd([[
-  augroup SetNormalFloatColors
-    autocmd!
-    autocmd VimEnter * highlight NormalFloat guifg=#dcd7ba guibg=#1F1F28
-    autocmd VimEnter * highlight FloatBorder guifg=#54546D guibg=#1F1F28
-  augroup END
-]])
 
 -- vim.cmd([[
 --   augroup SetNormalFloatColors
@@ -89,3 +80,12 @@ vim.opt.foldmethod = "manual"
 -- vim.g.floaterm_width = 0.8
 -- vim.g.floaterm_height = 0.8
 -- vim.g.floaterm_shell = "/usr/bin/bash"
+
+-- WARN: 在最后执行设置浮动窗口的颜色
+vim.cmd([[
+  augroup SetNormalFloatColors
+    autocmd!
+    autocmd VimEnter * highlight NormalFloat guifg=#dcd7ba guibg=#1F1F28
+    autocmd VimEnter * highlight FloatBorder guifg=#54546D guibg=#1F1F28
+  augroup END
+]])

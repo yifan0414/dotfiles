@@ -49,7 +49,7 @@ return {
       documentation = {
         opts = {
           size = {
-            max_width = 50,
+            -- max_width = 70,
             -- max_length = 50,
           },
           border = { style = "rounded" },

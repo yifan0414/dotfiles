@@ -46,6 +46,14 @@ local yadm_command = {
   },
 }
 
+
+local git_command = {
+  {
+    "查看git仓库代码修改行数",
+    "AsyncRun -mode=term -pos=floaterm -width=0.8 -height=0.8 git diff --stat HEAD"
+  }
+}
+
 return {
   "nvim-telescope/telescope.nvim",
   opts = {
@@ -86,8 +94,8 @@ return {
     {
       "<Leader>tr",
       function()
-        -- picker.telescope_command_picker(frequent_command)
-        picker.dress_select(frequent_command)
+        picker.telescope_command_picker(frequent_command)
+        -- picker.dress_select(frequent_command)
       end,
       { noremap = true, silent = true },
       desc = "frequent command",
@@ -101,6 +109,16 @@ return {
       { noremap = true, silent = true },
       desc = "yadm command",
     },
+    {
+      "<Leader>tg",
+      function()
+        -- picker.dress_select(yadm_command)
+        picker.telescope_command_picker(git_command)
+      end,
+      { noremap = true, silent = true },
+      desc = "git command",
+    },
+
     {
       "<Leader>tf",
       function()
