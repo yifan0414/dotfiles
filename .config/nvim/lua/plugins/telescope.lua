@@ -23,26 +23,27 @@ local frequent_command = {
 }
 
 local yadm_command = {
-  { "Yadm log",
+  {
+    "Yadm log",
     -- "call asyncrun#run('', {'scroll':'0', 'post':'copen'}, 'cd ~ && yadm log')" ,
-    "AsyncRun -mode=term -pos=floaterm -width=0.8 -height=0.8 cd ~ && yadm log",
+    "AsyncRun -cwd=~ -mode=term -pos=floaterm -width=0.8 -height=0.8 yadm log",
   },
   {
     "Yadm nvim",
-    "call asyncrun#run('', {},'cd ~ && yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
+    "call asyncrun#run('', {'cwd':'~'},'cd ~ && yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
   },
   {
     "Yadm diff",
-    "AsyncRun -mode=term -pos=floaterm -width=0.8 -height=0.8 cd ~ && yadm diff",
+    "AsyncRun -cwd=~ -mode=term -pos=floaterm -width=0.8 -height=0.8 yadm diff",
   },
   {
     "Yadm status",
-    "AsyncRun -mode=term -pos=floaterm -width=0.8 -height=0.8 cd ~ && yadm status",
+    "AsyncRun -cwd=~ -mode=term -pos=floaterm -width=0.8 -height=0.8 yadm status",
   },
   {
-    "test",
-    "FloatermNew"
-  }
+    "Yadm diff this file",
+    "AsyncRun -cwd=~ -mode=term -pos=floaterm -width=0.8 -height=0.8 yadm diff $(VIM_FILEPATH)",
+  },
 }
 
 return {
@@ -85,7 +86,8 @@ return {
     {
       "<Leader>tr",
       function()
-        picker.telescope_command_picker(frequent_command)
+        -- picker.telescope_command_picker(frequent_command)
+        picker.dress_select(frequent_command)
       end,
       { noremap = true, silent = true },
       desc = "frequent command",
@@ -93,9 +95,9 @@ return {
     {
       "<Leader>ty",
       function()
+        -- picker.dress_select(yadm_command)
         picker.telescope_command_picker(yadm_command)
       end,
-      -- "<cmd>lua vim.cmd('AsyncRun -mode=term -pos=floaterm -width=0.8 -height=0.8 cd ~ && yadm log')<cr>",
       { noremap = true, silent = true },
       desc = "yadm command",
     },
