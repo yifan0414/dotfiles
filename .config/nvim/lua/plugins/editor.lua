@@ -77,6 +77,9 @@ return {
           operators = false,
         },
       },
+      window = {
+        border = "single"
+      }
     },
   },
 }

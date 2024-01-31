@@ -164,4 +164,7 @@ return {
       fps = 165,
     },
   },
+  -- {
+  --   "sindrets/diffview.nvim",
+  -- }
 }

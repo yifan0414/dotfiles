@@ -4,5 +4,6 @@ return {
     window = {
       width = 30,
     },
+    enable_diagnostics = false,
   },
 }
