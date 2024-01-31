@@ -115,6 +115,10 @@ export NEMU_HOME=/home/suyi/ics2020/nemu
 export NAVY_HOME=/home/suyi/ics2020/navy-apps
 export NPC_HOME=/home/suyi/ysyx-workbench/npc
 
+export LESSCHARSET=utf-8 # less显示中文
+
+export FZF_DEFAULT_OPTS="--bind tab:down,shift-tab:up" # fzf插件, 默认tab和s-tab移动文件而不是选中
+
 
 # alias proxy="source ~/proxy.sh"
 # . ~/proxy.sh set
