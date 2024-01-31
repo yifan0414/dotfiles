@@ -28,7 +28,12 @@ return {
           mapping = cmp.mapping.preset.cmdline(),
           sources = cmp.config.sources({
             { name = "path" },
-            { name = "cmdline" },
+            {
+              name = "cmdline",
+              option = {
+                ignore_cmds = { '"', "/", "!" },
+              },
+            },
           }),
         })
       end,
@@ -57,8 +62,8 @@ return {
           border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
           winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
           max_width = 50,
-          max_height = math.floor(vim.o.lines * 0.5)
-        }
+          max_height = math.floor(vim.o.lines * 0.5),
+        },
       },
       completion = {
         -- completeopt = "menu,menuone,noinsert",
@@ -111,6 +116,10 @@ return {
         { name = "luasnip" },
         -- { name = "buffer" },
         { name = "path" },
+        -- { name = "nvim_lsp", priority = 1000 },
+        -- { name = "luasnip", priority = 750 },
+        -- { name = "buffer", priority = 500 },
+        -- { name = "path", priority = 250 },
       }),
       formatting = {
         fields = { "abbr", "kind", "menu" },

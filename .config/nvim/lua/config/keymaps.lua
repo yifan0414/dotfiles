@@ -108,4 +108,4 @@ vim.api.nvim_set_keymap("t", "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { sil
 -- )
 
 -- 在 Visual 模式下绑定 <leader>y 到复制到剪贴板(wsl2)命令
-vim.api.nvim_set_keymap("v", "<leader>y", [["+y :call system('clip.exe', @+)<cr>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<leader>y", [["+y <cmd>call system('clip.exe', @+)<cr>]], { noremap = true, silent = true })

@@ -148,4 +148,20 @@ return {
       { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME,HACK,WARN,PERF,NOTE,TEST<cr>", desc = "All " },
     },
   },
+  {
+    "tpope/vim-fugitive",
+    cmd = "Git",
+    keys = {
+      { "<leader>gl", "<cmd>Git log<cr>", { silent = true, noremap = true }, desc = "Git log" },
+      { "<leader>gd", "<cmd>Git diff %<cr>", { silent = true, noremap = true }, desc = "Git log" },
+      { "<leader>gb", "<cmd>Git blame<cr>", { silent = true, noremap = true }, desc = "Git log" },
+      { "<leader>gs", "<cmd>Git<cr>", { silent = true, noremap = true }, desc = "Git log" },
+    },
+  },
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      fps = 165,
+    },
+  },
 }

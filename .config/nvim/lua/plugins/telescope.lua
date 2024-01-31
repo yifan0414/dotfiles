@@ -50,7 +50,7 @@ local yadm_command = {
 local git_command = {
   {
     "查看git仓库代码修改行数",
-    "AsyncRun -mode=term -pos=floaterm -width=0.8 -height=0.8 git diff --stat HEAD"
+    "AsyncRun -cwd=<root> -mode=term -pos=floaterm -width=0.8 -height=0.8 git diff --stat HEAD"
   }
 }
 

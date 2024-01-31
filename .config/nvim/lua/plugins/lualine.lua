@@ -348,7 +348,7 @@ return {
           v = colors.violet,
           ["�"] = colors.violet,
           V = colors.violet,
-          c = colors.magenta,
+          c = colors.yellow,
           no = colors.red,
           s = colors.orange,
           S = colors.orange,
@@ -387,8 +387,6 @@ return {
       cond = conditions.buffer_not_empty,
       color = { fg = colors.violet, gui = "bold" },
     })
-
-    ins_left({ "location" })
 
     ins_left({
       "diagnostics",
@@ -585,44 +583,31 @@ return {
       color = { fg = "#ff9e64" },
     })
 
-    ins_right({
-      "o:encoding", -- option component same as &encoding in viml
-      fmt = string.upper, -- I'm not sure why it's upper case either ;)
-      cond = conditions.hide_in_width,
-      color = { fg = colors.green, gui = "bold" },
-    })
-
-    ins_right({
-      "fileformat",
-      fmt = string.upper,
-      icons_enabled = false,
-      color = { fg = colors.green, gui = "bold" },
-    })
-
-    ins_right({
-      function()
-        return vim.api.nvim_buf_get_option(0, "shiftwidth")
-      end,
-      icons_enabled = false,
-      color = { fg = colors.green, gui = "bold" },
-    })
-
-    ins_right({
-      "branch",
-      icon = icons.git.Branch,
-      color = { fg = colors.violet, gui = "bold" },
-    })
+    -- ins_right({
+    --   "o:encoding", -- option component same as &encoding in viml
+    --   fmt = string.upper, -- I'm not sure why it's upper case either ;)
+    --   cond = conditions.hide_in_width,
+    --   color = { fg = colors.green, gui = "bold" },
+    -- })
+    --
+    -- ins_right({
+    --   "fileformat",
+    --   symbols = {
+    --     unix = "", -- e712
+    --     dos = "", -- e70f
+    --     mac = "", -- e711
+    --   },
+    --   fmt = string.upper,
+    --   icons_enabled = false,
+    --   color = { fg = colors.green, gui = "bold" },
+    -- })
 
     -- ins_right({
-    --   "diff",
-    --   -- Is it me or the symbol for modified us really weird
-    --   symbols = { added = icons.git.Add, modified = icons.git.Mod, removed = icons.git.Remove },
-    --   diff_color = {
-    --     added = { fg = colors.green },
-    --     modified = { fg = colors.orange },
-    --     removed = { fg = colors.red },
-    --   },
-    --   -- cond = conditions.hide_in_width,
+    --   function()
+    --     return vim.api.nvim_buf_get_option(0, "shiftwidth")
+    --   end,
+    --   icons_enabled = false,
+    --   color = { fg = colors.green, gui = "bold" },
     -- })
 
     ins_right({
@@ -645,17 +630,40 @@ return {
     })
 
     ins_right({
-      function()
-        local current_line = vim.fn.line(".")
-        local total_lines = vim.fn.line("$")
-        local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
-        local line_ratio = current_line / total_lines
-        local index = math.ceil(line_ratio * #chars)
-        return chars[index]
-      end,
+      "branch",
+      icon = icons.git.Branch,
       color = { fg = colors.violet, gui = "bold" },
-      padding = { right = 1 },
     })
+
+    ins_right({ "location", color = { fg = colors.violet }, gui = "bold" })
+
+    -- ins_right({
+    --   "diff",
+    --   -- Is it me or the symbol for modified us really weird
+    --   symbols = { added = icons.git.Add, modified = icons.git.Mod, removed = icons.git.Remove },
+    --   diff_color = {
+    --     added = { fg = colors.green },
+    --     modified = { fg = colors.orange },
+    --     removed = { fg = colors.red },
+    --   },
+    --   -- cond = conditions.hide_in_width,
+    -- })
+
+    -- ins_right({
+    --   function()
+    --     local current_line = vim.fn.line(".")
+    --     local total_lines = vim.fn.line("$")
+    --     local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
+    --     local line_ratio = current_line / total_lines
+    --     local index = math.ceil(line_ratio * #chars)
+    --     return chars[index]
+    --     -- return line_ratio .. "%"
+    --   end,
+    --   color = { fg = colors.violet, gui = "bold" },
+    --   padding = { right = 1 },
+    -- })
+
+    ins_right({ "progress", color = { fg = colors.violet, gui = "bold" } })
 
     -- ins_right({
     --   function()
