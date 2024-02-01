@@ -1,6 +1,3 @@
-local func = require("plugins.util.func")
-local picker = require("plugins.util.picker")
-
 -- {"命令名称", "执行的命令"},
 local tmux_command = {
   { "sent current line to tmux 2 pane", "silent .w !awk '{$1=$1;print}' | xargs -0ri tmux send -t2 {}" },
@@ -95,6 +92,7 @@ return {
     {
       "<Leader>tt",
       function()
+        local picker = require("plugins.util.picker") -- lazy load
         picker.telescope_command_picker(tmux_command)
       end,
       { noremap = true, silent = true },
@@ -103,6 +101,7 @@ return {
     {
       "<Leader>tr",
       function()
+        local picker = require("plugins.util.picker") -- lazy load
         picker.telescope_command_picker(frequent_command)
         -- picker.dress_select(frequent_command)
       end,
@@ -113,6 +112,7 @@ return {
       "<Leader>ty",
       function()
         -- picker.dress_select(yadm_command)
+        local picker = require("plugins.util.picker") -- lazy load
         picker.telescope_command_picker(yadm_command)
       end,
       { noremap = true, silent = true },
@@ -121,6 +121,7 @@ return {
     {
       "<Leader>tg",
       function()
+        local picker = require("plugins.util.picker") -- lazy load
         -- picker.dress_select(yadm_command)
         picker.telescope_command_picker(git_command)
       end,
@@ -131,6 +132,8 @@ return {
     {
       "<Leader>tf",
       function()
+        local func = require("plugins.util.func") -- lazy load
+        local picker = require("plugins.util.picker") -- lazy load
         func.start_row = vim.fn.getpos("v")[2]
         func.end_row = vim.fn.getpos(".")[2]
         if func.start_row > func.end_row then
