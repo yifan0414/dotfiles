@@ -34,7 +34,7 @@ local yadm_command = {
   },
   {
     "Yadm nvim",
-    "call asyncrun#run('', {'cwd':'~'},'cd ~ && yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
+    "call asyncrun#run('', {'cwd':'~'},'yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
   },
   {
     "Yadm diff",
@@ -54,6 +54,10 @@ local git_command = {
   {
     "查看git仓库代码修改行数",
     "AsyncRun -cwd=<root> -mode=term -pos=floaterm -width=0.8 -height=0.8 git diff --stat HEAD",
+  },
+  {
+    "Git This Repository",
+    "call asyncrun#run('', {'cwd':'<root>'},'git add . && git commit -m \"'.input('Enter commit message: ').'\" && git push')",
   },
 }
 

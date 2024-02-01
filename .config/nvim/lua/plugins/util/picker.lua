@@ -1,4 +1,4 @@
-local picker = {}
+local M = {}
 
 local function init_telescope_modules()
   local actions = require("telescope.actions")
@@ -10,7 +10,7 @@ local function init_telescope_modules()
   return actions, action_state, pickers, finders, conf
 end
 
-function picker.telescope_func_picker(commands)
+function M.telescope_func_picker(commands)
   local actions, action_state, pickers, finders, conf = init_telescope_modules()
 
   -- vim.api.nvim_out_write(vim.fn.getpos("v")[2] .. " " .. vim.fn.getpos(".")[2] .. "\n")
@@ -43,7 +43,7 @@ function picker.telescope_func_picker(commands)
     :find()
 end
 
-function picker.telescope_command_picker(commands)
+function M.telescope_command_picker(commands)
   local actions, action_state, pickers, finders, conf = init_telescope_modules()
 
   pickers
@@ -76,7 +76,7 @@ function picker.telescope_command_picker(commands)
     :find()
 end
 
-function picker.dress_select(commands)
+function M.dress_select(commands)
   vim.ui.select(commands, {
     prompt = "Select a Command:",
     format_item = function(item)
@@ -94,7 +94,7 @@ function picker.dress_select(commands)
   end)
 end
 
-function picker.dress_async()
+function M.dress_async()
   local tasks = vim.fn["asynctasks#source"](math.floor(vim.go.columns * 48 / 100))
   local task_entries = {}
 
@@ -125,7 +125,7 @@ function picker.dress_async()
   end)
 end
 
-function picker.asyncfunc()
+function M.asyncfunc()
   local tasks = vim.fn["asynctasks#source"](math.floor(vim.go.columns * 48 / 100))
   local task_entries = {}
 
@@ -170,4 +170,4 @@ function picker.asyncfunc()
     :find()
 end
 
-return picker
+return M

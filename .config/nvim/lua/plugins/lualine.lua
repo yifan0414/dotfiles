@@ -285,7 +285,8 @@ return {
         icons_enabled = true,
         component_separators = "",
         section_separators = "",
-        disabled_filetypes = { "alpha", "dashboard", "Outline" },
+        -- disabled_filetypes = { "alpha", "dashboard", "Outline" },
+        disabled_filetypes = { "alpha", "dashboard" },
         always_divide_middle = true,
         theme = {
           -- We are going to use lualine_c an lualine_x as left and
