@@ -20,6 +20,10 @@ local frequent_command = {
     "输出一个msg到quickfix",
     "execute 'call setqflist([{\"text\": \"' . input('Enter message: ') . '\"}], \"a\") | copen'",
   },
+  {
+    "Tokei(count code)",
+    "AsyncRun -mode=term -pos=floaterm -width=0.8 -height=0.8 tokei <root>",
+  },
 }
 
 local yadm_command = {
@@ -46,16 +50,16 @@ local yadm_command = {
   },
 }
 
-
 local git_command = {
   {
     "查看git仓库代码修改行数",
-    "AsyncRun -cwd=<root> -mode=term -pos=floaterm -width=0.8 -height=0.8 git diff --stat HEAD"
-  }
+    "AsyncRun -cwd=<root> -mode=term -pos=floaterm -width=0.8 -height=0.8 git diff --stat HEAD",
+  },
 }
 
 return {
   "nvim-telescope/telescope.nvim",
+  lazy = true,
   opts = {
     -- see :help telescope.setup()
     defaults = {
@@ -82,6 +86,7 @@ return {
       "<cmd>Telescope resume<cr>",
       { noremap = true, silent = true },
       desc = "resume",
+      mode = { "n", "v" },
     },
     {
       "<Leader>tt",
@@ -124,6 +129,10 @@ return {
       function()
         func.start_row = vim.fn.getpos("v")[2]
         func.end_row = vim.fn.getpos(".")[2]
+        if func.start_row > func.end_row then
+          -- 如果 start_row 大于 end_row，则交换它们的值
+          func.start_row, func.end_row = func.end_row, func.start_row
+        end
         picker.telescope_func_picker(func.function_command)
       end,
       { noremap = true, silent = true },
