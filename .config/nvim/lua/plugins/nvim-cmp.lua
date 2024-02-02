@@ -41,11 +41,7 @@ return {
   },
 
   opts = function()
-    local has_words_before = function()
-      unpack = unpack or table.unpack
-      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-      return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-    end
+    local neotab = require("neotab")
     require("luasnip.loaders.from_vscode").lazy_load()
     local luasnip = require("luasnip")
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
@@ -67,6 +63,7 @@ return {
       },
       completion = {
         -- completeopt = "menu,menuone,noinsert",
+        keyword_length = 3,
       },
       snippet = {
         expand = function(args)
@@ -74,20 +71,29 @@ return {
         end,
       },
       mapping = cmp.mapping.preset.insert({
-        ["<Tab>"] = cmp.mapping(function(fallback)
+        -- ["<Tab>"] = cmp.mapping(function(fallback)
+        --   if cmp.visible() then
+        --     cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+        --     -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+        --     -- they way you will only jump inside the snippet region
+        --   elseif luasnip.expand_or_jumpable() then
+        --     luasnip.expand_or_jump()
+        --   elseif has_words_before() then
+        --     cmp.complete()
+        --   else
+        --     fallback()
+        --   end
+        -- end, { "i", "s" }),
+        -- use noetab
+        ["<Tab>"] = cmp.mapping(function()
           if cmp.visible() then
-            cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-            -- they way you will only jump inside the snippet region
-          elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-          elseif has_words_before() then
-            cmp.complete()
+            cmp.select_next_item()
+          elseif luasnip.jumpable(1) then
+            luasnip.jump(1)
           else
-            fallback()
+            neotab.tabout()
           end
-        end, { "i", "s" }),
-
+        end),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
@@ -114,7 +120,7 @@ return {
       sources = cmp.config.sources({
         { name = "nvim_lsp" },
         { name = "luasnip" },
-        { name = "buffer" },
+        -- { name = "buffer" },
         { name = "path" },
         -- { name = "nvim_lsp", priority = 1000 },
         -- { name = "luasnip", priority = 750 },
