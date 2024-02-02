@@ -1,13 +1,13 @@
 local function getStringWidth(str)
-    local len = 0
-    for uchar in string.gmatch(str, "([%z\1-\127\194-\244][\128-\191]*)") do
-        if #uchar == 1 then
-            len = len + 1  -- 对于单字节字符（如英文），加1
-        else
-            len = len + 2  -- 对于多字节字符（如中文），加2
-        end
+  local len = 0
+  for uchar in string.gmatch(str, "([%z\1-\127\194-\244][\128-\191]*)") do
+    if #uchar == 1 then
+      len = len + 1 -- 对于单字节字符（如英文），加1
+    else
+      len = len + 2 -- 对于多字节字符（如中文），加2
     end
-    return len
+  end
+  return len
 end
 
 local function countChineseChars(str)
@@ -21,7 +21,6 @@ local function countChineseChars(str)
 end
 
 local function formatTextTable(rows)
-
   -- 拆分每行到单元格并计算中文字符数量
   local tableData = {}
   local chineseCharCounts = {}

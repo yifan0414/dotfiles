@@ -64,7 +64,9 @@ return {
       { "<leader>rc", "<cmd>CompetiTest receive problem<cr>", desc = "Receive Problem" },
     },
     config = function()
-      require("competitest").setup()
+      require("competitest").setup({
+        received_problems_path = "$(CWD)/$(PROBLEM)/$(PROBLEM).$(FEXT)",
+      })
     end,
   },
 }

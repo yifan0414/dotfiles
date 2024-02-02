@@ -78,29 +78,29 @@ vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet consol
 --   end
 -- end
 --
--- vim.api.nvim_set_keymap("n", "<leader>bh", "<cmd>lua ToggleStatusline()<cr>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<leader>bh", "<cmd>lua ToggleStatusline()<cr>", { noremap = true, silent = true })
 
 -- require("lazyvim.util").safe_keymap_set("n", "<leader>bh", function()
 --   require("lazyvim.util").toggle("laststatus", false, { 0, 2 })
 -- end, { noremap = true, silent = true })
 
 -- FloatermNew
-vim.api.nvim_set_keymap("n", "<F4>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true })
-vim.api.nvim_set_keymap("t", "<F4>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true })
+vim.keymap.set("n", "<F4>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true })
+vim.keymap.set("t", "<F4>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true })
 
 -- FloatermPrev
-vim.api.nvim_set_keymap("n", "<F2>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true })
-vim.api.nvim_set_keymap("t", "<F2>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true })
+vim.keymap.set("n", "<F2>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true })
+vim.keymap.set("t", "<F2>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true })
 
 -- FloatermNext
-vim.api.nvim_set_keymap("n", "<F3>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true })
-vim.api.nvim_set_keymap("t", "<F3>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true })
+vim.keymap.set("n", "<F3>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true })
+vim.keymap.set("t", "<F3>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true })
 
 -- FloatermToggle
-vim.api.nvim_set_keymap("n", "<F1>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true })
-vim.api.nvim_set_keymap("t", "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true })
+vim.keymap.set("n", "<F1>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true })
+vim.keymap.set("t", "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true })
 
--- vim.api.nvim_set_keymap(
+-- vim.keymap.set(
 --   "n",
 --   "<leader>th",
 --   "<cmd>FloatermNew --width=0.8 --height=0.8 man -k . | fzf | awk '{print $1}' | xargs man<cr>",
@@ -108,19 +108,37 @@ vim.api.nvim_set_keymap("t", "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { sil
 -- )
 
 -- 在 Visual 模式下绑定 <leader>y 到复制到剪贴板(wsl2)命令
-vim.api.nvim_set_keymap(
-  "v",
-  "<leader>y",
-  [["+y <cmd>call system('clip.exe', @+)<cr>]],
-  { noremap = true, silent = true }
-)
+vim.keymap.set("v", "<leader>y", [["+y <cmd>call system('clip.exe', @+)<cr>]], { noremap = true, silent = true })
 
 -- 打开日记文件
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>td",
-  "<cmd>execute 'edit /mnt/d/OneDrive - st.gxu.edu.cn/CSNote/Diary/' . strftime('%Y/%m/%Y-%m-%d') . '.md' | silent w<cr>",
-  { noremap = true, silent = true }
-)
+-- vim.keymap.set(
+--   "n",
+--   "<leader>td",
+--   "<cmd>execute 'edit /mnt/d/OneDrive - st.gxu.edu.cn/CSNote/Diary/' . strftime('%Y/%m/%Y-%m-%d') . '.md' | silent w<cr>",
+--   { noremap = true, silent = true }
+-- )
 
-vim.api.nvim_set_keymap("n", "x", '"_x', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>td", function()
+  local os_date = os.date
+  local diary_path = "/mnt/d/OneDrive - st.gxu.edu.cn/CSNote/Diary/"
+
+  -- 获取当前日期
+  local year = os_date("%Y")
+  local month = os_date("%m")
+  local day = os_date("%Y-%m-%d")
+
+  -- 构建文件路径
+  local file_path = diary_path .. year .. "/" .. month .. "/" .. day .. ".md"
+
+  -- 检查文件是否存在
+  -- local file = io.open(file_path, "r")
+  -- if file then
+  --   file:close()
+  --   vim.cmd("edit " .. file_path)
+  -- else
+  --   vim.cmd("edit " .. file_path)
+  -- end
+  vim.cmd("edit " .. file_path)
+end, { noremap = true, silent = true })
+
+vim.keymap.set("n", "x", '"_x', { noremap = true, silent = true })

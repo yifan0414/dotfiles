@@ -70,3 +70,9 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
   end,
 })
+
+-- 去掉markdown文件的下滑线
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  command = "hi Underlined gui=none",
+})

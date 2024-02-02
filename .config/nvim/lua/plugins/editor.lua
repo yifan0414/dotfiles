@@ -84,6 +84,7 @@ return {
   },
   {
     "lukas-reineke/headlines.nvim",
+    enabled = false,
     opts = function()
       local opts = {}
       for _, ft in ipairs({ "markdown", "norg", "rmd", "org" }) do
@@ -110,14 +111,14 @@ return {
   },
   {
     "hotoo/pangu.vim",
-    config = function()
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = { "*.markdown", "*.md", "*.text", "*.txt", "*.wiki", "*.cnx" },
-        callback = function()
-          vim.call("PanGuSpacing", "ALL")
-        end,
-      })
-    end,
+    -- config = function()
+    --   vim.api.nvim_create_autocmd("BufWritePre", {
+    --     pattern = { "*.markdown", "*.md", "*.text", "*.txt", "*.wiki", "*.cnx" },
+    --     callback = function()
+    --       vim.call("PanGuSpacing", "ALL")
+    --     end,
+    --   })
+    -- end,
     ft = { "markdown", "norg", "rmd", "org" },
   },
 }

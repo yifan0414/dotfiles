@@ -59,7 +59,6 @@ vim.wo.cursorlineopt = "number"
 -- 改变QuickFixLine的颜色
 vim.cmd([[autocmd VimEnter * hi QuickFixLine ctermfg=NONE cterm=bold guifg=NONE gui=bold]])
 
-
 -- vim.cmd([[
 --   augroup SetNormalFloatColors
 --     autocmd!
@@ -75,7 +74,6 @@ vim.g.VimuxOrientation = "h"
 
 -- 手动fold
 vim.opt.foldmethod = "manual"
-
 
 -- vim.g.floaterm_width = 0.8
 -- vim.g.floaterm_height = 0.8

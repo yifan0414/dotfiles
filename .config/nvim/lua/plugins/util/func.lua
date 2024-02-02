@@ -85,36 +85,21 @@ function M.selectLine()
   vim.api.nvim_buf_set_lines(buffer, 0, -1, false, filtered_lines)
 end
 
--- function M.selectLine()
---   local buffer = 0 -- 当前缓冲区
---   local pattern = vim.fn.input("Target: ") -- 要筛选的字符串（Vim 正则表达式）
---
---   -- 获取当前缓冲区的所有行
---   local lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
---
---   -- 筛选包含特定字符串的行
---   local filtered_lines = {}
---   for _, line in ipairs(lines) do
---     if vim.fn.match(line, pattern) ~= -1 then
---       table.insert(filtered_lines, line)
---     end
---   end
---
---   -- 将缓冲区内容设置为筛选后的行
---   vim.api.nvim_buf_set_lines(buffer, 0, -1, false, filtered_lines)
--- end
-
--- 定义一个表格，记录名字与函数
--- M.tableformat = require("plugins.util.tableformat")
+function M.deleteSelectLine()
+  local word = vim.fn.input("Source: ")
+  local command = "g/" .. word .. "/d"
+  vim.cmd(command)
+end
 
 M.function_command = {
-  { name = "test", func = M.myLocalFunction },
+  -- { name = "test", func = M.myLocalFunction },
   { name = "YankWithLineNumber", func = M.yanWithLine },
   { name = "ReplaceArea", func = M.replaceArea },
   { name = "ReplaceBuf", func = M.replaceBuf },
   { name = "JoinLines", func = M.join },
   { name = "SelectLine", func = M.selectLine },
   { name = "Table_format", func = require("plugins.util.tableformat") },
+  { name = "deleteSelectLine", func = M.deleteSelectLine },
 }
 
 return M
