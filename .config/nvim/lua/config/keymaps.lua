@@ -142,3 +142,15 @@ vim.keymap.set("n", "<leader>td", function()
 end, { noremap = true, silent = true })
 
 vim.keymap.set("n", "x", '"_x', { noremap = true, silent = true })
+
+vim.keymap.set("n", "<Tab>", "<cmd>tabnext<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<S-Tab>", "<cmd>tabprevious<cr>", { silent = true, noremap = true })
+
+-- tig
+
+vim.keymap.set(
+  "n",
+  "<leader>gl",
+  "<cmd>FloatermNew --width=0.85 --height=0.95 tig<cr>",
+  { silent = true, noremap = true, desc = "tig" }
+)

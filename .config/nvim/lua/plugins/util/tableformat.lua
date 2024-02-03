@@ -70,13 +70,13 @@ local function formatTable()
 end
 
 -- 你提供的表格数据
-local textTable = [[
-| Column1sssssssssssdf | Column2 | Column3不错的选择呢                   | Column4 | Column5 |
-| -------------------- | ------- | ------------------------- | ------- | ------- |
-| Item1.1              | Item2.1 | Item3.1                   | Item4.1 | Item5.1 |
-| Item1.2              | Item2.2 | Item3.2ssssssssssssssssss | Item4.2 | Item5.2 |
-| Item1.3好的选择  | Item2.3 | Item3.3                   | Item4.3 | Item5.3 |
-| Item1.4              | Item2.4 | Item3.4                   | Item4.4 | Item5.4 |
-]]
+-- local textTable = [[
+-- | Column1sssssssssssdf | Column2 | Column3不错的选择呢                   | Column4 | Column5 |
+-- | -------------------- | ------- | ------------------------- | ------- | ------- |
+-- | Item1.1              | Item2.1 | Item3.1                   | Item4.1 | Item5.1 |
+-- | Item1.2              | Item2.2 | Item3.2ssssssssssssssssss | Item4.2 | Item5.2 |
+-- | Item1.3好的选择  | Item2.3 | Item3.3                   | Item4.3 | Item5.3 |
+-- | Item1.4              | Item2.4 | Item3.4                   | Item4.4 | Item5.4 |
+-- ]]
 
 return formatTable

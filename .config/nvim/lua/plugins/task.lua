@@ -151,10 +151,10 @@ return {
     "tpope/vim-fugitive",
     cmd = "Git",
     keys = {
-      { "<leader>gl", "<cmd>Git log<cr>", { silent = true, noremap = true }, desc = "Git log" },
-      { "<leader>gd", "<cmd>Git diff %<cr>", { silent = true, noremap = true }, desc = "Git log" },
-      { "<leader>gb", "<cmd>Git blame<cr>", { silent = true, noremap = true }, desc = "Git log" },
-      { "<leader>gs", "<cmd>Git<cr>", { silent = true, noremap = true }, desc = "Git log" },
+      -- { "<leader>gl", "<cmd>Git log<cr>", { silent = true, noremap = true }, desc = "Git log" },
+      -- { "<leader>gd", "<cmd>Git diff %<cr>", { silent = true, noremap = true }, desc = "Git diff %" },
+      { "<leader>gb", "<cmd>Git blame<cr>", { silent = true, noremap = true }, desc = "Git blame" },
+      { "<leader>gs", "<cmd>Git<cr>", { silent = true, noremap = true }, desc = "Git status" },
     },
   },
   {
@@ -163,23 +163,94 @@ return {
       fps = 165,
     },
   },
-  -- {
-  --   "sindrets/diffview.nvim",
-  -- }
-  -- {
-  --   "ahmedkhalf/project.nvim",
-  --   opts = {
-  --     manual_mode = true,
-  --   },
-  --   -- event = "VeryLazy",
-  --   config = function(_, opts)
-  --     require("project_nvim").setup(opts)
-  --     require("lazyvim.util").on_load("telescope.nvim", function()
-  --       require("telescope").load_extension("projects")
-  --     end)
-  --   end,
-  --   keys = {
-  --     { "<leader>fp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
-  --   },
-  -- },
+  {
+    "sindrets/diffview.nvim",
+    -- event = "VeryLazy",
+    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+    keys = {
+      {
+        "<leader>gt",
+        "<cmd>DiffviewFileHistory %<cr>",
+        { silent = true, noremap = true },
+        desc = "DiffviewFileHistory %",
+      },
+      {
+        "<leader>gd",
+        "<cmd>DiffviewFileHistory<cr>",
+        { silent = true, noremap = true },
+        desc = "DiffviewFileHistory",
+      },
+      { "<leader>go", "<cmd>DiffviewOpen<cr>", { silent = true, noremap = true }, desc = "DiffviewOpen" },
+    },
+    config = function()
+      require("diffview").setup({
+        view = {
+          default = {
+            -- Config for changed files, and staged files in diff views.
+            layout = "diff2_horizontal",
+            winbar_info = false, -- See |diffview-config-view.x.winbar_info|
+          },
+          merge_tool = {
+            -- Config for conflicted files in diff views during a merge or rebase.
+            layout = "diff3_horizontal",
+            disable_diagnostics = true, -- Temporarily disable diagnostics for conflict buffers while in the view.
+            winbar_info = true, -- See |diffview-config-view.x.winbar_info|
+          },
+          file_history = {
+            -- Config for changed files in file history views.
+            layout = "diff2_horizontal",
+            winbar_info = false, -- See |diffview-config-view.x.winbar_info|
+          },
+        },
+        file_history_panel = {
+          log_options = { -- See |diffview-config-log_options|
+            git = {
+              single_file = {
+                diff_merges = "combined",
+              },
+              multi_file = {
+                diff_merges = "first-parent",
+              },
+            },
+            hg = {
+              single_file = {},
+              multi_file = {},
+            },
+          },
+          win_config = { -- See |diffview-config-win_config|
+            position = "bottom",
+            height = 12,
+            win_opts = {},
+          },
+        },
+        file_panel = {
+          listing_style = "tree", -- One of 'list' or 'tree'
+          tree_options = { -- Only applies when listing_style is 'tree'
+            flatten_dirs = true, -- Flatten dirs that only contain one single dir
+            folder_statuses = "only_folded", -- One of 'never', 'only_folded' or 'always'.
+          },
+          win_config = { -- See |diffview-config-win_config|
+            position = "left",
+            width = 30,
+            win_opts = {},
+          },
+        },
+
+        keymaps = {
+          view = {
+            ["<tab>"] = false,
+            ["<s-tab>"] = false,
+          },
+          file_history_panel = {
+            ["<tab>"] = false,
+            ["<s-tab>"] = false,
+          },
+          file_panel = {
+            ["<tab>"] = false,
+            ["<s-tab>"] = false,
+          },
+        },
+      })
+    end,
+  },
 }
