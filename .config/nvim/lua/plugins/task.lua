@@ -1,5 +1,3 @@
-local picker = require("plugins.util.picker")
-
 return {
   {
     "skywind3000/asyncrun.vim",
@@ -13,9 +11,9 @@ return {
     --     command = "copen",
     --   })
     -- end,
-    dependencies = {
-      "blob42/vimux",
-    },
+    -- dependencies = {
+    --   "blob42/vimux",
+    -- },
   },
   {
     "yifan0414/asynctasks.vim",
@@ -30,15 +28,16 @@ return {
         "<leader>at",
         function()
           -- picker.dress_async()
+          local picker = require("plugins.util.picker")
           picker.asyncfunc()
         end,
         desc = "AsyncTask: select",
         { noremap = true, silent = true },
       },
     },
-    dependencies = {
-      "blob42/vimux",
-    },
+    -- dependencies = {
+    --   "blob42/vimux",
+    -- },
   },
   {
     "yifan0414/harpoon",
@@ -167,20 +166,20 @@ return {
   -- {
   --   "sindrets/diffview.nvim",
   -- }
-  {
-    "ahmedkhalf/project.nvim",
-    opts = {
-      manual_mode = true,
-    },
-    -- event = "VeryLazy",
-    config = function(_, opts)
-      require("project_nvim").setup(opts)
-      require("lazyvim.util").on_load("telescope.nvim", function()
-        require("telescope").load_extension("projects")
-      end)
-    end,
-    keys = {
-      { "<leader>fp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
-    },
-  },
+  -- {
+  --   "ahmedkhalf/project.nvim",
+  --   opts = {
+  --     manual_mode = true,
+  --   },
+  --   -- event = "VeryLazy",
+  --   config = function(_, opts)
+  --     require("project_nvim").setup(opts)
+  --     require("lazyvim.util").on_load("telescope.nvim", function()
+  --       require("telescope").load_extension("projects")
+  --     end)
+  --   end,
+  --   keys = {
+  --     { "<leader>fp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
+  --   },
+  -- },
 }

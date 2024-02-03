@@ -6,7 +6,6 @@ return {
     local actions = require("telescope.actions")
     return {
       defaults = {
-        -- https://github.com/nvim-telescope/telescope.nvim/blob/master/lua/telescope/actions/init.lua
         mappings = {
           i = {
             ["<Esc>"] = actions.close,
@@ -24,21 +23,6 @@ return {
       },
     }
   end,
-  -- config = function()
-  --   local actions = require("telescope.actions")
-  --   require("telescope").setup({
-  --     defaults = {
-  --       mappings = {
-  --         i = {
-  --           ["<Esc>"] = actions.close,
-  --           ["<Tab>"] = actions.move_selection_previous,
-  --           ["<S-Tab>"] = actions.move_selection_next,
-  --           ["<C-Q>"] = actions.select_vertical,
-  --         },
-  --       },
-  --     },
-  --   })
-  -- end,
   keys = {
     {
       "<Leader>fs",
