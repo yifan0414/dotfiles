@@ -1,1 +1,1 @@
-![](https://picture-suyifan.oss-cn-shenzhen.aliyuncs.com/20240127212656.png)
+![nvim-startuptime](https://picture-suyifan.oss-cn-shenzhen.aliyuncs.com/14_86ms.png)
