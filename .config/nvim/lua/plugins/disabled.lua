@@ -19,4 +19,8 @@ return {
     "echasnovski/mini.indentscope",
     enabled = false,
   },
+  {
+    "rafamadriz/friendly-snippets",
+    enabled = false,
+  }
 }

@@ -42,30 +42,8 @@ return {
   },
 
   opts = function()
-    -- -- gray
-    -- vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = "#808080" })
-    -- -- blue
-    -- vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { bg = "NONE", fg = "#569CD6" })
-    -- vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CmpIntemAbbrMatch" })
-    -- light blue
-    -- vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "NONE", fg = "#9CDCFE" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindInterface", { link = "CmpItemKindVariable" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindText", { link = "CmpItemKindVariable" })
-    -- -- pink
-    -- vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "NONE", fg = "#C586C0" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindMethod", { link = "CmpItemKindFunction" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindConstructor", { link = "CmpItemKindFunction" })
-    -- -- front
-    -- vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "NONE", fg = "#D4D4D4" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindProperty", { link = "CmpItemKindKeyword" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindUnit", { link = "CmpItemKindKeyword" })
-    --
-    -- vim.api.nvim_set_hl(0, "CmpItemKindClass", { bg = "NONE", fg = "#d4983e" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindField", { bg = "NONE", fg = "#87beef" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindStruct", { bg = "NONE", fg = "#7eaaa0" })
     -- Customization for Pmenu
     vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
-    -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#C5CDD9", bg = "#22252A" })
     vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
 
     vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = "#7E8294", bg = "NONE", strikethrough = true })
@@ -107,8 +85,9 @@ return {
     vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter", { fg = "#D8EEEB", bg = "#58B5A8" })
 
     local neotab = require("neotab")
-    require("luasnip.loaders.from_vscode").lazy_load()
     local luasnip = require("luasnip")
+    -- require("luasnip.loaders.from_vscode").lazy_load()
+    require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
     return {
@@ -155,7 +134,7 @@ return {
         ["<Tab>"] = cmp.mapping(function()
           if cmp.visible() then
             cmp.select_next_item()
-          elseif luasnip.jumpable(1) then
+          elseif luasnip.expand_or_jumpable(1) then
             luasnip.jump(1)
           else
             neotab.tabout()
