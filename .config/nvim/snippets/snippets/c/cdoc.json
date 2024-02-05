@@ -1,6 +1,6 @@
 {
     "comment": {
-        "prefix": "/**",
+        "prefix": "comment",
         "body": [
             "/**",
             " * ${1:A one-line summary.}",

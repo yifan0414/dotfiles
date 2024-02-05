@@ -85,12 +85,12 @@ vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet consol
 -- end, { noremap = true, silent = true })
 
 -- FloatermNew
-vim.keymap.set("n", "<F4>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true })
-vim.keymap.set("t", "<F4>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true })
+vim.keymap.set("n", "<F2>", "<cmd>FloatermNew --cwd=<buffer><CR>", { silent = true, noremap = true })
+vim.keymap.set("t", "<F2>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true })
 
 -- FloatermPrev
-vim.keymap.set("n", "<F2>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true })
-vim.keymap.set("t", "<F2>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true })
+vim.keymap.set("n", "<F4>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true })
+vim.keymap.set("t", "<F4>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true })
 
 -- FloatermNext
 vim.keymap.set("n", "<F3>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true })

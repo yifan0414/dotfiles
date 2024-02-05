@@ -27,7 +27,7 @@
         "path": "./snippets/c/c.json"
       },
       {
-        "language": "cdoc",
+        "language": "c",
         "path": "./snippets/c/cdoc.json"
       },
       {
