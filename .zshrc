@@ -138,7 +138,7 @@ alias vim='nvim'
 alias fd='fdfind'
 alias ls='exa'
 alias ll='exa -all'
-alias make='make -j8'
+# alias make='make -j8'
 
 # export MANPAGER='nvim +Man!'
 
