@@ -1,6 +1,6 @@
 return {
   {
-    "skywind3000/asyncrun.vim",
+    "yifan0414/asyncrun.vim",
     -- event = "VeryLazy",
     cmd = "AsyncRun",
     -- config = function()
@@ -35,12 +35,14 @@ return {
         { noremap = true, silent = true },
       },
     },
-    -- dependencies = {
-    --   "blob42/vimux",
-    -- },
+    dependencies = {
+      "voldikss/vim-floaterm",
+      "blob42/vimux",
+    },
   },
   {
     "yifan0414/harpoon",
+    enabled = false,
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
@@ -102,20 +104,30 @@ return {
   {
     "voldikss/vim-floaterm",
     cmd = { "FloatermNew", "FloatermToggle" },
-    -- event = "VeryLazy",
     -- lazy = true,
+    config = function()
+      vim.g.floaterm_width = 0.8
+      vim.g.floaterm_height = 0.8
+      vim.g.floaterm_opener = "edit"
+    end,
     keys = {
       { "<F1>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true } },
-      { "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true } },
+      { "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true }, mode = "t" },
 
       { "<F2>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true } },
-      { "<F2>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true } },
+      { "<F2>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true }, mode = "t" },
 
       { "<F3>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
-      { "<F3>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
+      { "<F3>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true }, mode = "t" },
 
       { "<F4>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true } },
-      { "<F4>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true } },
+      { "<F4>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true }, mode = "t" },
+
+      {
+        "<leader>h",
+        "<cmd>FloatermNew --height=0.8 --width=0.8 --wintype=float --name=floaterm1 --autoclose=2 ranger<cr>",
+        { silent = true, noremap = true },
+      },
     },
   },
   {

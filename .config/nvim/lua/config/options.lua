@@ -48,6 +48,9 @@ vim.g.node_host_prog = "/usr/local/lib/node_modules/neovim/bin/cli.js"
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
+-- floaterm
+
+
 -- init.lua
 
 -- 启用当前行高亮

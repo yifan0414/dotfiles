@@ -145,7 +145,7 @@ return {
     },
   },
   dependencies = {
-    "skywind3000/asyncrun.vim",
+    "yifan0414/asyncrun.vim",
     "yifan0414/asynctasks.vim",
   },
 }

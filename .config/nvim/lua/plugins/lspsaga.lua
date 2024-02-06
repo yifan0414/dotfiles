@@ -26,7 +26,7 @@ return {
     symbol_in_winbar = {
       -- respect_root = true,
       -- show_file = false,
-      -- folder_level = 0,
+      folder_level = 0,
     },
     outline = {
       enable = false,

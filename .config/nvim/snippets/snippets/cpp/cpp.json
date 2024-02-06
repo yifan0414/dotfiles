@@ -180,14 +180,6 @@
     ],
     "description": "Code snippet for interface (Visual C++)"
   },
-  "namespace": {
-    "prefix": "namespace",
-    "body": [
-      "namespace ${1:MyNamespace} {",
-      "\t$0",
-      "}"
-    ]
-  },
   "#ifdef": {
     "prefix": "#ifdef",
     "body": [
