@@ -64,19 +64,6 @@ vim.wo.cursorlineopt = "number"
 -- 改变QuickFixLine的颜色
 vim.cmd([[autocmd VimEnter * hi QuickFixLine ctermfg=NONE cterm=bold guifg=NONE gui=bold]])
 
--- 改变 illuminated 的颜色
-vim.cmd[[hi illuminatedWord gui=none guibg=#2c313c]]
-vim.cmd[[hi illuminatedWordRead gui=none guibg=#2c313c]]
-vim.cmd[[hi illuminatedWordText gui=none guibg=#2c313c]]
-vim.cmd[[hi illuminatedWordWrite gui=none guibg=#2c313c]]
-
--- vim.cmd([[
---   augroup SetNormalFloatColors
---     autocmd!
---     autocmd VimEnter * highlight NormalFloat guifg=#89B4FA guibg=#1E1E2E
---     autocmd VimEnter * highlight FloatBorder guifg=#89B4FA guibg=#1E1E2E
---   augroup END
--- ]])
 
 -- NOTE: asyncrun 的配置
 vim.g.asyncrun_open = 12

@@ -146,6 +146,10 @@ return {
       },
     },
     config = function(_, opts)
+      vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
+      vim.cmd([[hi illuminatedWordRead gui=none guibg=#2c313c]])
+      vim.cmd([[hi illuminatedWordText gui=none guibg=#2c313c]])
+      vim.cmd([[hi illuminatedWordWrite gui=none guibg=#2c313c]])
       require("illuminate").configure(opts)
 
       local function map(key, dir, buffer)
