@@ -43,7 +43,7 @@ return {
   },
   {
     "yifan0414/harpoon",
-    enabled = false,
+    -- enabled = false,
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
@@ -51,14 +51,14 @@ return {
     end,
     keys = {
       {
-        "<leader>H",
+        "<leader>y",
         function()
           require("harpoon"):list():append()
         end,
         desc = "harpoon file",
       },
       {
-        "<leader>h",
+        "<leader>Y",
         function()
           local harpoon = require("harpoon")
           harpoon.ui:toggle_quick_menu(harpoon:list())

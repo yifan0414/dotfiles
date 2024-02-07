@@ -66,8 +66,8 @@ return {
 
     vim.api.nvim_set_hl(0, "CmpItemKindReference", { bg = "NONE", fg = "#ffe4b5" })
     -- Customization for Pmenu
-    vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
-    vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
+    -- vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
+    -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
 
     local neotab = require("neotab")
     local luasnip = require("luasnip")
@@ -78,16 +78,16 @@ return {
     local cmp = require("cmp")
     return {
       window = {
-        completion = cmp.config.window.bordered({
-          -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-          winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
-        }),
+        -- completion = cmp.config.window.bordered({
+        --   -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+        --   winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
+        -- }),
         -- documentation = cmp.config.window.bordered({
         --   winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
         -- }),
         documentation = {
-          border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+          -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+          -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
           -- winhighlight = 'Normal:Pmenu,FloatBorder:PmenuSel,Search:None',
           max_width = 50,
           max_height = math.floor(vim.o.lines * 0.5),
@@ -95,7 +95,7 @@ return {
       },
       completion = {
         -- completeopt = "menu,menuone,noinsert",
-        keyword_length = 2,
+        -- keyword_length = 2,
       },
       snippet = {
         expand = function(args)
@@ -163,47 +163,71 @@ return {
         { name = "path" },
       }),
       formatting = {
-        fields = { "kind", "abbr", "menu" },
-        format = function(_, item)
-          item.abbr = string.sub(item.abbr, 1, 35)
-          item.menu = string.sub(1, 30) -- 暂时解决了问题
-          -- local icons = require("lazyvim.config").icons.kinds
-          local cmp_kinds = {
-            Text = " ",
-            Method = " ",
-            Function = " ",
-            Constructor = " ",
-            Field = " ",
-            Variable = " ",
-            Class = " ",
-            Interface = " ",
-            Module = " ",
-            Property = " ",
-            Unit = " ",
-            Value = " ",
-            Enum = " ",
-            Keyword = " ",
-            Snippet = " ",
-            Color = " ",
-            File = " ",
-            Reference = " ",
-            Folder = " ",
-            EnumMember = " ",
-            Constant = " ",
-            Struct = " ",
-            Event = " ",
-            Operator = " ",
-            TypeParameter = " ",
-          }
-
-          -- if icons[item.kind] then
-          --   item.abbr = icons[item.kind] .. item.abbr
-          -- end
-          item.kind = string.format("%s", cmp_kinds[item.kind])
-          -- item.kind = string.format("%s %s", cmp_kinds[item.kind], item.kind)
-          return item
-        end,
+        fields = { "abbr", "menu", "kind" },
+        format = require("lspkind").cmp_format({
+          preset = "codicons",
+          mode = "symbol_text",
+          maxwidth = 15,
+          show_labelDetails = true,
+          ellipsis_char = "...",
+          -- menu = {
+          --   buffer = "[Buffer]",
+          --   nvim_lsp = "[LSP]",
+          --   luasnip = "[LuaSnip]",
+          --   nvim_lua = "[Lua]",
+          --   latex_symbols = "[Latex]",
+          -- },
+          before = function(entry, vim_item)
+            if vim_item.menu ~= nil then
+              vim_item.menu = string.sub(vim_item.menu, 1, 20)
+              -- vim_item.abbr = vim_item.abbr .. " " .. vim_item.menu
+            end
+            return vim_item
+          end,
+        }),
       },
+      -- formatting = {
+      --   fields = { "abbr", "menu", "kind" },
+      --   format = function(_, item)
+      --     item.abbr = string.sub(item.abbr, 1, 35)
+      --     -- item.menu = string.sub(1, 30) -- 暂时解决了问题
+      --     -- local icons = require("lazyvim.config").icons.kinds
+      --     local cmp_kinds = {
+      --       Text = " ",
+      --       Method = " ",
+      --       Function = " ",
+      --       Constructor = " ",
+      --       Field = " ",
+      --       Variable = " ",
+      --       Class = " ",
+      --       Interface = " ",
+      --       Module = " ",
+      --       Property = " ",
+      --       Unit = " ",
+      --       Value = " ",
+      --       Enum = " ",
+      --       Keyword = " ",
+      --       Snippet = " ",
+      --       Color = " ",
+      --       File = " ",
+      --       Reference = " ",
+      --       Folder = " ",
+      --       EnumMember = " ",
+      --       Constant = " ",
+      --       Struct = " ",
+      --       Event = " ",
+      --       Operator = " ",
+      --       TypeParameter = " ",
+      --     }
+      --
+      --     -- if icons[item.kind] then
+      --     --   item.abbr = icons[item.kind] .. item.abbr
+      --     -- end
+      --     -- item.kind = string.format("%s", cmp_kinds[item.kind])
+      --     item.kind = string.format("%s %s", cmp_kinds[item.kind], item.kind)
+      --     return item
+      --   end,
+      -- },
       -- experimental = {
       --   ghost_text = {
       --     hl_group = "CmpGhostText",

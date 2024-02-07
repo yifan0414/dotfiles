@@ -1,13 +1,13 @@
 {
   "require": {
-    "prefix": "req",
+    "prefix": "require",
     "body": [
       "require(\"${1:module}\")"
     ],
     "description": "Require module"
   },
   "return": {
-    "prefix": "rt",
+    "prefix": "return",
     "body": [
       "return $0"
     ],
@@ -107,7 +107,7 @@
     ]
   },
   "print": {
-    "prefix": "p",
+    "prefix": "print",
     "body": [
       "print(${0})"
     ]
