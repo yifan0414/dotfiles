@@ -5,12 +5,11 @@ vim.keymap.set("n", ";", ":", { noremap = true })
 
 vim.keymap.set({ "n", "v" }, "0", "^", { noremap = true, silent = true })
 
--- vim.keymap.set(
---   "n",
---   "<leader>fa",
---   "<cmd>lua vim.lsp.buf.format()<CR>",
---   { noremap = true, silent = true, desc = "Format" }
--- )
+vim.keymap.set("n", "<enter>", "<leader>cf", { noremap = true, silent = true, desc = "Format" })
+
+vim.keymap.set({ "n", "v" }, "<enter>", function()
+  require("lazyvim.util").format({ force = true })
+end, { desc = "Format" })
 
 -- 将滚轮向下映射为Ctrl-e
 -- vim.keymap.set("n", "<ScrollWheelDown>", "<C-e>", { noremap = true, silent = true })
@@ -60,27 +59,6 @@ vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-j>", "<C-o>gj", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
 
--- function ToggleStatusline()
---   if vim.o.laststatus == 0 then
---     vim.o.laststatus = 2
---   else
---     vim.o.laststatus = 0
---   end
--- end
---
--- vim.keymap.set("n", "<leader>bh", "<cmd>lua ToggleStatusline()<cr>", { noremap = true, silent = true })
-
--- require("lazyvim.util").safe_keymap_set("n", "<leader>bh", function()
---   require("lazyvim.util").toggle("laststatus", false, { 0, 2 })
--- end, { noremap = true, silent = true })
-
--- vim.keymap.set(
---   "n",
---   "<leader>th",
---   "<cmd>FloatermNew --width=0.8 --height=0.8 man -k . | fzf | awk '{print $1}' | xargs man<cr>",
---   { silent = true, noremap = true, desc = "Man" }
--- )
-
 -- 在 Visual 模式下绑定 <leader>y 到复制到剪贴板(wsl2)命令
 vim.keymap.set("v", "<leader>y", [["+y <cmd>call system('clip.exe', @+)<cr>]], { noremap = true, silent = true })
 
@@ -122,3 +100,5 @@ vim.keymap.set("n", "<S-Tab>", "<cmd>tabprevious<cr>", { silent = true, noremap 
 
 vim.keymap.del("n", "<leader>l")
 vim.keymap.set("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "Lazy" })
+
+vim.keymap.set("n", "<leader>qw", "<cmd>q<cr>", { silent = true, noremap = true, desc = "quit" })
