@@ -1,4 +1,4 @@
-local leet_arg = "leetcode.nvim"
+local leet_arg = "leetcode"
 return {
   {
     "kawre/leetcode.nvim",
@@ -40,14 +40,15 @@ return {
         focus_result = "L", ---@type string
       },
     },
-    -- keys = {
-    --   { "<leader>lr", "<cmd>Leet run<cr>", desc = "Leet run" },
-    --   { "<leader>ls", "<cmd>Leet submit<cr>", desc = "Leet submit" },
-    --   { "<leader>lt", "<cmd>Leet tabs<cr>", desc = "Leet tabs" },
-    --   { "<leader>li", "<cmd>Leet info<cr>", desc = "Leet info" },
-    --   { "<leader>lb", "<cmd>Leet list<cr>", desc = "Leet list" },
-    --   { "<leader>lc", "<cmd>Leet console<cr>", desc = "Leet console" },
-    -- },
+    config = function(_, opts)
+      require("leetcode").setup(opts)
+      vim.keymap.set("n", "<leader>lr", "<cmd>Leet run<cr>", { desc = "Leet run" })
+      vim.keymap.set("n", "<leader>ls", "<cmd>Leet submit<cr>", { desc = "Leet submit" })
+      vim.keymap.set("n", "<leader>lt", "<cmd>Leet tabs<cr>", { desc = "Leet tabs" })
+      vim.keymap.set("n", "<leader>li", "<cmd>Leet info<cr>", { desc = "Leet info" })
+      vim.keymap.set("n", "<leader>lb", "<cmd>Leet list<cr>", { desc = "Leet list" })
+      vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet console" })
+    end,
   },
 
   {

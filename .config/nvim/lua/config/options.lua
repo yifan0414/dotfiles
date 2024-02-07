@@ -48,6 +48,8 @@ vim.g.node_host_prog = "/usr/local/lib/node_modules/neovim/bin/cli.js"
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
+vim.o.report = 100 -- 为了关闭行数提示
+
 -- floaterm
 
 
@@ -61,6 +63,12 @@ vim.wo.cursorlineopt = "number"
 
 -- 改变QuickFixLine的颜色
 vim.cmd([[autocmd VimEnter * hi QuickFixLine ctermfg=NONE cterm=bold guifg=NONE gui=bold]])
+
+-- 改变 illuminated 的颜色
+vim.cmd[[hi illuminatedWord gui=none guibg=#2c313c]]
+vim.cmd[[hi illuminatedWordRead gui=none guibg=#2c313c]]
+vim.cmd[[hi illuminatedWordText gui=none guibg=#2c313c]]
+vim.cmd[[hi illuminatedWordWrite gui=none guibg=#2c313c]]
 
 -- vim.cmd([[
 --   augroup SetNormalFloatColors

@@ -54,7 +54,7 @@ return {
           { "Show File Path", "call setqflist([{'text': execute('echomsg expand(\"%:p\")')}]) | copen" },
           {
             "Open Man In Floaterm",
-            "FloatermNew --width=0.8 --height=0.8 man -k . | fzf | awk '{print $1}' | xargs man | less",
+            "FloatermNew --title=Man($1/$2) --width=0.8 --height=0.8 man -k . | fzf | awk '{print $1}' | xargs man | less",
           },
           {
             "输出一个msg到quickfix",

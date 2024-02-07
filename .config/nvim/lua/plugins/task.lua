@@ -24,6 +24,7 @@ return {
       { "<leader>a2", "<cmd>AsyncTask file-run<cr>", desc = "AsyncTask file-run", mode = "n" },
       { "<leader>a3", "<cmd>AsyncTask project-build<cr>", desc = "AsyncTask project-build", mode = "n" },
       { "<leader>a4", "<cmd>AsyncTask project-run<cr>", desc = "AsyncTask project-run", mode = "n" },
+      { "<leader>ar", "<cmd>AsyncTask run-argument<cr>", desc = "AsyncTask project-run", mode = "n" },
       {
         "<leader>at",
         function()
@@ -114,19 +115,25 @@ return {
       { "<F1>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true } },
       { "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true }, mode = "t" },
 
-      { "<F2>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true } },
-      { "<F2>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true }, mode = "t" },
+      { "<F3>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true } },
+      { "<F3>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true }, mode = "t" },
 
-      { "<F3>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
-      { "<F3>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true }, mode = "t" },
+      { "<F4>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
+      { "<F4>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true }, mode = "t" },
 
-      { "<F4>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true } },
-      { "<F4>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true }, mode = "t" },
+      { "<F2>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true } },
+      { "<F2>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true }, mode = "t" },
 
       {
         "<leader>h",
-        "<cmd>FloatermNew --height=0.8 --width=0.8 --wintype=float --name=floaterm1 --autoclose=2 ranger<cr>",
+        "<cmd>FloatermNew --title=ranger($1/$2) --height=0.8 --width=0.8 --wintype=float --name=floaterm1 --autoclose=2 ranger<cr>",
         { silent = true, noremap = true },
+      },
+      {
+        "<leader>gl",
+        "<cmd>FloatermNew --title=tig($1/$2) --width=0.85 --height=0.95 tig<cr>",
+        { silent = true, noremap = true },
+        desc = "tig",
       },
     },
   },

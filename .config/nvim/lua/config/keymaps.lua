@@ -60,16 +60,6 @@ vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-j>", "<C-o>gj", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
 
--- config for leetcode
-vim.keymap.del("n", "<leader>l")
-vim.keymap.set("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "Lazy" })
-vim.keymap.set("n", "<leader>lr", "<cmd>Leet run<cr>", { desc = "Leet run" })
-vim.keymap.set("n", "<leader>ls", "<cmd>Leet submit<cr>", { desc = "Leet submit" })
-vim.keymap.set("n", "<leader>lt", "<cmd>Leet tabs<cr>", { desc = "Leet tabs" })
-vim.keymap.set("n", "<leader>li", "<cmd>Leet info<cr>", { desc = "Leet info" })
-vim.keymap.set("n", "<leader>lb", "<cmd>Leet list<cr>", { desc = "Leet list" })
-vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet console" })
-
 -- function ToggleStatusline()
 --   if vim.o.laststatus == 0 then
 --     vim.o.laststatus = 2
@@ -123,18 +113,12 @@ vim.keymap.set("n", "<leader>td", function()
   --   vim.cmd("edit " .. file_path)
   -- end
   vim.cmd("edit " .. file_path)
-end, { noremap = true, silent = true })
+end, { noremap = true, silent = true, desc = "dayliy note" })
 
 vim.keymap.set("n", "x", '"_x', { noremap = true, silent = true })
 
 vim.keymap.set("n", "<Tab>", "<cmd>tabnext<cr>", { silent = true, noremap = true })
 vim.keymap.set("n", "<S-Tab>", "<cmd>tabprevious<cr>", { silent = true, noremap = true })
 
--- tig
-
-vim.keymap.set(
-  "n",
-  "<leader>gl",
-  "<cmd>FloatermNew --width=0.85 --height=0.95 tig<cr>",
-  { silent = true, noremap = true, desc = "tig" }
-)
+vim.keymap.del("n", "<leader>l")
+vim.keymap.set("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "Lazy" })
