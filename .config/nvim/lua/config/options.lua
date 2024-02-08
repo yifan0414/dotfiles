@@ -56,12 +56,11 @@ vim.o.report = 100 -- 为了关闭行数提示
 
 -- 启用当前行高亮
 vim.wo.cursorline = true
-
 -- 设置当前行高亮的选项为同时显示行号
 vim.wo.cursorlineopt = "number"
 
 -- 改变QuickFixLine的颜色
-vim.cmd([[autocmd VimEnter * hi QuickFixLine ctermfg=NONE cterm=bold guifg=NONE gui=bold]])
+-- vim.cmd([[autocmd VimEnter * hi QuickFixLine ctermfg=NONE cterm=bold guifg=NONE gui=bold]])
 
 -- NOTE: asyncrun 的配置
 vim.g.asyncrun_open = 12
@@ -70,12 +69,3 @@ vim.g.VimuxOrientation = "h"
 
 -- 手动fold
 vim.opt.foldmethod = "manual"
-
--- WARN: 在最后执行设置浮动窗口的颜色
-vim.cmd([[
-  augroup SetNormalFloatColors
-    autocmd!
-    autocmd VimEnter * highlight NormalFloat guifg=#dcd7ba guibg=#1F1F28
-    autocmd VimEnter * highlight FloatBorder guifg=#54546D guibg=#1F1F28
-  augroup END
-]])

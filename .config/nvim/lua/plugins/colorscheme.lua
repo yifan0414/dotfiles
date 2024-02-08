@@ -3,6 +3,7 @@ return {
     -- "SnakeHit/kanagawa.nvim",
     "rebelot/kanagawa.nvim",
     opts = {
+      compile = true,
       colors = {
         theme = {
           all = {
@@ -12,7 +13,7 @@ return {
           },
         },
       },
-      keywordStyle = { italic = false},
+      keywordStyle = { italic = false },
       commentStyle = { italic = false },
       terminalColors = false,
       overrides = function(colors)
@@ -22,6 +23,8 @@ return {
           -- PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
           -- PmenuSbar = { bg = theme.ui.bg_m1 },
           -- PmenuThumb = { bg = theme.ui.bg_p2 },
+          NormalFloat = { fg = "#dcd7ba", bg = "#1F1F28" },
+          FloatBorder = { fg = "#54546D", bg = "#1F1F28" },
           ["@string.regexp"] = { link = "@string.regex" },
           ["@variable.parameter"] = { link = "@parameter" },
           ["@exception"] = { link = "@exception" },
