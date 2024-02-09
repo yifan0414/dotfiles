@@ -72,19 +72,13 @@ ls.add_snippets("java", {
       return "System.out.println(" .. parent.snippet.env.POSTFIX_MATCH .. ");"
     end),
   }),
-  -- TODO: 怎么解决换行符号
-  -- postfix({ trig = ".fori"}, {
-  --   f(function(_, parent)
-  --     return parent.snippet.env.POSTFIX_MATCH
-  --   end),
-  -- }),
 })
 
 ls.add_snippets("c", {
   s({
-    trig = "([%a->]*[%a.]*[%a]+[%d]*).for",
-    regTrig = true,
-    trigEngine = "pattern",
+    trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
+    -- regTrig = true,
+    trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
     f(function(_, parent)
@@ -109,9 +103,10 @@ ls.add_snippets("c", {
 
 ls.add_snippets("c", {
   s({
-    trig = "([%a->]*[%a.]*[%a]+[%d]*).print",
-    regTrig = true,
-    trigEngine = "pattern",
+    -- trig = "([%a->]*[%a.]*[%a]+[%d]*).cout",
+    trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.(print|cout)",
+    -- regTrig = true,
+    trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
     f(function(_, parent)
@@ -119,9 +114,10 @@ ls.add_snippets("c", {
     end),
   }),
   s({
-    trig = "([%a->]*[%a.]*[%a]+[%d]*).scanf",
-    regTrig = true,
-    trigEngine = "pattern",
+    -- trig = "([%a->]*[%a.]*[%a]+[%d]*).cin",
+    trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.(scanf|cin)",
+    -- regTrig = true,
+    trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
     f(function(_, parent)
@@ -132,13 +128,23 @@ ls.add_snippets("c", {
 
 ls.add_snippets("cpp", {
   s({
-    trig = "([%a->]*[%a.]*[%a]+[%d]*).print",
-    regTrig = true,
-    trigEngine = "pattern",
+    trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.(print|cout)",
+    -- regTrig = true,
+    trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
     f(function(_, parent)
       return "cout << " .. parent.captures[1] .. " << endl;"
+    end),
+  }),
+
+  s({
+    trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.(scanf|cin)",
+    trigEngine = "ecma",
+    snippetType = "autosnippet",
+  }, {
+    f(function(_, parent)
+      return "cin >> " .. parent.captures[1] .. ";"
     end),
   }),
 })

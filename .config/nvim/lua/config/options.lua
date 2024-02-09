@@ -69,12 +69,3 @@ vim.g.VimuxOrientation = "h"
 
 -- 手动fold
 vim.opt.foldmethod = "manual"
-
--- vim.cmd([[
---   augroup SetNormalFloatColors
---     autocmd!
---     autocmd VimEnter * highlight NormalFloat guifg=#dcd7ba guibg=#1F1F28
---     autocmd VimEnter * highlight FloatBorder guifg=#54546D guibg=#1F1F28
---     autocmd VimEnter * highlight StatusLine  guibg=#1F1F28
---   augroup END
--- ]])

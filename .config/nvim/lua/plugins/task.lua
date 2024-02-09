@@ -179,7 +179,7 @@ return {
   {
     "rcarriga/nvim-notify",
     opts = {
-      fps = 165,
+      fps = 60,
     },
   },
   {
