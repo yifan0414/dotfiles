@@ -74,6 +74,7 @@ return {
 
     -- require("luasnip.loaders.from_vscode").lazy_load()
     require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
+    require("luasnip.loaders.from_lua").load({ paths = "./snippets_lua" })
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
     return {
@@ -102,21 +103,8 @@ return {
           require("luasnip").lsp_expand(args.body)
         end,
       },
+
       mapping = cmp.mapping.preset.insert({
-        -- ["<Tab>"] = cmp.mapping(function(fallback)
-        --   if cmp.visible() then
-        --     cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-        --     -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-        --     -- they way you will only jump inside the snippet region
-        --   elseif luasnip.expand_or_jumpable() then
-        --     luasnip.expand_or_jump()
-        --   elseif has_words_before() then
-        --     cmp.complete()
-        --   else
-        --     fallback()
-        --   end
-        -- end, { "i", "s" }),
-        -- use noetab
         ["<Tab>"] = cmp.mapping(function()
           if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
@@ -125,18 +113,30 @@ return {
           else
             neotab.tabout()
           end
-        end),
+        end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.select_prev_item()
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
           elseif luasnip.jumpable(-1) then
             luasnip.jump(-1)
           else
             fallback()
           end
         end, { "i", "s" }),
-        ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-        ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+        ["<C-n>"] = cmp.mapping(function()
+          if luasnip.choice_active() then
+            luasnip.change_choice(1)
+          elseif cmp.visible() then
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+          end
+        end),
+        ["<C-p>"] = cmp.mapping(function()
+          if luasnip.choice_active() then
+            luasnip.change_choice(-1)
+          elseif cmp.visible() then
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+          end
+        end),
         ["<DOWN>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<UP>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -162,6 +162,22 @@ return {
         -- { name = "buffer" },
         { name = "path" },
       }),
+      enabled = function()
+        -- disable completion in comments
+        local context = require("cmp.config.context")
+        -- keep command mode completion enabled when cursor is in a comment
+        if
+          vim.bo.buftype == "prompt"
+          or context.in_treesitter_capture("comment")
+          or context.in_syntax_group("Comment")
+          or context.in_treesitter_capture("string")
+          or context.in_syntax_group("String")
+        then
+          return false
+        else
+          return true
+        end
+      end,
       formatting = {
         fields = { "abbr", "menu", "kind" },
         format = require("lspkind").cmp_format({
@@ -170,13 +186,6 @@ return {
           maxwidth = 15,
           show_labelDetails = true,
           ellipsis_char = "...",
-          -- menu = {
-          --   buffer = "[Buffer]",
-          --   nvim_lsp = "[LSP]",
-          --   luasnip = "[LuaSnip]",
-          --   nvim_lua = "[Lua]",
-          --   latex_symbols = "[Latex]",
-          -- },
           before = function(entry, vim_item)
             if vim_item.menu ~= nil then
               vim_item.menu = string.sub(vim_item.menu, 1, 20)
@@ -186,48 +195,6 @@ return {
           end,
         }),
       },
-      -- formatting = {
-      --   fields = { "abbr", "menu", "kind" },
-      --   format = function(_, item)
-      --     item.abbr = string.sub(item.abbr, 1, 35)
-      --     -- item.menu = string.sub(1, 30) -- 暂时解决了问题
-      --     -- local icons = require("lazyvim.config").icons.kinds
-      --     local cmp_kinds = {
-      --       Text = " ",
-      --       Method = " ",
-      --       Function = " ",
-      --       Constructor = " ",
-      --       Field = " ",
-      --       Variable = " ",
-      --       Class = " ",
-      --       Interface = " ",
-      --       Module = " ",
-      --       Property = " ",
-      --       Unit = " ",
-      --       Value = " ",
-      --       Enum = " ",
-      --       Keyword = " ",
-      --       Snippet = " ",
-      --       Color = " ",
-      --       File = " ",
-      --       Reference = " ",
-      --       Folder = " ",
-      --       EnumMember = " ",
-      --       Constant = " ",
-      --       Struct = " ",
-      --       Event = " ",
-      --       Operator = " ",
-      --       TypeParameter = " ",
-      --     }
-      --
-      --     -- if icons[item.kind] then
-      --     --   item.abbr = icons[item.kind] .. item.abbr
-      --     -- end
-      --     -- item.kind = string.format("%s", cmp_kinds[item.kind])
-      --     item.kind = string.format("%s %s", cmp_kinds[item.kind], item.kind)
-      --     return item
-      --   end,
-      -- },
       -- experimental = {
       --   ghost_text = {
       --     hl_group = "CmpGhostText",

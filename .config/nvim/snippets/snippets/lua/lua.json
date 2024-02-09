@@ -94,7 +94,7 @@
     "prefix": "function",
     "body": [
       "function ${1}($2)",
-      "\t${0:-- code}",
+      "\t${0}",
       "end"
     ]
   },

@@ -2,6 +2,11 @@ return {
   {
     -- "SnakeHit/kanagawa.nvim",
     "rebelot/kanagawa.nvim",
+    init = function()
+      vim.cmd([[
+        autocmd VimEnter * highlight StatusLine  guibg=#1F1F28 guifg=#dcd7ba
+    ]])
+    end,
     opts = {
       compile = true,
       colors = {
@@ -17,7 +22,7 @@ return {
       commentStyle = { italic = false },
       terminalColors = false,
       overrides = function(colors)
-        local theme = colors.theme
+        -- local theme = colors.theme
         return {
           -- Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 }, -- add `blend = vim.o.pumblend` to enable transparency
           -- PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
@@ -25,6 +30,7 @@ return {
           -- PmenuThumb = { bg = theme.ui.bg_p2 },
           NormalFloat = { fg = "#dcd7ba", bg = "#1F1F28" },
           FloatBorder = { fg = "#54546D", bg = "#1F1F28" },
+          -- StatusLine = { fg = "#54546D", bg = "#1F1F28" },
           ["@string.regexp"] = { link = "@string.regex" },
           ["@variable.parameter"] = { link = "@parameter" },
           ["@exception"] = { link = "@exception" },
