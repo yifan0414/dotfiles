@@ -143,6 +143,7 @@ return {
         "dirvish",
         "fugitive",
         "noice",
+        "outline"
       },
     },
     config = function(_, opts)

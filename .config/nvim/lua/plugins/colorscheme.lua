@@ -5,6 +5,8 @@ return {
     init = function()
       vim.cmd([[
         autocmd VimEnter * highlight StatusLine  guibg=#1F1F28 guifg=#dcd7ba
+        autocmd VimEnter * hi Search guifg=#223249 guibg=#ff9e3b
+        autocmd VimEnter * hi CurSearch guifg=#dcd7ba guibg=#c34043
     ]])
     end,
     opts = {

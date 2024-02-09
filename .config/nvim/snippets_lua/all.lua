@@ -81,15 +81,31 @@ ls.add_snippets("java", {
 })
 
 ls.add_snippets("c", {
-  postfix({
-    trig = ".iprint",
-    -- snippetType = "autosnippet",
+  s({
+    trig = "([%a->]*[%a.]*[%a]+[%d]*).for",
+    regTrig = true,
+    trigEngine = "pattern",
+    snippetType = "autosnippet",
   }, {
     f(function(_, parent)
-      return 'printf("' .. parent.snippet.env.POSTFIX_MATCH .. ' = %d\\n", ' .. parent.snippet.env.POSTFIX_MATCH .. ");"
+      return "for (int i = 0; i < " .. parent.captures[1] .. "; i++)"
     end),
+    t({ "", "{", "\t" }),
+    i(0),
+    t({ "", "}" }),
   }),
 })
+
+-- ls.add_snippets("c", {
+--   postfix({
+--     trig = ".iprint",
+--     -- snippetType = "autosnippet",
+--   }, {
+--     f(function(_, parent)
+--       return 'printf("' .. parent.snippet.env.POSTFIX_MATCH .. ' = %d\\n", ' .. parent.snippet.env.POSTFIX_MATCH .. ");"
+--     end),
+--   }),
+-- })
 
 ls.add_snippets("c", {
   s({
@@ -100,6 +116,29 @@ ls.add_snippets("c", {
   }, {
     f(function(_, parent)
       return 'printf("' .. parent.captures[1] .. ' = %d\\n", ' .. parent.captures[1] .. ");"
+    end),
+  }),
+  s({
+    trig = "([%a->]*[%a.]*[%a]+[%d]*).scanf",
+    regTrig = true,
+    trigEngine = "pattern",
+    snippetType = "autosnippet",
+  }, {
+    f(function(_, parent)
+      return 'scanf("%d", &' .. parent.captures[1] .. ");"
+    end),
+  }),
+})
+
+ls.add_snippets("cpp", {
+  s({
+    trig = "([%a->]*[%a.]*[%a]+[%d]*).print",
+    regTrig = true,
+    trigEngine = "pattern",
+    snippetType = "autosnippet",
+  }, {
+    f(function(_, parent)
+      return "cout << " .. parent.captures[1] .. " << endl;"
     end),
   }),
 })
