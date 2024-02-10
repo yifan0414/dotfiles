@@ -68,6 +68,7 @@ return {
     -- Customization for Pmenu
     -- vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
     -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
+    vim.api.nvim_set_hl(0, "Pmenu", {fg = "#dcd7ba", bg="#223349", blend = 0})
 
     local neotab = require("neotab")
     local luasnip = require("luasnip")
@@ -203,7 +204,6 @@ return {
       --     hl_group = "CmpGhostText",
       --   },
       -- },
-      -- sorting = defaults.sorting,
       sorting = {
         priority_weight = 1.0,
         comparators = {
@@ -214,9 +214,10 @@ return {
           -- cmp.config.compare.kind,
           cmp.config.compare.recently_used,
           cmp.config.compare.locality,
+          cmp.config.compare.kind,
           cmp.config.compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
           cmp.config.compare.offset,
-          cmp.config.compare.order,
+          -- cmp.config.compare.order,
         },
       },
       matching = {
