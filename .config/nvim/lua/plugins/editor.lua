@@ -176,4 +176,79 @@ return {
       { "[[", desc = "Prev Reference" },
     },
   },
+  {
+    -- 暂时把 o 模式去掉
+    "chrisgrieser/nvim-spider",
+    lazy = true,
+    keys = {
+      {
+        "w",
+        "<cmd>lua require('spider').motion('w')<CR>",
+        mode = { "n", "x" },
+      },
+      { -- example for lazy-loading on keystroke
+        "e",
+        "<cmd>lua require('spider').motion('e')<CR>",
+        mode = { "n", "x" },
+      },
+      { -- example for lazy-loading on keystroke
+        "b",
+        "<cmd>lua require('spider').motion('b')<CR>",
+        mode = { "n", "x" },
+      },
+      { -- example for lazy-loading on keystroke
+        "<C-f>",
+        "<Esc>l<cmd>lua require('spider').motion('w')<CR>i",
+        mode = { "i" },
+      },
+      { -- example for lazy-loading on keystroke
+        "<C-b>",
+        "<Esc><cmd>lua require('spider').motion('b')<CR>i",
+        mode = { "i" },
+      },
+    },
+  },
+  {
+    "chrisgrieser/nvim-various-textobjs",
+    -- lazy = true,
+    event = "VeryLazy",
+    opts = { useDefaultKeymaps = true },
+  },
+  -- lazy.nvim
+  -- minimal config for lazy-loading with lazy.nvim
+  {
+    "chrisgrieser/nvim-recorder",
+    dependencies = "rcarriga/nvim-notify",
+    keys = {
+      -- these must match the keys in the mapping config below
+      { "q", desc = " Start Recording" },
+      { "Q", desc = " Play Recording" },
+    },
+    config = function()
+      require("recorder").setup({
+        clear = true,
+        mapping = {
+          startStopRecording = "q",
+          playMacro = "Q",
+          addBreakPoint = "**",
+        },
+      })
+
+      local lualine = require("lualine").get_config().sections.lualine_x or {}
+      table.insert(lualine, { require("recorder").recordingStatus, color = { fg = "#ff5d62" } })
+      table.insert(lualine, { require("recorder").displaySlots, color = { fg = "#ff5d62" } })
+      require("lualine").setup({
+        sections = {
+          lualine_x = lualine,
+        },
+      })
+    end,
+  },
+  -- {
+  --   "chrisgrieser/nvim-scissors",
+  --   dependencies = "nvim-telescope/telescope.nvim", -- optional
+  --   opts = {
+  --     snippetDir = "~/.config/nvim/snippets",
+  --   },
+  -- },
 }

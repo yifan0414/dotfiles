@@ -76,3 +76,48 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   command = "hi Underlined gui=none",
 })
+
+local function remember(mode)
+  -- avoid complications with some special filetypes
+  local ignoredFts = {
+    "TelescopePrompt",
+    "DressingSelect",
+    "DressingInput",
+    "toggleterm",
+    "gitcommit",
+    "replacer",
+    "harpoon",
+    "help",
+    "qf",
+  }
+  if vim.tbl_contains(ignoredFts, vim.bo.filetype) or vim.bo.buftype ~= "" or not vim.bo.modifiable then
+    return
+  end
+
+  if mode == "save" then
+    vim.cmd.mkview(1)
+  else
+    pcall(function()
+      vim.cmd.loadview(1)
+    end) -- pcall, since new files have no view yet
+  end
+end
+vim.api.nvim_create_autocmd("BufWinLeave", {
+  pattern = "?*",
+  callback = function()
+    remember("save")
+  end,
+})
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  pattern = "?*",
+  callback = function()
+    remember("load")
+  end,
+})
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = augroup("highlight_yank"),
+  callback = function()
+    vim.highlight.on_yank({ timeout = 100 })
+  end,
+})

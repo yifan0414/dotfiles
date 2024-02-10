@@ -1,4 +1,15 @@
 {
+  "example1": {
+    "prefix": "options",
+    "body": [
+      "whoa! :O"
+    ],
+    "luasnip": {
+      "priority": 2000,
+      "autotrigger": true,
+      "wordTrig": false
+    }
+  },
   "Starter Template": {
     "prefix": "st",
     "body": [

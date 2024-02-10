@@ -7,9 +7,9 @@ vim.keymap.set({ "n", "v" }, "0", "^", { noremap = true, silent = true })
 
 -- vim.keymap.set("n", "<enter>", "<leader>cf", { noremap = true, silent = true, desc = "Format" })
 
--- vim.keymap.set({ "n", "v" }, "<enter>", function()
---   require("lazyvim.util").format({ force = true })
--- end, { desc = "Format" })
+vim.keymap.set({ "n", "v" }, "<leader>fo", function()
+  require("lazyvim.util").format({ force = true })
+end, { desc = "Format" })
 
 -- 将滚轮向下映射为Ctrl-e
 -- vim.keymap.set("n", "<ScrollWheelDown>", "<C-e>", { noremap = true, silent = true })
