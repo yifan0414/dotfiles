@@ -96,6 +96,15 @@ ls.add_snippets("java", {
     i(0),
     t({ "", "}" }),
   }),
+  s({
+    trig = "sout",
+    -- regTrig = true,
+    snippetType = "autosnippet",
+  }, {
+    t("System.out.println("),
+    i(0),
+    t(");")
+  }),
 })
 
 -- ls.add_snippets("c", {

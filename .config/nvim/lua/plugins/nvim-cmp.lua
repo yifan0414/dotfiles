@@ -68,7 +68,7 @@ return {
     -- Customization for Pmenu
     -- vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
     -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
-    vim.api.nvim_set_hl(0, "Pmenu", {fg = "#dcd7ba", bg="#223349", blend = 0})
+    vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#223349", blend = 0 })
 
     local neotab = require("neotab")
     local luasnip = require("luasnip")
@@ -97,7 +97,7 @@ return {
       },
       completion = {
         -- completeopt = "menu,menuone,noinsert",
-        keyword_length = 2,
+        -- keyword_length = 2,
       },
       snippet = {
         expand = function(args)
@@ -109,8 +109,6 @@ return {
         ["<Tab>"] = cmp.mapping(function()
           if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-            -- cmp.abort()
-            -- cmp.mapping.complete()
           elseif luasnip.expand_or_jumpable(1) then
             luasnip.expand_or_jump(1)
           else
@@ -157,7 +155,7 @@ return {
         { name = "luasnip", max_item_count = 5 },
         {
           name = "nvim_lsp",
-          max_item_count = 7,
+          -- max_item_count = 7,
           entry_filter = function(entry)
             local kind = entry:get_kind()
             return cmp.lsp.CompletionItemKind.Snippet ~= kind
@@ -205,19 +203,18 @@ return {
       --   },
       -- },
       sorting = {
-        priority_weight = 1.0,
+        priority_weight = 2,
         comparators = {
-          -- cmp.config.compare.exact,
-          -- cmp.config.compare.offset,
-          -- cmp.config.compare.score,
-          -- cmp.config.compare.recently_used,
-          -- cmp.config.compare.kind,
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
+          -- compare.scopes,
           cmp.config.compare.recently_used,
+          cmp.config.compare.score,
           cmp.config.compare.locality,
           cmp.config.compare.kind,
-          cmp.config.compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
-          cmp.config.compare.offset,
-          -- cmp.config.compare.order,
+          -- compare.sort_text,
+          -- cmp.config.compare.length,
+          cmp.config.compare.order,
         },
       },
       matching = {
@@ -227,6 +224,13 @@ return {
         disallow_partial_matching = true,
         -- disallow_prefix_unmatching = true,
       },
+      -- matching = {
+      --   disallow_fuzzy_matching = false,
+      --   disallow_fullfuzzy_matching = false,
+      --   disallow_partial_fuzzy_matching = true,
+      --   disallow_partial_matching = false,
+      --   disallow_prefix_unmatching = false,
+      -- },
     }
   end,
 }
