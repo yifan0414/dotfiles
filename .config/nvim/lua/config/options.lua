@@ -31,6 +31,7 @@ vim.g.clipboard = {
 --     cache_enabled = 1,
 --   }
 -- end
+
 vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 vim.opt.list = false
 vim.opt.swapfile = false
