@@ -167,20 +167,11 @@ return {
     },
   },
   {
-    "tpope/vim-fugitive",
-    cmd = "Git",
-    keys = {
-      -- { "<leader>gl", "<cmd>Git log<cr>", { silent = true, noremap = true }, desc = "Git log" },
-      -- { "<leader>gd", "<cmd>Git diff %<cr>", { silent = true, noremap = true }, desc = "Git diff %" },
-      { "<leader>gb", "<cmd>Git blame<cr>", { silent = true, noremap = true }, desc = "Git blame" },
-      { "<leader>gs", "<cmd>Git<cr>", { silent = true, noremap = true }, desc = "Git status" },
-    },
-  },
-  {
     "rcarriga/nvim-notify",
     opts = {
       fps = 60,
       stages = "static",
+      max_width = 72,
     },
   },
   {

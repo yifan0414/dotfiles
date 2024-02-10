@@ -50,7 +50,6 @@ return {
       vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet console" })
     end,
   },
-
   {
     "xeluxee/competitest.nvim",
     dependencies = "MunifTanjim/nui.nvim",

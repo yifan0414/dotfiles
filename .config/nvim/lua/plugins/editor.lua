@@ -72,11 +72,11 @@ return {
         -- spelling
         "z=",
       },
-      plugins = {
-        presets = {
-          operators = false,
-        },
-      },
+      -- plugins = {
+      --   presets = {
+      --     operators = false,
+      --   },
+      -- },
       window = {
         border = "single",
       },

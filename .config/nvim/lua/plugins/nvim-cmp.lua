@@ -185,7 +185,7 @@ return {
         format = require("lspkind").cmp_format({
           preset = "codicons",
           mode = "symbol_text",
-          maxwidth = 15,
+          maxwidth = 20,
           show_labelDetails = true,
           ellipsis_char = "...",
           before = function(entry, vim_item)
@@ -217,20 +217,20 @@ return {
           cmp.config.compare.order,
         },
       },
-      matching = {
-        disallow_fuzzy_matching = true,
-        disallow_fullfuzzy_matching = true,
-        disallow_partial_fuzzy_matching = true,
-        disallow_partial_matching = true,
-        -- disallow_prefix_unmatching = true,
-      },
       -- matching = {
-      --   disallow_fuzzy_matching = false,
-      --   disallow_fullfuzzy_matching = false,
+      --   disallow_fuzzy_matching = true,
+      --   disallow_fullfuzzy_matching = true,
       --   disallow_partial_fuzzy_matching = true,
-      --   disallow_partial_matching = false,
-      --   disallow_prefix_unmatching = false,
+      --   disallow_partial_matching = true,
+      --   -- disallow_prefix_unmatching = true,
       -- },
+      matching = {
+        disallow_fuzzy_matching = false,
+        disallow_fullfuzzy_matching = false,
+        disallow_partial_fuzzy_matching = true,
+        disallow_partial_matching = false,
+        disallow_prefix_unmatching = false,
+      },
     }
   end,
 }
