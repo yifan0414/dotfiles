@@ -98,22 +98,6 @@ ls.add_snippets("java", {
   }),
 })
 
-ls.add_snippets("c", {
-  s({
-    trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
-    -- regTrig = true,
-    trigEngine = "ecma",
-    snippetType = "autosnippet",
-  }, {
-    f(function(_, parent)
-      return "for (int i = 0; i < " .. parent.captures[1] .. "; i++)"
-    end),
-    t({ "", "{", "\t" }),
-    i(0),
-    t({ "", "}" }),
-  }),
-})
-
 -- ls.add_snippets("c", {
 --   postfix({
 --     trig = ".iprint",
@@ -148,6 +132,19 @@ ls.add_snippets("c", {
       return 'scanf("%d", &' .. parent.captures[1] .. ");"
     end),
   }),
+  s({
+    trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
+    -- regTrig = true,
+    trigEngine = "ecma",
+    snippetType = "autosnippet",
+  }, {
+    f(function(_, parent)
+      return "for (int i = 0; i < " .. parent.captures[1] .. "; i++)"
+    end),
+    t({ " {", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
 })
 
 ls.add_snippets("cpp", {
@@ -170,6 +167,19 @@ ls.add_snippets("cpp", {
     f(function(_, parent)
       return "cin >> " .. parent.captures[1] .. ";"
     end),
+  }),
+  s({
+    trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
+    -- regTrig = true,
+    trigEngine = "ecma",
+    snippetType = "autosnippet",
+  }, {
+    f(function(_, parent)
+      return "for (int i = 0; i < " .. parent.captures[1] .. "; i++)"
+    end),
+    t({ " {", "\t" }),
+    i(0),
+    t({ "", "}" }),
   }),
 })
 

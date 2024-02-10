@@ -306,14 +306,14 @@
   "#inc": {
     "prefix": "#inc",
     "body": [
-      "#include \"$1\"$2"
+      "#include \"$1\""
     ],
     "description": "Code snippet for #include \" \""
   },
   "#inc<": {
     "prefix": "#inc<",
     "body": [
-      "#include <$1>$2"
+      "#include <$1>"
     ],
     "description": "Code snippet for #include < >"
   },
