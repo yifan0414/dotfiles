@@ -62,15 +62,39 @@ ls.setup({
 })
 
 ls.add_snippets("java", {
-  postfix({ trig = ".print", snippetType = "autosnippet" }, {
+  s({
+    -- trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.print",
+    trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)(?<!StdOut)\\.print",
+    -- regTrig = true,
+    trigEngine = "ecma",
+    snippetType = "autosnippet",
+  }, {
     f(function(_, parent)
-      return "StdOut.println(" .. parent.snippet.env.POSTFIX_MATCH .. ");"
+      return "StdOut.println(" .. parent.captures[1] .. ");"
     end),
   }),
-  postfix({ trig = ".sout" }, {
+  s({
+    trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.sout",
+    -- regTrig = true,
+    trigEngine = "ecma",
+    snippetType = "autosnippet",
+  }, {
     f(function(_, parent)
-      return "System.out.println(" .. parent.snippet.env.POSTFIX_MATCH .. ");"
+      return "System.out.println(" .. parent.captures[1] .. ");"
     end),
+  }),
+  s({
+    trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
+    -- regTrig = true,
+    trigEngine = "ecma",
+    snippetType = "autosnippet",
+  }, {
+    f(function(_, parent)
+      return "for (int i = 0; i < " .. parent.captures[1] .. "; i++)"
+    end),
+    t({ " {", "\t" }),
+    i(0),
+    t({ "", "}" }),
   }),
 })
 

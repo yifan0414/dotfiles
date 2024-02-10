@@ -151,9 +151,10 @@ return {
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
       sources = cmp.config.sources({
-        { name = "luasnip" },
+        { name = "luasnip", max_item_count = 10 },
         {
           name = "nvim_lsp",
+          max_item_count = 5,
           entry_filter = function(entry)
             local kind = entry:get_kind()
             return cmp.lsp.CompletionItemKind.Snippet ~= kind

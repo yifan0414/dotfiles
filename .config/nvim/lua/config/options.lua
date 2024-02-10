@@ -59,8 +59,6 @@ vim.wo.cursorline = true
 -- 设置当前行高亮的选项为同时显示行号
 vim.wo.cursorlineopt = "number"
 
--- 改变QuickFixLine的颜色
--- vim.cmd([[autocmd VimEnter * hi QuickFixLine ctermfg=NONE cterm=bold guifg=NONE gui=bold]])
 
 -- NOTE: asyncrun 的配置
 vim.g.asyncrun_open = 12
