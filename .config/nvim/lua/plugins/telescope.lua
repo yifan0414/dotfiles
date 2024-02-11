@@ -1,27 +1,25 @@
 return {
   "nvim-telescope/telescope.nvim",
   -- lazy = true,
-  opts = function()
+  opts = function(_, opts)
     -- see :help telescope.setup()
     local actions = require("telescope.actions")
-    return {
-      defaults = {
-        mappings = {
-          i = {
-            ["<Esc>"] = actions.close,
-            ["<Tab>"] = actions.move_selection_previous,
-            ["<S-Tab>"] = actions.move_selection_next,
-            ["<C-Q>"] = actions.select_vertical,
-          },
+    opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
+      mappings = {
+        i = {
+          ["<Esc>"] = actions.close,
+          ["<Tab>"] = actions.move_selection_previous,
+          ["<S-Tab>"] = actions.move_selection_next,
+          ["<C-Q>"] = actions.select_vertical,
         },
-        -- The below pattern is lua regex and not wildcard
-        -- file_ignore_patterns = { "%.out", "%.pdf", "%.png", "%.ok" },
-        -- prompt_prefix = "🔍 ",
-        prompt_prefix = "🔭 ",
-        path_display = { truncate = 6 },
-        -- layout_config = {height = 0.9, width = 0.9, preview_width = 0.5},
       },
-    }
+      -- The below pattern is lua regex and not wildcard
+      -- file_ignore_patterns = { "%.out", "%.pdf", "%.png", "%.ok" },
+      -- prompt_prefix = "🔍 ",
+      prompt_prefix = "🔭 ",
+      path_display = { truncate = 6 },
+      -- layout_config = {height = 0.9, width = 0.9, preview_width = 0.5},
+    })
   end,
   keys = {
     {
