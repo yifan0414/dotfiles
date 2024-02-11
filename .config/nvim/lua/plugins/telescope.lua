@@ -18,7 +18,7 @@ return {
       -- prompt_prefix = "🔍 ",
       prompt_prefix = "🔭 ",
       path_display = { truncate = 6 },
-      -- layout_config = {height = 0.9, width = 0.9, preview_width = 0.5},
+      layout_config = {height = 0.85, width = 0.85, preview_width = 0.5},
     })
   end,
   keys = {
