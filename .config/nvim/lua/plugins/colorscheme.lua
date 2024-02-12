@@ -28,7 +28,7 @@ return {
       },
       keywordStyle = { italic = false },
       commentStyle = { italic = false },
-      terminalColors = false,
+      terminalColors = true,
       overrides = function(colors)
         -- local theme = colors.theme
         return {

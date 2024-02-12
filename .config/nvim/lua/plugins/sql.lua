@@ -1,7 +1,7 @@
 return {
-  "kristijanhusak/vim-dadbod-ui",
+  "yifan0414/vim-dadbod-ui",
   dependencies = {
-    { "tpope/vim-dadbod", lazy = true },
+    { "yifan0414/vim-dadbod", lazy = true },
     { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
   },
   cmd = {
@@ -17,4 +17,11 @@ return {
     vim.g.db_ui_use_nvim_notify = 0
     vim.g.db_ui_force_echo_notifications = 0
   end,
+  config = function()
+    vim.keymap.del("n", "<leader>e")
+    vim.keymap.set("n", "<leader>e", "<cmd>DBUIToggle<cr>", { desc = "open sql" })
+  end,
+  -- keys = {
+  --   { "<leader>e", "<cmd>DBUIToggle<cr>", desc = "open sql" },
+  -- },
 }
