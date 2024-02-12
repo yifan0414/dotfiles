@@ -1,20 +1,19 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fzf fast-syntax-highlighting zsh-autosuggestions z fzf-tab sudo )
+plugins=(git fzf fast-syntax-highlighting zsh-autosuggestions z fzf-tab sudo)
+
+DISABLE_MAGIC_FUNCTIONS=true
 
 source $ZSH/oh-my-zsh.sh
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-
 
 export AM_HOME=/home/suyi/ics2020/abstract-machine
 export NEMU_HOME=/home/suyi/ics2020/nemu
@@ -26,15 +25,19 @@ export LESSCHARSET=utf-8 # less显示中文
 export FZF_DEFAULT_OPTS="--bind tab:down,shift-tab:up" # fzf插件, 默认tab和s-tab移动文件而不是选中
 
 export RANGER_LOAD_DEFAULT_RC=false
-export TERM='xterm-256color'
+# export TERM='xterm-256color'
+# export TERM='tmux-256color'
 
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
+export PATH="$PATH:/home/suyi/.local/bin"
+export PATH="$PATH:/usr/local/go/bin"
+
+export MYSQL_PWD=123456
 
 # alias proxy="source ~/proxy.sh"
 # . ~/proxy.sh set
 # . proxy set
-
 
 # [create alias name]
 # change vim to nvim
@@ -54,12 +57,10 @@ bindkey "^L" clear-screen
 
 # function
 Man() {
-    man -k . | fzf | awk '{print $1}' | xargs man
+	man -k . | fzf | awk '{print $1}' | xargs man
 }
 
-
 FAST_HIGHLIGHT_STYLES[comment]="fg=#7fb4ca"
-DISABLE_MAGIC_FUNCTIONS=true
 
 # disable Bracketed Paste Mode
 # unset zle_bracketed_paste
