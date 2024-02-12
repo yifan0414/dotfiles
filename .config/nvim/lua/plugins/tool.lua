@@ -15,6 +15,7 @@ return {
             vim.fn.VimuxRunCommand(vim.fn.getreg("v"), 0)
           end
           vim.cmd('normal! "vy')
+          vim.fn.setreg("v", vim.fn.getreg("v") .. "\n")
           vimux_slime()
         end,
         mode = "v",
@@ -27,7 +28,7 @@ return {
             vim.fn.VimuxRunCommand(vim.fn.getreg("v"), 0)
           end
           vim.cmd('normal! "vyip')
-          vim.fn.setreg("v", vim.fn.getreg("v") .. "\n\n")
+          vim.fn.setreg("v", vim.fn.getreg("v") .. "\n")
           vimux_slime()
         end,
         mode = "n",
