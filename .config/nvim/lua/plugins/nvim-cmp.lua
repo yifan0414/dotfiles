@@ -162,6 +162,7 @@ return {
           end,
         },
         -- { name = "buffer" },
+        { name = "vim-dadbod-completion" },
         { name = "path" },
       }),
       enabled = function()

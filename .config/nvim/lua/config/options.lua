@@ -49,6 +49,7 @@ vim.g.node_host_prog = "/usr/local/lib/node_modules/neovim/bin/cli.js"
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
+
 vim.o.report = 100 -- 为了关闭行数提示
 
 -- floaterm

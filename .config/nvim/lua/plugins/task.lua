@@ -167,14 +167,6 @@ return {
     },
   },
   {
-    "rcarriga/nvim-notify",
-    opts = {
-      fps = 60,
-      stages = "static",
-      max_width = 72,
-    },
-  },
-  {
     "sindrets/diffview.nvim",
     -- event = "VeryLazy",
     cmd = { "DiffviewOpen", "DiffviewFileHistory" },

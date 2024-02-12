@@ -349,7 +349,7 @@ return {
           v = colors.violet,
           ["�"] = colors.violet,
           V = colors.violet,
-          c = colors.yellow,
+          c = colors.violet,
           no = colors.red,
           s = colors.orange,
           S = colors.orange,

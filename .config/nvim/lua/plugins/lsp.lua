@@ -1,8 +1,8 @@
 return {
   -- lspconfig
   "neovim/nvim-lspconfig",
+  -- options for vim.diagnostic.config()
   opts = {
-    -- options for vim.diagnostic.config()
     diagnostics = {
       underline = false,
       update_in_insert = false,
