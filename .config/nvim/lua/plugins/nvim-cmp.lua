@@ -163,6 +163,7 @@ return {
         },
         -- { name = "buffer" },
         { name = "vim-dadbod-completion" },
+        { name = 'orgmode' },
         { name = "path" },
       }),
       enabled = function()
