@@ -21,6 +21,13 @@ return {
         path_display = { truncate = 6 },
         -- layout_config = { height = 0.85, width = 0.85, preview_width = 0.5 },
       })
+      -- require("which-key.config").setup({
+      --   opts = {
+      --     defaults = {
+      --       ["<leader>te"] = { name = "+telescope" },
+      --     },
+      --   },
+      -- })
     end,
     keys = {
       {
@@ -31,7 +38,7 @@ return {
         mode = { "n", "v" },
       },
       {
-        "<Leader>tt",
+        "<Leader>tet",
         function()
           local tmux_command = {
             { "sent current line to tmux 2 pane", "silent .w !awk '{$1=$1;print}' | xargs -0ri tmux send -t2 {}" },
@@ -47,7 +54,7 @@ return {
         desc = "tmux command",
       },
       {
-        "<Leader>tr",
+        "<Leader>ter",
         function()
           local frequent_command = {
             { "Show File Path", "call setqflist([{'text': execute('echomsg expand(\"%:p\")')}]) | copen" },
@@ -72,7 +79,7 @@ return {
         desc = "frequent command",
       },
       {
-        "<Leader>ty",
+        "<Leader>tey",
         function()
           -- picker.dress_select(yadm_command)
           local yadm_command = {
@@ -105,7 +112,7 @@ return {
         desc = "yadm command",
       },
       {
-        "<Leader>tg",
+        "<Leader>teg",
         function()
           local git_command = {
             {
@@ -126,7 +133,7 @@ return {
       },
 
       {
-        "<Leader>tf",
+        "<Leader>tef",
         function()
           local func = require("plugins.util.func") -- lazy load
           local picker = require("plugins.util.picker") -- lazy load
@@ -146,6 +153,14 @@ return {
     dependencies = {
       "yifan0414/asyncrun.vim",
       "yifan0414/asynctasks.vim",
+      {
+        "folke/which-key.nvim",
+        opts = {
+          defaults = {
+            ["<leader>te"] = { name = "+telescope" },
+          },
+        },
+      },
     },
   },
   {

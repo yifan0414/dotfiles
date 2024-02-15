@@ -50,6 +50,9 @@ return {
       window = {
         border = "single",
       },
+      -- defaults = {
+      --   ["<leader>te"] = { name = "+telescope" },
+      -- },
     },
   },
   {
@@ -95,7 +98,12 @@ return {
     "chrisgrieser/nvim-various-textobjs",
     -- lazy = true,
     event = "VeryLazy",
-    opts = { useDefaultKeymaps = true },
+    opts = {
+      useDefaultKeymaps = false,
+      disabledKeymaps = {
+        "gc",
+      },
+    },
     keys = {
       {
         "af",
@@ -103,35 +111,5 @@ return {
         mode = { "o", "x" },
       },
     },
-  },
-  -- lazy.nvim
-  -- minimal config for lazy-loading with lazy.nvim
-  {
-    "chrisgrieser/nvim-recorder",
-    dependencies = "rcarriga/nvim-notify",
-    keys = {
-      -- these must match the keys in the mapping config below
-      { "@", desc = " Start Recording" },
-      { "Q", desc = " Play Recording" },
-    },
-    opts = {
-      clear = true,
-      mapping = {
-        startStopRecording = "@",
-        playMacro = "Q",
-        addBreakPoint = "**",
-      },
-    },
-    config = function(_, opts)
-      require("recorder").setup(opts)
-      local lualine = require("lualine").get_config().sections.lualine_x or {}
-      table.insert(lualine, { require("recorder").recordingStatus, color = { fg = "#ff5d62" } })
-      table.insert(lualine, { require("recorder").displaySlots, color = { fg = "#ff5d62" } })
-      require("lualine").setup({
-        sections = {
-          lualine_x = lualine,
-        },
-      })
-    end,
   },
 }

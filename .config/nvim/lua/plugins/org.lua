@@ -5,7 +5,7 @@ return {
     ft = "org",
     dependencies = {
       { "nvim-treesitter/nvim-treesitter" },
-      { "dhruvasagar/vim-table-mode" },
+      { "dhruvasagar/vim-table-mode", enabled = false },
       {
         "akinsho/org-bullets.nvim",
         opts = {

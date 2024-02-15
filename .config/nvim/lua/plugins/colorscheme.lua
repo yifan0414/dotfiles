@@ -28,7 +28,7 @@ return {
       },
       keywordStyle = { italic = false },
       commentStyle = { italic = false },
-      terminalColors = true,
+      terminalColors = false,
       overrides = function()
         return {
           NormalFloat = { fg = "#dcd7ba", bg = "#1F1F28" },
