@@ -72,7 +72,7 @@ vim.keymap.set("v", "<leader>y", [["+y <cmd>call system('clip.exe', @+)<cr>]], {
 
 vim.keymap.set("n", "<leader>td", function()
   local os_date = os.date
-  local diary_path = "/mnt/d/OneDrive - st.gxu.edu.cn/CSNote/Diary/"
+  local diary_path = "~/org/"
 
   -- 获取当前日期
   local year = os_date("%Y")
@@ -80,7 +80,7 @@ vim.keymap.set("n", "<leader>td", function()
   local day = os_date("%Y-%m-%d")
 
   -- 构建文件路径
-  local file_path = diary_path .. year .. "/" .. month .. "/" .. day .. ".md"
+  local file_path = diary_path .. year .. "/" .. month .. "/" .. day .. ".org"
 
   -- 检查文件是否存在
   -- local file = io.open(file_path, "r")
@@ -90,8 +90,9 @@ vim.keymap.set("n", "<leader>td", function()
   -- else
   --   vim.cmd("edit " .. file_path)
   -- end
-  vim.cmd("edit " .. file_path)
+  vim.cmd("10sp " .. file_path)
 end, { noremap = true, silent = true, desc = "dayliy note" })
+
 
 vim.keymap.set("n", "x", '"_x', { noremap = true, silent = true })
 
@@ -103,4 +104,3 @@ vim.keymap.del("n", "<leader>l")
 vim.keymap.set("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 vim.keymap.set("n", "<leader>qw", "<cmd>q<cr>", { silent = true, noremap = true, desc = "quit" })
-

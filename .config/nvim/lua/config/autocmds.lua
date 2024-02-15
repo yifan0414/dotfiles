@@ -64,6 +64,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "fugitiveblame",
     "git",
     "floaterm",
+    "org",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false

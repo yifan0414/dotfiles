@@ -48,6 +48,12 @@ return {
       vim.keymap.set("n", "<leader>li", "<cmd>Leet info<cr>", { desc = "Leet info" })
       vim.keymap.set("n", "<leader>lb", "<cmd>Leet list<cr>", { desc = "Leet list" })
       vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet console" })
+      vim.cmd([[
+        autocmd VimEnter * hi leetcode_case_focus_ok cterm=bold gui=bold guifg=#1f1f28 guibg=#b3f6c0
+        autocmd VimEnter * hi leetcode_case_ok cterm=bold gui=bold guifg=#b3f6c0 guibg=#1f1f28
+        autocmd VimEnter * hi leetcode_case_focus_err cterm=bold gui=bold guifg=#1f1f28 guibg=#e82424
+        autocmd VimEnter * hi leetcode_ok guifg=#b3f6c0
+      ]])
     end,
   },
   {
