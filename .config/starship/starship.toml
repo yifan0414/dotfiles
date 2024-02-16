@@ -8,7 +8,7 @@ $directory${custom.location_indicator}${custom.folder_number}\
 ${custom.main_branch}$git_branch\
 $git_status$git_metrics$git_commit$git_state\
 $sudo$status\
-](bg:black)
+]()
 $character
 """
 
@@ -48,7 +48,7 @@ symbol = ""
 
 [sudo]
 disabled = false
-style = 'fg:yellow bg:black'
+style = 'fg:yellow '
 symbol = "  "
 format = "[$symbol]($style)"
 
@@ -56,7 +56,7 @@ format = "[$symbol]($style)"
 # Alfred workflows and their respective repos.
 [custom.location_indicator]
 when = '[[ "$PWD" =~ "$HOME/.config" ]]'
-style = "fg:cyan bg:black bold"
+style = "fg:cyan  bold"
 # command = 'echo  "󰔽"'                   # output trimmed, so spaces must be added at `format`
 command = 'echo  '                   # output trimmed, so spaces must be added at `format`
 format = '[ $output  ]($style)'        # extra space for proper nerdfont sizing
@@ -66,8 +66,8 @@ truncation_length = 0
 truncate_to_repo = false
 # truncate_to_repo = true
 read_only = "󰌾  "
-read_only_style = "fg:red bg:black"
-style = "fg:cyan bg:black bold"
+read_only_style = "fg:red "
+style = "fg:cyan  bold"
 format = "[$path]($style) [$read_only]($read_only_style)"
 
 [directory.substitutions]
@@ -82,51 +82,51 @@ command = "find . -mindepth 1 -maxdepth 1 -not -name '.git' -not -name '.DS_Stor
 when = "true" # always show
 symbol = " "
 format = '[$symbol$output]($style) '
-style = "fg:yellow bg:black bold"
+style = "fg:yellow  bold"
 
 #───────────────────────────────────────────────────────────────────────────────
 # GIT
 
 [git_state] # conflicts or rebasing
-style = 'fg:yellow bold bg:black'
+style = 'fg:yellow bold '
 
 [git_commit] # checkout
-style = "fg:purple bg:black"
+style = "fg:purple "
 only_detached = true
 format = "[󰘬 $hash]($style) "
 
 [git_branch] # branch
 only_attached = true
 symbol = "󰘬 " # 
-style = "fg:purple bg:black bold"
+style = "fg:purple  bold"
 format = "[$symbol$branch]($style) "
 ignore_branches = ["main"]
 
 # since "ignore_branches" fully hides the git_branch component, still showing the symbol
 [custom.main_branch]
 when = "[[ $(git branch --show-current) == 'main' ]]"
-format = '[󰘬 ](fg:purple bg:black bold)'
+format = '[󰘬 ](fg:purple  bold)'
 
 [git_status] # files
-stashed = '[󰜦  $count ](fg:cyan bg:black)'
-untracked = '[+$count ](fg:green bg:black)'
-deleted = '[-$count ](fg:red bg:black)' # these are unstaged as well as stage deletion
-modified = '[~$count ](fg:208 bg:black)'
-renamed = '[󰑕  $count ](fg:blue bg:black)'
-staged = '[  $count ](fg:green bg:black)'
-conflicted = '[  $count ](fg:red bg:black)'
-diverged = '[󰃻 $count ](fg:red bg:black)'
-ahead = '[󰶣 $count ](fg:cyan bg:black)'
-behind = '[󰶡 $count ](fg:yellow bg:black)'
-style = 'bg:black'
+stashed = '[󰜦  $count ](fg:cyan )'
+untracked = '[+$count ](fg:green )'
+deleted = '[-$count ](fg:red )' # these are unstaged as well as stage deletion
+modified = '[~$count ](fg:208 )'
+renamed = '[󰑕  $count ](fg:blue )'
+staged = '[  $count ](fg:green )'
+conflicted = '[  $count ](fg:red )'
+diverged = '[󰃻 $count ](fg:red )'
+ahead = '[󰶣 $count ](fg:cyan )'
+behind = '[󰶡 $count ](fg:yellow )'
+style = ''
 format = '[( $ahead_behind$conflicted$stashed$staged$untracked$renamed$modified$deleted)]($style)'
 
 # INFO putting a variable into a bracket ensures that the bracket content is
 # only shown when the variable is set.
 [git_metrics] # changed lines
 disabled = false
-added_style = "fg:green bg:black"
-deleted_style = "fg:red bg:black"
+added_style = "fg:green "
+deleted_style = "fg:red "
 format = '(\([(+$added)]($added_style)/[(-$deleted)]($deleted_style)\)) '
 
 #───────────────────────────────────────────────────────────────────────────────
