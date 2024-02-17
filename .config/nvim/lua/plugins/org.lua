@@ -1,6 +1,7 @@
 return {
   {
     "nvim-orgmode/orgmode",
+    -- enabled = false,
     event = "VeryLazy",
     ft = "org",
     dependencies = {

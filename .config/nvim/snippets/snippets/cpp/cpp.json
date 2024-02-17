@@ -1,6 +1,6 @@
 {
   "namespace": {
-    "prefix": "using",
+    "prefix": "ustd",
     "body": ["using namespace std;"],
     "luasnip": {
       "priority": 2000,

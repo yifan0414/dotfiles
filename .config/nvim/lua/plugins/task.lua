@@ -126,7 +126,7 @@ return {
 
       {
         "<leader>h",
-        "<cmd>FloatermNew --title=ranger($1/$2) --height=0.8 --width=0.8 --wintype=float --name=floaterm1 --autoclose=2 ranger<cr>",
+        "<cmd>FloatermNew --title=yazi($1/$2) --height=0.8 --width=0.8 --wintype=float --name=floaterm1 --autoclose=2 yazi<cr>",
         { silent = true, noremap = true },
       },
       {
