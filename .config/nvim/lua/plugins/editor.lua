@@ -95,22 +95,22 @@ return {
       },
     },
   },
-  -- {
-  --   "chrisgrieser/nvim-various-textobjs",
-  --   -- lazy = true,
-  --   event = "VeryLazy",
-  --   opts = {
-  --     useDefaultKeymaps = false,
-  --     disabledKeymaps = {
-  --       "gc",
-  --     },
-  --   },
-  --   keys = {
-  --     {
-  --       "af",
-  --       '<cmd>lua require("various-textobjs").indentation("outer", "outer")<CR>',
-  --       mode = { "o", "x" },
-  --     },
-  --   },
-  -- },
+  {
+    "chrisgrieser/nvim-various-textobjs",
+    -- lazy = true,
+    event = "VeryLazy",
+    opts = {
+      useDefaultKeymaps = true,
+      disabledKeymaps = {
+        "gc",
+      },
+    },
+    keys = {
+      {
+        "af",
+        '<cmd>lua require("various-textobjs").indentation("outer", "outer")<CR>',
+        mode = { "o", "x" },
+      },
+    },
+  },
 }
