@@ -75,7 +75,7 @@ return {
 
     -- require("luasnip.loaders.from_vscode").lazy_load()
     require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
-    require("luasnip.loaders.from_lua").load({ paths = "./snippets_lua" })
+    require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets_lua" })
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
     return {
