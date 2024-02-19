@@ -8,8 +8,8 @@ return {
         tab_char = "│",
       },
       scope = {
-        enabled = true,
-        show_start = false,
+        enabled = false,
+        show_start = true,
         show_end = false,
         injected_languages = false,
         highlight = { "Function", "Label" },
@@ -32,6 +32,30 @@ return {
       },
     },
     main = "ibl",
+  },
+  {
+    "echasnovski/mini.indentscope",
+    version = false,
+    opts = {
+
+      draw = {
+        -- Delay (in ms) between event and start of drawing scope indicator
+        -- delay = 100,
+
+        -- Animation rule for scope's first drawing. A function which, given
+        -- next and total step numbers, returns wait time (in ms). See
+        -- |MiniIndentscope.gen_animation| for builtin options. To disable
+        -- animation, use `require('mini.indentscope').gen_animation.none()`.
+        animation = function()
+          return 0
+        end, --<function: implements constant 20ms between steps>,
+
+        -- Symbol priority. Increase to display on top of more symbols.
+      },
+    },
+    config = function(_, opts)
+      require("mini.indentscope").setup(opts)
+    end,
   },
   {
     "lukas-reineke/headlines.nvim",
