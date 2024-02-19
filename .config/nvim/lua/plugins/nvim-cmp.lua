@@ -152,18 +152,19 @@ return {
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
       sources = cmp.config.sources({
-        { name = "luasnip", max_item_count = 5 },
+        { name = "luasnip", max_item_count = 5, dup = 0 },
         {
           name = "nvim_lsp",
+          dup = 0,
           -- max_item_count = 7,
-          entry_filter = function(entry)
-            local kind = entry:get_kind()
-            return cmp.lsp.CompletionItemKind.Snippet ~= kind
-          end,
+          -- entry_filter = function(entry)
+          --   local kind = entry:get_kind()
+          --   return cmp.lsp.CompletionItemKind.Snippet ~= kind
+          -- end,
         },
-        -- { name = "buffer" },
+        { name = "buffer", dup = 0 },
         { name = "vim-dadbod-completion" },
-        { name = 'orgmode' },
+        { name = "orgmode" },
         { name = "path" },
       }),
       enabled = function()
@@ -193,6 +194,8 @@ return {
           before = function(entry, vim_item)
             if vim_item.menu ~= nil then
               vim_item.menu = string.sub(vim_item.menu, 1, 20)
+              vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
+              vim_item.dup = 0
               -- vim_item.abbr = vim_item.abbr .. " " .. vim_item.menu
             end
             return vim_item
