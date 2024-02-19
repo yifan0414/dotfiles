@@ -148,6 +148,7 @@ function M.asyncfunc()
         height = 0.5, -- picker 的高度占屏幕高度的 50%
         prompt_position = "top", -- 将提示栏放在顶部
       },
+      prompt_prefix = "🎯 ",
     }, {
       prompt_title = "Select a task",
       finder = finders.new_table({
