@@ -27,5 +27,6 @@ return {
       virtual_text = true,
       severity_sort = true,
     },
+    inlay_hints = { enabled = true },
   },
 }

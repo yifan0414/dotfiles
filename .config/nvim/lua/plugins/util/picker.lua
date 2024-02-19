@@ -140,7 +140,15 @@ function M.asyncfunc()
   local actions, action_state, pickers, finders, conf = init_telescope_modules()
 
   pickers
-    .new({}, {
+    .new({
+      layout_strategy = "horizontal",
+      sorting_strategy = "ascending",
+      layout_config = {
+        width = 0.8, -- picker 的宽度占屏幕宽度的 80%
+        height = 0.5, -- picker 的高度占屏幕高度的 50%
+        prompt_position = "top", -- 将提示栏放在顶部
+      },
+    }, {
       prompt_title = "Select a task",
       finder = finders.new_table({
         results = task_entries,
@@ -153,7 +161,9 @@ function M.asyncfunc()
         end,
       }),
       sorter = conf.generic_sorter({}),
-      attach_mappings = function(prompt_bufnr)
+      attach_mappings = function(prompt_bufnr, map)
+        map("i", "<Tab>", actions.move_selection_next)
+        map("i", "<S-Tab>", actions.move_selection_previous)
         actions.select_default:replace(function()
           local selection = action_state.get_selected_entry()
           actions.close(prompt_bufnr)

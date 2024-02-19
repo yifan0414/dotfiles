@@ -12,6 +12,8 @@ return {
             ["<Tab>"] = actions.move_selection_previous,
             ["<S-Tab>"] = actions.move_selection_next,
             ["<C-Q>"] = actions.select_vertical,
+            ["<C-n>"] = actions.cycle_history_next,
+            ["<C-p>"] = actions.cycle_history_prev,
           },
         },
         -- The below pattern is lua regex and not wildcard
@@ -19,7 +21,7 @@ return {
         -- prompt_prefix = "🔍 ",
         prompt_prefix = "🔭 ",
         path_display = { truncate = 6 },
-        -- layout_config = { height = 0.85, width = 0.85, preview_width = 0.5 },
+        layout_config = { height = 0.85, width = 0.85, preview_width = 0.5 },
       })
       -- require("which-key.config").setup({
       --   opts = {

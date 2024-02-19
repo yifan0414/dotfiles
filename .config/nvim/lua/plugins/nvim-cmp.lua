@@ -74,7 +74,7 @@ return {
     local luasnip = require("luasnip")
 
     -- require("luasnip.loaders.from_vscode").lazy_load()
-    require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
+    require("luasnip.loaders.from_vscode").load({ paths = "./snippets" })
     require("luasnip.loaders.from_lua").load({ paths = "./snippets_lua" })
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
@@ -152,17 +152,16 @@ return {
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
       sources = cmp.config.sources({
-        { name = "luasnip", max_item_count = 5, dup = 0 },
+        { name = "luasnip", max_item_count = 5 },
         {
           name = "nvim_lsp",
-          dup = 0,
-          -- max_item_count = 7,
-          -- entry_filter = function(entry)
-          --   local kind = entry:get_kind()
-          --   return cmp.lsp.CompletionItemKind.Snippet ~= kind
-          -- end,
+          max_item_count = 7,
+          entry_filter = function(entry)
+            local kind = entry:get_kind()
+            return cmp.lsp.CompletionItemKind.Snippet ~= kind
+          end,
         },
-        { name = "buffer", dup = 0 },
+        { name = "buffer" },
         { name = "vim-dadbod-completion" },
         { name = "orgmode" },
         { name = "path" },
@@ -195,7 +194,19 @@ return {
             if vim_item.menu ~= nil then
               vim_item.menu = string.sub(vim_item.menu, 1, 20)
               vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
-              vim_item.dup = 0
+              -- vim_item.dup = 0
+              vim_item.dup = ({
+                buffer = 0,
+                path = 0,
+                nvim_lsp = 0,
+                luasnip = 0,
+              })[entry.source.name] or 0
+              -- vim_item.dup = {
+              --   buffer = 1,
+              --   path = 1,
+              --   nvim_lsp = 0,
+              --   luasnip = 1,
+              -- }
               -- vim_item.abbr = vim_item.abbr .. " " .. vim_item.menu
             end
             return vim_item

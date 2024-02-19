@@ -1,12 +1,7 @@
 {
   "namespace": {
-    "prefix": "ustd",
-    "body": ["using namespace std;"],
-    "luasnip": {
-      "priority": 2000,
-      "autotrigger": true,
-      "wordTrig": false
-    }
+    "prefix": "using namespace",
+    "body": ["using namespace $0;"]
   },
   "example1": {
     "prefix": "options",
