@@ -1,4 +1,8 @@
 {
+  "new": {
+    "prefix": "new",
+    "body": ["new $1($0);"]
+  },
   "typename": {
     "prefix": "typename",
     "body": ["typename $0"]

@@ -36,18 +36,31 @@ return {
 
         reset_testcases = "r", ---@type string
         use_testcase = "U", ---@type string
-        focus_testcases = "H", ---@type string
-        focus_result = "L", ---@type string
+        focus_testcases = "<C-h>", ---@type string
+        focus_result = "<C-l>", ---@type string
       },
+    },
+    keys = {
+      { "<leader>lq", mode = { "n" }, "<cmd>Leet tabs<cr>" },
+      { "<leader>lm", mode = { "n" }, "<cmd>Leet menu<cr>" },
+      { "<leader>lc", mode = { "n" }, "<cmd>Leet console<cr>" },
+      { "<leader>li", mode = { "n" }, "<cmd>Leet info<cr>" },
+      { "<leader>ll", mode = { "n" }, "<cmd>Leet lang<cr>" },
+      { "<leader>ld", mode = { "n" }, "<cmd>Leet desc<cr>" },
+      { "<leader>lr", mode = { "n" }, "<cmd>Leet run<cr>" },
+      { "<leader>ls", mode = { "n" }, "<cmd>Leet submit<cr>" },
+      { "<leader>ly", mode = { "n" }, "<cmd>Leet yank<cr>" },
+      { "<leader>lp", mode = { "n" }, "<cmd>Leet list<cr>" },
+      { "<leader>lo", mode = { "n" }, "<cmd>Leet open<cr>" },
     },
     config = function(_, opts)
       require("leetcode").setup(opts)
-      vim.keymap.set("n", "<leader>lr", "<cmd>Leet run<cr>", { desc = "Leet run" })
-      vim.keymap.set("n", "<leader>ls", "<cmd>Leet submit<cr>", { desc = "Leet submit" })
-      vim.keymap.set("n", "<leader>lt", "<cmd>Leet tabs<cr>", { desc = "Leet tabs" })
-      vim.keymap.set("n", "<leader>li", "<cmd>Leet info<cr>", { desc = "Leet info" })
-      vim.keymap.set("n", "<leader>lb", "<cmd>Leet list<cr>", { desc = "Leet list" })
-      vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet console" })
+      -- vim.keymap.set("n", "<leader>lr", "<cmd>Leet run<cr>", { desc = "Leet run" })
+      -- vim.keymap.set("n", "<leader>ls", "<cmd>Leet submit<cr>", { desc = "Leet submit" })
+      -- vim.keymap.set("n", "<leader>lt", "<cmd>Leet tabs<cr>", { desc = "Leet tabs" })
+      -- vim.keymap.set("n", "<leader>li", "<cmd>Leet info<cr>", { desc = "Leet info" })
+      -- vim.keymap.set("n", "<leader>lb", "<cmd>Leet list<cr>", { desc = "Leet list" })
+      -- vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<cr>", { desc = "Leet console" })
       vim.cmd([[
         autocmd VimEnter * hi leetcode_case_focus_ok cterm=bold gui=bold guifg=#1f1f28 guibg=#b3f6c0
         autocmd VimEnter * hi leetcode_case_ok cterm=bold gui=bold guifg=#b3f6c0 guibg=#1f1f28

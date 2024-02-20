@@ -164,7 +164,7 @@ return {
         { name = "buffer" },
         { name = "vim-dadbod-completion" },
         { name = "orgmode" },
-        { name = "path" },
+        -- { name = "path" },
       }),
       enabled = function()
         -- disable completion in comments
