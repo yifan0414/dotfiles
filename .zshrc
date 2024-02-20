@@ -5,7 +5,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fzf fast-syntax-highlighting zsh-autosuggestions z fzf-tab sudo)
+plugins=(git fzf fast-syntax-highlighting zsh-autosuggestions fzf-tab sudo)
 
 DISABLE_MAGIC_FUNCTIONS=true
 
@@ -33,8 +33,6 @@ export STARSHIP_CONFIG=~/.config/starship/starship.toml
 export PATH="$PATH:/home/suyi/.local/bin"
 export PATH="$PATH:/usr/local/go/bin"
 
-export MYSQL_PWD=123456
-
 # alias proxy="source ~/proxy.sh"
 # . ~/proxy.sh set
 # . proxy set
@@ -52,6 +50,8 @@ alias ll='exa -all'
 bindkey "^[l" clear-screen
 bindkey "^L" clear-screen
 
+export EDITOR=nvim
+
 # [end alias name]
 #
 
@@ -62,9 +62,19 @@ Man() {
 
 FAST_HIGHLIGHT_STYLES[comment]="fg=#7fb4ca"
 
+function ya() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
 # disable Bracketed Paste Mode
 # unset zle_bracketed_paste
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
