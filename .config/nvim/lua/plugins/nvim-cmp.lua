@@ -152,7 +152,6 @@ return {
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
       sources = cmp.config.sources({
-        { name = "luasnip", max_item_count = 5 },
         {
           name = "nvim_lsp",
           max_item_count = 7,
@@ -161,6 +160,7 @@ return {
             return cmp.lsp.CompletionItemKind.Snippet ~= kind
           end,
         },
+        { name = "luasnip", max_item_count = 5 },
         { name = "buffer" },
         { name = "vim-dadbod-completion" },
         { name = "orgmode" },

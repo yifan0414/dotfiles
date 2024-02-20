@@ -1,4 +1,12 @@
 {
+  "typename": {
+    "prefix": "typename",
+    "body": ["typename $0"]
+  },
+  "template": {
+    "prefix": "template",
+    "body": ["template<$0>"]
+  },
   "namespace": {
     "prefix": "using namespace",
     "body": ["using namespace $0;"]
