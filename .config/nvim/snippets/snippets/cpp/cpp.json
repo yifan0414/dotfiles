@@ -1,4 +1,8 @@
 {
+  "return" : {
+    "prefix" : "return",
+    "body" : ["return "]
+  },
   "new": {
     "prefix": "new",
     "body": ["new $1($0);"]

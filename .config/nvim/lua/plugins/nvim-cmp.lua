@@ -88,8 +88,8 @@ return {
         --   winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
         -- }),
         documentation = {
-          -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-          -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+          border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
           -- winhighlight = 'Normal:Pmenu,FloatBorder:PmenuSel,Search:None',
           max_width = 50,
           max_height = math.floor(vim.o.lines * 0.5),
@@ -192,7 +192,7 @@ return {
           ellipsis_char = "...",
           before = function(entry, vim_item)
             if vim_item.menu ~= nil then
-              vim_item.menu = string.sub(vim_item.menu, 1, 20)
+              vim_item.menu = string.sub(vim_item.menu, 1, 0)
               vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
               -- vim_item.dup = 0
               vim_item.dup = ({

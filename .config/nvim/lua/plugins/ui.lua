@@ -2,6 +2,7 @@ return {
   {
     "lukas-reineke/indent-blankline.nvim",
     event = "LazyFile",
+    enabled = false,
     opts = {
       indent = {
         char = "│",
@@ -36,7 +37,7 @@ return {
   {
     "echasnovski/mini.indentscope",
     version = false,
-    -- enabled = false,
+    enabled = false,
     opts = {
 
       draw = {
@@ -52,6 +53,7 @@ return {
         end, --<function: implements constant 20ms between steps>,
 
         -- Symbol priority. Increase to display on top of more symbols.
+        -- #806d9c
       },
     },
     config = function(_, opts)
@@ -75,6 +77,9 @@ return {
             "startify",
             "toggleterm",
             "Trouble",
+            "CompetiTest",
+            "Outline",
+            "floaterm",
           }
           if vim.tbl_contains(ignore_filetypes, vim.bo.filetype) then
             vim.b.miniindentscope_disable = true
@@ -169,5 +174,67 @@ return {
       { "]]", desc = "Next Reference" },
       { "[[", desc = "Prev Reference" },
     },
+  },
+  {
+    "shellRaining/hlchunk.nvim",
+    event = { "VeryLazy" },
+    config = function()
+      filetypes = {
+        help = true,
+        markdown = true,
+        floaterm = true,
+      }
+      require("hlchunk").setup({
+        chunk = {
+          enable = true,
+          notify = true,
+          use_treesitter = false,
+          -- details about support_filetypes and exclude_filetypes in https://github.com/shellRaining/hlchunk.nvim/blob/main/lua/hlchunk/utils/filetype.lua
+          exclude_filetypes = filetypes,
+          chars = {
+            horizontal_line = "─",
+            vertical_line = "│",
+            left_top = "╭",
+            left_bottom = "╰",
+            right_arrow = ">",
+          },
+          style = {
+            { fg = "#806d9c" },
+            { fg = "#c21f30" }, -- this fg is used to highlight wrong chunk
+          },
+          textobject = "aa",
+          max_file_size = 1024 * 1024,
+          error_sign = true,
+        },
+
+        indent = {
+          enable = true,
+          use_treesitter = false,
+          exclude_filetypes = filetypes,
+          chars = {
+            "│",
+          },
+          style = {
+            { fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("Whitespace")), "fg", "gui") },
+          },
+        },
+
+        line_num = {
+          enable = false,
+          use_treesitter = false,
+          style = "#806d9c",
+        },
+
+        blank = {
+          enable = false,
+          chars = {
+            "․",
+          },
+          style = {
+            vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("Whitespace")), "fg", "gui"),
+          },
+        },
+      })
+    end,
   },
 }
