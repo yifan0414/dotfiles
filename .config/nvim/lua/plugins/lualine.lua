@@ -319,17 +319,17 @@ return {
     })
     ins_left({
       require("lspsaga.symbol.winbar").get_bar,
-      -- cond = conditions.buffer_not_empty,
+      cond = conditions.buffer_not_empty,
       color = { fg = colors.violet, gui = "bold" },
     })
 
     -- Insert mid section. You can make any number of sections in neovim :)
     -- for lualine it's any number greater then 2
-    ins_left({
-      function()
-        return "%="
-      end,
-    })
+    -- ins_left({
+    --   function()
+    --     return "%="
+    --   end,
+    -- })
 
     -- ins_left({
     --   function()
@@ -422,7 +422,7 @@ return {
     ins_right({
       "branch",
       icon = icons.git.Branch,
-      color = { fg = colors.violet, gui = "bold" },
+      color = { fg = "#d27e99", gui = "bold" },
     })
 
     ins_right({ "location", color = { fg = colors.violet }, gui = "bold" })

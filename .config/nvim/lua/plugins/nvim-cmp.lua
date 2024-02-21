@@ -109,10 +109,9 @@ return {
         ["<Tab>"] = cmp.mapping(function()
           if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-          elseif luasnip.expand_or_jumpable(1) then
-            luasnip.expand_or_jump(1)
+            cmp.abort()
           else
-            neotab.tabout()
+            neotab.tabout_luasnip()
           end
         end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
