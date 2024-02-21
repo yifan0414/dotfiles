@@ -178,12 +178,12 @@ return {
   {
     "shellRaining/hlchunk.nvim",
     -- enabled = false,
-    event = { "UIEnter" },
+    event = { "VeryLazy" },
     opts = {
       chunk = {
         enable = true,
         notify = true,
-        use_treesitter = true,
+        use_treesitter = false,
         -- details about support_filetypes and exclude_filetypes in https://github.com/shellRaining/hlchunk.nvim/blob/main/lua/hlchunk/utils/filetype.lua
         exclude_filetypes = {
           help = true,
@@ -209,7 +209,7 @@ return {
 
       indent = {
         enable = true,
-        use_treesitter = true,
+        use_treesitter = false,
         exclude_filetypes = {
           help = true,
           markdown = true,

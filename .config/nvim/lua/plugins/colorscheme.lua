@@ -13,6 +13,7 @@ return {
         autocmd VimEnter * highlight Visual cterm=bold gui=bold guibg=#45475a
         " 改变QuickFixLine的颜色
         autocmd VimEnter * highlight QuickFixLine ctermbg=NONE cterm=bold guibg=NONE gui=bold
+        autocmd VimEnter * highlight LspInlayHint guifg=#727169
     ]])
     end,
     opts = {
