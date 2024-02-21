@@ -312,7 +312,7 @@ return {
 
     ins_left({
       function()
-        return vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+        return vim.fn.fnamemodify(vim.fn.getcwd(0), ":t")
       end,
       icon = "",
       color = { fg = "#7fB4CA", gui = "bold" },

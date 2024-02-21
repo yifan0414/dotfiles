@@ -190,6 +190,7 @@ return {
           markdown = true,
           floaterm = true,
           ["leetcode.nvim"] = true,
+          asm = true,
         },
         chars = {
           -- horizontal_line = "─",
@@ -215,6 +216,7 @@ return {
           markdown = true,
           floaterm = true,
           ["leetcode.nvim"] = true,
+          asm = true,
         },
         chars = {
           "│",
