@@ -109,4 +109,11 @@ return {
       require("telescope").load_extension("undo")
     end,
   },
+  {
+    "anuvyklack/pretty-fold.nvim",
+    event = "VeryLazy",
+    config = function(_, opts)
+      require("pretty-fold").setup(opts)
+    end,
+  },
 }
