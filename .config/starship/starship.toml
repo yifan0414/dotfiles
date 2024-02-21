@@ -133,12 +133,12 @@ format = '(\([(+$added)]($added_style)/[(-$deleted)]($deleted_style)\)) '
 #───────────────────────────────────────────────────────────────────────────────
 # RIGHT SIDE
 
-[custom.tokei_loc]
-description = "Number of lines of code in the current project using tokei (for performance)."
-command = "tokei --compact --exclude='*.txt' --num-format='commas' | tail -n2 | awk 'NR==1 {print $3}'"
-when = "[[ -f Makefile ]] || [[ -f info.plist ]] || [[ -d .git ]]"
-format = '  [$output ]($style)'
-style = "blue"
+# [custom.tokei_loc]
+# description = "Number of lines of code in the current project using tokei (for performance)."
+# command = "tokei --compact --exclude='*.txt' --num-format='commas' | tail -n2 | awk 'NR==1 {print $3}'"
+# when = "[[ -f Makefile ]] || [[ -f info.plist ]] || [[ -d .git ]]"
+# format = '  [$output ]($style)'
+# style = "blue"
 
 [cmd_duration]
 min_time = 2000
