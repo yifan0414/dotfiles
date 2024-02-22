@@ -78,10 +78,40 @@ vim.api.nvim_create_autocmd("FileType", {
   command = "hi Underlined gui=none",
 })
 
-
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),
   callback = function()
     vim.highlight.on_yank({ timeout = 100 })
   end,
+})
+
+-- local augroup = vim.api.nvim_create_augroup("user_diagnostic", { clear = true })
+-- local autocmd = vim.api.nvim_create_autocmd
+--
+-- autocmd("ModeChanged", {
+--   group = augroup,
+--   pattern = { "n:i", "n:v", "i:v" },
+--   command = "lua vim.diagnostic.disable(0)",
+-- })
+--
+-- autocmd("ModeChanged", {
+--   group = augroup,
+--   pattern = "i:n",
+--   command = "lua vim.diagnostic.enable(0)",
+-- })
+
+
+-- You can add this in your init.lua
+-- or a plugin script
+
+vim.api.nvim_create_autocmd('ModeChanged', {
+  pattern = {'n:i', 'v:s'},
+  desc = 'Disable diagnostics in insert and select mode',
+  callback = function(e) vim.diagnostic.disable(e.buf) end
+})
+
+vim.api.nvim_create_autocmd('ModeChanged', {
+  pattern = 'i:n',
+  desc = 'Enable diagnostics when leaving insert mode',
+  callback = function(e) vim.diagnostic.enable(e.buf) end
 })
