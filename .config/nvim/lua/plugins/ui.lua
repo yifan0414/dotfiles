@@ -182,8 +182,8 @@ return {
     opts = {
       chunk = {
         enable = true,
-        notify = true,
-        use_treesitter = false,
+        notify = false,
+        use_treesitter = true,
         -- details about support_filetypes and exclude_filetypes in https://github.com/shellRaining/hlchunk.nvim/blob/main/lua/hlchunk/utils/filetype.lua
         exclude_filetypes = {
           help = true,
@@ -193,19 +193,20 @@ return {
           asm = true,
         },
         chars = {
-          -- horizontal_line = "─",
-          vertical_line = "│",
-          -- left_top = "╭",
-          -- left_bottom = "╰",
-          -- right_arrow = ">",
+            horizontal_line = "─",
+            vertical_line = "│",
+            left_top = "╭",
+            left_bottom = "╰",
+            right_arrow = ">",
         },
         style = {
           { fg = "#806d9c" },
-          { fg = "#c21f30" }, -- this fg is used to highlight wrong chunk
+          { fg = "#806d9c" },
+          -- { fg = "#c21f30" }, -- this fg is used to highlight wrong chunk
         },
         textobject = "q",
         max_file_size = 1024 * 1024,
-        error_sign = true,
+        error_sign = false,
       },
 
       indent = {
@@ -217,12 +218,6 @@ return {
           floaterm = true,
           ["leetcode.nvim"] = true,
           asm = true,
-        },
-        chars = {
-          "│",
-        },
-        style = {
-          { fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("Whitespace")), "fg", "gui") },
         },
       },
 

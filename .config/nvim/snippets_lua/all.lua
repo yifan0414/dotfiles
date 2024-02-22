@@ -103,7 +103,7 @@ ls.add_snippets("java", {
   }, {
     t("System.out.println("),
     i(0),
-    t(");")
+    t(");"),
   }),
 })
 
@@ -156,6 +156,10 @@ ls.add_snippets("c", {
   }),
 })
 
+local function tab_stop()
+  return "\t" -- 或者返回 "    " 用于四个空格
+end
+
 ls.add_snippets("cpp", {
   s({
     trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.(print|cout)",
@@ -179,14 +183,15 @@ ls.add_snippets("cpp", {
   }),
   s({
     trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
-    -- regTrig = true,
+    regTrig = true,
     trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
     f(function(_, parent)
       return "for (int i = 0; i < " .. parent.captures[1] .. "; i++)"
     end),
-    t({ " {", "\t" }),
+    t({ " {", "" }),
+    f(tab_stop, {}),
     i(0),
     t({ "", "}" }),
   }),

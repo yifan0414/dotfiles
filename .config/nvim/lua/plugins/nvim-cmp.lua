@@ -78,6 +78,7 @@ return {
     require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets_lua" })
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
+
     return {
       window = {
         -- completion = cmp.config.window.bordered({
@@ -97,7 +98,13 @@ return {
       },
       completion = {
         -- completeopt = "menu,menuone,noinsert",
-        -- keyword_length = 2,
+        -- autocomplete = {
+        --   cmp.TriggerEvent.TextChanged,
+        --   cmp.TriggerEvent.InsertEnter,
+        -- },
+        -- completeopt = "menuone,noinsert,noselect",
+        -- autocomplete = false,
+        keyword_length = 2,
       },
       snippet = {
         expand = function(args)
@@ -109,7 +116,7 @@ return {
         ["<Tab>"] = cmp.mapping(function()
           if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-            cmp.abort()
+            -- cmp.abort()
           else
             neotab.tabout_luasnip()
           end
@@ -177,6 +184,21 @@ return {
           or context.in_syntax_group("String")
         then
           return false
+        -- elseif
+        --   (function()
+        --     -- returns true if the character under the cursor is whitespace.
+        --     local col = vim.fn.col(".") - 1
+        --     local line = vim.fn.getline(".")
+        --     local char_under_cursor = string.sub(line, col, col)
+        --
+        --     if col == 0 or string.match(char_under_cursor, "%s") then
+        --       return true
+        --     else
+        --       return false
+        --     end
+        --   end)()
+        -- then
+        --   return false
         else
           return true
         end
