@@ -85,14 +85,27 @@ ls.add_snippets("java", {
   }),
   s({
     trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
-    -- regTrig = true,
     trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
-    f(function(_, parent)
-      return "for (int i = 0; i < " .. parent.captures[1] .. "; i++)"
+    f(function(_, _)
+      return "for (int "
     end),
-    t({ " {", "\t" }),
+    i(1, "i"), -- 这是你将要替换的循环变量名
+    f(function(args)
+      return " = 0; " .. args[1][1] .. " < "
+    end, { 1 }), -- 根据第1个插入点动态更新
+    f(function(_, parent)
+      return parent.captures[1] .. "; "
+    end, { 1 }), -- 使用之前插入点的值
+    d(2, function(args)
+      local varName = args[1][1] -- 获取第1个插入点的内容
+      return sn(nil, {
+        t(varName .. "++)"), -- 使用变量名创建动态代码片段
+      })
+    end, { 1 }),
+    t({ " {" }),
+    t({ "", "\t" }),
     i(0),
     t({ "", "}" }),
   }),
@@ -143,22 +156,31 @@ ls.add_snippets("c", {
   }),
   s({
     trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
-    -- regTrig = true,
     trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
-    f(function(_, parent)
-      return "for (int i = 0; i < " .. parent.captures[1] .. "; i++)"
+    f(function(_, _)
+      return "for (int "
     end),
-    t({ " {", "\t" }),
+    i(1, "i"), -- 这是你将要替换的循环变量名
+    f(function(args)
+      return " = 0; " .. args[1][1] .. " < "
+    end, { 1 }), -- 根据第1个插入点动态更新
+    f(function(_, parent)
+      return parent.captures[1] .. "; "
+    end, { 1 }), -- 使用之前插入点的值
+    d(2, function(args)
+      local varName = args[1][1] -- 获取第1个插入点的内容
+      return sn(nil, {
+        t(varName .. "++)"), -- 使用变量名创建动态代码片段
+      })
+    end, { 1 }),
+    t({ " {" }),
+    t({ "", "\t" }),
     i(0),
     t({ "", "}" }),
   }),
 })
-
-local function tab_stop()
-  return "\t" -- 或者返回 "    " 用于四个空格
-end
 
 ls.add_snippets("cpp", {
   s({
@@ -183,15 +205,27 @@ ls.add_snippets("cpp", {
   }),
   s({
     trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
-    regTrig = true,
     trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
-    f(function(_, parent)
-      return "for (int i = 0; i < " .. parent.captures[1] .. "; i++)"
+    f(function(_, _)
+      return "for (int "
     end),
-    t({ " {", "" }),
-    f(tab_stop, {}),
+    i(1, "i"), -- 这是你将要替换的循环变量名
+    f(function(args)
+      return " = 0; " .. args[1][1] .. " < "
+    end, { 1 }), -- 根据第1个插入点动态更新
+    f(function(_, parent)
+      return parent.captures[1] .. "; "
+    end, { 1 }), -- 使用之前插入点的值
+    d(2, function(args)
+      local varName = args[1][1] -- 获取第1个插入点的内容
+      return sn(nil, {
+        t(varName .. "++)"), -- 使用变量名创建动态代码片段
+      })
+    end, { 1 }),
+    t({ " {" }),
+    t({ "", "\t" }),
     i(0),
     t({ "", "}" }),
   }),

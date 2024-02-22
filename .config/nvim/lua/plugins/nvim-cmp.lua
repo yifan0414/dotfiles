@@ -100,7 +100,7 @@ return {
         -- completeopt = "menu,menuone,noinsert",
         -- autocomplete = {
         --   cmp.TriggerEvent.TextChanged,
-        --   cmp.TriggerEvent.InsertEnter,
+        --   -- cmp.TriggerEvent.InsertEnter,
         -- },
         -- completeopt = "menuone,noinsert,noselect",
         -- autocomplete = false,
@@ -148,7 +148,7 @@ return {
         ["<UP>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-g>"] = cmp.mapping.complete(),
         ["<C-c>"] = cmp.mapping.abort(),
         -- ["<esc>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
