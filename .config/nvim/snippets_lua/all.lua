@@ -184,7 +184,7 @@ ls.add_snippets("c", {
 
 ls.add_snippets("cpp", {
   s({
-    trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.(print|cout)",
+    trig = "([_A-Za-z->]*[_A-Za-z\\.]*[_A-Za-z]+\\d*)\\.(print|cout)",
     -- regTrig = true,
     trigEngine = "ecma",
     snippetType = "autosnippet",
@@ -195,7 +195,7 @@ ls.add_snippets("cpp", {
   }),
 
   s({
-    trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.(scanf|cin)",
+    trig = "([_A-Za-z->]*[_A-Za-z\\.]*[_A-Za-z]+\\d*)\\.(scanf|cin)",
     trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
@@ -204,7 +204,7 @@ ls.add_snippets("cpp", {
     end),
   }),
   s({
-    trig = "([A-Za-z->]*[A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
+    trig = "([_A-Za-z->]*[_A-Za-z\\.]*[_A-Za-z]+\\d*)\\.for",
     trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {

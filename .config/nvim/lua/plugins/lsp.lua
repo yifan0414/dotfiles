@@ -5,7 +5,7 @@ return {
   opts = {
     diagnostics = {
       underline = false,
-      update_in_insert = false,
+      -- update_in_insert = false,
       float = {
         focusable = false,
         style = "minimal",

@@ -24,7 +24,7 @@ return {
       width = "0.4",
     },
     symbol_in_winbar = {
-      enable = false,
+      -- enable = false,
       -- respect_root = true,
       -- show_file = false,
       folder_level = 0,
