@@ -1,2 +1,3 @@
 - [ ] write a function which send selection line to 
 - [ ] Modify the `vimux` for supporting tmux popup
+- [ ] cmp remove dup from different source

@@ -104,7 +104,7 @@ return {
         -- },
         -- completeopt = "menuone,noinsert,noselect",
         -- autocomplete = false,
-        keyword_length = 2,
+        -- keyword_length = 2,
       },
       snippet = {
         expand = function(args)
@@ -162,19 +162,27 @@ return {
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
       sources = cmp.config.sources({
-        { name = "luasnip", group_index = 1, max_item_count = 5 },
+        {
+          name = "buffer",
+          -- group_index = 2,
+          max_item_count = 3,
+        },
+        {
+          name = "luasnip",
+          -- group_index = 1,
+          max_item_count = 5,
+        },
         {
           name = "nvim_lsp",
-          group_index = 1,
+          -- group_index = 1,
           max_item_count = 7,
           entry_filter = function(entry)
             local kind = entry:get_kind()
             return cmp.lsp.CompletionItemKind.Snippet ~= kind
           end,
         },
-        { name = "buffer" },
-        { name = "vim-dadbod-completion" },
-        { name = "orgmode" },
+        -- { name = "vim-dadbod-completion" },
+        -- { name = "orgmode" },
         -- { name = "path" },
       }),
       enabled = function()
@@ -189,27 +197,12 @@ return {
           or context.in_syntax_group("String")
         then
           return false
-        -- elseif
-        --   (function()
-        --     -- returns true if the character under the cursor is whitespace.
-        --     local col = vim.fn.col(".") - 1
-        --     local line = vim.fn.getline(".")
-        --     local char_under_cursor = string.sub(line, col, col)
-        --
-        --     if col == 0 or string.match(char_under_cursor, "%s") then
-        --       return true
-        --     else
-        --       return false
-        --     end
-        --   end)()
-        -- then
-        --   return false
         else
           return true
         end
       end,
       formatting = {
-        fields = { "abbr", "menu", "kind" },
+        fields = { "abbr", "kind", "menu" },
         format = require("lspkind").cmp_format({
           preset = "codicons",
           mode = "symbol_text",
@@ -217,24 +210,20 @@ return {
           show_labelDetails = true,
           ellipsis_char = "...",
           before = function(entry, vim_item)
-            if vim_item.menu ~= nil then
-              vim_item.menu = string.sub(vim_item.menu, 1, 0)
-              vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
-              -- vim_item.dup = 0
-              vim_item.dup = ({
-                buffer = 0,
-                path = 0,
-                nvim_lsp = 0,
-                luasnip = 0,
-              })[entry.source.name] or 0
-              -- vim_item.dup = {
-              --   buffer = 1,
-              --   path = 1,
-              --   nvim_lsp = 0,
-              --   luasnip = 1,
-              -- }
-              -- vim_item.abbr = vim_item.abbr .. " " .. vim_item.menu
-            end
+            -- vim_item.menu = string.sub(vim_item.menu, 1, 0)
+            vim_item.menu = ({
+              nvim_lsp = "[LSP]",
+              buffer = "[Buffer]",
+              luasnip = "[LuaSnip]",
+            })[entry.source.name]
+            vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
+            -- vim_item.dup = 0
+            vim_item.dup = ({
+              buffer = 0,
+              path = 0,
+              nvim_lsp = 0,
+              luasnip = 0,
+            })[entry.source.name] or 0
             return vim_item
           end,
         }),
@@ -247,10 +236,23 @@ return {
       sorting = {
         priority_weight = 2,
         comparators = {
+          function(entry1, entry2)
+            -- 检查是否为buffer类型
+            local is_buffer1 = entry1.source.name == "buffer"
+            local is_buffer2 = entry2.source.name == "buffer"
+
+            -- 如果两个项都是或都不是buffer类型，则不改变它们的顺序
+            if is_buffer1 == is_buffer2 then
+              return nil -- 返回nil表示“无法决定”，让其他比较器决定顺序
+            end
+
+            -- 如果entry1是buffer类型而entry2不是，则entry1应该排在前面
+            return is_buffer1
+          end,
           cmp.config.compare.offset,
+          cmp.config.compare.recently_used,
           cmp.config.compare.exact,
           -- compare.scopes,
-          cmp.config.compare.recently_used,
           cmp.config.compare.score,
           cmp.config.compare.locality,
           cmp.config.compare.kind,
