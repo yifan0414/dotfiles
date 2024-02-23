@@ -101,3 +101,6 @@ vim.keymap.set("n", "<leader><tab>p", "<cmd>tabprevious<cr>", { silent = true, n
 vim.keymap.del("n", "<leader>l")
 vim.keymap.set("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "Lazy" })
 vim.keymap.set("n", "<leader>qw", "<cmd>q<cr>", { silent = true, noremap = true, desc = "quit" })
+
+vim.api.nvim_set_keymap("n", "#", "#N", { noremap = true })
+vim.api.nvim_set_keymap("n", "*", "*N", { noremap = true })
