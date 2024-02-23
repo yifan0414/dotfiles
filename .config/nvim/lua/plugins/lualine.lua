@@ -121,7 +121,7 @@ return {
             icon = "",
             color = { fg = "#7fB4CA", gui = "bold" },
           },
-          -- { "filename" },
+          { "filename" },
           {
             "diff",
             symbols = {
@@ -141,9 +141,9 @@ return {
             end,
           },
         },
-        -- lualine_c = {
-        --   { "fileformat" },
-        -- },
+        lualine_c = {
+          -- { "fileformat" },
+        },
         lualine_x = {
           {
             "searchcount",
