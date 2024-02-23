@@ -117,8 +117,12 @@ return {
           if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
             -- cmp.abort()
+            -- else
+            --   neotab.tabout_luasnip()
+          elseif luasnip.jumpable(1) then
+            luasnip.jump(1)
           else
-            neotab.tabout_luasnip()
+            neotab.tabout()
           end
         end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
@@ -158,15 +162,16 @@ return {
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
       sources = cmp.config.sources({
+        { name = "luasnip", group_index = 1, max_item_count = 5 },
         {
           name = "nvim_lsp",
+          group_index = 1,
           max_item_count = 7,
           entry_filter = function(entry)
             local kind = entry:get_kind()
             return cmp.lsp.CompletionItemKind.Snippet ~= kind
           end,
         },
-        { name = "luasnip", max_item_count = 5 },
         { name = "buffer" },
         { name = "vim-dadbod-completion" },
         { name = "orgmode" },

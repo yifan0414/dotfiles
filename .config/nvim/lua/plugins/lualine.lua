@@ -145,8 +145,62 @@ return {
           -- { "fileformat" },
         },
         lualine_x = {
+          -- {
+          --   function()
+          --     local space_pat = [[\v^ +]]
+          --     local tab_pat = [[\v^\t+]]
+          --     local space_indent = vim.fn.search(space_pat, "nwc")
+          --     local tab_indent = vim.fn.search(tab_pat, "nwc")
+          --     local mixed = (space_indent > 0 and tab_indent > 0)
+          --     local mixed_same_line
+          --     if not mixed then
+          --       mixed_same_line = vim.fn.search([[\v^(\t+ | +\t)]], "nwc")
+          --       mixed = mixed_same_line > 0
+          --     end
+          --     if not mixed then
+          --       return ""
+          --     end
+          --     if mixed_same_line ~= nil and mixed_same_line > 0 then
+          --       return "MI:" .. mixed_same_line
+          --     end
+          --     local space_indent_cnt = vim.fn.searchcount({ pattern = space_pat, max_count = 1e3 }).total
+          --     local tab_indent_cnt = vim.fn.searchcount({ pattern = tab_pat, max_count = 1e3 }).total
+          --     if space_indent_cnt > tab_indent_cnt then
+          --       return "MI:" .. tab_indent
+          --     else
+          --       return "MI:" .. space_indent
+          --     end
+          --   end,
+          -- },
+          -- {
+          --   -- 在lualine中显示当前搜索的数量
+          --   function()
+          --     local result = vim.fn.searchcount()
+          --     return result.current .. "/" .. result.total
+          --   end,
+          --   color = { fg = "#ebdbb2", bg = "#3c3836" },
+          --   padding = { left = 1, right = 1 },
+          --   cond = function()
+          --     --   -- 当我按下 esc 或者 :noh 后不显示
+          --     return vim.v.hlsearch == 1
+          --   end,
+          -- },
           {
-            require("noice").api.status.command.get,
+            "searchcount",
+            color = { fg = "#ebdbb2", bg = "#3c3836" },
+          },
+          {
+            function()
+              -- 确保 `get` 函数被正确调用，并处理其返回值
+              local command_status = require("noice").api.status.command.get()
+              -- 根据 `command_status` 返回正确的字符串
+              if command_status then
+                return "⌨ " .. command_status
+              else
+                return ""
+              end
+            end,
+            -- "⌨ " .. require("noice").api.status.command.get,
             cond = require("noice").api.status.command.has,
             color = { fg = "#ff9e64" },
           },

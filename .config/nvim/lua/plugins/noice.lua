@@ -26,6 +26,9 @@ return {
       long_message_to_split = true,
       inc_rename = true,
     },
+    messages = {
+      view_search = false,
+    },
     lsp = {
       progress = {
         enabled = false,
