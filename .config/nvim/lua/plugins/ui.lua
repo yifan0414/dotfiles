@@ -191,13 +191,14 @@ return {
           floaterm = true,
           ["leetcode.nvim"] = true,
           asm = true,
+          git = true,
         },
         chars = {
-            horizontal_line = "─",
-            vertical_line = "│",
-            left_top = "╭",
-            left_bottom = "╰",
-            right_arrow = ">",
+          horizontal_line = "─",
+          vertical_line = "│",
+          left_top = "╭",
+          left_bottom = "╰",
+          right_arrow = ">",
         },
         style = {
           { fg = "#806d9c" },
@@ -218,6 +219,7 @@ return {
           floaterm = true,
           ["leetcode.nvim"] = true,
           asm = true,
+          git = true,
         },
       },
 
