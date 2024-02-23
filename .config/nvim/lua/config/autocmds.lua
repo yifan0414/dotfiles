@@ -8,12 +8,6 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   nested = true,
 })
 
--- vim.api.nvim_create_autocmd("User", {
---   pattern = "AsyncRunStart",
---   group = "asyncrun_augroup",
---   command = "copen",
--- })
-
 -- 关闭新行注释
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = "*",

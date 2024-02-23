@@ -116,39 +116,4 @@ return {
       require("pretty-fold").setup(opts)
     end,
   },
-  {
-    "kevinhwang91/nvim-hlslens",
-    enabled = false,
-    opts = {
-      -- calm_down = {
-      --   description = [[If calm_down is true, clear all lens and highlighting When the cursor is
-      --       out of the position range of the matched instance or any texts are changed]],
-      --   default = true,
-      -- },
-    },
-    config = function(_, opts)
-      require("hlslens").setup(opts)
-
-      local kopts = { noremap = true, silent = true }
-
-      vim.api.nvim_set_keymap(
-        "n",
-        "n",
-        [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        kopts
-      )
-      vim.api.nvim_set_keymap(
-        "n",
-        "N",
-        [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        kopts
-      )
-      vim.api.nvim_set_keymap("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-
-      vim.api.nvim_set_keymap("n", "<Leader>m", "<Cmd>noh<CR>", kopts)
-    end,
-  },
 }
