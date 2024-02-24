@@ -29,9 +29,9 @@ local k = require("luasnip.nodes.key_indexer").new_key
 -- ls.add_snippets("c"-- https://zjp-cn.github.io/neovim0.6-blogs/nvim/luasnip/doc1.html#postfix
 ls.add_snippets("c", {
   postfix({
-    trig = ".(scanf|cin)",
+    trig = "\\.(scanf|cin)",
     trigEngine = "ecma",
-    match_pattern = "[%w%.%_%->]+$",
+    match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
   }, {
     t('scanf("%'),
@@ -43,9 +43,9 @@ ls.add_snippets("c", {
     end, { 1 }), -- 依赖于第一个输入节点的内容
   }),
   postfix({
-    trig = ".(printf|cout)",
+    trig = "\\.(printf|cout)",
     trigEngine = "ecma",
-    match_pattern = "[%w%.%_%->[]]+$",
+    match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
   }, {
     t('printf("'),
@@ -59,9 +59,9 @@ ls.add_snippets("c", {
     end),
   }),
   postfix({
-    trig = ".stderr",
+    trig = "\\.stderr",
     trigEngine = "ecma",
-    match_pattern = "[%w%.%_%->]+$",
+    match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
   }, {
     t('fprintf(stderr, "'),
@@ -75,7 +75,7 @@ ls.add_snippets("c", {
     end),
   }),
   postfix({
-    trig = ".for",
+    trig = "\\.for",
     match_pattern = "[%w%.%_%->%[%]]+$",
     trigEngine = "ecma",
     snippetType = "autosnippet",

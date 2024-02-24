@@ -1,4 +1,8 @@
 {
+  "break" : {
+    "prefix" : "break",
+    "body" : ["break;"]
+  },
   "return" : {
     "prefix" : "return",
     "body" : ["return "]

@@ -163,18 +163,18 @@ return {
       }),
       sources = cmp.config.sources({
         {
-          name = "buffer",
-          -- group_index = 2,
-          -- max_item_count = 3,
-        },
-        {
           name = "luasnip",
-          -- group_index = 1,
+          group_index = 1,
           -- max_item_count = 5,
         },
         {
+          name = "buffer",
+          group_index = 2,
+          -- max_item_count = 3,
+        },
+        {
           name = "nvim_lsp",
-          -- group_index = 1,
+          group_index = 2,
           -- max_item_count = 7,
           entry_filter = function(entry)
             local kind = entry:get_kind()
@@ -236,19 +236,6 @@ return {
       sorting = {
         priority_weight = 2,
         comparators = {
-          -- function(entry1, entry2)
-          --   -- 检查是否为buffer类型
-          --   local is_buffer1 = entry1.source.name == "buffer"
-          --   local is_buffer2 = entry2.source.name == "buffer"
-          --
-          --   -- 如果两个项都是或都不是buffer类型，则不改变它们的顺序
-          --   if is_buffer1 == is_buffer2 then
-          --     return nil -- 返回nil表示“无法决定”，让其他比较器决定顺序
-          --   end
-          --
-          --   -- 如果entry1是buffer类型而entry2不是，则entry1应该排在前面
-          --   return is_buffer1
-          -- end,
           cmp.config.compare.offset,
           cmp.config.compare.recently_used,
           cmp.config.compare.exact,

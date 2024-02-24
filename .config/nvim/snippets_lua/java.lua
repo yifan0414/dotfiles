@@ -26,41 +26,28 @@ local parse = require("luasnip.util.parser").parse_snippet
 local ms = ls.multi_snippet
 local k = require("luasnip.nodes.key_indexer").new_key
 
-ls.add_snippets("cpp", {
-
+ls.add_snippets("java", {
   postfix({
-    trig = "\\.(printf|cout)",
+    -- trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.print",
+    trig = "\\.print",
+    trigEngine = "ecma",
+    match_pattern = "^[^(StdOut)][%w%.%_%->%[%]]+$",
+    snippetType = "autosnippet",
+  }, {
+    f(function(_, parent)
+      return "StdOut.println(" .. parent.snippet.env.POSTFIX_MATCH .. ");"
+    end),
+  }),
+  postfix({
+    trig = "\\.sout",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
   }, {
     f(function(_, parent)
-      return "cout << " .. parent.snippet.env.POSTFIX_MATCH .. " << endl;"
+      return "System.out.println(" .. parent.snippet.env.POSTFIX_MATCH .. ");"
     end),
   }),
-
-  postfix({
-    trig = "\\.(scanf|cin)",
-    trigEngine = "ecma",
-    match_pattern = "[%w%.%_%->%[%]]+$",
-    snippetType = "autosnippet",
-  }, {
-    f(function(_, parent)
-      return "cin >> " .. parent.snippet.env.POSTFIX_MATCH .. ";"
-    end),
-  }),
-
-  postfix({
-    trig = "\\.cerr",
-    trigEngine = "ecma",
-    match_pattern = "[%w%.%_%->%[%]]+$",
-    snippetType = "autosnippet",
-  }, {
-    f(function(_, parent)
-      return "cerr << " .. parent.snippet.env.POSTFIX_MATCH .. " << endl;"
-    end),
-  }),
-
   postfix({
     trig = "\\.for",
     match_pattern = "[%w%.%_%->%[%]]+$",
@@ -87,5 +74,14 @@ ls.add_snippets("cpp", {
     t({ "", "\t" }),
     i(0),
     t({ "", "}" }),
+  }),
+  postfix({
+    trig = "sout",
+    -- regTrig = true,
+    snippetType = "autosnippet",
+  }, {
+    t("System.out.println("),
+    i(0),
+    t(");"),
   }),
 })
