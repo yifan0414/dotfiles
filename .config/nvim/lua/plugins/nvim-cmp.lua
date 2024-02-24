@@ -165,17 +165,17 @@ return {
         {
           name = "buffer",
           -- group_index = 2,
-          max_item_count = 3,
+          -- max_item_count = 3,
         },
         {
           name = "luasnip",
           -- group_index = 1,
-          max_item_count = 5,
+          -- max_item_count = 5,
         },
         {
           name = "nvim_lsp",
           -- group_index = 1,
-          max_item_count = 7,
+          -- max_item_count = 7,
           entry_filter = function(entry)
             local kind = entry:get_kind()
             return cmp.lsp.CompletionItemKind.Snippet ~= kind
@@ -207,7 +207,7 @@ return {
           preset = "codicons",
           mode = "symbol_text",
           maxwidth = 20,
-          show_labelDetails = true,
+          show_labelDetails = false,
           ellipsis_char = "...",
           before = function(entry, vim_item)
             -- vim_item.menu = string.sub(vim_item.menu, 1, 0)
@@ -222,7 +222,7 @@ return {
               buffer = 0,
               path = 0,
               nvim_lsp = 0,
-              luasnip = 0,
+              luasnip = 1,
             })[entry.source.name] or 0
             return vim_item
           end,
@@ -236,19 +236,19 @@ return {
       sorting = {
         priority_weight = 2,
         comparators = {
-          function(entry1, entry2)
-            -- 检查是否为buffer类型
-            local is_buffer1 = entry1.source.name == "buffer"
-            local is_buffer2 = entry2.source.name == "buffer"
-
-            -- 如果两个项都是或都不是buffer类型，则不改变它们的顺序
-            if is_buffer1 == is_buffer2 then
-              return nil -- 返回nil表示“无法决定”，让其他比较器决定顺序
-            end
-
-            -- 如果entry1是buffer类型而entry2不是，则entry1应该排在前面
-            return is_buffer1
-          end,
+          -- function(entry1, entry2)
+          --   -- 检查是否为buffer类型
+          --   local is_buffer1 = entry1.source.name == "buffer"
+          --   local is_buffer2 = entry2.source.name == "buffer"
+          --
+          --   -- 如果两个项都是或都不是buffer类型，则不改变它们的顺序
+          --   if is_buffer1 == is_buffer2 then
+          --     return nil -- 返回nil表示“无法决定”，让其他比较器决定顺序
+          --   end
+          --
+          --   -- 如果entry1是buffer类型而entry2不是，则entry1应该排在前面
+          --   return is_buffer1
+          -- end,
           cmp.config.compare.offset,
           cmp.config.compare.recently_used,
           cmp.config.compare.exact,

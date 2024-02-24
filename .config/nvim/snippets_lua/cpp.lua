@@ -31,7 +31,7 @@ ls.add_snippets("cpp", {
   postfix({
     trig = ".(printf|cout)",
     trigEngine = "ecma",
-    match_pattern = "[%w%.%_%->]+$",
+    match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
   }, {
     f(function(_, parent)
@@ -39,20 +39,10 @@ ls.add_snippets("cpp", {
     end),
   }),
 
-  s({
-    trig = "([_A-Za-z->]*[_A-Za-z\\.]*[_A-Za-z]+\\d*)\\.(scanf|cin)",
-    trigEngine = "ecma",
-    snippetType = "autosnippet",
-  }, {
-    f(function(_, parent)
-      return "cin >> " .. parent.captures[1] .. ";"
-    end),
-  }),
-
   postfix({
     trig = ".(scanf|cin)",
     trigEngine = "ecma",
-    match_pattern = "[%w%.%_%->]+$",
+    match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
   }, {
     f(function(_, parent)
@@ -63,7 +53,7 @@ ls.add_snippets("cpp", {
   postfix({
     trig = ".cerr",
     -- trigEngine = "ecma",
-    match_pattern = '[%w%.%_%->]+$',
+    match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
   }, {
     f(function(_, parent)
@@ -71,8 +61,9 @@ ls.add_snippets("cpp", {
     end),
   }),
 
-  s({
-    trig = "([_A-Za-z->]*[_A-Za-z\\.]*[_A-Za-z]+\\d*)\\.for",
+  postfix({
+    trig = ".for",
+    match_pattern = "[%w%.%_%->%[%]]+$",
     trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
@@ -84,7 +75,7 @@ ls.add_snippets("cpp", {
       return " = 0; " .. args[1][1] .. " < "
     end, { 1 }), -- 根据第1个插入点动态更新
     f(function(_, parent)
-      return parent.captures[1] .. "; "
+      return parent.snippet.env.POSTFIX_MATCH .. "; "
     end, { 1 }), -- 使用之前插入点的值
     d(2, function(args)
       local varName = args[1][1] -- 获取第1个插入点的内容

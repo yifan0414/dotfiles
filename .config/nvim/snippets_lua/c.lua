@@ -45,7 +45,7 @@ ls.add_snippets("c", {
   postfix({
     trig = ".(printf|cout)",
     trigEngine = "ecma",
-    match_pattern = "[%w%.%_%->]+$",
+    match_pattern = "[%w%.%_%->[]]+$",
     snippetType = "autosnippet",
   }, {
     t('printf("'),
@@ -76,7 +76,8 @@ ls.add_snippets("c", {
   }),
   postfix({
     trig = ".for",
-    match_pattern = "[%w%.%_%->]+$",
+    match_pattern = "[%w%.%_%->%[%]]+$",
+    trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
     f(function(_, _)
