@@ -95,3 +95,32 @@ vim.keymap.set("n", "<leader>qw", "<cmd>q<cr>", { silent = true, noremap = true,
 
 vim.keymap.set("n", "#", "#N", { noremap = true })
 vim.keymap.set("n", "*", "*N", { noremap = true })
+
+-- vim.cmd([[
+--   function! Delmarks()
+--       let l:m = join(filter(
+--         \ map(range(char2nr('a'), char2nr('z')), 'nr2char(v:val)'),
+--         \ 'line("''".v:val) == line(".")'))
+--       if !empty(l:m)
+--           exe 'delmarks' l:m
+--       endif
+--   endfunction
+--
+--   nnoremap <silent> dm :<c-u>call Delmarks()<cr>
+-- ]])
+
+-- delete current line mark
+vim.api.nvim_create_user_command("Delmarks", function()
+  local marks = {}
+  for ascii_code = 97, 122 do -- 'a' to 'z'
+    local mark = vim.fn.getpos("'" .. string.char(ascii_code))
+    if mark and mark[2] ~= 0 and vim.fn.line(".") == mark[2] then
+      table.insert(marks, string.char(ascii_code))
+    end
+  end
+  if #marks > 0 then
+    vim.cmd("delmarks " .. table.concat(marks))
+  end
+end, {})
+
+vim.api.nvim_set_keymap("n", "dm", "<cmd>Delmarks<CR>", { silent = true, noremap = true })
