@@ -10,33 +10,39 @@ return {
     { "onsails/lspkind.nvim" },
     {
       "hrsh7th/cmp-cmdline",
-      event = "CmdlineEnter",
-      -- opt = function()
-      --   return {
-      --     mapping = {},
-      --   }
-      -- end,
-      config = function()
+      -- event = "CmdlineEnter",
+      keys = { ":", "/", "?" }, -- lazy load cmp on more keys along with insert mode
+      opts = function()
         local cmp = require("cmp")
-        cmp.setup.cmdline("/", {
-          mapping = cmp.mapping.preset.cmdline(),
-          sources = {
-            { name = "buffer" },
-          },
-        })
-
-        cmp.setup.cmdline(":", {
-          mapping = cmp.mapping.preset.cmdline(),
-          sources = cmp.config.sources({
-            { name = "path" },
-            {
-              name = "cmdline",
-              option = {
-                ignore_cmds = { '"', "/", "!" },
-              },
+        return {
+          {
+            type = "/",
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = {
+              { name = "buffer" },
             },
-          }),
-        })
+          },
+          {
+            type = ":",
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = cmp.config.sources({
+              { name = "path" },
+            }, {
+              {
+                name = "cmdline",
+                option = {
+                  ignore_cmds = { "Man", "!" },
+                },
+              },
+            }),
+          },
+        }
+      end,
+      config = function(_, opts)
+        local cmp = require("cmp")
+        vim.tbl_map(function(val)
+          cmp.setup.cmdline(val.type, val)
+        end, opts)
       end,
     },
   },
@@ -73,7 +79,6 @@ return {
     local neotab = require("neotab")
     local luasnip = require("luasnip")
 
-    -- require("luasnip.loaders.from_vscode").lazy_load()
     require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
     require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets_lua" })
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
@@ -97,14 +102,9 @@ return {
         },
       },
       completion = {
-        -- completeopt = "menu,menuone,noinsert",
-        -- autocomplete = {
-        --   cmp.TriggerEvent.TextChanged,
-        --   -- cmp.TriggerEvent.InsertEnter,
-        -- },
-        -- completeopt = "menuone,noinsert,noselect",
         -- autocomplete = false,
         -- keyword_length = 2,
+        -- keyword_length = 1,
       },
       snippet = {
         expand = function(args)
@@ -164,17 +164,17 @@ return {
       sources = cmp.config.sources({
         {
           name = "luasnip",
-          group_index = 1,
+          -- group_index = 1,
           -- max_item_count = 5,
         },
-        {
-          name = "buffer",
-          group_index = 2,
-          -- max_item_count = 3,
-        },
+        -- {
+        --   name = "buffer",
+        --   group_index = 2,
+        --   -- max_item_count = 3,
+        -- },
         {
           name = "nvim_lsp",
-          group_index = 2,
+          -- group_index = 2,
           -- max_item_count = 7,
           entry_filter = function(entry)
             local kind = entry:get_kind()

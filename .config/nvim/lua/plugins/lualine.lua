@@ -11,7 +11,7 @@ return {
       black = "#1f1f28",
       white = "#c6c6c6",
       red = "#ff5189",
-      violet = "#d183e8",
+      violet = "#bfb1e1",
       grey = "#2a2a37",
       normal = "#7fb4ca",
       visual = "#d27e99",
@@ -28,6 +28,7 @@ return {
       insert = { a = { fg = colors.black, bg = colors.green } },
       visual = { a = { fg = colors.black, bg = colors.visual } },
       replace = { a = { fg = colors.black, bg = colors.red } },
+      command = { a = { fg = colors.black, bg = colors.violet } },
       terminal = { a = { fg = colors.black, bg = colors.cyan } },
 
       inactive = {

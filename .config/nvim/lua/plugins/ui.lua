@@ -116,14 +116,6 @@ return {
     end,
   },
   {
-    "rcarriga/nvim-notify",
-    opts = {
-      fps = 60,
-      stages = "static",
-      max_width = 72,
-    },
-  },
-  {
     "RRethy/vim-illuminate",
     event = "LazyFile",
     opts = {
@@ -139,6 +131,7 @@ return {
         "fugitive",
         "noice",
         "outline",
+        "help",
       },
     },
     config = function(_, opts)
@@ -237,6 +230,14 @@ return {
         style = {
           vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("Whitespace")), "fg", "gui"),
         },
+      },
+    },
+  },
+  {
+    "folke/flash.nvim",
+    opts = {
+      label = {
+        exclude = "able",
       },
     },
   },

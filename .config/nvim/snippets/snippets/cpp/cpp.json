@@ -20,7 +20,7 @@
     "body": ["template<$0>"]
   },
   "namespace": {
-    "prefix": "using namespace",
+    "prefix": "using",
     "body": ["using namespace $0;"]
   },
   "example1": {

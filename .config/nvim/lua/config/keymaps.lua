@@ -53,7 +53,6 @@ vim.keymap.set(
 )
 
 -- So I can move around in insert
-
 vim.keymap.set("i", "<C-k>", "<C-o>gk", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-j>", "<C-o>gj", { noremap = true, silent = true })
@@ -61,14 +60,6 @@ vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
 
 -- 在 Visual 模式下绑定 <leader>y 到复制到剪贴板(wsl2)命令
 vim.keymap.set("v", "<leader>y", [["+y <cmd>call system('clip.exe', @+)<cr>]], { noremap = true, silent = true })
-
--- 打开日记文件
--- vim.keymap.set(
---   "n",
---   "<leader>td",
---   "<cmd>execute 'edit /mnt/d/OneDrive - st.gxu.edu.cn/CSNote/Diary/' . strftime('%Y/%m/%Y-%m-%d') . '.md' | silent w<cr>",
---   { noremap = true, silent = true }
--- )
 
 vim.keymap.set("n", "<leader>td", function()
   local os_date = os.date
@@ -102,5 +93,5 @@ vim.keymap.del("n", "<leader>l")
 vim.keymap.set("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "Lazy" })
 vim.keymap.set("n", "<leader>qw", "<cmd>q<cr>", { silent = true, noremap = true, desc = "quit" })
 
-vim.api.nvim_set_keymap("n", "#", "#N", { noremap = true })
-vim.api.nvim_set_keymap("n", "*", "*N", { noremap = true })
+vim.keymap.set("n", "#", "#N", { noremap = true })
+vim.keymap.set("n", "*", "*N", { noremap = true })

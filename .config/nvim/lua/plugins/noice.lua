@@ -64,8 +64,14 @@ return {
       signature = {
         enabled = true,
         auto_open = {
-          enabled = false,
+          enabled = true,
         },
+        opts = {
+          size = {
+            max_width = 60,
+            max_height = 10,
+          }
+        }
       },
       documentation = {
         opts = {
