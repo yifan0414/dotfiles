@@ -26,8 +26,31 @@ local parse = require("luasnip.util.parser").parse_snippet
 local ms = ls.multi_snippet
 local k = require("luasnip.nodes.key_indexer").new_key
 
-ls.add_snippets("cpp", {
+local treesitter_postfix = require("luasnip.extras.treesitter_postfix").treesitter_postfix
+local postfix_builtin = require("luasnip.extras.treesitter_postfix").builtin
 
+ls.add_snippets("cpp", {
+  -- treesitter_postfix({
+  --   matchTSNode = postfix_builtin.tsnode_matcher.find_topmost_types({
+  --     "call_expression",
+  --     "identifier",
+  --     "template_function",
+  --     "subscript_expression",
+  --     "field_expression",
+  --     "user_defined_literal",
+  --     "init_declarator",
+  --   }),
+  --   trig = ".mv",
+  -- }, {
+  --   -- t(string.format("std::move(%s)", l.LS_TSMATCH)),
+  --   f(function(_, parent)
+  --     -- local node_content = table.concat(parent.snippet.env.LS_TSMATCH, "\n")
+  --     -- local replaced_content = ("std::move(%s)"):format(node_content)
+  --     -- return replaced_content
+  --     print(parent.snippet.env.LS_TSMATCH)
+  --     -- return "std::move(" .. parent.env.LS_TSMATCH .. ")"
+  --   end),
+  -- }),
   postfix({
     trig = "\\.(printf|cout)",
     trigEngine = "ecma",

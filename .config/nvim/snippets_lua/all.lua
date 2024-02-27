@@ -61,64 +61,64 @@ ls.setup({
   -- the current filetype in eg. a markdown-code block or `vim.cmd()`.
 })
 
-ls.add_snippets("java", {
-  s({
-    -- trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.print",
-    trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)(?<!StdOut)\\.print",
-    -- regTrig = true,
-    trigEngine = "ecma",
-    snippetType = "autosnippet",
-  }, {
-    f(function(_, parent)
-      return "StdOut.println(" .. parent.captures[1] .. ");"
-    end),
-  }),
-  s({
-    trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.sout",
-    -- regTrig = true,
-    trigEngine = "ecma",
-    snippetType = "autosnippet",
-  }, {
-    f(function(_, parent)
-      return "System.out.println(" .. parent.captures[1] .. ");"
-    end),
-  }),
-  s({
-    trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
-    trigEngine = "ecma",
-    snippetType = "autosnippet",
-  }, {
-    f(function(_, _)
-      return "for (int "
-    end),
-    i(1, "i"), -- 这是你将要替换的循环变量名
-    f(function(args)
-      return " = 0; " .. args[1][1] .. " < "
-    end, { 1 }), -- 根据第1个插入点动态更新
-    f(function(_, parent)
-      return parent.captures[1] .. "; "
-    end, { 1 }), -- 使用之前插入点的值
-    d(2, function(args)
-      local varName = args[1][1] -- 获取第1个插入点的内容
-      return sn(nil, {
-        t(varName .. "++)"), -- 使用变量名创建动态代码片段
-      })
-    end, { 1 }),
-    t({ " {" }),
-    t({ "", "\t" }),
-    i(0),
-    t({ "", "}" }),
-  }),
-  s({
-    trig = "sout",
-    -- regTrig = true,
-    snippetType = "autosnippet",
-  }, {
-    t("System.out.println("),
-    i(0),
-    t(");"),
-  }),
-})
+-- ls.add_snippets("java", {
+--   s({
+--     -- trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.print",
+--     trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)(?<!StdOut)\\.print",
+--     -- regTrig = true,
+--     trigEngine = "ecma",
+--     snippetType = "autosnippet",
+--   }, {
+--     f(function(_, parent)
+--       return "StdOut.println(" .. parent.captures[1] .. ");"
+--     end),
+--   }),
+--   s({
+--     trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.sout",
+--     -- regTrig = true,
+--     trigEngine = "ecma",
+--     snippetType = "autosnippet",
+--   }, {
+--     f(function(_, parent)
+--       return "System.out.println(" .. parent.captures[1] .. ");"
+--     end),
+--   }),
+--   s({
+--     trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.for",
+--     trigEngine = "ecma",
+--     snippetType = "autosnippet",
+--   }, {
+--     f(function(_, _)
+--       return "for (int "
+--     end),
+--     i(1, "i"), -- 这是你将要替换的循环变量名
+--     f(function(args)
+--       return " = 0; " .. args[1][1] .. " < "
+--     end, { 1 }), -- 根据第1个插入点动态更新
+--     f(function(_, parent)
+--       return parent.captures[1] .. "; "
+--     end, { 1 }), -- 使用之前插入点的值
+--     d(2, function(args)
+--       local varName = args[1][1] -- 获取第1个插入点的内容
+--       return sn(nil, {
+--         t(varName .. "++)"), -- 使用变量名创建动态代码片段
+--       })
+--     end, { 1 }),
+--     t({ " {" }),
+--     t({ "", "\t" }),
+--     i(0),
+--     t({ "", "}" }),
+--   }),
+--   s({
+--     trig = "sout",
+--     -- regTrig = true,
+--     snippetType = "autosnippet",
+--   }, {
+--     t("System.out.println("),
+--     i(0),
+--     t(");"),
+--   }),
+-- })
 
 local function fn(
   args, -- text from i(2) in this example i.e. { { "456" } }

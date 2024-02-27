@@ -26,12 +26,15 @@ local parse = require("luasnip.util.parser").parse_snippet
 local ms = ls.multi_snippet
 local k = require("luasnip.nodes.key_indexer").new_key
 
+local treesitter_postfix = require("luasnip.extras.treesitter_postfix").treesitter_postfix
+local postfix_builtin = require("luasnip.extras.treesitter_postfix").builtin
+
 ls.add_snippets("java", {
   postfix({
     -- trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.print",
-    trig = "\\.print",
+    trig = "\\.stdout",
     trigEngine = "ecma",
-    match_pattern = "^[^(StdOut)][%w%.%_%->%[%]]+$",
+    match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
   }, {
     f(function(_, parent)
@@ -75,8 +78,8 @@ ls.add_snippets("java", {
     i(0),
     t({ "", "}" }),
   }),
-  postfix({
-    trig = "sout",
+  s({
+    trig = "sysout",
     -- regTrig = true,
     snippetType = "autosnippet",
   }, {

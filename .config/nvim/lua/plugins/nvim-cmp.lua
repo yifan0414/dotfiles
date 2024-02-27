@@ -1,7 +1,7 @@
 return {
   "hrsh7th/nvim-cmp",
   version = false, -- last release is way too old
-  event = "InsertEnter",
+  event = "VeryLazy",
   dependencies = {
     { "hrsh7th/cmp-nvim-lsp" },
     { "hrsh7th/cmp-buffer" },
@@ -79,17 +79,17 @@ return {
     local neotab = require("neotab")
     local luasnip = require("luasnip")
 
-    require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
-    require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets_lua" })
+    require("luasnip.loaders.from_vscode").load({ paths = "./snippets" })
+    require("luasnip.loaders.from_lua").load({ paths = "./snippets_lua" })
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
 
     return {
       window = {
-        -- completion = cmp.config.window.bordered({
-        --   -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-        --   winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
-        -- }),
+        completion = cmp.config.window.bordered({
+          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+          -- winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
+        }),
         -- documentation = cmp.config.window.bordered({
         --   winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
         -- }),
@@ -119,8 +119,8 @@ return {
             -- cmp.abort()
             -- else
             --   neotab.tabout_luasnip()
-          elseif luasnip.jumpable(1) then
-            luasnip.jump(1)
+          elseif luasnip.expand_or_locally_jumpable() then
+            luasnip.expand_or_jump()
           else
             neotab.tabout()
           end
@@ -128,8 +128,8 @@ return {
         ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
-          elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
+          elseif luasnip.expand_or_locally_jumpable(-1) then
+            luasnip.expand_or_jump(-1)
           else
             fallback()
           end

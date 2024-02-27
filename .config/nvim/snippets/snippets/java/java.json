@@ -1,11 +1,4 @@
 {
-  "print": {
-    "prefix": "print",
-    "body": [
-      "StdOut.println($0);"
-    ],
-    "description": "algs4 print"
-  },
   "main": {
     "prefix": "main",
     "body": [
@@ -23,13 +16,6 @@
       "}"
     ],
     "description": "Public class"
-  },
-  "sysout": {
-    "prefix": "sysout",
-    "body": [
-      "System.out.println($0);"
-    ],
-    "description": "Print to standard out"
   },
   "syserr": {
     "prefix": "syserr",
