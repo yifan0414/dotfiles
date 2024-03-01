@@ -72,23 +72,23 @@ return {
 
     vim.api.nvim_set_hl(0, "CmpItemKindReference", { bg = "NONE", fg = "#ffe4b5" })
     -- Customization for Pmenu
-    -- vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
-    -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
-    vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#223349", blend = 0 })
+    vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
+    vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
+    -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#223349", blend = 0 })
 
     local neotab = require("neotab")
     local luasnip = require("luasnip")
 
-    require("luasnip.loaders.from_vscode").load({ paths = "./snippets" })
-    require("luasnip.loaders.from_lua").load({ paths = "./snippets_lua" })
+    require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
+    require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets_lua" })
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
 
     return {
       window = {
         completion = cmp.config.window.bordered({
-          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-          -- winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
+          -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+          winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
         }),
         -- documentation = cmp.config.window.bordered({
         --   winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",

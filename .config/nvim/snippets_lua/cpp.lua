@@ -32,12 +32,7 @@ local postfix_builtin = require("luasnip.extras.treesitter_postfix").builtin
 ls.add_snippets("cpp", {
   -- treesitter_postfix({
   --   matchTSNode = postfix_builtin.tsnode_matcher.find_topmost_types({
-  --     "call_expression",
   --     "identifier",
-  --     "template_function",
-  --     "subscript_expression",
-  --     "field_expression",
-  --     "user_defined_literal",
   --     "init_declarator",
   --   }),
   --   trig = ".mv",
@@ -47,8 +42,8 @@ ls.add_snippets("cpp", {
   --     -- local node_content = table.concat(parent.snippet.env.LS_TSMATCH, "\n")
   --     -- local replaced_content = ("std::move(%s)"):format(node_content)
   --     -- return replaced_content
-  --     print(parent.snippet.env.LS_TSMATCH)
-  --     -- return "std::move(" .. parent.env.LS_TSMATCH .. ")"
+  --     vim.print(parent.snippet.env.LS_TSMATCH)
+  --     return "std::move(" .. parent.env.LS_TSMATCH[1] .. ")"
   --   end),
   -- }),
   postfix({

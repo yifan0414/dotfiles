@@ -79,7 +79,7 @@ return {
             -- max_width = 70,
             -- max_length = 50,
           },
-          border = { style = "single" },
+          border = { style = "rounded" },
           relative = "cursor",
           -- position = {
           --   row = -1,

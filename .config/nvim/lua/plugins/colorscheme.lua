@@ -14,7 +14,7 @@ return {
         " 改变QuickFixLine的颜色
         autocmd VimEnter * highlight! QuickFixLine ctermbg=NONE cterm=bold guibg=NONE gui=bold
         autocmd VimEnter * highlight! LspInlayHint guifg=#727169
-        autocmd VimEnter * highlight! TermCursor guifg=#1f1f28 guibg=#dcd7ba gui=NONE cterm=NONE
+        " autocmd VimEnter * highlight! TermCursor guifg=#1f1f28 guibg=#dcd7ba gui=NONE cterm=NONE
     ]])
     end,
     opts = {
