@@ -212,9 +212,9 @@ return {
           before = function(entry, vim_item)
             -- vim_item.menu = string.sub(vim_item.menu, 1, 0)
             vim_item.menu = ({
-              nvim_lsp = "[LSP]",
-              buffer = "[Buffer]",
-              luasnip = "[LuaSnip]",
+              -- nvim_lsp = "[LSP]",
+              -- buffer = "[Buffer]",
+              -- luasnip = "[LuaSnip]",
             })[entry.source.name]
             vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
             -- vim_item.dup = 0

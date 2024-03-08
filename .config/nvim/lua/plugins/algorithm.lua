@@ -17,8 +17,8 @@ return {
       -- configuration goes here
       cn = { -- leetcode.cn
         enabled = true,
-        translator = true,
-        translate_problems = true,
+        translator = false,
+        translate_problems = false,
       },
       arg = leet_arg,
       injector = {
@@ -30,6 +30,13 @@ return {
           before = "import java.util.*;",
         },
       },
+      description = {
+        position = "left", ---@type lc.position
+
+        width = "50%", ---@type lc.size
+
+        show_stats = true, ---@type boolean
+      },
       keys = {
         toggle = { "q" }, ---@type string|string[]
         confirm = { "<CR>" }, ---@type string|string[]
@@ -40,19 +47,6 @@ return {
         focus_result = "<C-l>", ---@type string
       },
     },
-    -- keys = {
-    --   { "<leader>lq", mode = { "n" }, "<cmd>Leet tabs<cr>" },
-    --   { "<leader>lm", mode = { "n" }, "<cmd>Leet menu<cr>" },
-    --   { "<leader>lc", mode = { "n" }, "<cmd>Leet console<cr>" },
-    --   { "<leader>li", mode = { "n" }, "<cmd>Leet info<cr>" },
-    --   { "<leader>ll", mode = { "n" }, "<cmd>Leet lang<cr>" },
-    --   { "<leader>ld", mode = { "n" }, "<cmd>Leet desc<cr>" },
-    --   { "<leader>lr", mode = { "n" }, "<cmd>Leet run<cr>" },
-    --   { "<leader>ls", mode = { "n" }, "<cmd>Leet submit<cr>" },
-    --   { "<leader>ly", mode = { "n" }, "<cmd>Leet yank<cr>" },
-    --   { "<leader>lp", mode = { "n" }, "<cmd>Leet list<cr>" },
-    --   { "<leader>lo", mode = { "n" }, "<cmd>Leet open<cr>" },
-    -- },
     config = function(_, opts)
       require("leetcode").setup(opts)
       vim.keymap.set("n", "<leader>lr", "<cmd>Leet run<cr>")
@@ -89,6 +83,26 @@ return {
     config = function()
       require("competitest").setup({
         received_problems_path = "$(CWD)/$(PROBLEM)/$(PROBLEM).$(FEXT)",
+        testcases_use_single_file = true,
+        -- runner_ui = {
+        --   interface = "split",
+        -- },
+        split_ui = {
+          position = "right",
+          relative_to_editor = true,
+          total_width = 0.5,
+          vertical_layout = {
+            { 1, "tc" },
+            { 1, { { 1, "so" }, { 1, "eo" } } },
+            { 1, { { 1, "si" }, { 1, "se" } } },
+          },
+          total_height = 0.4,
+          horizontal_layout = {
+            { 2, "tc" },
+            { 3, { { 1, "so" }, { 1, "si" } } },
+            { 3, { { 1, "eo" }, { 1, "se" } } },
+          },
+        },
       })
     end,
   },

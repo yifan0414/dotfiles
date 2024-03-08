@@ -93,8 +93,8 @@ vim.keymap.del("n", "<leader>l")
 vim.keymap.set("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "Lazy" })
 vim.keymap.set("n", "<leader>qw", "<cmd>q<cr>", { silent = true, noremap = true, desc = "quit" })
 
-vim.keymap.set("n", "#", "#N", { noremap = true })
-vim.keymap.set("n", "*", "*N", { noremap = true })
+vim.keymap.set("n", "#", "*", { noremap = true })
+vim.keymap.set("n", "*", "#", { noremap = true })
 
 -- delete current line mark
 vim.api.nvim_create_user_command("Delmarks", function()

@@ -185,6 +185,7 @@ return {
           ["leetcode.nvim"] = true,
           asm = true,
           git = true,
+          CompetiTest = true,
         },
         chars = {
           horizontal_line = "─",
@@ -213,6 +214,7 @@ return {
           ["leetcode.nvim"] = true,
           asm = true,
           git = true,
+          CompetiTest = true,
         },
       },
 
