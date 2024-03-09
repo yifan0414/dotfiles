@@ -1,3 +1,5 @@
+[http]
+	proxy = http://127.0.0.1:7890
 [user]
 	email = 1679634762@qq.com
 	name = yifan0414
