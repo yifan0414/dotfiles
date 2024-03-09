@@ -155,11 +155,12 @@ return {
               -- 确保 `get` 函数被正确调用，并处理其返回值
               local command_status = require("noice.api.status").command.get()
               -- 根据 `command_status` 返回正确的字符串
-              if command_status then
-                return "⌨ " .. command_status
-              else
-                return ""
-              end
+              return command_status
+              -- if command_status then
+              --   return "⌨ " .. command_status
+              -- else
+              --   return ""
+              -- end
             end,
             -- "⌨ " .. require("noice").api.status.command.get,
             cond = require("noice.api.status").command.has,

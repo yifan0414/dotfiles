@@ -84,9 +84,9 @@ return {
       require("competitest").setup({
         received_problems_path = "$(CWD)/$(PROBLEM)/$(PROBLEM).$(FEXT)",
         testcases_use_single_file = true,
-        -- runner_ui = {
-        --   interface = "split",
-        -- },
+        runner_ui = {
+          interface = "split",
+        },
         split_ui = {
           position = "right",
           relative_to_editor = true,

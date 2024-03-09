@@ -38,7 +38,7 @@ return {
     },
     dependencies = {
       "voldikss/vim-floaterm",
-      "blob42/vimux",
+      "preservim/vimux",
     },
   },
   {

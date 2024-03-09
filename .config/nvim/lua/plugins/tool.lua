@@ -5,7 +5,7 @@ return {
     event = "BufReadPost",
   },
   {
-    "blob42/vimux",
+    "preservim/vimux",
     keys = {
       {
         "<leader>r",
@@ -30,6 +30,15 @@ return {
           vim.cmd('normal! "vyip')
           vim.fn.setreg("v", vim.fn.getreg("v") .. "\n")
           vimux_slime()
+        end,
+        mode = "n",
+      },
+      {
+        "go",
+        function()
+          -- https://img95.699pic.com/photo/50046/5562.jpg_wh300.jpg
+          local url = vim.fn.expand('<cfile>')
+          vim.fn.VimuxRunCommand("kitty icat --passthrough tmux " .. url)
         end,
         mode = "n",
       },
