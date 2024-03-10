@@ -17,6 +17,7 @@ if vim.fn.has("mac") then
     },
     cache_enabled = 1,
   }
+  vim.g.python3_host_prog = "/Users/yifansu/miniforge3/bin/python3"
 elseif os.getenv("TMUX") then
   vim.g.clipboard = {
     name = "TmuxClipboard",
@@ -43,6 +44,8 @@ elseif vim.fn.has("wsl") then
     },
     cache_enabled = 1,
   }
+  vim.g.python3_host_prog = "/usr/bin/python3"
+  vim.g.node_host_prog = "/usr/local/lib/node_modules/neovim/bin/cli.js"
 else
 end
 
@@ -57,8 +60,6 @@ vim.opt.autoread = true
 vim.opt.scrolloff = 7 -- Lines of context
 -- vim.go.guicursor = "a:block"
 vim.g.autoformat = false
--- vim.g.python3_host_prog = "/usr/bin/python3"
--- vim.g.node_host_prog = "/usr/local/lib/node_modules/neovim/bin/cli.js"
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
@@ -71,11 +72,8 @@ vim.wo.cursorlineopt = "number"
 
 -- NOTE: asyncrun 的配置
 vim.g.asyncrun_open = 12
-vim.g.VimuxHeight = "30"
+vim.g.VimuxHeight = "50"
 vim.g.VimuxOrientation = "h"
 
 -- 手动fold
 vim.opt.foldmethod = "manual"
-
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
