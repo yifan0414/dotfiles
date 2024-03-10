@@ -25,10 +25,16 @@ return {
         c = { fg = colors.normal, bg = colors.black },
       },
 
+      command = {
+        a = { fg = colors.black, bg = colors.normal },
+        b = { fg = colors.white, bg = colors.grey },
+        c = { fg = colors.normal, bg = colors.black },
+      },
+
       insert = { a = { fg = colors.black, bg = colors.green } },
       visual = { a = { fg = colors.black, bg = colors.visual } },
       replace = { a = { fg = colors.black, bg = colors.red } },
-      command = { a = { fg = colors.black, bg = colors.violet } },
+      -- command = { a = { fg = colors.black, bg = colors.violet } },
       terminal = { a = { fg = colors.black, bg = colors.cyan } },
 
       inactive = {
@@ -47,7 +53,7 @@ return {
       -- ["V-LINE"] = "V-LINE",
       -- ["V-REPLACE"] = "V-REPLACE",
       -- ["REPLACE"] = "REPLACE",
-      ["COMMAND"] = "COMMAND",
+      ["COMMAND"] = "NORMAL", -- 解决闪动问题
       -- ["SHELL"] = "SHELL",
       -- ["TERMINAL"] = "TERMINAL",
       -- ["EX"] = "EX",

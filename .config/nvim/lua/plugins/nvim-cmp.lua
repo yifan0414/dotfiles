@@ -19,7 +19,7 @@ return {
             type = "/",
             mapping = cmp.mapping.preset.cmdline(),
             sources = {
-              { name = "buffer" },
+              { name = "buffer", max_item_count = 7 },
             },
           },
           {

@@ -241,6 +241,11 @@ return {
       label = {
         exclude = "able",
       },
+      modes = {
+        char = {
+          enabled = false,
+        },
+      },
     },
   },
   {
