@@ -141,21 +141,6 @@ export LUA_PATH="~/.config/nvim/lua/"
 # set english
 export LANG=en_US.UTF-8
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/yifansu/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/yifansu/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "/Users/yifansu/miniforge3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/yifansu/miniforge3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
 if [[ "$(uname)" == "Darwin" ]]; then
     {
         export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
@@ -182,6 +167,7 @@ function zvm_after_init() {
   source ~/.oh-my-zsh/custom/plugins/fzf-tab/fzf-tab.plugin.zsh
   source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 }
+
 
 # # Disable the cursor style feature
 ZVM_CURSOR_STYE_EABLED=false
