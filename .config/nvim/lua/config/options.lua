@@ -59,6 +59,7 @@ vim.opt.autowrite = true
 vim.opt.autoread = true
 vim.opt.scrolloff = 7 -- Lines of context
 -- vim.go.guicursor = "a:block"
+vim.go.guicursor = "i:ver25,o:block"
 vim.g.autoformat = false
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0

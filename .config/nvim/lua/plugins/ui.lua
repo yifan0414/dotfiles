@@ -2,21 +2,21 @@ return {
   {
     "lukas-reineke/indent-blankline.nvim",
     event = "LazyFile",
-    enabled = false,
-    opts = {
-      indent = {
+    -- enabled = false,
+    opts = function(_, opts)
+      opts.indent = {
         char = "│",
         tab_char = "│",
-      },
-      scope = {
+      }
+      opts.scope = {
         enabled = false,
         show_start = false,
         show_end = false,
-        injected_languages = false,
-        highlight = { "Function", "Label" },
+        -- injected_languages = false,
+        -- highlight = highlight,
         priority = 500,
-      },
-      exclude = {
+      }
+      opts.exclude = {
         filetypes = {
           "help",
           "alpha",
@@ -30,8 +30,8 @@ return {
           "toggleterm",
           "lazyterm",
         },
-      },
-    },
+      }
+    end,
     main = "ibl",
   },
   {
@@ -205,7 +205,7 @@ return {
       },
 
       indent = {
-        enable = true,
+        enable = false,
         use_treesitter = false,
         exclude_filetypes = {
           help = true,

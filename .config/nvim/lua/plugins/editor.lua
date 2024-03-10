@@ -14,11 +14,11 @@ return {
       "TmuxNavigatePrevious",
     },
     keys = {
-      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>", silent = true, noremap = true },
+      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>", silent = true, noremap = true },
+      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>", silent = true, noremap = true },
+      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>", silent = true, noremap = true },
+      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>", silent = true, noremap = true },
     },
   },
   {
@@ -134,6 +134,14 @@ return {
         '<cmd>lua require("various-textobjs").indentation("outer", "outer")<CR>',
         mode = { "o", "x" },
       },
+    },
+  },
+  {
+    "numToStr/Comment.nvim",
+    -- event = "VeryLazy",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+      -- add any options here
     },
   },
 }

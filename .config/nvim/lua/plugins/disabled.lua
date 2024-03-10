@@ -19,6 +19,12 @@ return {
     "echasnovski/mini.ai",
     enabled = false,
   },
+  {
+    "echasnovski/mini.comment",
+    enabled = false,
+  },
+  -- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:
+
   -- {
   --   "echasnovski/mini.indentscope",
   --   enabled = false,
