@@ -124,7 +124,7 @@ return {
       large_file_overrides = {
         providers = { "lsp" },
       },
-      under_cursor = false,
+      under_cursor = true,
       providers = { "regex" },
       filetypes_denylist = {
         "dirvish",
@@ -135,14 +135,14 @@ return {
       },
     },
     config = function(_, opts)
-      vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
-      vim.cmd([[hi illuminatedWordRead gui=none guibg=#2c313c]])
-      vim.cmd([[hi illuminatedWordText gui=none guibg=#2c313c]])
-      vim.cmd([[hi illuminatedWordWrite gui=none guibg=#2c313c]])
-      -- vim.cmd([[hi illuminatedWord gui=none guibg=#45475a]])
-      -- vim.cmd([[hi illuminatedWordRead gui=none guibg=#45475a]])
-      -- vim.cmd([[hi illuminatedWordText gui=none guibg=#45475a]])
-      -- vim.cmd([[hi illuminatedWordWrite gui=none guibg=#45475a]])
+      -- vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWordRead gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWordText gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWordWrite gui=none guibg=#2c313c]])
+      vim.cmd([[hi illuminatedWord gui=none guibg=#45475a]])
+      vim.cmd([[hi illuminatedWordRead gui=none guibg=#45475a]])
+      vim.cmd([[hi illuminatedWordText gui=none guibg=#45475a]])
+      vim.cmd([[hi illuminatedWordWrite gui=none guibg=#45475a]])
       require("illuminate").configure(opts)
 
       local function map(key, dir, buffer)
