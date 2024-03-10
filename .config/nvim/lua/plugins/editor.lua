@@ -139,7 +139,12 @@ return {
   {
     "numToStr/Comment.nvim",
     -- event = "VeryLazy",
-    event = { "BufReadPost", "BufNewFile" },
+    keys = {
+      { "gcc", mode = { "n" } },
+      { "gbc", mode = { "n" } },
+      { "gc", mode = { "x" } },
+    },
+    -- event = { "BufReadPost", "BufNewFile" },
     opts = {
       -- add any options here
     },
