@@ -4,7 +4,20 @@
 
 -- 检查 tmux 环境的 Lua 脚本
 
-if os.getenv("TMUX") then
+if vim.fn.has("mac") then
+  vim.g.clipboard = {
+    name = "macOSClipboard",
+    copy = {
+      ["+"] = "pbcopy",
+      ["*"] = "pbcopy",
+    },
+    paste = {
+      ["+"] = "pbpaste",
+      ["*"] = "pbpaste",
+    },
+    cache_enabled = 1,
+  }
+elseif os.getenv("TMUX") then
   vim.g.clipboard = {
     name = "TmuxClipboard",
     copy = {
@@ -17,7 +30,7 @@ if os.getenv("TMUX") then
     },
     cache_enabled = 1, -- 要设置成1，不然使用x或者d的时候鼠标会闪烁
   }
-elseif os.getenv("WSL_DISTRO_NAME") then
+elseif vim.fn.has("wsl") then
   vim.g.clipboard = {
     name = "WslClipboard",
     copy = {
@@ -30,6 +43,7 @@ elseif os.getenv("WSL_DISTRO_NAME") then
     },
     cache_enabled = 1,
   }
+else
 end
 
 vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard

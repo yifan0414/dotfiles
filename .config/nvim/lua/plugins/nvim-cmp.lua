@@ -193,8 +193,8 @@ return {
           vim.bo.buftype == "prompt"
           or context.in_treesitter_capture("comment")
           or context.in_syntax_group("Comment")
-          or context.in_treesitter_capture("string")
-          or context.in_syntax_group("String")
+          -- or context.in_treesitter_capture("string")
+          -- or context.in_syntax_group("String")
         then
           return false
         else

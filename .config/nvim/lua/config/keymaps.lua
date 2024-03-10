@@ -84,7 +84,7 @@ vim.keymap.set("n", "<leader>td", function()
   vim.cmd("10sp " .. file_path)
 end, { noremap = true, silent = true, desc = "dayliy note" })
 
--- vim.keymap.set("n", "x", '"_x', { noremap = true, silent = true })
+vim.keymap.set("n", "x", '"_x', { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader><tab>n", "<cmd>tabnext<cr>", { silent = true, noremap = true })
 vim.keymap.set("n", "<leader><tab>p", "<cmd>tabprevious<cr>", { silent = true, noremap = true })
