@@ -185,7 +185,7 @@ return {
         {
           name = "buffer",
           group_index = 2,
-          max_item_count = 3,
+          max_item_count = 5,
           -- 筛选出去数字
           entry_filter = function(entry)
             return not string.match(entry:get_completion_item().label, "^%d+$")

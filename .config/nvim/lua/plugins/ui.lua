@@ -119,7 +119,7 @@ return {
     "RRethy/vim-illuminate",
     event = "LazyFile",
     opts = {
-      delay = 100,
+      delay = 200,
       large_file_cutoff = 2000,
       large_file_overrides = {
         providers = { "lsp" },
@@ -133,6 +133,8 @@ return {
         "outline",
         "help",
         "DiffviewFileHistory",
+        "DiffviewFiles",
+        "DiffviewViewPanel",
       },
       modes_denylist = { "i", "v", "no", "V" },
       -- mode_allowlist = { "n" },
@@ -148,6 +150,10 @@ return {
       vim.cmd([[hi illuminatedWordWrite gui=none guibg=#45475a]])
       require("illuminate").configure(opts)
     end,
+    keys = {
+      { "[[", false },
+      { "]]", false },
+    },
   },
   {
     "shellRaining/hlchunk.nvim",
@@ -157,7 +163,7 @@ return {
       chunk = {
         enable = true,
         notify = false,
-        use_treesitter = true,
+        use_treesitter = false,
         -- details about support_filetypes and exclude_filetypes in https://github.com/shellRaining/hlchunk.nvim/blob/main/lua/hlchunk/utils/filetype.lua
         exclude_filetypes = {
           help = true,
