@@ -30,26 +30,9 @@ return {
       },
       servers = {
         lua_ls = {
-          -- mason = false, -- set to false if you don't want this server to be installed with mason
-          -- Use this to add any additional keymaps
-          -- for specific lsp servers
-          ---@type LazyKeysSpec[]
-          -- keys = {},
           settings = {
             Lua = {
-              hint = {
-                enable = true,
-                setType = true,
-              },
-              workspace = {
-                checkThirdParty = false,
-              },
-              codeLens = {
-                enable = true,
-              },
-              completion = {
-                callSnippet = "Replace",
-              },
+              hint = { enable = true, setType = true },
             },
           },
         },
