@@ -140,14 +140,14 @@ return {
       -- mode_allowlist = { "n" },
     },
     config = function(_, opts)
-      -- vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
-      -- vim.cmd([[hi illuminatedWordRead gui=none guibg=#2c313c]])
-      -- vim.cmd([[hi illuminatedWordText gui=none guibg=#2c313c]])
-      -- vim.cmd([[hi illuminatedWordWrite gui=none guibg=#2c313c]])
-      vim.cmd([[hi illuminatedWord gui=none guibg=#45475a]])
-      vim.cmd([[hi illuminatedWordRead gui=none guibg=#45475a]])
-      vim.cmd([[hi illuminatedWordText gui=none guibg=#45475a]])
-      vim.cmd([[hi illuminatedWordWrite gui=none guibg=#45475a]])
+      vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
+      vim.cmd([[hi illuminatedWordRead gui=none guibg=#2c313c]])
+      vim.cmd([[hi illuminatedWordText gui=none guibg=#2c313c]])
+      vim.cmd([[hi illuminatedWordWrite gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWord gui=none guibg=#45475a]])
+      -- vim.cmd([[hi illuminatedWordRead gui=none guibg=#45475a]])
+      -- vim.cmd([[hi illuminatedWordText gui=none guibg=#45475a]])
+      -- vim.cmd([[hi illuminatedWordWrite gui=none guibg=#45475a]])
       require("illuminate").configure(opts)
     end,
     keys = {
@@ -249,5 +249,95 @@ return {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
     },
+  },
+  -- {
+  --   "petertriho/nvim-scrollbar",
+  --   event = "LazyFile",
+  --   config = function()
+  --     local colors = require("kanagawa.colors").setup().palette
+  --     require("scrollbar").setup({
+  --       throttle_ms = 0,
+  --       marks = {
+  --         Search = { color = colors.surimiOrange },
+  --         Error = { color = colors.samuraiRed },
+  --         Warn = { color = colors.roninYellow },
+  --         Info = { color = colors.waveAqua1 },
+  --         Hint = { color = colors.dragonBlue },
+  --         Misc = { color = colors.oniViolet },
+  --         GitAdd = {
+  --           text = "|",
+  --         },
+  --       },
+  --       excluded_filetypes = {
+  --         "cmp_docs",
+  --         "cmp_menu",
+  --         "noice",
+  --         "prompt",
+  --         "TelescopePrompt",
+  --         "neo-tree",
+  --       },
+  --     })
+  --   end,
+  --   dependencies = {
+  --     {
+  --       "lewis6991/gitsigns.nvim",
+  --       config = function()
+  --         require("gitsigns").setup()
+  --         require("scrollbar.handlers.gitsigns").setup()
+  --       end,
+  --     },
+  --   },
+  -- },
+  {
+    "lewis6991/satellite.nvim",
+
+    config = function()
+      require("satellite").setup({
+        current_only = false,
+        winblend = 50,
+        zindex = 40,
+        excluded_filetypes = {},
+        width = 2,
+        handlers = {
+          cursor = {
+            enable = true,
+            symbols = { "•" },
+            overlap = true,
+            priority = 1000,
+          },
+          search = {
+            enable = true,
+            -- Highlights:
+            -- - SatelliteSearch (default links to Search)
+            -- - SatelliteSearchCurrent (default links to SearchCurrent)
+          },
+          diagnostic = {
+            enable = true,
+            signs = { "-", "=", "≡" },
+            min_severity = vim.diagnostic.severity.HINT,
+            -- Highlights:
+            -- - SatelliteDiagnosticError (default links to DiagnosticError)
+            -- - SatelliteDiagnosticWarn (default links to DiagnosticWarn)
+            -- - SatelliteDiagnosticInfo (default links to DiagnosticInfo)
+            -- - SatelliteDiagnosticHint (default links to DiagnosticHint)
+          },
+          gitsigns = {
+            enable = false,
+          },
+          marks = {
+            enable = true,
+            show_builtins = false, -- shows the builtin marks like [ ] < >
+            key = "m",
+            -- Highlights:
+            -- SatelliteMark (default links to Normal)
+          },
+          quickfix = {
+            signs = { "-", "=", "≡" },
+            -- Highlights:
+            -- SatelliteQuickfix (default links to WarningMsg)
+          },
+        },
+      })
+    end,
   },
 }
