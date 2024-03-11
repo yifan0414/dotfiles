@@ -115,7 +115,7 @@ return {
             {
               "Yadm update all file",
               "call asyncrun#run('', {'cwd':'~'},'yadm add -u :/ && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
-            }
+            },
           }
           local picker = require("plugins.util.picker") -- lazy load
           picker.telescope_command_picker(yadm_command)
