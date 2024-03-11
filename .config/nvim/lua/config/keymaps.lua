@@ -110,7 +110,7 @@ vim.keymap.set("n", "*", "#", { noremap = true })
 --   end
 -- end, {})
 
-vim.api.nvim_set_keymap("n", "dm", "<cmd>Delmarks<CR>", { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap("n", "dm", "<cmd>Delmarks<CR>", { silent = true, noremap = true })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)

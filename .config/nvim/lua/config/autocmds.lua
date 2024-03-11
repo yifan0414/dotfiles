@@ -2,23 +2,23 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
+local function augroup(name)
+  return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
+end
+
 vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   pattern = { "*" },
   command = "silent! wall",
   nested = true,
 })
 
--- 关闭新行注释
+-- 关闭 o 引起的新行注释, 保留 insert mode 下由 <enter> 引起的注释
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = "*",
   callback = function()
-    vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" }
+    vim.opt.formatoptions = vim.opt.formatoptions - { "o", "c" }
   end,
 })
-
-local function augroup(name)
-  return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
-end
 
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("wrap_spell"),
@@ -27,14 +27,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.wrap = true
     vim.opt_local.spell = false
   end,
-})
-
-local group = vim.api.nvim_create_augroup("SetCommentString", { clear = true })
-
-vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
-  group = group,
-  pattern = { "*.cpp", "*.h" },
-  command = "lua vim.api.nvim_buf_set_option(0, 'commentstring', '// %s')",
 })
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -79,24 +71,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- local augroup = vim.api.nvim_create_augroup("user_diagnostic", { clear = true })
--- local autocmd = vim.api.nvim_create_autocmd
---
--- autocmd("ModeChanged", {
---   group = augroup,
---   pattern = { "n:i", "n:v", "i:v" },
---   command = "lua vim.diagnostic.disable(0)",
--- })
---
--- autocmd("ModeChanged", {
---   group = augroup,
---   pattern = "i:n",
---   command = "lua vim.diagnostic.enable(0)",
--- })
-
--- You can add this in your init.lua
--- or a plugin script
-
 vim.api.nvim_create_autocmd("ModeChanged", {
   pattern = { "n:i", "v:s" },
   desc = "Disable diagnostics in insert and select mode",
@@ -126,25 +100,3 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 --     vim.lsp.inlay_hint.enable(0, false)
 --   end,
 -- })
-
--- function PrintDiagnostics(opts, bufnr, line_nr, client_id)
---   bufnr = bufnr or 0
---   line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
---   opts = opts or { ["lnum"] = line_nr }
---
---   local line_diagnostics = vim.diagnostic.get(bufnr, opts)
---   if vim.tbl_isempty(line_diagnostics) then
---     return
---   end
---
---   local diagnostic_message = ""
---   for i, diagnostic in ipairs(line_diagnostics) do
---     diagnostic_message = diagnostic_message .. string.format("%d: %s", i, diagnostic.message or "")
---     print(diagnostic_message)
---     if i ~= #line_diagnostics then
---       diagnostic_message = diagnostic_message .. "\n"
---     end
---   end
---   vim.api.nvim_echo({ { diagnostic_message, "Normal" } }, false, {})
--- end
--- vim.cmd([[ autocmd! CursorHold * lua PrintDiagnostics() ]])
