@@ -72,7 +72,7 @@ return {
       placement = "top", -- 'top', 'inline'
       inline_padding_left = 0, -- the padding left when the placement is inline
       update_event = { "BufEnter", "DiagnosticChanged", "BufReadPost" }, -- the event that updates the diagnostics cache
-      toggle_event = { "InsertEnter", "InsertLeave" }, -- if InsertEnter, can toggle the diagnostics on inserts
+      toggle_event = { "ModeChanged" }, -- if InsertEnter, can toggle the diagnostics on inserts
       render_event = { "CursorMoved", "DiagnosticChanged" },
       border_chars = {
         top_left = "╭",

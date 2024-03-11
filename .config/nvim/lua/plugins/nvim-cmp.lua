@@ -72,9 +72,9 @@ return {
 
     vim.api.nvim_set_hl(0, "CmpItemKindReference", { bg = "NONE", fg = "#ffe4b5" })
     -- Customization for Pmenu
-    vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
-    vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
-    -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#223349", blend = 0 })
+    -- vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
+    -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
+    vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#223349", blend = 0 })
 
     local neotab = require("neotab")
     local luasnip = require("luasnip")
@@ -86,17 +86,17 @@ return {
 
     return {
       window = {
-        completion = cmp.config.window.bordered({
-          -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-          winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
-        }),
+        -- completion = cmp.config.window.bordered({
+        --   -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+        --   winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
+        -- }),
         -- documentation = cmp.config.window.bordered({
         --   winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
         -- }),
         documentation = {
-          border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-          -- winhighlight = 'Normal:Pmenu,FloatBorder:PmenuSel,Search:None',
+          -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+          -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+          winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
           max_width = 50,
           max_height = math.floor(vim.o.lines * 0.5),
         },
@@ -156,26 +156,56 @@ return {
         ["<C-c>"] = cmp.mapping.abort(),
         -- ["<esc>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        ["<S-CR>"] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
-        }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        -- ["<S-CR>"] = cmp.mapping({
+        --   i = function(fallback)
+        --     if cmp.visible() and cmp.get_active_entry() then
+        --       cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+        --     else
+        --       fallback()
+        --     end
+        --   end,
+        --   s = cmp.mapping.confirm({ select = true }),
+        --   c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+        -- }),
+        -- ["<S-CR>"] = cmp.mapping.confirm({
+        --   behavior = cmp.ConfirmBehavior.Replace,
+        --   select = true,
+        -- }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
       sources = cmp.config.sources({
         {
           name = "luasnip",
-          -- group_index = 1,
-          -- max_item_count = 5,
+          group_index = 1,
+          max_item_count = 4,
+          entry_filter = function()
+            local context = require("cmp.config.context")
+            -- keep command mode completion enabled when cursor is in a comment
+            if
+              vim.bo.buftype == "prompt"
+              or context.in_treesitter_capture("comment")
+              or context.in_syntax_group("Comment")
+              or context.in_treesitter_capture("string")
+              or context.in_syntax_group("String")
+            then
+              return false
+            else
+              return true
+            end
+          end,
         },
-        -- {
-        --   name = "buffer",
-        --   group_index = 2,
-        --   -- max_item_count = 3,
-        -- },
+        {
+          name = "buffer",
+          group_index = 2,
+          max_item_count = 3,
+          -- 筛选出去数字
+          entry_filter = function(entry)
+            return not string.match(entry:get_completion_item().label, "%d")
+          end,
+        },
         {
           name = "nvim_lsp",
-          -- group_index = 2,
-          -- max_item_count = 7,
+          group_index = 1,
+          max_item_count = 5,
           entry_filter = function(entry)
             local kind = entry:get_kind()
             return cmp.lsp.CompletionItemKind.Snippet ~= kind
@@ -185,26 +215,27 @@ return {
         -- { name = "orgmode" },
         -- { name = "path" },
       }),
-      enabled = function()
-        -- disable completion in comments
-        local context = require("cmp.config.context")
-        -- keep command mode completion enabled when cursor is in a comment
-        if
-          vim.bo.buftype == "prompt"
-          or context.in_treesitter_capture("comment")
-          or context.in_syntax_group("Comment")
-          -- or context.in_treesitter_capture("string")
-          -- or context.in_syntax_group("String")
-        then
-          return false
-        else
-          return true
-        end
-      end,
+      -- enabled = function()
+      --   -- disable completion in comments
+      --   local context = require("cmp.config.context")
+      --   -- keep command mode completion enabled when cursor is in a comment
+      --   if
+      --     vim.bo.buftype == "prompt"
+      --     or context.in_treesitter_capture("comment")
+      --     or context.in_syntax_group("Comment")
+      --     -- or context.in_treesitter_capture("string")
+      --     -- or context.in_syntax_group("String")
+      --   then
+      --     return false
+      --   else
+      --     return true
+      --   end
+      -- end,
+
       formatting = {
         fields = { "abbr", "kind", "menu" },
         format = require("lspkind").cmp_format({
-          preset = "codicons",
+          preset = "default",
           mode = "symbol_text",
           maxwidth = 20,
           show_labelDetails = false,

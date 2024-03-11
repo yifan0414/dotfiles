@@ -133,6 +133,8 @@ return {
         "outline",
         "help",
       },
+      modes_denylist = { "i" },
+      mode_allowlist = { "n" },
     },
     config = function(_, opts)
       -- vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
@@ -251,5 +253,16 @@ return {
   {
     "fladson/vim-kitty",
     ft = "kitty",
+  },
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      fold_closed = "›",
+      fold_open = "▾", -- icon used for open folds
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
   },
 }
