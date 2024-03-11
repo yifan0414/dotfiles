@@ -187,6 +187,15 @@ return {
     },
     config = function()
       require("diffview").setup({
+        icons = {
+          folder_closed = "",
+          folder_open = "",
+        },
+        signs = {
+          fold_closed = "›",
+          fold_open = "▾",
+          done = "✔",
+        },
         view = {
           default = {
             -- Config for changed files, and staged files in diff views.
@@ -239,20 +248,20 @@ return {
           },
         },
 
-        keymaps = {
-          view = {
-            ["<tab>"] = false,
-            ["<s-tab>"] = false,
-          },
-          file_history_panel = {
-            ["<tab>"] = false,
-            ["<s-tab>"] = false,
-          },
-          file_panel = {
-            ["<tab>"] = false,
-            ["<s-tab>"] = false,
-          },
-        },
+        -- keymaps = {
+        --   view = {
+        --     ["<tab>"] = false,
+        --     ["<s-tab>"] = false,
+        --   },
+        --   file_history_panel = {
+        --     ["<tab>"] = false,
+        --     ["<s-tab>"] = false,
+        --   },
+        --   file_panel = {
+        --     ["<tab>"] = false,
+        --     ["<s-tab>"] = false,
+        --   },
+        -- },
       })
     end,
   },

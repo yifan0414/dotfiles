@@ -132,6 +132,7 @@ return {
         "noice",
         "outline",
         "help",
+        "DiffviewFileHistory",
       },
       modes_denylist = { "i", "v", "no", "V" },
       -- mode_allowlist = { "n" },
