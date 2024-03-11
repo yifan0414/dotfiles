@@ -290,6 +290,7 @@ return {
   -- },
   {
     "lewis6991/satellite.nvim",
+    event = "LazyFile",
 
     config = function()
       require("satellite").setup({
@@ -323,16 +324,24 @@ return {
           },
           gitsigns = {
             enable = false,
+            signs = { -- can only be a single character (multibyte is okay)
+              add = "│",
+              change = "│",
+              delete = "-",
+            },
           },
           marks = {
             enable = true,
             show_builtins = false, -- shows the builtin marks like [ ] < >
-            key = "m",
+            -- key = "m",
             -- Highlights:
             -- SatelliteMark (default links to Normal)
           },
           quickfix = {
+            enable = true,
             signs = { "-", "=", "≡" },
+            overlap = true,
+            priority = 1000,
             -- Highlights:
             -- SatelliteQuickfix (default links to WarningMsg)
           },

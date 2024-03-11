@@ -26,6 +26,9 @@ return {
     -- event = "VeryLazy",
     lazy = true,
     config = function(_, opts)
+      local presets = require("which-key.plugins.presets")
+      presets.operators["v"] = nil
+      presets.operators["m"] = nil
       vim.o.timeout = true
       vim.o.timeoutlen = 500
       require("which-key").setup(opts)

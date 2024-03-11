@@ -96,21 +96,21 @@ vim.keymap.set("n", "<leader>qw", "<cmd>q<cr>", { silent = true, noremap = true,
 vim.keymap.set("n", "#", "*", { noremap = true })
 vim.keymap.set("n", "*", "#", { noremap = true })
 
--- delete current line mark
--- vim.api.nvim_create_user_command("Delmarks", function()
---   local marks = {}
---   for ascii_code = 97, 122 do -- 'a' to 'z'
---     local mark = vim.fn.getpos("'" .. string.char(ascii_code))
---     if mark and mark[2] ~= 0 and vim.fn.line(".") == mark[2] then
---       table.insert(marks, string.char(ascii_code))
---     end
---   end
---   if #marks > 0 then
---     vim.cmd("delmarks " .. table.concat(marks))
---   end
--- end, {})
+-- delete mark
+vim.keymap.set("n", "dm", function()
+  local marks = {}
+  for ascii_code = 97, 122 do -- 'a' to 'z'
+    local mark = vim.fn.getpos("'" .. string.char(ascii_code))
+    if mark and mark[2] ~= 0 and vim.fn.line(".") == mark[2] then
+      table.insert(marks, string.char(ascii_code))
+    end
+  end
+  if #marks > 0 then
+    vim.cmd("delmarks " .. table.concat(marks))
+  end
+end, { silent = true, noremap = true })
 
--- vim.api.nvim_set_keymap("n", "dm", "<cmd>Delmarks<CR>", { silent = true, noremap = true })
+vim.keymap.set("n", "dM", "<cmd>delmarks!<cr>", { silent = true, noremap = true })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
