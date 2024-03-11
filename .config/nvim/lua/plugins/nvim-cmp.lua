@@ -137,6 +137,8 @@ return {
         ["<C-n>"] = cmp.mapping(function()
           if luasnip.choice_active() then
             luasnip.change_choice(1)
+          elseif luasnip.expand_or_locally_jumpable() then
+            luasnip.expand_or_jump()
           elseif cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
           end
@@ -144,6 +146,8 @@ return {
         ["<C-p>"] = cmp.mapping(function()
           if luasnip.choice_active() then
             luasnip.change_choice(-1)
+          elseif luasnip.expand_or_locally_jumpable(-1) then
+            luasnip.expand_or_jump(-1)
           elseif cmp.visible() then
             cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
           end
@@ -156,21 +160,6 @@ return {
         ["<C-c>"] = cmp.mapping.abort(),
         -- ["<esc>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        -- ["<S-CR>"] = cmp.mapping({
-        --   i = function(fallback)
-        --     if cmp.visible() and cmp.get_active_entry() then
-        --       cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-        --     else
-        --       fallback()
-        --     end
-        --   end,
-        --   s = cmp.mapping.confirm({ select = true }),
-        --   c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
-        -- }),
-        -- ["<S-CR>"] = cmp.mapping.confirm({
-        --   behavior = cmp.ConfirmBehavior.Replace,
-        --   select = true,
-        -- }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
       sources = cmp.config.sources({
         {
@@ -199,7 +188,7 @@ return {
           max_item_count = 3,
           -- 筛选出去数字
           entry_filter = function(entry)
-            return not string.match(entry:get_completion_item().label, "%d")
+            return not string.match(entry:get_completion_item().label, "^%d+$")
           end,
         },
         {

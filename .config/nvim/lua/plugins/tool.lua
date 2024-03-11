@@ -37,7 +37,7 @@ return {
         "go",
         function()
           -- https://img95.699pic.com/photo/50046/5562.jpg_wh300.jpg
-          local url = vim.fn.expand('<cfile>')
+          local url = vim.fn.expand("<cfile>")
           vim.fn.VimuxRunCommand("kitty icat --passthrough tmux " .. url)
         end,
         mode = "n",
@@ -123,5 +123,9 @@ return {
     config = function(_, opts)
       require("pretty-fold").setup(opts)
     end,
+  },
+  {
+    "tpope/vim-scriptease",
+    enabled = false,
   },
 }

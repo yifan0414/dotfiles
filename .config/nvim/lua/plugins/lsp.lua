@@ -85,4 +85,11 @@ return {
       show_borders = true,
     },
   },
+  {
+    "j-hui/fidget.nvim",
+    event = "LspAttach",
+    opts = {
+      -- options
+    },
+  },
 }

@@ -70,8 +70,8 @@ return {
           size = {
             max_width = 60,
             max_height = 10,
-          }
-        }
+          },
+        },
       },
       documentation = {
         opts = {
