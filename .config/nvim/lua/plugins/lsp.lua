@@ -25,9 +25,39 @@ return {
         --   -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
         --   -- prefix = "icons",
         -- },
-        virtual_text = true,
+        virtual_text = false,
         severity_sort = true,
       },
+      servers = {
+        lua_ls = {
+          -- mason = false, -- set to false if you don't want this server to be installed with mason
+          -- Use this to add any additional keymaps
+          -- for specific lsp servers
+          ---@type LazyKeysSpec[]
+          -- keys = {},
+          settings = {
+            Lua = {
+              hint = {
+                enable = true,
+                setType = true,
+              },
+              workspace = {
+                checkThirdParty = false,
+              },
+              codeLens = {
+                enable = true,
+              },
+              completion = {
+                callSnippet = "Replace",
+              },
+            },
+          },
+        },
+        jdtls = {
+          inlayHints = { parameterNames = { enabled = "all" } },
+        },
+      },
+
       inlay_hints = { enabled = true },
     },
   },
@@ -61,10 +91,6 @@ return {
       update_event = { "DiagnosticChanged", "BufReadPost" }, -- the event that updates the diagnostics cache
       toggle_event = { "InsertEnter", "InsertLeave" }, -- if InsertEnter, can toggle the diagnostics on inserts
       render_event = { "CursorMoved", "DiagnosticChanged" },
-
-      -- toggle_event = {},
-      -- render_event = { "CursorMoved" },
-      -- update_event = { "DiagnosticChanged", "BufReadPost" },
       border_chars = {
         top_left = "╭",
         top_right = "╮",
