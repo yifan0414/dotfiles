@@ -141,6 +141,10 @@ export LUA_PATH="~/.config/nvim/lua/"
 # set english
 export LANG=en_US.UTF-8
 
+
+bindkey "^[l" clear-screen
+bindkey "^L" clear-screen
+
 if [[ "$(uname)" == "Darwin" ]]; then
     {
         export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
@@ -171,3 +175,5 @@ function zvm_after_init() {
 
 # # Disable the cursor style feature
 ZVM_CURSOR_STYE_EABLED=false
+
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
