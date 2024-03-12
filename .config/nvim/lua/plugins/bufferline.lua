@@ -8,7 +8,7 @@ return {
     opts = {
       options = {
         mode = { "buffers", "tabs" },
-        max_name_length = 7,
+        -- max_name_length = 7,
         max_prefix_length = 5, -- prefix used when a buffer is de-duplicated
         truncate_names = true, -- whether or not tab names should be truncated
         tab_size = 7,

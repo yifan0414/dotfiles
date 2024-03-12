@@ -80,7 +80,8 @@ return {
       },
       separator = "%#Comment#" .. " › " .. "%#Normal#",
       highlight = true,
-      -- depth_limit = 5,
+      depth_limit = 5,
+      depth_limit_indicator = "%#Comment#" .. ".." .. "%#Normal#",
       lazy_update_context = false,
       click = true,
       -- format_text = function(text)

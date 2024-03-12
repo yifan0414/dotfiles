@@ -75,14 +75,17 @@ return {
     -- vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
     -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
     vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#223349", blend = 0 })
+    vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 
     local neotab = require("neotab")
     local luasnip = require("luasnip")
 
     require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
     require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets_lua" })
-    vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
+
+    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     local cmp = require("cmp")
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
     return {
       window = {
@@ -232,17 +235,17 @@ return {
           before = function(entry, vim_item)
             -- vim_item.menu = string.sub(vim_item.menu, 1, 0)
             vim_item.menu = ({
-              -- nvim_lsp = "[LSP]",
-              -- buffer = "[Buffer]",
-              -- luasnip = "[LuaSnip]",
+              nvim_lsp = "[LSP]",
+              buffer = "[Buffer]",
+              luasnip = "[LuaSnip]",
             })[entry.source.name]
             vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
             -- vim_item.dup = 0
             vim_item.dup = ({
               buffer = 0,
               path = 0,
-              nvim_lsp = 0,
-              luasnip = 1,
+              nvim_lsp = 1,
+              luasnip = 0,
             })[entry.source.name] or 0
             return vim_item
           end,

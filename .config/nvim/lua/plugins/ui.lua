@@ -3,32 +3,34 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     event = "LazyFile",
     -- enabled = false,
-    opts = function(_, opts)
-      opts.indent = {
-        char = "│",
-        tab_char = "│",
-      }
-      opts.scope = {
-        enabled = false,
-        show_start = false,
-        show_end = false,
-        -- injected_languages = false,
-        -- highlight = highlight,
-        priority = 500,
-      }
-      opts.exclude = {
-        filetypes = {
-          "help",
-          "alpha",
-          "dashboard",
-          "neo-tree",
-          "Trouble",
-          "trouble",
-          "lazy",
-          "mason",
-          "notify",
-          "toggleterm",
-          "lazyterm",
+    opts = function()
+      return {
+        indent = {
+          char = "│",
+          tab_char = "│",
+        },
+        scope = {
+          enabled = false,
+          show_start = false,
+          show_end = false,
+          -- injected_languages = false,
+          -- highlight = highlight,
+          priority = 500,
+        },
+        exclude = {
+          filetypes = {
+            "help",
+            "alpha",
+            "dashboard",
+            "neo-tree",
+            "Trouble",
+            "trouble",
+            "lazy",
+            "mason",
+            "notify",
+            "toggleterm",
+            "lazyterm",
+          },
         },
       }
     end,
@@ -229,6 +231,9 @@ return {
         exclude = "able",
       },
       modes = {
+        search = {
+          enabled = false,
+        },
         char = {
           enabled = false,
         },

@@ -29,13 +29,6 @@ return {
           },
         },
       })
-      -- require("which-key.config").setup({
-      --   opts = {
-      --     defaults = {
-      --       ["<leader>te"] = { name = "+telescope" },
-      --     },
-      --   },
-      -- })
     end,
     keys = {
       {
