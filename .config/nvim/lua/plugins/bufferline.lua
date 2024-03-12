@@ -15,6 +15,7 @@ return {
         show_close_icon = false,
         show_buffer_close_icons = false,
         diagnostics = false,
+        separator_style = "slant",
         -- always_show_bufferline = true,
         -- numbers = function(opts)
         --   return string.format("%s", opts.raise(opts.ordinal))
@@ -26,7 +27,7 @@ return {
     "echasnovski/mini.bufremove",
     keys = {
       {
-        "<C-w>",
+        "<leader><bs>",
         function()
           local bd = require("mini.bufremove").delete
           if vim.bo.modified then
@@ -60,5 +61,12 @@ return {
         width = 20,
       },
     },
+  },
+  {
+    "tiagovla/scope.nvim",
+    event = "BufAdd",
+    config = function()
+      require("scope").setup({})
+    end,
   },
 }

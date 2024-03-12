@@ -130,3 +130,7 @@ vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning
 
 vim.keymap.set("n", "[[", "H", { silent = true, noremap = true })
 vim.keymap.set("n", "]]", "L", { silent = true, noremap = true })
+
+vim.keymap.set("n", "<leader>\\", "<C-W>v", { desc = "Split window right", remap = true })
+
+vim.keymap.set("n", "<leader>fb", "<cmd>Telescope scope buffers<cr>", { desc = "Buffers" })

@@ -18,7 +18,7 @@ return {
     ]])
     end,
     opts = {
-      compile = true,
+      compile = true, -- 如果修改内容，记得要重新编译
       colors = {
         theme = {
           all = {
@@ -28,7 +28,8 @@ return {
           },
         },
       },
-      keywordStyle = { italic = false },
+      keywordStyle = { italic = true },
+      functionStyle = { italic = true },
       commentStyle = { italic = false },
       terminalColors = false,
       overrides = function()
