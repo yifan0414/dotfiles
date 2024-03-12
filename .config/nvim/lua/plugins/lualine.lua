@@ -169,6 +169,19 @@ return {
         },
         lualine_c = {
           -- { "fileformat" },
+          -- {
+          --   function()
+          --     return "NormalText%#IncSearch#HighlightedText%#Normal#NormalText"
+          --   end,
+          -- },
+          -- {
+          --   function()
+          --     return require("nvim-navic").get_location()
+          --   end,
+          --   cond = function()
+          --     return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+          --   end,
+          -- },
         },
         lualine_x = {
           {
@@ -218,6 +231,76 @@ return {
           { "location", separator = { right = "" }, left_padding = 2 },
         },
       },
+      winbar = {
+        lualine_c = {
+          {
+            "filetype",
+            colored = true, -- Displays filetype icon in color if set to true
+            icon_only = true, -- Display only an icon for filetype
+            icon = { align = "right" }, -- Display filetype icon on the right hand side
+            -- icon =    {'X', align='right'}
+            -- Icon string ^ in table is ignored in filetype component
+          },
+          {
+            function()
+              local filename = vim.fn.expand("%:t")
+              local _, type = filename:match("^(CompetiTest)(%a+)(%d+)$")
+              if type then
+                return type
+              else
+                return filename
+              end
+            end,
+            color = { fg = "#727169" },
+            padding = { left = -1 },
+          },
+          {
+            function()
+              return "%#Comment#" .. "› " .. "%#Normal#" .. require("nvim-navic").get_location()
+            end,
+            cond = function()
+              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+            end,
+            -- padding = { left = -2 },
+          },
+        },
+      },
+      inactive_winbar = {
+        lualine_c = {
+          {
+            "filetype",
+            colored = true, -- Displays filetype icon in color if set to true
+            icon_only = true, -- Display only an icon for filetype
+            icon = { align = "right" }, -- Display filetype icon on the right hand side
+            -- icon =    {'X', align='right'}
+            -- Icon string ^ in table is ignored in filetype component
+          },
+          {
+            function()
+              local filename = vim.fn.expand("%:t")
+              local _, type = filename:match("^(CompetiTest)(%a+)(%d+)$")
+              if type then
+                return type
+              else
+                return filename
+              end
+            end,
+            color = { fg = "#727169" },
+            padding = { left = -1 },
+          },
+
+          {
+            function()
+              return "%#Comment#" .. "›" .. "%#Normal#" .. require("nvim-navic").get_location()
+            end,
+            cond = function()
+              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+            end,
+            -- padding = { left = -2 },
+          },
+        },
+      },
+
       inactive_sections = {
         lualine_a = { "filename" },
         lualine_b = {},

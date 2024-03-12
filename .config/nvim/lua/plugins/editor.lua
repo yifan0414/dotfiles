@@ -26,9 +26,22 @@ return {
     -- event = "VeryLazy",
     lazy = true,
     config = function(_, opts)
+      -- local wk = require("which-key")
+      -- wk.register({
+      --   ["<leader>"] = {
+      --     a = {
+      --       name = "+  asynctasks",
+      --     },
+      --     ["<TAB>"] = {
+      --       name = "+TAB",
+      --     },
+      --   },
+      -- })
+
       local presets = require("which-key.plugins.presets")
       presets.operators["v"] = nil
       presets.operators["m"] = nil
+
       vim.o.timeout = true
       vim.o.timeoutlen = 500
       require("which-key").setup(opts)
@@ -54,9 +67,6 @@ return {
       window = {
         border = "single",
       },
-      -- defaults = {
-      --   ["<leader>te"] = { name = "+telescope" },
-      -- },
     },
   },
   {
@@ -148,8 +158,9 @@ return {
       { "gc", mode = { "x" } },
     },
     -- event = { "BufReadPost", "BufNewFile" },
-    opts = {
-      -- add any options here
-    },
+    opts = function()
+      local commentstring_avail, commentstring = pcall(require, "ts_context_commentstring.integrations.comment_nvim")
+      return commentstring_avail and commentstring and { pre_hook = commentstring.create_pre_hook() } or {}
+    end,
   },
 }
