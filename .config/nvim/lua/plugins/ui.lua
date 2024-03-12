@@ -130,7 +130,7 @@ return {
         "dirvish",
         "fugitive",
         "noice",
-        "outline",
+        "Outline",
         "help",
         "DiffviewFileHistory",
         "DiffviewFiles",

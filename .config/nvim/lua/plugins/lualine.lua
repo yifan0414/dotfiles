@@ -109,6 +109,15 @@ return {
         component_separators = "",
         section_separators = { left = "", right = "" },
         -- globalstatus = false,
+        disabled_filetypes = {
+          statusline = {},
+          winbar = {
+            "neo-tree",
+            "Outline",
+            "Trouble",
+            "qf",
+          },
+        },
       },
       sections = {
         lualine_a = {
@@ -126,7 +135,7 @@ return {
             function()
               return vim.fn.fnamemodify(vim.fn.getcwd(0), ":t")
             end,
-            icon = "",
+            icon = "📂",
             color = { fg = "#7fB4CA", gui = "bold" },
           },
           {
@@ -168,26 +177,22 @@ return {
           },
         },
         lualine_c = {
-          -- { "fileformat" },
-          -- {
-          --   function()
-          --     return "NormalText%#IncSearch#HighlightedText%#Normal#NormalText"
-          --   end,
-          -- },
-          -- {
-          --   function()
-          --     return require("nvim-navic").get_location()
-          --   end,
-          --   cond = function()
-          --     return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-          --   end,
-          -- },
+          {
+            "diagnostics",
+            sources = { "nvim_diagnostic" },
+            symbols = {
+              error = icons.diagnostics.Error,
+              warn = icons.diagnostics.Warning,
+              info = icons.diagnostics.Information,
+            },
+            diagnostics_color = {
+              color_error = { fg = colors.red },
+              color_warn = { fg = colors.yellow },
+              color_info = { fg = colors.cyan },
+            },
+          },
         },
         lualine_x = {
-          {
-            "searchcount",
-            color = { fg = "#ebdbb2" },
-          },
           {
             function()
               -- 确保 `get` 函数被正确调用，并处理其返回值
@@ -204,31 +209,44 @@ return {
             cond = require("noice.api.status").command.has,
             color = { fg = "#ff9e64" },
           },
-          {
-            "diagnostics",
-            sources = { "nvim_diagnostic" },
-            symbols = {
-              error = icons.diagnostics.Error,
-              warn = icons.diagnostics.Warning,
-              info = icons.diagnostics.Information,
-            },
-            diagnostics_color = {
-              color_error = { fg = colors.red },
-              color_warn = { fg = colors.yellow },
-              color_info = { fg = colors.cyan },
-            },
-          },
+
+          { "searchcount", icon = "󰱽", color = { fg = "#fcba03" } },
         },
+
         lualine_y = {
           {
             "branch",
             color = { fg = "#d27e99" },
           },
           { "filetype" },
-          { "progress" },
         },
         lualine_z = {
-          { "location", separator = { right = "" }, left_padding = 2 },
+          {
+            function()
+              local buf_clients = vim.lsp.get_clients()
+              local null_ls_installed, null_ls = pcall(require, "null-ls")
+              local buf_client_names = {}
+              for _, client in pairs(buf_clients) do
+                if client.name == "null-ls" then
+                  if null_ls_installed then
+                    for _, source in ipairs(null_ls.get_source({ filetype = vim.bo.filetype })) do
+                      table.insert(buf_client_names, source.name)
+                    end
+                  end
+                else
+                  table.insert(buf_client_names, client.name)
+                end
+              end
+              return table.concat(buf_client_names, ",")
+            end,
+            icon = "󰌘",
+          },
+          {
+            "location",
+            icon = { "", color = { fg = "#41942C" } },
+            separator = { right = "" },
+            left_padding = 2,
+          },
         },
       },
       winbar = {

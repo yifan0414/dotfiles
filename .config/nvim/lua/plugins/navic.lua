@@ -12,7 +12,7 @@ return {
   opts = function()
     vim.api.nvim_set_hl(0, "NavicIconsPackage", { fg = "#D5616F" })
     vim.api.nvim_set_hl(0, "NavicIconsVariable", { fg = "#FFA066" })
-    vim.api.nvim_set_hl(0, "NavicIconsModule", { fg = "#E46876" })
+    vim.api.nvim_set_hl(0, "NavicIconsVariable", { fg = "#E46876" })
 
     return {
       -- icons = {
