@@ -116,7 +116,7 @@ return {
             "Outline",
             "Trouble",
             "qf",
-            "leetcode.nvim"
+            "leetcode.nvim",
           },
         },
       },
@@ -128,7 +128,8 @@ return {
               return mode_map[s] or s
             end,
             separator = { left = "" },
-            right_padding = 2,
+            icon = "👾",
+            -- right_padding = 2,
           },
         },
         lualine_b = {
@@ -154,9 +155,10 @@ return {
             symbols = {
               modified = "", -- Text to show when the file is modified.
               readonly = "🔒", -- Text to show when the file is non-modifiable or readonly.
-              unnamed = "[No Name]", -- Text to show for unnamed buffers.
+              unnamed = "", -- Text to show for unnamed buffers.
               newfile = "[New]", -- Text to show for newly created file before first write
             },
+            icon = "📝",
           },
           {
             "diff",
@@ -211,7 +213,7 @@ return {
             color = { fg = "#ff9e64" },
           },
 
-          { "searchcount", icon = "󰱽", color = { fg = "#fcba03" } },
+          { "searchcount", icon = "🔍", color = { fg = "#fcba03" } }, -- 󰱽
         },
 
         lualine_y = {
@@ -240,13 +242,14 @@ return {
               end
               return table.concat(buf_client_names, ",")
             end,
-            icon = "󰌘",
+            -- icon = "󰌘",
+            icon = "⚙️",
           },
           {
             "location",
             icon = { "📍", color = { fg = "#41942C" } }, -- 
             separator = { right = "" },
-            left_padding = 2,
+            left_padding = -1,
           },
         },
       },
