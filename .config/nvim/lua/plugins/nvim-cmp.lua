@@ -97,7 +97,7 @@ return {
         --   winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
         -- }),
         documentation = {
-          border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+          -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
           -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
           winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
           max_width = 50,

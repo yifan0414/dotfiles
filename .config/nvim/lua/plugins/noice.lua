@@ -28,6 +28,7 @@ return {
       command_palette = true,
       long_message_to_split = true,
       inc_rename = true,
+      lsp_doc_border = false,
     },
     messages = {
       view_search = false,
@@ -75,15 +76,17 @@ return {
         },
       },
       documentation = {
+        view = "hover",
         opts = {
           size = {
             -- max_width = 70,
             -- max_length = 50,
           },
-          -- border = { style = "rounded" },
+          border = { style = "single" },
+          -- border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
           relative = "cursor",
           position = {
-            row = 1,
+            row = 2,
           },
         },
       },
