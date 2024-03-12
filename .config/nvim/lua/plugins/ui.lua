@@ -158,7 +158,7 @@ return {
   {
     "shellRaining/hlchunk.nvim",
     -- enabled = false,
-    event = { "VeryLazy" },
+    event = { "LazyFile" },
     opts = {
       chunk = {
         enable = true,

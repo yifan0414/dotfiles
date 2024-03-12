@@ -309,7 +309,7 @@ return {
 
           {
             function()
-              return "%#Comment#" .. "›" .. "%#Normal#" .. require("nvim-navic").get_location()
+              return "%#Comment#" .. "› " .. "%#Normal#" .. require("nvim-navic").get_location()
             end,
             cond = function()
               return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
