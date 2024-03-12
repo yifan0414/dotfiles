@@ -82,11 +82,13 @@ return {
             -- max_width = 70,
             -- max_length = 50,
           },
-          border = { style = "single" },
+          -- "double"|"none"|"rounded"|"shadow"|"single"|"solid"
+          border = { style = "rounded" },
           -- border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
           relative = "cursor",
           position = {
             row = 2,
+            col = 2,
           },
         },
       },

@@ -99,7 +99,7 @@ return {
         documentation = {
           -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
           -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-          winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
+          winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
           max_width = 50,
           max_height = math.floor(vim.o.lines * 0.5),
         },
