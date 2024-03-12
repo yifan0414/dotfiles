@@ -1,6 +1,9 @@
 return {
   "folke/noice.nvim",
   event = "VeryLazy",
+  init = function()
+    vim.o.incsearch = false -- this causes a flicker when searching maybe fixed when new version is release?
+  end,
   opts = {
     cmdline = {
       format = {
@@ -34,9 +37,7 @@ return {
         enabled = false,
         -- Lsp Progress is formatted using the builtins for lsp_progress. See config.format.builtin
         -- See the section on formatting for more details on how to customize.
-        --- @type NoiceFormat|string
         format = "lsp_progress",
-        --- @type NoiceFormat|string
         format_done = "lsp_progress_done",
         throttle = 1000 / 30, -- frequency to update lsp progress message
         view = "mini",
@@ -79,17 +80,13 @@ return {
             -- max_width = 70,
             -- max_length = 50,
           },
-          border = { style = "rounded" },
+          -- border = { style = "rounded" },
           relative = "cursor",
-          -- position = {
-          --   row = -1,
-          -- },
+          position = {
+            row = 1,
+          },
         },
       },
     },
-    -- TODO: 怎么更改hover的颜色呢？
-    -- presets = {
-    --   lsp_doc_border = true, -- add a border to hover docs and signature help
-    -- },
   },
 }

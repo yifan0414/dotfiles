@@ -59,10 +59,10 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- 去掉markdown文件的下滑线
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = "markdown",
---   command = "hi Underlined gui=none",
--- })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  command = "hi Underlined gui=none",
+})
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),

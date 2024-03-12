@@ -116,6 +116,7 @@ return {
             "Outline",
             "Trouble",
             "qf",
+            "leetcode.nvim"
           },
         },
       },
