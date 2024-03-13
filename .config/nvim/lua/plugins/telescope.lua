@@ -86,20 +86,20 @@ return {
           -- picker.dress_select(yadm_command)
           local yadm_command = {
             {
-              "Yadm log",
+              "   Yadm log",
               -- "call asyncrun#run('', {'scroll':'0', 'post':'copen'}, 'cd ~ && yadm log')" ,
               "AsyncRun -cwd=~ -mode=term -pos=floaterm -width=0.8 -height=0.8 yadm log",
             },
             {
-              "Yadm nvim",
+              "🚀 Yadm nvim",
               "call asyncrun#run('', {'cwd':'~'},'yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
             },
             {
-              "Yadm diff",
+              "   Yadm diff",
               "AsyncRun -cwd=~ -mode=term -pos=floaterm -width=0.8 -height=0.8 yadm diff",
             },
             {
-              "Yadm status",
+              "   Yadm status",
               "AsyncRun -cwd=~ -mode=term -pos=floaterm -width=0.8 -height=0.8 yadm status",
             },
             {
