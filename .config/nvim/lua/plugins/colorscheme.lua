@@ -1,6 +1,5 @@
 return {
   {
-    -- "SnakeHit/kanagawa.nvim",
     "rebelot/kanagawa.nvim",
     init = function()
       vim.cmd([[
