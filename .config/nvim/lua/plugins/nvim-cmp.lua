@@ -244,8 +244,8 @@ return {
             vim_item.dup = ({
               buffer = 0,
               path = 0,
-              nvim_lsp = 1,
-              luasnip = 0,
+              nvim_lsp = 0,
+              luasnip = 1,
             })[entry.source.name] or 0
             return vim_item
           end,

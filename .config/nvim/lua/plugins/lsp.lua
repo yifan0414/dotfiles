@@ -91,6 +91,11 @@ return {
     "j-hui/fidget.nvim",
     event = "LspAttach",
     opts = {
+      progress = {
+        ignore = {
+          "jdtls",
+        },
+      },
       -- options
     },
   },
