@@ -70,7 +70,10 @@ return {
             },
             {
               "Tokei(count code)",
-              "AsyncRun -mode=term -pos=floaterm -width=0.8 -height=0.8 tokei <root>",
+              -- "AsyncRun -mode=term -pos=floaterm -width=0.8 -height=0.8 tokei <root>",
+              [[call asyncrun#run('', {'cwd':'<root>', 'silent':'1', 'post':'echo join(map(getqflist(), "v:val.text"), "\n")'},]]
+                .. [['tokei']]
+                .. [[)]],
             },
           }
           local picker = require("plugins.util.picker") -- lazy load
@@ -109,7 +112,9 @@ return {
             },
             {
               "Yadm update all file",
-              "call asyncrun#run('', {'cwd':'~'},'yadm add -u :/ && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
+              -- "call asyncrun#run('', {'cwd':'~'},'yadm add -u :/ && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
+              [[call asyncrun#run('', {'cwd':'~', 'silent':'1', 'post':'echo join(map(getqflist(), "v:val.text"), "\n")'},]]
+                .. [['yadm add -u :/ && yadm commit -m "'.input('Enter commit message: ').'" && yadm push')]],
             },
           }
           local picker = require("plugins.util.picker") -- lazy load
