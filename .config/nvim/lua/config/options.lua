@@ -4,7 +4,7 @@
 
 -- 检查 tmux 环境的 Lua 脚本
 
-if vim.fn.has("mac") then
+if vim.fn.has("mac") == 1 then
   vim.g.clipboard = {
     name = "macOSClipboard",
     copy = {
@@ -31,7 +31,7 @@ elseif os.getenv("TMUX") then
     },
     cache_enabled = 1, -- 要设置成1，不然使用x或者d的时候鼠标会闪烁
   }
-elseif vim.fn.has("wsl") then
+elseif vim.fn.has("wsl") == 1 then
   vim.g.clipboard = {
     name = "WslClipboard",
     copy = {
