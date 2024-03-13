@@ -121,7 +121,7 @@ return {
     "RRethy/vim-illuminate",
     event = "LazyFile",
     opts = {
-      delay = 200,
+      delay = 0,
       large_file_cutoff = 2000,
       large_file_overrides = {
         providers = { "lsp" },
@@ -142,10 +142,10 @@ return {
       -- mode_allowlist = { "n" },
     },
     config = function(_, opts)
-      vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
-      vim.cmd([[hi illuminatedWordRead gui=none guibg=#2c313c]])
-      vim.cmd([[hi illuminatedWordText gui=none guibg=#2c313c]])
-      vim.cmd([[hi illuminatedWordWrite gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWordRead gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWordText gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWordWrite gui=none guibg=#2c313c]])
       -- vim.cmd([[hi illuminatedWord gui=none guibg=#45475a]])
       -- vim.cmd([[hi illuminatedWordRead gui=none guibg=#45475a]])
       -- vim.cmd([[hi illuminatedWordText gui=none guibg=#45475a]])

@@ -138,7 +138,7 @@ return {
               return vim.fn.fnamemodify(vim.fn.getcwd(0), ":t")
             end,
             icon = "📂",
-            color = { fg = "#7fB4CA", gui = "italic, bold" },
+            color = { fg = "#7fB4CA", gui = "italic" },
           },
           {
             "filename",
@@ -222,7 +222,7 @@ return {
             "branch",
             color = { fg = "#d27e99" },
           },
-          { "filetype" },
+          { "filetype", color = { gui = "italic" } },
         },
         lualine_z = {
           {
@@ -244,6 +244,7 @@ return {
               return table.concat(buf_client_names, ",")
             end,
             -- icon = "󰌘",
+            color = { gui = "italic" },
             icon = "⚙️",
           },
           {
