@@ -6,8 +6,9 @@ local function init_telescope_modules()
   local pickers = require("telescope.pickers")
   local finders = require("telescope.finders")
   local conf = require("telescope.config").values
+  local entry_display = require("telescope.pickers.entry_display")
 
-  return actions, action_state, pickers, finders, conf
+  return actions, action_state, pickers, finders, conf, entry_display
 end
 
 function M.telescope_func_picker(commands)
@@ -129,15 +130,40 @@ function M.asyncfunc()
   local tasks = vim.fn["asynctasks#source"](math.floor(vim.go.columns * 48 / 100))
   local task_entries = {}
 
+  local actions, action_state, pickers, finders, conf, entry_display = init_telescope_modules()
+
+  local displayer = entry_display.create({
+    separator = " ",
+    items = {
+      { remaining = true },
+      { remaining = true },
+      { remaining = true },
+    },
+  })
+
   for _, task in ipairs(tasks) do
+    -- local display
+    if string.find(task[1], "file") then
+      task[1] = "📝 " .. task[1]
+    elseif string.find(task[1], "project") then
+      task[1] = "📚 " .. task[1]
+    else
+    end
+
+    local make_display = function()
+      return displayer({
+        { task[1], "Function" },
+        { task[2], "String" },
+        { task[3], "Identifier" },
+      })
+    end
+
     table.insert(task_entries, {
       value = task[1],
-      display = task[1] .. " " .. task[2] .. ": " .. task[3],
+      display = make_display,
       ordinal = task[1] .. " " .. task[2] .. ": " .. task[3],
     })
   end
-
-  local actions, action_state, pickers, finders, conf = init_telescope_modules()
 
   pickers
     .new({

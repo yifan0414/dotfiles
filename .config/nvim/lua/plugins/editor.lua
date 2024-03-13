@@ -14,10 +14,10 @@ return {
       "TmuxNavigatePrevious",
     },
     keys = {
-      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>", silent = true, noremap = true },
-      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>", silent = true, noremap = true },
-      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>", silent = true, noremap = true },
-      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>", silent = true, noremap = true },
+      { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>",     silent = true, noremap = true },
+      { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>",     silent = true, noremap = true },
+      { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>",       silent = true, noremap = true },
+      { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>",    silent = true, noremap = true },
       { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>", silent = true, noremap = true },
     },
   },
@@ -89,7 +89,7 @@ return {
     event = "VeryLazy",
     opts = {
       useDefaultKeymaps = true,
-      disabledKeymaps = {
+      disabledKeymaps   = {
         "gc",
       },
     },

@@ -131,7 +131,6 @@ return {
             },
           }
           local picker = require("plugins.util.picker") -- lazy load
-          -- picker.dress_select(yadm_command)
           picker.telescope_command_picker(git_command)
         end,
         { noremap = true, silent = true },
@@ -159,14 +158,8 @@ return {
     dependencies = {
       "yifan0414/asyncrun.vim",
       "yifan0414/asynctasks.vim",
-      {
-        "folke/which-key.nvim",
-        opts = {
-          defaults = {
-            ["<leader>te"] = { name = "+telescope" },
-          },
-        },
-      },
+      "folke/which-key.nvim",
+      "danielfalk/smart-open.nvim", -- 解决了直接打开 smart-open 无法注册keymap的问题
     },
   },
   {
@@ -176,7 +169,7 @@ return {
       require("telescope").load_extension("smart_open")
     end,
     dependencies = {
-      "nvim-telescope/telescope.nvim",
+      -- "nvim-telescope/telescope.nvim",
       "kkharji/sqlite.lua",
       -- Only required if using match_algorithm fzf
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
