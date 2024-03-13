@@ -88,12 +88,12 @@ return {
             {
               "   Yadm log",
               -- "call asyncrun#run('', {'scroll':'0', 'post':'copen'}, 'cd ~ && yadm log')" ,
-              "AsyncRun -cwd=~ -mode=term -pos=floaterm -width=0.8 -height=0.8 yadm log",
+              [[AsyncRun -cwd=~ -mode=term -pos=floaterm -width=0.8 -height=0.8 yadm log]],
             },
             {
               "🚀 Yadm nvim",
-              "call asyncrun#run('', {'cwd':'~', 'silent':'1', 'post':'echo join(map(getqflist(), \"v:val.text\"), \"\\n\")'},"
-                .. " 'yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
+              [[call asyncrun#run('', {'cwd':'~', 'silent':'1', 'post':'echo join(map(getqflist(), \"v:val.text\"), \"\\n\")'},]]
+                .. [['yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')]],
             },
             {
               "   Yadm diff",
