@@ -7,3 +7,5 @@
 	helper = store
 [core]
 	quotepath = off
+[pull]
+	rebase = false
