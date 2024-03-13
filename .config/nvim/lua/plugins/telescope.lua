@@ -58,7 +58,8 @@ return {
         "<Leader>ter",
         function()
           local frequent_command = {
-            { "Show File Path", "call setqflist([{'text': execute('echomsg expand(\"%:p\")')}]) | copen" },
+            -- { "Show File Path", "call setqflist([{'text': execute('echomsg expand(\"%:p\")')}]) | copen" },
+            { "Show File Path", "lua vim.notify(vim.api.nvim_buf_get_name(0), 'info', {title = 'File Path'})" },
             {
               "Open Man In Floaterm",
               "FloatermNew --title=Man($1/$2) --width=0.8 --height=0.8 man -k . | fzf | awk '{print $1}' | xargs man | less",
@@ -111,7 +112,7 @@ return {
             },
           }
           local picker = require("plugins.util.picker") -- lazy load
-          picker.telescope_command_picker(yadm_command)
+          picker.telescope_mmand_picker(yadm_command)
         end,
         { noremap = true, silent = true },
         desc = "yadm command",
