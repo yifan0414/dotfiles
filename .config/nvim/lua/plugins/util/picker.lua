@@ -45,24 +45,67 @@ function M.telescope_func_picker(commands)
 end
 
 function M.telescope_command_picker(commands)
-  local actions, action_state, pickers, finders, conf = init_telescope_modules()
+  local actions, action_state, pickers, finders, conf, entry_display = init_telescope_modules()
+
+  local task_entries = {}
+
+  local displayer = entry_display.create({
+    separator = " ",
+    items = {
+      { width = 25 },
+      { remaining = true },
+    },
+  })
+
+  for _, command in ipairs(commands) do
+    -- local display
+    if string.find(command[1], "file") then
+      command[1] = "📝 " .. command[1]
+    elseif string.find(command[1], "project") then
+      command[1] = "📚 " .. command[1]
+    else
+    end
+
+    local make_display = function()
+      return displayer({
+        { command[1], "Function" },
+        { command[2], "String" },
+      })
+    end
+
+    table.insert(task_entries, {
+      value = command[2],
+      display = make_display,
+      ordinal = command[1],
+    })
+  end
 
   pickers
     .new({}, {
+      layout_strategy = "horizontal",
+      sorting_strategy = "ascending",
+      layout_config = {
+        width = 0.8, -- picker 的宽度占屏幕宽度的 80%
+        height = 0.5, -- picker 的高度占屏幕高度的 50%
+        prompt_position = "top", -- 将提示栏放在顶部
+      },
+      prompt_prefix = "🎯 ",
       prompt_title = "Select a Command",
       finder = finders.new_table({
-        results = commands,
+        results = task_entries,
         entry_maker = function(entry)
           return {
-            value = entry[2],
-            display = entry[1] .. ": " .. entry[2],
-            ordinal = entry[1],
-            flag = entry[2],
+            value = entry.value,
+            display = entry.display,
+            ordinal = entry.ordinal,
+            -- flag = entry.value,
           }
         end,
       }),
       sorter = conf.generic_sorter({}),
-      attach_mappings = function(prompt_bufnr)
+      attach_mappings = function(prompt_bufnr, map)
+        map("i", "<Tab>", actions.move_selection_next)
+        map("i", "<S-Tab>", actions.move_selection_previous)
         actions.select_default:replace(function()
           local selection = action_state.get_selected_entry()
           -- vim.api.nvim_out_write(selection.value .. "\n")
