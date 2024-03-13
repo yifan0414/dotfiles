@@ -138,7 +138,7 @@ return {
               return vim.fn.fnamemodify(vim.fn.getcwd(0), ":t")
             end,
             icon = "📂",
-            color = { fg = "#7fB4CA", gui = "bold" },
+            color = { fg = "#7fB4CA", gui = "italic, bold" },
           },
           {
             "filename",
@@ -155,9 +155,10 @@ return {
             symbols = {
               modified = "", -- Text to show when the file is modified.
               readonly = "🔒", -- Text to show when the file is non-modifiable or readonly.
-              unnamed = "", -- Text to show for unnamed buffers.
+              unnamed = "[No Name]", -- Text to show for unnamed buffers.
               newfile = "[New]", -- Text to show for newly created file before first write
             },
+            color = { gui = "italic" },
             icon = "📝",
           },
           {
