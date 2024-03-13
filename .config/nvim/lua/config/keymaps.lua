@@ -1,4 +1,4 @@
-vim.keymap.set("n", "<leader>;", "<cmd>e #<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>;", "<cmd>e #<cr>",      { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>`", "<cmd>wincmd p<cr>", { noremap = true, silent = true })
 
 vim.keymap.set("n", ";", ":", { noremap = true })
@@ -86,12 +86,12 @@ end, { noremap = true, silent = true, desc = "dayliy note" })
 
 vim.keymap.set("n", "x", '"_x', { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader><tab>n", "<cmd>tabnext<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader><tab>n", "<cmd>tabnext<cr>",     { silent = true, noremap = true })
 vim.keymap.set("n", "<leader><tab>p", "<cmd>tabprevious<cr>", { silent = true, noremap = true })
 
 vim.keymap.del("n", "<leader>l")
 vim.keymap.set("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "Lazy" })
-vim.keymap.set("n", "<leader>qw", "<cmd>q<cr>", { silent = true, noremap = true, desc = "quit" })
+vim.keymap.set("n", "<leader>qw", "<cmd>q<cr>",   { silent = true, noremap = true, desc = "quit" })
 
 vim.keymap.set("n", "#", "*", { noremap = true })
 vim.keymap.set("n", "*", "#", { noremap = true })
@@ -121,12 +121,12 @@ local diagnostic_goto = function(next, severity)
   end
 end
 
-vim.keymap.set("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
-vim.keymap.set("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
-vim.keymap.set("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+vim.keymap.set("n", "]d", diagnostic_goto(true),           { desc = "Next Diagnostic" })
+vim.keymap.set("n", "[d", diagnostic_goto(false),          { desc = "Prev Diagnostic" })
+vim.keymap.set("n", "]e", diagnostic_goto(true, "ERROR"),  { desc = "Next Error" })
 vim.keymap.set("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
-vim.keymap.set("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
-vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+vim.keymap.set("n", "]w", diagnostic_goto(true, "WARN"),   { desc = "Next Warning" })
+vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"),  { desc = "Prev Warning" })
 
 vim.keymap.set("n", "[[", "H", { silent = true, noremap = true })
 vim.keymap.set("n", "]]", "L", { silent = true, noremap = true })

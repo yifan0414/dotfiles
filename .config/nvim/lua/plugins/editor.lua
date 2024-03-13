@@ -115,4 +115,15 @@ return {
       return commentstring_avail and commentstring and { pre_hook = commentstring.create_pre_hook() } or {}
     end,
   },
+  {
+    "echasnovski/mini.align",
+    version = false,
+    keys = {
+      { "ga", mode = { "x" } },
+      { "gA", mode = { "x" } },
+    },
+    config = function()
+      require("mini.align").setup()
+    end,
+  },
 }

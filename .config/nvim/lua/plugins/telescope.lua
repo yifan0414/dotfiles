@@ -112,7 +112,7 @@ return {
             },
           }
           local picker = require("plugins.util.picker") -- lazy load
-          picker.telescope_mmand_picker(yadm_command)
+          picker.telescope_command_picker(yadm_command)
         end,
         { noremap = true, silent = true },
         desc = "yadm command",
