@@ -92,7 +92,7 @@ return {
             },
             {
               "🚀 Yadm nvim",
-              [[call asyncrun#run('', {'cwd':'~', 'silent':'1', 'post':'echo join(map(getqflist(), "v:val.text"), "\\n")'},]]
+              [[call asyncrun#run('', {'cwd':'~', 'silent':'1', 'post':'echo join(map(getqflist(), "v:val.text"), "\n")'},]]
                 .. [['yadm add .config/nvim && yadm commit -m "'.input('Enter commit message: ').'" && yadm push')]],
             },
             {
