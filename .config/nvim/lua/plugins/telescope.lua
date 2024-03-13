@@ -92,7 +92,7 @@ return {
             },
             {
               "🚀 Yadm nvim",
-              "call asyncrun#run('', {'cwd':'~'},'yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
+              "call asyncrun#run('', {'cwd':'~', 'silent':'1'},'yadm add .config/nvim && yadm commit -m \"'.input('Enter commit message: ').'\" && yadm push')",
             },
             {
               "   Yadm diff",
