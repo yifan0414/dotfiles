@@ -166,8 +166,10 @@ return {
       "yifan0414/asynctasks.vim",
       "folke/which-key.nvim",
       "danielfalk/smart-open.nvim", -- 解决了直接打开 smart-open 无法注册keymap的问题
+      "jvgrootveld/telescope-zoxide",
     },
   },
+
   {
     "danielfalk/smart-open.nvim",
     branch = "0.2.x",
@@ -192,4 +194,18 @@ return {
       },
     },
   },
+  -- {
+  --   "jvgrootveld/telescope-zoxide",
+  --   config = function()
+  --     require("telescope").load_extension("zoxide")
+  --   end,
+  --   keys = {
+  --     {
+  --       "<leader>fd",
+  --       "<cmd>Telescope zoxide list<CR>",
+  --       desc = "zoxide",
+  --       mode = { "n" },
+  --     },
+  --   },
+  -- },
 }

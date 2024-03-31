@@ -58,3 +58,13 @@ ls.add_snippets("lua", {
     )
   ),
 })
+
+ls.add_snippets("rust", {
+  treesitter_postfix({
+    trig = ".testing",
+    matchTSNode = {
+      query = [[(call_expression) @prefix]],
+      query_lang = "rust",
+    },
+  }, { t("hello") }),
+})

@@ -81,7 +81,7 @@ return {
     local luasnip = require("luasnip")
 
     require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
-    require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets_lua" })
+    require("luasnip.loaders.from_lua").load({ paths = "./snippets_lua" })
 
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     local cmp = require("cmp")

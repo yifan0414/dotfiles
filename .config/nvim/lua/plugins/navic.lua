@@ -12,7 +12,9 @@ return {
   opts = function()
     vim.api.nvim_set_hl(0, "NavicIconsPackage", { fg = "#D5616F" })
     vim.api.nvim_set_hl(0, "NavicIconsVariable", { fg = "#FFA066" })
-    vim.api.nvim_set_hl(0, "NavicIconsVariable", { fg = "#E46876" })
+    -- vim.api.nvim_set_hl(0, "NavicIconsVariable", { fg = "#E46876" })
+    vim.api.nvim_set_hl(0, "NavicIconsArray", { fg = "#FFA066" })
+    vim.api.nvim_set_hl(0, "NavicIconsField", { fg = "#E6C384"})
 
     return {
       -- icons = {
@@ -80,7 +82,7 @@ return {
       },
       separator = "%#Comment#" .. " › " .. "%#Normal#",
       highlight = true,
-      depth_limit = 5,
+      -- depth_limit = 7,
       depth_limit_indicator = "%#Comment#" .. ".." .. "%#Normal#",
       lazy_update_context = false,
       click = true,

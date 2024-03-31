@@ -245,7 +245,7 @@ return {
             end,
             -- icon = "󰌘",
             color = { gui = "italic" },
-            icon = "⚙️",
+            icon = "🛠️",
           },
           {
             "location",

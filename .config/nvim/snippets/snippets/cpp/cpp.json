@@ -45,6 +45,20 @@
     ],
     "description": "Standard starter template for a tiny C++ program"
   },
+  "OJ Template": {
+    "prefix": "oj",
+    "body": [
+      "#include <bits/stdc++.h>",
+      "using namespace std;",
+      "",
+      "int main () {",
+      "\t$0",
+      "",
+      "\treturn 0;",
+      "}"
+    ],
+    "description": "Standard starter template for a tiny C++ program"
+  },
   "for": {
     "prefix": "for",
     "body": ["for ($1;$2;$3) {", "\t$0", "}"],

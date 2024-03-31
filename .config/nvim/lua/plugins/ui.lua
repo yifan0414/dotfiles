@@ -137,6 +137,8 @@ return {
         "DiffviewFileHistory",
         "DiffviewFiles",
         "DiffviewViewPanel",
+        "neo-tree",
+        "CompetiTest",
       },
       modes_denylist = { "i", "v", "no", "V" },
       -- mode_allowlist = { "n" },

@@ -82,6 +82,12 @@ return {
     },
     config = function()
       require("competitest").setup({
+        compile_command = {
+          c = { exec = "gcc", args = { "-Wall", "$(FNAME)", "-o", "$(FNOEXT)" } },
+          cpp = { exec = "g++", args = { "-Wall", "-std=c++17", "$(FNAME)", "-o", "$(FNOEXT)" } },
+          rust = { exec = "rustc", args = { "$(FNAME)" } },
+          java = { exec = "javac", args = { "$(FNAME)" } },
+        },
         received_problems_path = "$(CWD)/$(PROBLEM)/$(PROBLEM).$(FEXT)",
         testcases_use_single_file = true,
         runner_ui = {
