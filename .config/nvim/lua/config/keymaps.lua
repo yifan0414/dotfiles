@@ -53,10 +53,10 @@ vim.keymap.set(
 )
 
 -- So I can move around in insert
-vim.keymap.set("i", "<C-k>", "<C-o>gk", { noremap = true, silent = true })
-vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true, silent = true })
-vim.keymap.set("i", "<C-j>", "<C-o>gj", { noremap = true, silent = true })
-vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
+-- vim.keymap.set("i", "<C-k>", "<C-o>gk", { noremap = true, silent = true })
+-- vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true, silent = true })
+-- vim.keymap.set("i", "<C-j>", "<C-o>gj", { noremap = true, silent = true })
+-- vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
 
 -- 在 Visual 模式下绑定 <leader>y 到复制到剪贴板(wsl2)命令
 vim.keymap.set("v", "<leader>y", [["+y <cmd>call system('clip.exe', @+)<cr>]], { noremap = true, silent = true })

@@ -81,7 +81,7 @@ ls.add_snippets("cpp", {
 
   postfix({
     trig = "\\.for",
-    match_pattern = "[%w%.%_%->%[%]]+$",
+    match_pattern = "[%w%.%_%->%[%]%(%)]+$",
     trigEngine = "ecma",
     snippetType = "autosnippet",
   }, {
@@ -105,5 +105,20 @@ ls.add_snippets("cpp", {
     t({ "", "\t" }),
     i(0),
     t({ "", "}" }),
+  }),
+
+  postfix({
+    trig = "\\.sort",
+    match_pattern = "[%w%.%_%->%[%]%(%)]+$",
+    trigEngine = "ecma",
+    snippetType = "autosnippet",
+  }, {
+    f(function(_, parent)
+      return "sort("
+        .. parent.snippet.env.POSTFIX_MATCH
+        .. ".begin(), "
+        .. parent.snippet.env.POSTFIX_MATCH
+        .. ".end());"
+    end),
   }),
 })

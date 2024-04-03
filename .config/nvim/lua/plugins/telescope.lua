@@ -133,7 +133,8 @@ return {
             },
             {
               "Git This Repository",
-              "call asyncrun#run('', {'cwd':'<root>'},'git add . && git commit -m \"'.input('Enter commit message: ').'\" && git push')",
+              [[call asyncrun#run('', {'cwd':'<root>', 'silent':'1', 'post':'echo join(map(getqflist(), "v:val.text"), "\n")'},]]
+                .. [['git add . && git commit -m "'.input('Enter commit message: ').'" && git push')]],
             },
           }
           local picker = require("plugins.util.picker") -- lazy load

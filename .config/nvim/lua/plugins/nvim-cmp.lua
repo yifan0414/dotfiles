@@ -81,7 +81,7 @@ return {
     local luasnip = require("luasnip")
 
     require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
-    require("luasnip.loaders.from_lua").load({ paths = "./snippets_lua" })
+    require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets_lua" })
 
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     local cmp = require("cmp")
@@ -185,28 +185,28 @@ return {
             end
           end,
         },
-        {
-          name = "buffer",
-          -- group_index = 2,
-          max_item_count = 5,
-          -- 筛选出去数字
-          option = {
-            get_bufnrs = function()
-              local bufs = {}
-              for _, win in ipairs(vim.api.nvim_list_wins()) do
-                bufs[vim.api.nvim_win_get_buf(win)] = true
-              end
-              return vim.tbl_keys(bufs)
-            end,
-          },
-          entry_filter = function(entry)
-            return not string.match(entry:get_completion_item().label, "^%d+$")
-          end,
-        },
+        -- {
+        --   name = "buffer",
+        --   -- group_index = 2,
+        --   max_item_count = 5,
+        --   -- 筛选出去数字
+        --   option = {
+        --     get_bufnrs = function()
+        --       local bufs = {}
+        --       for _, win in ipairs(vim.api.nvim_list_wins()) do
+        --         bufs[vim.api.nvim_win_get_buf(win)] = true
+        --       end
+        --       return vim.tbl_keys(bufs)
+        --     end,
+        --   },
+        --   entry_filter = function(entry)
+        --     return not string.match(entry:get_completion_item().label, "^%d+$")
+        --   end,
+        -- },
         {
           name = "nvim_lsp",
           -- group_index = 1,
-          max_item_count = 5,
+          -- max_item_count = 5,
           entry_filter = function(entry)
             local kind = entry:get_kind()
             return cmp.lsp.CompletionItemKind.Snippet ~= kind

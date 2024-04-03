@@ -1,4 +1,8 @@
 {
+  "continue" : {
+    "prefix" : "continue",
+    "body" : ["continue;"]
+  },
   "break" : {
     "prefix" : "break",
     "body" : ["break;"]
