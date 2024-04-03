@@ -261,7 +261,8 @@ return {
             "filetype",
             colored = true, -- Displays filetype icon in color if set to true
             icon_only = true, -- Display only an icon for filetype
-            icon = { align = "right" }, -- Display filetype icon on the right hand side
+            -- icon = { align = "right" }, -- Display filetype icon on the right hand side
+            padding = { left = 1, right = -2 },
             -- icon =    {'X', align='right'}
             -- Icon string ^ in table is ignored in filetype component
           },
@@ -276,7 +277,7 @@ return {
               end
             end,
             color = { fg = "#727169" },
-            padding = { left = -1 },
+            padding = { left = -2 },
           },
           {
             function()
@@ -295,9 +296,10 @@ return {
             "filetype",
             colored = true, -- Displays filetype icon in color if set to true
             icon_only = true, -- Display only an icon for filetype
-            icon = { align = "right" }, -- Display filetype icon on the right hand side
+            -- icon = { align = "right" }, -- Display filetype icon on the right hand side
             -- icon =    {'X', align='right'}
             -- Icon string ^ in table is ignored in filetype component
+            padding = { left = 1, right = -2 },
           },
           {
             function()
@@ -310,7 +312,7 @@ return {
               end
             end,
             color = { fg = "#727169" },
-            padding = { left = -1 },
+            padding = { left = -2 },
           },
 
           {
