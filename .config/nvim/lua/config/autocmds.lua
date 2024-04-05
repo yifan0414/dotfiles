@@ -100,3 +100,4 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 --     vim.lsp.inlay_hint.enable(0, false)
 --   end,
 -- })
+

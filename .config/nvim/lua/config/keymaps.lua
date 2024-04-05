@@ -143,6 +143,7 @@ vim.keymap.set("n", "<leader>ux", function()
       unhide = false, -- whether to re-enable lualine again/
     })
     vim.o.laststatus = 0
+    vim.opt.statusline = "%#Normal# "
   else
     require("lualine").hide({
       place = { "statusline" }, -- The segment this change applies to.
@@ -150,4 +151,16 @@ vim.keymap.set("n", "<leader>ux", function()
     })
     vim.o.laststatus = 3
   end
-end, { silent = true, noremap = true })
+end, { silent = true, noremap = true, desc = "Toggle Statusline" })
+
+-- toggle nvim cmp
+
+vim.keymap.set("n", "<leader>uc", function()
+  local cmp = require("cmp")
+  local current_setting = cmp.get_config().completion.autocomplete
+  if current_setting and #current_setting > 0 then
+    cmp.setup({ completion = { autocomplete = false } })
+  else
+    cmp.setup({ completion = { autocomplete = { cmp.TriggerEvent.TextChanged } } })
+  end
+end, { silent = true, noremap = true, desc = "Toggle NvimCmp" })

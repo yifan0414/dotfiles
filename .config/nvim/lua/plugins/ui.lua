@@ -139,7 +139,7 @@ return {
         "DiffviewViewPanel",
         "neo-tree",
         "CompetiTest",
-        "floaterm"
+        "floaterm",
       },
       modes_denylist = { "i", "v", "no", "V" },
       -- mode_allowlist = { "n" },
