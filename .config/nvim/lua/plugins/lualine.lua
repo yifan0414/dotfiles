@@ -106,8 +106,8 @@ return {
     require("lualine").setup({
       options = {
         theme = bubbles_theme,
-        component_separators = "",
         section_separators = { left = "", right = "" },
+        component_separators = {},
         -- globalstatus = false,
         disabled_filetypes = {
           statusline = {},
@@ -117,6 +117,7 @@ return {
             "Trouble",
             "qf",
             "leetcode.nvim",
+            "dap-repl",
           },
         },
       },
@@ -128,7 +129,7 @@ return {
               return mode_map[s] or s
             end,
             separator = { left = "" },
-            icon = "👾",
+            -- icon = "👾",
             -- right_padding = 2,
           },
         },
@@ -137,7 +138,8 @@ return {
             function()
               return vim.fn.fnamemodify(vim.fn.getcwd(0), ":t")
             end,
-            icon = "📂",
+            icon = "",
+            separator = "›",
             color = { fg = "#7fB4CA", gui = "italic" },
           },
           {
@@ -158,8 +160,8 @@ return {
               unnamed = "[No Name]", -- Text to show for unnamed buffers.
               newfile = "[New]", -- Text to show for newly created file before first write
             },
-            color = { gui = "italic" },
-            icon = "📝",
+            -- color = { gui = "italic" },
+            -- icon = "📝",
           },
           {
             "diff",
@@ -314,7 +316,6 @@ return {
             color = { fg = "#727169" },
             padding = { left = -2 },
           },
-
           {
             function()
               return "%#Comment#" .. "› " .. "%#Normal#" .. require("nvim-navic").get_location()

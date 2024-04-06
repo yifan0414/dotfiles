@@ -121,7 +121,7 @@ return {
     "RRethy/vim-illuminate",
     event = "LazyFile",
     opts = {
-      delay = 0,
+      delay = 100,
       large_file_cutoff = 2000,
       large_file_overrides = {
         providers = { "lsp" },
@@ -140,15 +140,21 @@ return {
         "neo-tree",
         "CompetiTest",
         "floaterm",
+        "dapui_scopes",
+        "dapui_breakpoints",
+        "dapui_stacks",
+        "dapui_watches",
+        "dapui_repl",
+        "dapui_terminal",
       },
       modes_denylist = { "i", "v", "no", "V" },
       -- mode_allowlist = { "n" },
     },
     config = function(_, opts)
-      -- vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
-      -- vim.cmd([[hi illuminatedWordRead gui=none guibg=#2c313c]])
-      -- vim.cmd([[hi illuminatedWordText gui=none guibg=#2c313c]])
-      -- vim.cmd([[hi illuminatedWordWrite gui=none guibg=#2c313c]])
+      vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
+      vim.cmd([[hi illuminatedWordRead gui=none guibg=#2c313c]])
+      vim.cmd([[hi illuminatedWordText gui=none guibg=#2c313c]])
+      vim.cmd([[hi illuminatedWordWrite gui=none guibg=#2c313c]])
       -- vim.cmd([[hi illuminatedWord gui=none guibg=#45475a]])
       -- vim.cmd([[hi illuminatedWordRead gui=none guibg=#45475a]])
       -- vim.cmd([[hi illuminatedWordText gui=none guibg=#45475a]])
@@ -240,6 +246,17 @@ return {
         char = {
           enabled = false,
         },
+      },
+    },
+    keys = {
+      { "s", "cc" },
+      {
+        "S",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump()
+        end,
+        desc = "Flash",
       },
     },
   },

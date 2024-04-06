@@ -9,6 +9,12 @@ return {
       excluded_filetypes = {
         "Outline",
         "neo-tree",
+        "dapui_scopes",
+        "dapui_breakpoints",
+        "dapui_stacks",
+        "dapui_watches",
+        "dapui_repl",
+        "dapui_terminal",
       },
       width = 2,
       handlers = {
