@@ -108,6 +108,25 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
+    trig = "\\.range",
+    match_pattern = "[%w%.%_%->%[%]%(%)]+$",
+    trigEngine = "ecma",
+    snippetType = "autosnippet",
+  }, {
+    f(function(_, _)
+      return "for (const auto &"
+    end),
+    i(1, "it"), -- 这是你将要替换的循环变量名
+    f(function(_, parent)
+      return " : " .. parent.snippet.env.POSTFIX_MATCH .. ")"
+    end, { 1 }), -- 使用之前插入点的值
+    t({ " {" }),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  postfix({
     trig = "\\.sort",
     match_pattern = "[%w%.%_%->%[%]%(%)]+$",
     trigEngine = "ecma",
@@ -119,6 +138,18 @@ ls.add_snippets("cpp", {
         .. ".begin(), "
         .. parent.snippet.env.POSTFIX_MATCH
         .. ".end());"
+    end),
+  }),
+
+  postfix({
+    trig = "\\.post",
+    match_pattern = "[%w%.%_%->%[%]%(%)]+$",
+    trigEngine = "ecma",
+    snippetType = "autosnippet",
+  }, {
+    i(1),
+    f(function(_, parent)
+      return "(" .. parent.snippet.env.POSTFIX_MATCH .. ".begin(), " .. parent.snippet.env.POSTFIX_MATCH .. ".end());"
     end),
   }),
 })
