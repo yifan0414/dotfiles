@@ -227,28 +227,28 @@ return {
           { "filetype", color = { gui = "italic" } },
         },
         lualine_z = {
-          {
-            function()
-              local buf_clients = vim.lsp.get_clients()
-              local null_ls_installed, null_ls = pcall(require, "null-ls")
-              local buf_client_names = {}
-              for _, client in pairs(buf_clients) do
-                if client.name == "null-ls" then
-                  if null_ls_installed then
-                    for _, source in ipairs(null_ls.get_source({ filetype = vim.bo.filetype })) do
-                      table.insert(buf_client_names, source.name)
-                    end
-                  end
-                else
-                  table.insert(buf_client_names, client.name)
-                end
-              end
-              return table.concat(buf_client_names, ",")
-            end,
-            -- icon = "󰌘",
-            color = { gui = "italic" },
-            icon = "🛠️",
-          },
+          -- {
+          --   function()
+          --     local buf_clients = vim.lsp.get_clients()
+          --     local null_ls_installed, null_ls = pcall(require, "null-ls")
+          --     local buf_client_names = {}
+          --     for _, client in pairs(buf_clients) do
+          --       if client.name == "null-ls" then
+          --         if null_ls_installed then
+          --           for _, source in ipairs(null_ls.get_source({ filetype = vim.bo.filetype })) do
+          --             table.insert(buf_client_names, source.name)
+          --           end
+          --         end
+          --       else
+          --         table.insert(buf_client_names, client.name)
+          --       end
+          --     end
+          --     return table.concat(buf_client_names, ",")
+          --   end,
+          --   -- icon = "󰌘",
+          --   color = { gui = "italic" },
+          --   icon = "🛠️",
+          -- },
           {
             "location",
             icon = { "📍", color = { fg = "#41942C" } }, -- 

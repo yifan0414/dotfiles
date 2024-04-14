@@ -46,8 +46,26 @@ ls.add_snippets("cpp", {
   --     return "std::move(" .. parent.env.LS_TSMATCH[1] .. ")"
   --   end),
   -- }),
+
   postfix({
-    trig = "\\.(printf|cout)",
+    trig = "\\.printf",
+    trigEngine = "ecma",
+    match_pattern = "[%w%.%_%->%[%]]+$",
+    snippetType = "autosnippet",
+  }, {
+    t('printf("'),
+    f(function(_, parent)
+      return parent.snippet.env.POSTFIX_MATCH .. " = %"
+    end),
+    i(1, "d"), -- 用户输入的格式化类型，如 %d, %f 等
+    t('\\n", '),
+    f(function(_, parent)
+      return parent.snippet.env.POSTFIX_MATCH .. ");"
+    end),
+  }),
+
+  postfix({
+    trig = "\\.cout",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
@@ -58,7 +76,22 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
-    trig = "\\.(scanf|cin)",
+    trig = "\\.scanf",
+    trigEngine = "ecma",
+    match_pattern = "[%w%.%_%->%[%]]+$",
+    snippetType = "autosnippet",
+  }, {
+    t('scanf("%'),
+    i(1, "d"), -- 第一个输入节点，让用户输入想要的格式化字符串或数字
+    f(function(_, parent)
+      -- 使用用户输入的格式化字符串来构造 scanf 或 cin 的参数
+      -- local format_str = args[1][1] -- 获取第一个输入节点的内容
+      return '", &' .. parent.snippet.env.POSTFIX_MATCH .. ");"
+    end, i(0), { 1 }), -- 依赖于第一个输入节点的内容
+  }),
+
+  postfix({
+    trig = "\\.cin",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",

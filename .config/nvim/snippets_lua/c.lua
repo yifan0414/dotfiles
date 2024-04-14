@@ -42,6 +42,7 @@ ls.add_snippets("c", {
       return '", &' .. parent.snippet.env.POSTFIX_MATCH .. ");"
     end, { 1 }), -- 依赖于第一个输入节点的内容
   }),
+
   postfix({
     trig = "\\.(printf|cout)",
     trigEngine = "ecma",

@@ -185,24 +185,24 @@ return {
             end
           end,
         },
-        -- {
-        --   name = "buffer",
-        --   -- group_index = 2,
-        --   max_item_count = 5,
-        --   -- 筛选出去数字
-        --   option = {
-        --     get_bufnrs = function()
-        --       local bufs = {}
-        --       for _, win in ipairs(vim.api.nvim_list_wins()) do
-        --         bufs[vim.api.nvim_win_get_buf(win)] = true
-        --       end
-        --       return vim.tbl_keys(bufs)
-        --     end,
-        --   },
-        --   entry_filter = function(entry)
-        --     return not string.match(entry:get_completion_item().label, "^%d+$")
-        --   end,
-        -- },
+        {
+          name = "buffer",
+          -- group_index = 2,
+          max_item_count = 5,
+          -- 筛选出去数字
+          option = {
+            get_bufnrs = function()
+              local bufs = {}
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                bufs[vim.api.nvim_win_get_buf(win)] = true
+              end
+              return vim.tbl_keys(bufs)
+            end,
+          },
+          entry_filter = function(entry)
+            return not string.match(entry:get_completion_item().label, "^%d+$")
+          end,
+        },
         {
           name = "nvim_lsp",
           -- group_index = 1,

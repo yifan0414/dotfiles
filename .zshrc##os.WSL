@@ -49,6 +49,7 @@ bindkey "^[l" clear-screen
 bindkey "^L" clear-screen
 
 export EDITOR=nvim
+export GOPATH=~/go
 
 # [end alias name]
 #
