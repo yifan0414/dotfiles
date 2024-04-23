@@ -1,5 +1,6 @@
 set clipboard=unnamedplus
 nnoremap <silent> 0 ^
+nnoremap <silent> s S
 nnoremap <C-j> <Cmd>call VSCodeNotify('workbench.action.navigateDown')<CR>
 xnoremap <C-j> <Cmd>call VSCodeNotify('workbench.action.navigateDown')<CR>
 nnoremap <C-k> <Cmd>call VSCodeNotify('workbench.action.navigateUp')<CR>
