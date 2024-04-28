@@ -141,6 +141,60 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
+    trig = "\\.2d",
+    match_pattern = "[%w%.%_%->%[%]%(%)]+$",
+    trigEngine = "ecma",
+    snippetType = "autosnippet",
+  }, {
+
+    t("vector<vector<"),
+    i(1, "int"), -- 这是你将要替换的循环变量名
+    t(">> "),
+    f(function(_, parent)
+      return parent.snippet.env.POSTFIX_MATCH .. "("
+    end, { 1 }), -- 使用之前插入点的值
+    -- t({"("}),
+    i(2, "n"),
+    f(function(args)
+      return ", vector<" .. args[1][1] .. ">"
+    end, { 1 }), -- 根据第1个插入点动态更新
+    t("("),
+    i(3, "n"),
+    t(", 0));"),
+    -- d(3, function(args)
+    --   local varName = args[2][1] -- 获取第2个插入点的内容
+    --   return sn(nil, {
+    --     t("(" .. varName .. ", 0));"), -- 使用变量名创建动态代码片段
+    --   })
+    -- end, { 1, 2 }),
+  }),
+
+  postfix({
+    trig = "\\.3d",
+    match_pattern = "[%w%.%_%->%[%]%(%)]+$",
+    trigEngine = "ecma",
+    snippetType = "autosnippet",
+  }, {
+
+    t("vector<vector<vector<"),
+    i(1, "int"), -- 这是你将要替换的循环变量名
+    t(">>> "),
+    f(function(_, parent)
+      return parent.snippet.env.POSTFIX_MATCH .. "("
+    end, { 1 }), -- 使用之前插入点的值
+    i(2, "n"),
+    f(function(args)
+      return ", vector<vector<" .. args[1][1] .. ">>"
+    end, { 1 }), -- 根据第1个插入点动态更新
+    d(3, function(args)
+      local varName = args[2][1] -- 获取第2个插入点的内容
+      return sn(nil, {
+        t("(" .. varName .. ", vector<" .. args[1][1] .. ">(" .. varName .. ", 0)));"), -- 使用变量名创建动态代码片段
+      })
+    end, { 1, 2 }),
+  }),
+
+  postfix({
     trig = "\\.range",
     match_pattern = "[%w%.%_%->%[%]%(%)]+$",
     trigEngine = "ecma",
