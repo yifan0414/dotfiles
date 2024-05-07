@@ -164,3 +164,8 @@ vim.keymap.set("n", "<leader>uc", function()
     cmp.setup({ completion = { autocomplete = { cmp.TriggerEvent.TextChanged } } })
   end
 end, { silent = true, noremap = true, desc = "Toggle NvimCmp" })
+
+vim.keymap.set("n", "<leader>ap", "<cmd>%d _ | :0put +<cr>", { desc = "replace entire buffer" })
+vim.keymap.set("n", "<leader>ay", "<cmd>%yank +<cr>", { desc = "copy entire buffer" })
+vim.keymap.set("n", "<leader>ad", "<cmd>%d _ | startinsert<cr>", { desc = "delete entire buffer" })
+vim.keymap.set("n", "<D-a>", "GVgg", { noremap = true, silent = true })
