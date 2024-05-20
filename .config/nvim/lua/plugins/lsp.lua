@@ -4,6 +4,7 @@ return {
     "neovim/nvim-lspconfig",
     -- options for vim.diagnostic.config()
     opts = {
+      document_highlight = { enabled = false },
       diagnostics = {
         underline = false,
         -- update_in_insert = false,
