@@ -79,7 +79,7 @@ return {
       --   },
       -- },
       signature = {
-        enabled = true,
+        enabled = false,
         auto_open = {
           enabled = true,
         },

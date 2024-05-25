@@ -2,8 +2,12 @@ return {
   {
     -- lspconfig
     "neovim/nvim-lspconfig",
+    event = "LazyFile",
     -- options for vim.diagnostic.config()
     opts = {
+      document_highlight = {
+        enabled = false,
+      },
       diagnostics = {
         underline = false,
         -- update_in_insert = false,
@@ -40,7 +44,6 @@ return {
           inlayHints = { parameterNames = { enabled = "all" } },
         },
       },
-
       inlay_hints = { enabled = false },
     },
   },
