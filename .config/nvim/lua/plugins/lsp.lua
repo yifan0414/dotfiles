@@ -5,13 +5,9 @@ return {
     event = "LazyFile",
     -- options for vim.diagnostic.config()
     opts = {
-<<<<<<< HEAD
       document_highlight = {
         enabled = false,
       },
-=======
-      document_highlight = { enabled = false },
->>>>>>> ae40587053c6bb22b0c5892693b692aa62a8ba92
       diagnostics = {
         underline = false,
         -- update_in_insert = false,
