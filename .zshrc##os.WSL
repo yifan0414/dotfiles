@@ -47,6 +47,7 @@ alias vim='nvim'
 alias fd='fdfind'
 alias ls='exa'
 alias ll='exa -all'
+alias python='python3'
 # alias make='make -j8'
 
 # export MANPAGER='nvim +Man!'

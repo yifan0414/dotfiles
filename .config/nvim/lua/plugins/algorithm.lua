@@ -78,7 +78,7 @@ return {
     --   ]])
     -- end,
     keys = {
-      { "<leader>rr", "<cmd>CompetiTest run<cr>", desc = "Run TestCase" },
+      { "<leader>rr", "<cmd>CompetiTest run<cr><c-w>h", desc = "Run TestCase" },
       { "<leader>ra", "<cmd>CompetiTest add_testcase<cr>", desc = "Add TestCase" },
       { "<leader>re", "<cmd>CompetiTest edit_testcase<cr>", desc = "Edit TestCase" },
       { "<leader>rd", "<cmd>CompetiTest delete_testcase<cr>", desc = "Delete TestCase" },

@@ -78,3 +78,7 @@ vim.g.VimuxOrientation = "h"
 
 -- 手动fold
 vim.opt.foldmethod = "manual"
+
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4

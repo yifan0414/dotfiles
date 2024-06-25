@@ -170,12 +170,12 @@ return {
   {
     "shellRaining/hlchunk.nvim",
     -- enabled = false,
-    event = { "LazyFile" },
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       chunk = {
         enable = true,
         notify = false,
-        use_treesitter = false,
+        use_treesitter = true,
         -- details about support_filetypes and exclude_filetypes in https://github.com/shellRaining/hlchunk.nvim/blob/main/lua/hlchunk/utils/filetype.lua
         exclude_filetypes = {
           help = true,
@@ -201,6 +201,8 @@ return {
         textobject = "q",
         max_file_size = 1024 * 1024,
         error_sign = false,
+        delay = 0,
+        duration = 0,
       },
 
       indent = {
