@@ -1,5 +1,19 @@
 return {
   {
+    "echasnovski/mini.icons",
+    config = function()
+      require("mini.icons").setup({
+        filetype = {
+          -- Override highlight group (not necessary from 'mini.icons')
+
+          -- Add icons for custom extension. This will also be used in
+          -- 'file' category for input like 'file.my.ext'.
+          CompetiTest = { glyph = "󰻲", hl = "MiniIconsRed" },
+        },
+      })
+    end,
+  },
+  {
     "lukas-reineke/indent-blankline.nvim",
     event = "LazyFile",
     -- enabled = false,

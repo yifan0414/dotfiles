@@ -1,7 +1,7 @@
 return {
   {
     "akinsho/bufferline.nvim",
-    commit = "a6ad228f77c276a4324924a6899cbfad70541547",
+    -- commit = "a6ad228f77c276a4324924a6899cbfad70541547",
     lazy = true,
     event = function()
       return "BufAdd"

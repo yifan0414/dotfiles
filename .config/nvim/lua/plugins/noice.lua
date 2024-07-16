@@ -1,9 +1,9 @@
 return {
   "folke/noice.nvim",
   event = "VeryLazy",
-  init = function()
-    vim.o.incsearch = false -- this causes a flicker when searching maybe fixed when new version is release?
-  end,
+  -- init = function()
+  --   vim.o.incsearch = false -- this causes a flicker when searching maybe fixed when new version is release?
+  -- end,
   opts = {
     cmdline = {
       format = {

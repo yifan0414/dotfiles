@@ -67,9 +67,9 @@ vim.g.loaded_ruby_provider = 0
 vim.o.report = 100 -- 为了关闭行数提示
 
 -- 启用当前行高亮
-vim.wo.cursorline = true
+-- vim.wo.cursorline = true
 -- 设置当前行高亮的选项为同时显示行号
-vim.wo.cursorlineopt = "number"
+-- vim.wo.cursorlineopt = "number"
 
 -- NOTE: asyncrun 的配置
 vim.g.asyncrun_open = 12
@@ -79,6 +79,6 @@ vim.g.VimuxOrientation = "h"
 -- 手动fold
 vim.opt.foldmethod = "manual"
 
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
+-- vim.opt.tabstop = 4
+-- vim.opt.shiftwidth = 4
+-- vim.opt.softtabstop = 4

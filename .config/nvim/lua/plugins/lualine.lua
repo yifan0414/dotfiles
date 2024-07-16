@@ -118,6 +118,7 @@ return {
             "qf",
             "leetcode.nvim",
             "dap-repl",
+            "CompetiTest"
           },
         },
       },

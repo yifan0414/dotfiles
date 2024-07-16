@@ -1,5 +1,6 @@
 return {
   "lewis6991/satellite.nvim",
+  enabled = false,
   event = "LazyFile",
   config = function()
     require("satellite").setup({

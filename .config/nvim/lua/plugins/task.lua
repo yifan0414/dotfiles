@@ -43,7 +43,7 @@ return {
   },
   {
     "yifan0414/harpoon",
-    -- enabled = false,
+    enabled = false,
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()

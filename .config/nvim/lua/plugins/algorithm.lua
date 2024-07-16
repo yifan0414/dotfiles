@@ -78,7 +78,7 @@ return {
     --   ]])
     -- end,
     keys = {
-      { "<leader>rr", "<cmd>CompetiTest run<cr><c-w>h", desc = "Run TestCase" },
+      { "<F5>", "<cmd>CompetiTest run<cr><c-w>h", desc = "Run TestCase" },
       { "<leader>ra", "<cmd>CompetiTest add_testcase<cr>", desc = "Add TestCase" },
       { "<leader>re", "<cmd>CompetiTest edit_testcase<cr>", desc = "Edit TestCase" },
       { "<leader>rd", "<cmd>CompetiTest delete_testcase<cr>", desc = "Delete TestCase" },
@@ -101,7 +101,7 @@ return {
         split_ui = {
           position = "right",
           relative_to_editor = true,
-          total_width = 0.5,
+          total_width = 0.4,
           vertical_layout = {
             { 1, "tc" },
             { 1, { { 1, "so" }, { 1, "eo" } } },
