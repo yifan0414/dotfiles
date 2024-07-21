@@ -118,7 +118,10 @@ return {
             "qf",
             "leetcode.nvim",
             "dap-repl",
-            "CompetiTest"
+            "CompetiTest",
+          },
+          inactive_winbar = {
+            "CompetiTest",
           },
         },
       },

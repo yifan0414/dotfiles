@@ -107,7 +107,7 @@ return {
     keys = {
       { "gcc", mode = { "n" } },
       { "gbc", mode = { "n" } },
-      { "gc", mode = { "x" } },
+      { "gc", mode = { "x", "n" } },
     },
     -- event = { "BufReadPost", "BufNewFile" },
     opts = function()

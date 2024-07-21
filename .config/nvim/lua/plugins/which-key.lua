@@ -15,17 +15,16 @@ return {
     --   },
     -- })
 
-    local presets = require("which-key.plugins.presets")
-    presets.operators["v"] = nil
-    presets.operators["m"] = nil
-    vim.o.timeout = true
-    vim.o.timeoutlen = 500
     require("which-key").setup(opts)
   end,
   opts = {
-    modes = {
-      x = false
-    },
+    delay = 500,
+    defer = function(ctx)
+      return ctx.mode == "v" or ctx.mode == "V" or ctx.mode == "y"
+    end,
+    -- modes = {
+    --   x = false
+    -- },
     -- triggers_nowait = {
     --   -- marks
     --   -- "`",

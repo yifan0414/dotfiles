@@ -78,9 +78,9 @@ return {
     --   ]])
     -- end,
     keys = {
-      { "<F5>", "<cmd>CompetiTest run<cr><c-w>h", desc = "Run TestCase" },
-      { "<leader>ra", "<cmd>CompetiTest add_testcase<cr>", desc = "Add TestCase" },
-      { "<leader>re", "<cmd>CompetiTest edit_testcase<cr>", desc = "Edit TestCase" },
+      { "<leader>1", "<cmd>CompetiTest run<cr><c-w>h", desc = "Run TestCase" },
+      { "<leader>2", "<cmd>CompetiTest add_testcase<cr>", desc = "Add TestCase" },
+      { "<leader>3", "<cmd>CompetiTest edit_testcase<cr>", desc = "Edit TestCase" },
       { "<leader>rd", "<cmd>CompetiTest delete_testcase<cr>", desc = "Delete TestCase" },
       { "<leader>rs", "<cmd>CompetiTest show_ui<cr>", desc = "Show UI" },
       { "<leader>rc", "<cmd>CompetiTest receive problem<cr>", desc = "Receive Problem" },
@@ -94,7 +94,7 @@ return {
           java = { exec = "javac", args = { "$(FNAME)" } },
         },
         received_problems_path = "$(CWD)/$(PROBLEM)/$(PROBLEM).$(FEXT)",
-        testcases_use_single_file = true,
+        testcases_use_single_file = false,
         runner_ui = {
           interface = "split",
         },
