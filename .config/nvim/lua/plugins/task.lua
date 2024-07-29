@@ -112,17 +112,17 @@ return {
       vim.g.floaterm_opener = "edit"
     end,
     keys = {
-      { "<F1>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true } },
-      { "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true }, mode = "t" },
+      { "<F5>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true } },
+      { "<F5>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true }, mode = "t" },
 
-      { "<F3>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true } },
-      { "<F3>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true }, mode = "t" },
+      { "<F7>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true } },
+      { "<F7>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true }, mode = "t" },
 
-      { "<F4>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
-      { "<F4>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true }, mode = "t" },
+      { "<F8>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
+      { "<F8>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true }, mode = "t" },
 
-      { "<F2>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true } },
-      { "<F2>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true }, mode = "t" },
+      { "<F6>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true } },
+      { "<F6>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true }, mode = "t" },
 
       {
         "<leader>h",
