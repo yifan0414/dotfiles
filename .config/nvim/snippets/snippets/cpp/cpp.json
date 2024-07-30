@@ -1,15 +1,15 @@
 {
-  "continue" : {
-    "prefix" : "continue",
-    "body" : ["continue;"]
+  "continue": {
+    "prefix": "continue",
+    "body": ["continue;"]
   },
-  "break" : {
-    "prefix" : "break",
-    "body" : ["break;"]
+  "break": {
+    "prefix": "break",
+    "body": ["break;"]
   },
-  "return" : {
-    "prefix" : "return",
-    "body" : ["return "]
+  "return": {
+    "prefix": "return",
+    "body": ["return "]
   },
   "new": {
     "prefix": "new",
@@ -55,7 +55,7 @@
       "#include <bits/stdc++.h>",
       "using namespace std;",
       "",
-      "int main () {",
+      "int main() {",
       "\tstd::ios::sync_with_stdio(false);",
       "\tstd::cin.tie(nullptr);",
       "",
@@ -79,6 +79,13 @@
       "}"
     ],
     "description": "Code snippet for reverse 'for' loop"
+  },
+  "lower_bound": {
+    "prefix": "lower_bound",
+    "body": [
+      "lower_bound($1.begin(), $1.end(), $2);"
+    ],
+    "description": "lower_bound"
   },
   "do": {
     "prefix": "do",
