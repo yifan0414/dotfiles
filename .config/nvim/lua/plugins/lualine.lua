@@ -88,11 +88,11 @@ return {
         Unmerged = " ",
       },
       diagnostics = {
-        Error = " ",
-        Warning = " ",
-        Information = " ",
-        Question = " ",
-        Hint = " ",
+        Error = " ",
+        Warning = " ",
+        Information = "󰋽 ",
+        Question = " ",
+        Hint = " ",
       },
       misc = {
         Robot = "󰚩 ",
@@ -118,8 +118,15 @@ return {
             "qf",
             "leetcode.nvim",
             "dap-repl",
+<<<<<<< HEAD
           },
           inactive_winbar = {
+=======
+            -- "CompetiTest",
+          },
+          inactive_winbar = {
+            -- "CompetiTest",
+>>>>>>> 3a7664397ab0e94bc8f965921f963c237e184f70
           },
         },
       },

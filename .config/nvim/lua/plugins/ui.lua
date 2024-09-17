@@ -9,7 +9,6 @@ return {
 
           -- Add icons for custom extension. This will also be used in
           -- 'file' category for input like 'file.my.ext'.
-          CompetiTest = { glyph = "󰻲", hl = "MiniIconsRed" },
         },
       })
     end,
