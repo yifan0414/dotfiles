@@ -2,16 +2,6 @@ return {
   {
     "echasnovski/mini.icons",
     enabled = false,
-    config = function()
-      require("mini.icons").setup({
-        filetype = {
-          -- Override highlight group (not necessary from 'mini.icons')
-
-          -- Add icons for custom extension. This will also be used in
-          -- 'file' category for input like 'file.my.ext'.
-        },
-      })
-    end,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
@@ -136,7 +126,7 @@ return {
     enabled = false,
     event = "LazyFile",
     opts = {
-      delay = 100,
+      -- delay = 100,
       large_file_cutoff = 2000,
       large_file_overrides = {
         providers = { "lsp" },
@@ -166,10 +156,10 @@ return {
       -- mode_allowlist = { "n" },
     },
     config = function(_, opts)
-      vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
-      vim.cmd([[hi illuminatedWordRead gui=none guibg=#2c313c]])
-      vim.cmd([[hi illuminatedWordText gui=none guibg=#2c313c]])
-      vim.cmd([[hi illuminatedWordWrite gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWord gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWordRead gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWordText gui=none guibg=#2c313c]])
+      -- vim.cmd([[hi illuminatedWordWrite gui=none guibg=#2c313c]])
       -- vim.cmd([[hi illuminatedWord gui=none guibg=#45475a]])
       -- vim.cmd([[hi illuminatedWordRead gui=none guibg=#45475a]])
       -- vim.cmd([[hi illuminatedWordText gui=none guibg=#45475a]])
@@ -251,7 +241,31 @@ return {
     },
   },
   {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+        keymaps = {
+          insert = "<C-g>s",
+          insert_line = "<C-g>S",
+          normal = "ys",
+          normal_cur = "yss",
+          normal_line = "yS",
+          normal_cur_line = "ySS",
+          visual = "s",
+          visual_line = "gS",
+          delete = "ds",
+          change = "cs",
+          change_line = "cS",
+        },
+      })
+    end,
+  },
+  {
     "folke/flash.nvim",
+    enabled = false,
     opts = {
       label = {
         exclude = "able",
@@ -267,14 +281,14 @@ return {
     },
     keys = {
       { "s", "cc" },
-      {
-        "S",
-        mode = { "n", "x", "o" },
-        function()
-          require("flash").jump()
-        end,
-        desc = "Flash",
-      },
+      -- {
+      --   "S",
+      --   mode = { "n", "x", "o" },
+      --   function()
+      --     require("flash").jump()
+      --   end,
+      --   desc = "Flash",
+      -- },
     },
   },
   {

@@ -76,6 +76,17 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
+    trig = "\\.all",
+    trigEngine = "ecma",
+    match_pattern = "[%w%.%_%->%[%]]+$",
+    snippetType = "autosnippet",
+  }, {
+    f(function(_, parent)
+      return parent.snippet.env.POSTFIX_MATCH .. ".begin(), " .. parent.snippet.env.POSTFIX_MATCH .. ".end()"
+    end),
+  }),
+
+  postfix({
     trig = "\\.scanf",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",

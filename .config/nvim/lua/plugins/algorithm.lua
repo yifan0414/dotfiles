@@ -89,7 +89,7 @@ return {
       require("competitest").setup({
         compile_command = {
           c = { exec = "gcc", args = { "-Wall", "$(FNAME)", "-o", "$(FNOEXT)" } },
-          cpp = { exec = "g++", args = { "-Wall", "-std=c++17", "$(FNAME)", "-o", "$(FNOEXT)" } },
+          cpp = { exec = "g++", args = { "-Wall", "-std=c++20", "$(FNAME)", "-o", "$(FNOEXT)" } },
           rust = { exec = "rustc", args = { "$(FNAME)" } },
           java = { exec = "javac", args = { "$(FNAME)" } },
         },
