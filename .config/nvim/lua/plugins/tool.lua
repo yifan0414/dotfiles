@@ -1,5 +1,8 @@
 return {
   {
+    "tpope/vim-sleuth",
+  },
+  {
     "xiyaowong/virtcolumn.nvim",
     enabled = false,
     event = "BufReadPost",

@@ -1,5 +1,6 @@
 vim.keymap.set("n", "<leader>;", "<cmd>e #<cr>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>`", "<cmd>wincmd p<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "s", "cc", { noremap = true, silent = true })
 
 vim.keymap.set("n", ";", ":", { noremap = true })
 

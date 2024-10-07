@@ -63,6 +63,10 @@ vim.go.guicursor = "i:ver25,o:block"
 vim.g.autoformat = false
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
+vim.o.smartindent = false
+vim.o.cindent = true
+vim.o.autoindent = true
+vim.o.cinoptions = "L0,g0"
 
 vim.o.report = 100 -- 为了关闭行数提示
 
