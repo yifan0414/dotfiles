@@ -88,10 +88,10 @@ return {
     -- lazy = true,
     event = "VeryLazy",
     opts = {
-      useDefaultKeymaps = true,
-      disabledKeymaps   = {
-        "gc",
-      },
+      -- useDefaultKeymaps = true,
+      -- disabledKeymaps   = {
+      --   "gc",
+      -- },
     },
     keys = {
       {
@@ -103,7 +103,7 @@ return {
   },
   {
     "numToStr/Comment.nvim",
-    -- event = "VeryLazy",
+    event = "VeryLazy",
     keys = {
       { "gcc", mode = { "n" } },
       { "gbc", mode = { "n" } },

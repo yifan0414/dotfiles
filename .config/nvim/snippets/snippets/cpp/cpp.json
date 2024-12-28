@@ -266,35 +266,6 @@
       "wordTrig": false
     }
   },
-  "cout": {
-    "prefix": "cout",
-    "body": ["std::cout"],
-    "luasnip": {
-      "priority": 2000,
-      "autotrigger": true,
-      "wordTrig": false
-    },
-    "description": "Code snippet for printing to std::cout, provided the header is set"
-  },
-  "swap": {
-    "prefix": "swap",
-    "body": ["std::swap($0)"],
-    "luasnip": {
-      "priority": 2000,
-      "autotrigger": true,
-      "wordTrig": false
-    }
-  },
-  "cin": {
-    "prefix": "cin",
-    "body": ["std::cin"],
-    "luasnip": {
-      "priority": 2000,
-      "autotrigger": true,
-      "wordTrig": false
-    },
-    "description": "Code snippet for std::cin, provided the header is set"
-  },
   "printf": {
     "prefix": "printf",
     "body": ["printf(\"$1\\n\"$0);"],

@@ -1,8 +1,5 @@
 return {
   {
-    "tpope/vim-sleuth",
-  },
-  {
     "xiyaowong/virtcolumn.nvim",
     enabled = false,
     event = "BufReadPost",
@@ -124,6 +121,7 @@ return {
   {
     "anuvyklack/pretty-fold.nvim",
     event = "VeryLazy",
+    enabled = false,
     config = function(_, opts)
       require("pretty-fold").setup(opts)
     end,

@@ -14,6 +14,7 @@ return {
         autocmd VimEnter * highlight! QuickFixLine ctermbg=NONE cterm=bold guibg=NONE gui=bold
         autocmd VimEnter * highlight! LspInlayHint guifg=#686778 guibg=#1F1F28
         autocmd VimEnter * highlight! TermCursor guifg=#1f1f28 guibg=#dcd7ba gui=NONE cterm=NONE
+        autocmd VimEnter * highlight! MatchParen cterm=bold gui=bold guibg=#45475a
     ]])
     end,
     opts = {

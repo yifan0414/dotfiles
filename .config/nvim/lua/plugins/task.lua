@@ -1,4 +1,16 @@
 return {
+  -- amongst your other plugins
+  {
+    "akinsho/toggleterm.nvim",
+    enabled = false,
+    version = "*",
+    config = function()
+      require("toggleterm").setup({
+        -- size can be a number or function which is passed the current terminal
+        shade_terminals = false, -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
+      })
+    end,
+  },
   {
     "yifan0414/asyncrun.vim",
     -- event = "VeryLazy",
@@ -112,17 +124,17 @@ return {
       vim.g.floaterm_opener = "edit"
     end,
     keys = {
-      { "<F5>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true } },
-      { "<F5>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true }, mode = "t" },
+      { "<F1>", "<cmd>FloatermToggle<CR>", { silent = true, noremap = true } },
+      { "<F1>", "<C-\\><C-n><cmd>FloatermToggle<CR>", { silent = true, noremap = true }, mode = "t" },
 
-      { "<F7>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true } },
-      { "<F7>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true }, mode = "t" },
+      { "<F2>", "<cmd>FloatermNext<CR>", { silent = true, noremap = true } },
+      { "<F2>", "<C-\\><C-n><cmd>FloatermNext<CR>", { silent = true, noremap = true }, mode = "t" },
 
-      { "<F8>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
-      { "<F8>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true }, mode = "t" },
+      { "<F3>", "<cmd>FloatermPrev<CR>", { silent = true, noremap = true } },
+      { "<F3>", "<C-\\><C-n><cmd>FloatermPrev<CR>", { silent = true, noremap = true }, mode = "t" },
 
-      { "<F6>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true } },
-      { "<F6>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true }, mode = "t" },
+      { "<F4>", "<cmd>FloatermNew<CR>", { silent = true, noremap = true } },
+      { "<F4>", "<C-\\><C-n>:FloatermNew<CR>", { silent = true, noremap = true }, mode = "t" },
 
       {
         "<leader>h",
