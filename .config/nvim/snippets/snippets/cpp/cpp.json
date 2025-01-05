@@ -27,15 +27,6 @@
     "prefix": "using",
     "body": ["using namespace $0;"]
   },
-  "std1": {
-    "prefix": "std",
-    "body": ["std::$0"],
-    "luasnip": {
-      "priority": 2000,
-      "autotrigger": true,
-      "wordTrig": false
-    }
-  },
   "example1": {
     "prefix": "options",
     "body": ["whoa! :O"],
@@ -256,15 +247,6 @@
     "prefix": "union",
     "body": ["union ${1:MyUnion} {", "\t$0", "};"],
     "description": "Code snippet for union"
-  },
-  "endl": {
-    "prefix": "endl",
-    "body": ["\"\\n\"$0"],
-    "luasnip": {
-      "priority": 2000,
-      "autotrigger": true,
-      "wordTrig": false
-    }
   },
   "printf": {
     "prefix": "printf",
