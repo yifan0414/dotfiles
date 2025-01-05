@@ -32,7 +32,6 @@ return {
             -- icon =    {'X', align='right'}
             -- Icon string ^ in table is ignored in filetype component
             color = { bg = "#1e1e2f" },
-
             separator = "",
           },
           {
@@ -122,6 +121,7 @@ return {
             "qf",
             "leetcode.nvim",
             "dap-repl",
+            "snacks_dashboard",
             -- "CompetiTest",
           },
           inactive_winbar = {

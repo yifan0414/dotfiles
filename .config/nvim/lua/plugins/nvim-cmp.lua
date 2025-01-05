@@ -248,7 +248,6 @@ return {
               -- buffer = "[Buffer]",
               -- luasnip = "[LuaSnip]",
             })[entry.source.name]
-            vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
             -- vim_item.dup = 0
             vim_item.dup = ({
               buffer = 0,
@@ -256,6 +255,7 @@ return {
               nvim_lsp = 0,
               luasnip = 1,
             })[entry.source.name] or 0
+            vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
             return vim_item
           end,
         }),
