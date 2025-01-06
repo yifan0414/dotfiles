@@ -33,9 +33,19 @@ return {
             { find = "; before #%d+" },
             { find = "%d fewer lines" },
             { find = "%d more lines" },
+            { find = "No active Snippet" },
           },
         },
         opts = { skip = true },
+      },
+      {
+        filter = {
+          event = "notify",
+          find = "No information available",
+        },
+        opts = {
+          skip = true,
+        },
       },
     },
     presets = {

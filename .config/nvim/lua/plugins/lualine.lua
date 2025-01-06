@@ -31,7 +31,7 @@ return {
             padding = { left = 1, right = -2 },
             -- icon =    {'X', align='right'}
             -- Icon string ^ in table is ignored in filetype component
-            color = { bg = "#1e1e2f" },
+            -- color = { bg = "#1e1e2f" },
             separator = "",
           },
           {
@@ -44,17 +44,18 @@ return {
                 return filename
               end
             end,
-            color = { bg = "#1e1e2f" },
+            -- color = { bg = "#1e1e2f" },
             padding = { left = -2 },
             separator = "",
           },
           {
             function()
-              return "%#Comment#" .. "› " .. "%#Normal#" .. require("nvim-navic").get_location()
+              return "%#StatusLine#" .. "› " .. "%#Normal#" .. require("nvim-navic").get_location()
             end,
             cond = function()
               return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
             end,
+            -- color = { bg = "#e6e9f0" },
             -- padding = { left = -2 },
             separator = "",
           },
@@ -70,7 +71,7 @@ return {
             -- icon =    {'X', align='right'}
             -- Icon string ^ in table is ignored in filetype component
             padding = { left = 1, right = -2 },
-            color = { bg = "#1e1e2f" },
+            -- color = { bg = "#1e1e2f" },
             separator = "",
           },
           {
@@ -83,7 +84,7 @@ return {
                 return filename
               end
             end,
-            color = { bg = "#1e1e2f" },
+            -- color = { bg = "#1e1e2f" },
             padding = { left = -2 },
             separator = "",
           },

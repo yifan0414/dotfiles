@@ -84,11 +84,7 @@ return {
           -- miscs = {}, -- Uncomment to turn off hard-coded styles
         },
         color_overrides = {},
-        custom_highlights = {
-          NormalFloat = { bg = "#1e1e2f" },
-          FloatBorder = { bg = "#1e1e2f" },
-          TreesitterContext = {bg = "#181826"},
-        },
+        custom_highlights = {},
         default_integrations = true,
         integrations = {
           cmp = true,
@@ -100,6 +96,10 @@ return {
             enabled = true,
             indentscope_color = "",
           },
+          navic = {
+            enabled = false,
+            custom_bg = "lualine", -- "lualine" will set background to mantle
+          },
           -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
         },
       })
@@ -109,7 +109,7 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "kanagawa",
-      colorscheme = "catppuccin",
+      colorscheme = "catppuccin-latte",
     },
   },
 }
