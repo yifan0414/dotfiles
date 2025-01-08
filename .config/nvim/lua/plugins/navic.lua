@@ -10,13 +10,18 @@ return {
     end)
   end,
   opts = function()
+    -- vim.api.nvim_set_hl(0, "NavicIconsPackage", { fg = "#D5616F" })
+    -- vim.api.nvim_set_hl(0, "NavicIconsVariable", { fg = "#FFA066" })
+    -- -- vim.api.nvim_set_hl(0, "NavicIconsVariable", { fg = "#E46876" })
+    -- vim.api.nvim_set_hl(0, "NavicIconsArray", { fg = "#FFA066" })
+    -- vim.api.nvim_set_hl(0, "NavicIconsField", { fg = "#E6C384"})
+    -- vim.api.nvim_set_hl(0, "NavicIconsFunction", { fg = "#89b4fb", bold = true })
     -- vim.api.nvim_set_hl(0, "NavicIconsPackage", { fg = "#74c7ed" })
     -- vim.api.nvim_set_hl(0, "NavicIconsVariable", { fg = "#cdd6f5" })
     -- vim.api.nvim_set_hl(0, "NavicIconsArray", { fg = "#f9e2b0" })
     -- vim.api.nvim_set_hl(0, "NavicIconsField", { fg = "#E6C384" })
     -- vim.api.nvim_set_hl(0, "NavicIconsString", { fg = "#a6e3a2" })
     -- vim.api.nvim_set_hl(0, "NavicIconsFunction", { fg = "#89b4fb", bold = true })
-    vim.api.nvim_set_hl(0, "NavicIconsFunction", { bold = true })
     return {
       -- { "Module", " ", "Exception" },
       -- { "Namespace", " ", "Include" },
@@ -71,9 +76,9 @@ return {
         TypeParameter = " ",
       },
       separator = "%#Comment#" .. " › " .. "%#Normal#",
-      highlight = true,
+      highlight = false,
       -- depth_limit = 7,
-      depth_limit_indicator = "%#Comment#" .. ".." .. "%#Normal#",
+      -- depth_limit_indicator = "%#Comment#" .. ".." .. "%#Normal#",
       lazy_update_context = false,
       click = true,
       -- format_text = function(text)

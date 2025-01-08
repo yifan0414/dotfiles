@@ -2,6 +2,16 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
+      filesystem = {
+        filtered_items = {
+          hide_by_name = {
+            ".DS_Store",
+          },
+          hide_by_pattern = {
+            "*.bin",
+          },
+        },
+      },
       window = {
         width = 30,
       },

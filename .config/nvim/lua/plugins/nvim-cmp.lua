@@ -74,7 +74,19 @@ return {
     -- -- Customization for Pmenu
     -- -- vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
     -- -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
-    -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#223349", blend = 0 })
+    -- local colors = require("catppuccin.palettes").get_palette() -- 获取 catppuccin 的调色板
+
+    -- 获取现有的 Pmenu 高亮组配置
+    local pmenu_hl = vim.api.nvim_get_hl(0, { name = "Pmenu" })
+
+    -- 添加/覆盖 blend 值
+    pmenu_hl.blend = 0
+
+    -- 重新设置 Pmenu 高亮组
+    vim.api.nvim_set_hl(0, "Pmenu", pmenu_hl)
+    -- vim.api.nvim_set_hl(0, "Pmenu", { bg = "#29293b", blend = 0 })
+    -- vim.api.nvim_set_hl(0, "PmenuSel", { bg = colors.blue, fg = colors.base, blend = 0 })
+    -- vim.api.nvim_set_hl(0, "PmenuBorder", { bg = colors.base, fg = colors.blue, blend = 0 })
     -- vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 
     local neotab = require("neotab")
@@ -96,6 +108,11 @@ return {
         -- documentation = cmp.config.window.bordered({
         --   winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
         -- }),
+        completion = {
+          -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+          col_offset = -3,
+          side_padding = 0,
+        },
         documentation = {
           -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
           -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
@@ -234,32 +251,53 @@ return {
       -- end,
 
       formatting = {
-        fields = { "abbr", "kind", "menu" },
-        format = require("lspkind").cmp_format({
-          preset = "default",
-          mode = "symbol_text",
-          maxwidth = 20,
-          show_labelDetails = false,
-          ellipsis_char = "...",
-          before = function(entry, vim_item)
-            -- vim_item.menu = string.sub(vim_item.menu, 1, 0)
-            vim_item.menu = ({
-              -- nvim_lsp = "[LSP]",
-              -- buffer = "[Buffer]",
-              -- luasnip = "[LuaSnip]",
-            })[entry.source.name]
-            -- vim_item.dup = 0
-            vim_item.dup = ({
-              buffer = 0,
-              path = 0,
-              nvim_lsp = 0,
-              luasnip = 1,
-            })[entry.source.name] or 0
-            vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
-            return vim_item
-          end,
-        }),
+        fields = { "kind", "abbr", "menu" },
+        format = function(entry, vim_item)
+          local kind = require("lspkind").cmp_format({
+            mode = "symbol_text",
+            preset = "codicons",
+            maxwidth = 20,
+          })(entry, vim_item)
+
+          vim_item.dup = ({
+            luasnip = 1,
+            nvim_lsp = 0,
+            buffer = 0,
+            path = 0,
+          })[entry.source.name] or 0
+          local strings = vim.split(kind.kind, "%s", { trimempty = true })
+          kind.kind = " " .. (strings[1] or "") .. " "
+          kind.menu = "    (" .. (strings[2] or "") .. ")"
+          return kind
+        end,
       },
+      -- formatting = {
+      --   fields = { "abbr", "kind", "menu" },
+      --   format = require("lspkind").cmp_format({
+      --     preset = "default",
+      --     mode = "symbol_text",
+      --     maxwidth = 20,
+      --     show_labelDetails = false,
+      --     ellipsis_char = "...",
+      --     before = function(entry, vim_item)
+      --       -- vim_item.menu = string.sub(vim_item.menu, 1, 0)
+      --       vim_item.menu = ({
+      --         -- nvim_lsp = "[LSP]",
+      --         -- buffer = "[Buffer]",
+      --         -- luasnip = "[LuaSnip]",
+      --       })[entry.source.name]
+      --       vim_item.dup = 0
+      --       -- vim_item.dup = ({
+      --       --   buffer = 0,
+      --       --   path = 0,
+      --       --   nvim_lsp = 1,
+      --       --   luasnip = 0,
+      --       -- })[entry.source.name] or 0
+      --       vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
+      --       return vim_item
+      --     end,
+      --   }),
+      -- },
       -- experimental = {
       --   ghost_text = {
       --     hl_group = "CmpGhostText",

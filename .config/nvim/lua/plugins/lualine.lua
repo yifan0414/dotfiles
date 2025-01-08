@@ -32,6 +32,7 @@ return {
             -- icon =    {'X', align='right'}
             -- Icon string ^ in table is ignored in filetype component
             -- color = { bg = "#1e1e2f" },
+            -- color = { bg = "2a2a37" },
             separator = "",
           },
           {
@@ -46,19 +47,20 @@ return {
             end,
             -- color = { bg = "#1e1e2f" },
             padding = { left = -2 },
+            -- color = { bg = "2a2a37" },
             separator = "",
           },
-          {
-            function()
-              return "%#StatusLine#" .. "› " .. "%#Normal#" .. require("nvim-navic").get_location()
-            end,
-            cond = function()
-              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-            end,
-            -- color = { bg = "#e6e9f0" },
-            -- padding = { left = -2 },
-            separator = "",
-          },
+          -- {
+          --   function()
+          --     return "%#Comment#" .. "› " .. "%#Normal#" .. require("nvim-navic").get_location()
+          --   end,
+          --   cond = function()
+          --     return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+          --   end,
+          --   -- color = { bg = "#e6e9f0" },
+          --   -- padding = { left = -2 },
+          --   separator = "",
+          -- },
         },
       },
       inactive_winbar = {
@@ -72,6 +74,7 @@ return {
             -- Icon string ^ in table is ignored in filetype component
             padding = { left = 1, right = -2 },
             -- color = { bg = "#1e1e2f" },
+            -- color = { bg = "2a2a37" },
             separator = "",
           },
           {
@@ -85,19 +88,20 @@ return {
               end
             end,
             -- color = { bg = "#1e1e2f" },
+            -- color = { bg = "2a2a37" },
             padding = { left = -2 },
             separator = "",
           },
-          {
-            function()
-              return "%#Comment#" .. "› " .. "%#Normal#" .. require("nvim-navic").get_location()
-            end,
-            cond = function()
-              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-            end,
-            -- padding = { left = -2 },
-            separator = "",
-          },
+          -- {
+          --   function()
+          --     return "%#Comment#" .. "› " .. "%#Normal#" .. require("nvim-navic").get_location()
+          --   end,
+          --   cond = function()
+          --     return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+          --   end,
+          --   -- padding = { left = -2 },
+          --   separator = "",
+          -- },
         },
       },
 
@@ -111,7 +115,7 @@ return {
       },
       tabline = {},
       options = {
-        theme = "catppuccin",
+        -- theme = "catppuccin",
         globalstatus = vim.o.laststatus == 3,
         disabled_filetypes = {
           statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" },
@@ -146,7 +150,18 @@ return {
           --   },
           -- },
           { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-          { LazyVim.lualine.pretty_path() },
+          { LazyVim.lualine.pretty_path(), separator = "›" },
+          {
+            function()
+              return require("nvim-navic").get_location()
+            end,
+            cond = function()
+              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+            end,
+            -- color = { bg = "#e6e9f0" },
+            -- padding = { left = -2 },
+            separator = "",
+          },
         },
         lualine_x = {
           Snacks.profiler.status(),

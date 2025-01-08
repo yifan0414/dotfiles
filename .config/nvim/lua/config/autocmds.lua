@@ -103,11 +103,10 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 
 -- 为 C 和 C++ 文件设置缩进选项
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "c", "cpp" },
-    callback = function()
-        vim.opt_local.tabstop = 4
-        vim.opt_local.shiftwidth = 4
-        vim.opt_local.softtabstop = 4
-    end,
+  pattern = { "c", "cpp" },
+  callback = function()
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
+  end,
 })
-
