@@ -115,6 +115,13 @@ return {
               FloatBorder = { bg = mocha.base },
             }
           end,
+          latte = function(latte)
+            return {
+              TreesitterContext = { bg = latte.mantle },
+              NormalFloat = { bg = latte.base },
+              FloatBorder = { bg = latte.base },
+            }
+          end,
         },
         custom_highlights = {},
         default_integrations = true,
@@ -141,8 +148,8 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "kanagawa",
-      -- colorscheme = "catppuccin-frappe",
-      colorscheme = "catppuccin",
+      colorscheme = "catppuccin-frappe",
+      -- colorscheme = "catppuccin",
       -- colorscheme = "vscode",
     },
   },

@@ -16,8 +16,6 @@ return {
     local icons = LazyVim.config.icons
     vim.o.laststatus = vim.g.lualine_laststatus
     local opts = {
-      component_separators = { left = " ", right = " " },
-      component_separator = { left = " ", right = " " },
       winbar = {
         lualine_c = {
           {
@@ -42,9 +40,7 @@ return {
                 return filename
               end
             end,
-            -- color = { bg = "#1e1e2f" },
             padding = { left = -2 },
-            -- color = { bg = "2a2a37" },
             separator = "",
           },
           {
@@ -54,8 +50,6 @@ return {
             cond = function()
               return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
             end,
-            -- color = { bg = "#e6e9f0" },
-            -- padding = { left = -2 },
             separator = "",
           },
         },
@@ -148,19 +142,6 @@ return {
           },
           { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
           { LazyVim.lualine.pretty_path(), separator = "›" },
-          -- {
-          --   "navic",
-          --   color_correction = "dynamic",
-          --   -- function()
-          --   --   return require("nvim-navic").get_location()
-          --   -- end,
-          --   -- cond = function()
-          --   --   return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-          --   -- end,
-          --   -- color = { bg = "#e6e9f0" },
-          --   -- padding = { left = -2 },
-          --   separator = "",
-          -- },
         },
         lualine_x = {
           Snacks.profiler.status(),
