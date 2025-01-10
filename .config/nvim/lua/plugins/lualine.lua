@@ -115,7 +115,7 @@ return {
       },
       tabline = {},
       options = {
-        -- theme = "catppuccin",
+        -- theme = "vscode",
         globalstatus = vim.o.laststatus == 3,
         disabled_filetypes = {
           statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" },

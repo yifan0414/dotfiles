@@ -51,8 +51,7 @@ return {
         jdtls = {
           inlayHints = { parameterNames = { enabled = "all" } },
         },
-        pyright = {
-        },
+        pyright = {},
       },
       inlay_hints = { enabled = false },
     },

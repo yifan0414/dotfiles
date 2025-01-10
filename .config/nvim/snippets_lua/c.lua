@@ -25,6 +25,7 @@ local types = require("luasnip.util.types")
 local parse = require("luasnip.util.parser").parse_snippet
 local ms = ls.multi_snippet
 local k = require("luasnip.nodes.key_indexer").new_key
+local treesitter_postfix = require("luasnip.extras.treesitter_postfix").treesitter_postfix
 
 -- ls.add_snippets("c"-- https://zjp-cn.github.io/neovim0.6-blogs/nvim/luasnip/doc1.html#postfix
 ls.add_snippets("c", {

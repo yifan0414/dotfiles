@@ -84,6 +84,7 @@ return {
 
     -- 重新设置 Pmenu 高亮组
     vim.api.nvim_set_hl(0, "Pmenu", pmenu_hl)
+
     -- vim.api.nvim_set_hl(0, "Pmenu", { bg = "#29293b", blend = 0 })
     -- vim.api.nvim_set_hl(0, "PmenuSel", { bg = colors.blue, fg = colors.base, blend = 0 })
     -- vim.api.nvim_set_hl(0, "PmenuBorder", { bg = colors.base, fg = colors.blue, blend = 0 })
@@ -91,6 +92,10 @@ return {
 
     local neotab = require("neotab")
     local luasnip = require("luasnip")
+
+    luasnip.setup({
+      enable_autosnippets = true,
+    })
 
     require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
     require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets_lua" })

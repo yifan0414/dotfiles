@@ -29,23 +29,91 @@ local k = require("luasnip.nodes.key_indexer").new_key
 local treesitter_postfix = require("luasnip.extras.treesitter_postfix").treesitter_postfix
 local postfix_builtin = require("luasnip.extras.treesitter_postfix").builtin
 
+local expr_query = [[
+            [
+              (if_statement)
+              (call_expression)
+              (identifier)
+              (type_identifier)
+              (template_function)
+              (subscript_expression)
+              (field_expression)
+              (user_defined_literal)
+            ] @prefix
+]]
+
 ls.add_snippets("cpp", {
-  -- treesitter_postfix({
-  --   matchTSNode = postfix_builtin.tsnode_matcher.find_topmost_types({
-  --     "identifier",
-  --     "init_declarator",
-  --   }),
-  --   trig = ".mv",
-  -- }, {
-  --   -- t(string.format("std::move(%s)", l.LS_TSMATCH)),
-  --   f(function(_, parent)
-  --     -- local node_content = table.concat(parent.snippet.env.LS_TSMATCH, "\n")
-  --     -- local replaced_content = ("std::move(%s)"):format(node_content)
-  --     -- return replaced_content
-  --     vim.print(parent.snippet.env.LS_TSMATCH)
-  --     return "std::move(" .. parent.env.LS_TSMATCH[1] .. ")"
-  --   end),
-  -- }),
+  treesitter_postfix(
+    {
+      trig = ".sc",
+      name = "(.sc) static_cast<TYPE>(?)",
+      dscr = "Wraps an expression with static_cast<TYPE>(?)",
+      wordTrig = false,
+      reparseBuffer = "live",
+      snippetType = "autosnippet",
+      matchTSNode = {
+        query = expr_query,
+        query_lang = "cpp",
+      },
+    },
+    fmt(
+      [[
+      static_cast<{body}>({expr}){end}
+      ]],
+      {
+        body = i(1),
+        expr = f(function(_, parent)
+          return parent.snippet.env.LS_TSMATCH
+        end, {}),
+        ["end"] = i(0),
+      }
+    )
+  ),
+  treesitter_postfix(
+    {
+      trig = ".mv",
+      matchTSNode = {
+        query = expr_query,
+        query_lang = "cpp",
+        select = "longest",
+      },
+      reparseBuffer = "live",
+      snippetType = "autosnippet",
+    },
+    fmt(
+      [[
+          std::move({expr})
+      ]],
+      {
+        expr = f(function(_, parent)
+          return parent.snippet.env.LS_TSMATCH
+        end, {}),
+      }
+    )
+  ),
+
+  treesitter_postfix(
+    {
+      trig = ".cout",
+      matchTSNode = {
+        query = expr_query,
+        query_lang = "cpp",
+        select = "longest",
+      },
+      reparseBuffer = "live",
+      snippetType = "autosnippet",
+    },
+    fmt(
+      [[
+          cout << {expr} << endl;
+      ]],
+      {
+        expr = f(function(_, parent)
+          return parent.snippet.env.LS_TSMATCH
+        end, {}),
+      }
+    )
+  ),
 
   postfix({
     trig = "\\.printf",
@@ -64,16 +132,16 @@ ls.add_snippets("cpp", {
     end),
   }),
 
-  postfix({
-    trig = "\\.cout",
-    trigEngine = "ecma",
-    match_pattern = "[%w%.%_%->%[%]]+$",
-    snippetType = "autosnippet",
-  }, {
-    f(function(_, parent)
-      return "cout << " .. parent.snippet.env.POSTFIX_MATCH .. " << endl;"
-    end),
-  }),
+  -- postfix({
+  --   trig = "\\.cout",
+  --   trigEngine = "ecma",
+  --   match_pattern = "[%w%.%_%->%[%]]+$",
+  --   snippetType = "autosnippet",
+  -- }, {
+  --   f(function(_, parent)
+  --     return "cout << " .. parent.snippet.env.POSTFIX_MATCH .. " << endl;"
+  --   end),
+  -- }),
 
   postfix({
     trig = "\\.all",
