@@ -299,8 +299,12 @@ return {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
-      fold_closed = "›",
-      fold_open = "▾", -- icon used for open folds
+      icons = {
+        indent = {
+          fold_closed = "",
+          fold_open = "", -- icon used for open folds
+        },
+      },
       -- your configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below

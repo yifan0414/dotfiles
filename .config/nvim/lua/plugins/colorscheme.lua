@@ -74,7 +74,7 @@ return {
           shade = "dark",
           percentage = 0.15, -- percentage of the shade to apply to the inactive window
         },
-        no_italic = true, -- Force no italic
+        no_italic = false, -- Force no italic
         no_bold = false, -- Force no bold
         no_underline = false, -- Force no underline
         styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
@@ -82,7 +82,7 @@ return {
           conditionals = {},
           loops = {},
           functions = { "bold" },
-          keywords = {},
+          keywords = { "italic" },
           strings = {},
           variables = {},
           numbers = {},
@@ -116,11 +116,7 @@ return {
             }
           end,
         },
-        custom_highlights = function()
-          return {
-            CompetiTestCorrect = { cterm = bold, gui = bold },
-          }
-        end,
+        custom_highlights = {},
         default_integrations = true,
         integrations = {
           cmp = true,
@@ -145,8 +141,8 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "kanagawa",
-      colorscheme = "catppuccin-frappe",
-      -- colorscheme = "catppuccin"
+      -- colorscheme = "catppuccin-frappe",
+      colorscheme = "catppuccin",
       -- colorscheme = "vscode",
     },
   },
