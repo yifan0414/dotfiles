@@ -146,6 +146,7 @@ return {
     opts = {
       -- colorscheme = "kanagawa",
       colorscheme = "catppuccin-frappe",
+      -- colorscheme = "catppuccin"
       -- colorscheme = "vscode",
     },
   },

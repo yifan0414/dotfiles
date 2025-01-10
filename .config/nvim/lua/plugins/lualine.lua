@@ -50,17 +50,17 @@ return {
             -- color = { bg = "2a2a37" },
             separator = "",
           },
-          -- {
-          --   function()
-          --     return "%#Comment#" .. "› " .. "%#Normal#" .. require("nvim-navic").get_location()
-          --   end,
-          --   cond = function()
-          --     return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-          --   end,
-          --   -- color = { bg = "#e6e9f0" },
-          --   -- padding = { left = -2 },
-          --   separator = "",
-          -- },
+          {
+            function()
+              return "› " .. require("nvim-navic").get_location()
+            end,
+            cond = function()
+              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+            end,
+            -- color = { bg = "#e6e9f0" },
+            -- padding = { left = -2 },
+            separator = "",
+          },
         },
       },
       inactive_winbar = {
@@ -92,16 +92,16 @@ return {
             padding = { left = -2 },
             separator = "",
           },
-          -- {
-          --   function()
-          --     return "%#Comment#" .. "› " .. "%#Normal#" .. require("nvim-navic").get_location()
-          --   end,
-          --   cond = function()
-          --     return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-          --   end,
-          --   -- padding = { left = -2 },
-          --   separator = "",
-          -- },
+          {
+            function()
+              return "› " .. require("nvim-navic").get_location()
+            end,
+            cond = function()
+              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+            end,
+            -- padding = { left = -2 },
+            separator = "",
+          },
         },
       },
 
@@ -140,28 +140,30 @@ return {
 
         lualine_c = {
           LazyVim.lualine.root_dir(),
-          -- {
-          --   "diagnostics",
-          --   symbols = {
-          --     error = icons.diagnostics.Error,
-          --     warn = icons.diagnostics.Warn,
-          --     info = icons.diagnostics.Info,
-          --     hint = icons.diagnostics.Hint,
-          --   },
-          -- },
+          {
+            "diagnostics",
+            symbols = {
+              error = icons.diagnostics.Error,
+              warn = icons.diagnostics.Warn,
+              info = icons.diagnostics.Info,
+              hint = icons.diagnostics.Hint,
+            },
+          },
           { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
           { LazyVim.lualine.pretty_path(), separator = "›" },
-          {
-            function()
-              return require("nvim-navic").get_location()
-            end,
-            cond = function()
-              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-            end,
-            -- color = { bg = "#e6e9f0" },
-            -- padding = { left = -2 },
-            separator = "",
-          },
+          -- {
+          --   "navic",
+          --   color_correction = "dynamic",
+          --   -- function()
+          --   --   return require("nvim-navic").get_location()
+          --   -- end,
+          --   -- cond = function()
+          --   --   return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+          --   -- end,
+          --   -- color = { bg = "#e6e9f0" },
+          --   -- padding = { left = -2 },
+          --   separator = "",
+          -- },
         },
         lualine_x = {
           Snacks.profiler.status(),
