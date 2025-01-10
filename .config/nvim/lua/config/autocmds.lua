@@ -111,13 +111,17 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "leetcode.nvim" },
+vim.api.nvim_create_augroup("CompetiTestLineNumber", { clear = true })
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
   callback = function()
-    vim.opt.wrap = true
+    if vim.bo.filetype == "CompetiTest" then
+      vim.wo.numberwidth = 1
+      vim.wo.cursorline = false
+    end
   end,
+  group = "CompetiTestLineNumber",
 })
-
 -- LSP设置, notification
 -- local progress = vim.defaulttable()
 -- vim.api.nvim_create_autocmd("LspProgress", {

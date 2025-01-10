@@ -48,34 +48,6 @@ return {
   },
 
   opts = function()
-    -- gray
-    -- vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = "#808080" })
-    -- -- blue
-    -- -- vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { bg = "NONE", fg = "#569CD6" })
-    -- -- vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CmpIntemAbbrMatch" })
-    -- -- light blue
-    -- vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "NONE", fg = "#9CDCFE" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindInterface", { link = "CmpItemKindVariable" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindText", { link = "CmpItemKindVariable" })
-    -- -- pink
-    -- vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "NONE", fg = "#C586C0" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindMethod", { link = "CmpItemKindFunction" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindConstructor", { link = "CmpItemKindFunction" })
-    -- -- front
-    -- vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "NONE", fg = "#D4D4D4" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindProperty", { link = "CmpItemKindKeyword" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindUnit", { link = "CmpItemKindKeyword" })
-    --
-    -- vim.api.nvim_set_hl(0, "CmpItemKindClass", { bg = "NONE", fg = "#d4983e" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindField", { bg = "NONE", fg = "#87beef" })
-    -- vim.api.nvim_set_hl(0, "CmpItemKindStruct", { bg = "NONE", fg = "#7eaaa0" })
-    --
-    -- vim.api.nvim_set_hl(0, "CmpItemKindReference", { bg = "NONE", fg = "#ffe4b5" })
-    -- -- Customization for Pmenu
-    -- -- vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#54546D", bg = "#1F1F28", blend = 0 })
-    -- -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#dcd7ba", bg = "#1F1F28", blend = 0 })
-    -- local colors = require("catppuccin.palettes").get_palette() -- 获取 catppuccin 的调色板
-
     -- 获取现有的 Pmenu 高亮组配置
     local pmenu_hl = vim.api.nvim_get_hl(0, { name = "Pmenu" })
 
@@ -208,6 +180,11 @@ return {
           end,
         },
         {
+          name = "copilot",
+          group_index = 1,
+          priority = 100,
+        },
+        {
           name = "buffer",
           -- group_index = 2,
           max_item_count = 5,
@@ -238,22 +215,6 @@ return {
         -- { name = "orgmode" },
         -- { name = "path" },
       }),
-      -- enabled = function()
-      --   -- disable completion in comments
-      --   local context = require("cmp.config.context")
-      --   -- keep command mode completion enabled when cursor is in a comment
-      --   if
-      --     vim.bo.buftype == "prompt"
-      --     or context.in_treesitter_capture("comment")
-      --     or context.in_syntax_group("Comment")
-      --     -- or context.in_treesitter_capture("string")
-      --     -- or context.in_syntax_group("String")
-      --   then
-      --     return false
-      --   else
-      --     return true
-      --   end
-      -- end,
 
       formatting = {
         fields = { "kind", "abbr", "menu" },
@@ -261,6 +222,7 @@ return {
           local kind = require("lspkind").cmp_format({
             mode = "symbol_text",
             preset = "codicons",
+            symbol_map = { Copilot = "" },
             maxwidth = 20,
           })(entry, vim_item)
 
@@ -276,38 +238,6 @@ return {
           return kind
         end,
       },
-      -- formatting = {
-      --   fields = { "abbr", "kind", "menu" },
-      --   format = require("lspkind").cmp_format({
-      --     preset = "default",
-      --     mode = "symbol_text",
-      --     maxwidth = 20,
-      --     show_labelDetails = false,
-      --     ellipsis_char = "...",
-      --     before = function(entry, vim_item)
-      --       -- vim_item.menu = string.sub(vim_item.menu, 1, 0)
-      --       vim_item.menu = ({
-      --         -- nvim_lsp = "[LSP]",
-      --         -- buffer = "[Buffer]",
-      --         -- luasnip = "[LuaSnip]",
-      --       })[entry.source.name]
-      --       vim_item.dup = 0
-      --       -- vim_item.dup = ({
-      --       --   buffer = 0,
-      --       --   path = 0,
-      --       --   nvim_lsp = 1,
-      --       --   luasnip = 0,
-      --       -- })[entry.source.name] or 0
-      --       vim_item.abbr = string.gsub(vim_item.abbr, "^%s+", "")
-      --       return vim_item
-      --     end,
-      --   }),
-      -- },
-      -- experimental = {
-      --   ghost_text = {
-      --     hl_group = "CmpGhostText",
-      --   },
-      -- },
       sorting = {
         priority_weight = 2,
         comparators = {
@@ -323,13 +253,6 @@ return {
           cmp.config.compare.order,
         },
       },
-      -- matching = {
-      --   disallow_fuzzy_matching = true,
-      --   disallow_fullfuzzy_matching = true,
-      --   disallow_partial_fuzzy_matching = true,
-      --   disallow_partial_matching = true,
-      --   -- disallow_prefix_unmatching = true,
-      -- },
       matching = {
         disallow_fuzzy_matching = false,
         disallow_fullfuzzy_matching = false,

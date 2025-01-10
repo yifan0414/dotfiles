@@ -81,11 +81,12 @@ return {
     dependencies = "MunifTanjim/nui.nvim",
     -- event = "VeryLazy",
     cmd = "CompetiTest",
-    -- init = function()
-    --   vim.cmd([[
-    --     autocmd VimEnter * hi CompetiTestCorrect cterm=bold gui=bold guifg=#b3f6c0
-    --   ]])
-    -- end,
+    init = function()
+      vim.cmd([[
+        hi CompetiTestCorrect cterm=bold gui=bold guifg=#b3f6c0
+        hi CompetiTestWrong cterm=bold gui=bold guifg=#e78285
+      ]])
+    end,
     keys = {
       { "<leader>1", "<cmd>CompetiTest run<cr><c-w>h", desc = "Run TestCase" },
       { "<leader>2", "<cmd>CompetiTest add_testcase<cr>", desc = "Add TestCase" },
