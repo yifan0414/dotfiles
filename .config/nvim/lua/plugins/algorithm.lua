@@ -9,6 +9,7 @@ return {
 
       -- optional
       "nvim-treesitter/nvim-treesitter",
+      "tree-sitter/tree-sitter-html",
       "rcarriga/nvim-notify",
       "nvim-tree/nvim-web-devicons",
     },
@@ -17,8 +18,8 @@ return {
       -- configuration goes here
       cn = { -- leetcode.cn
         enabled = true,
-        translator = false,
-        translate_problems = false,
+        translator = true,
+        translate_problems = true,
       },
       arg = leet_arg,
       injector = {
@@ -98,6 +99,10 @@ return {
         runner_ui = {
           interface = "split",
         },
+        template_file = {
+          cpp = "~/.config/nvim/template/file.cpp",
+        },
+        evaluate_template_modifiers = true,
         split_ui = {
           position = "right",
           relative_to_editor = true,

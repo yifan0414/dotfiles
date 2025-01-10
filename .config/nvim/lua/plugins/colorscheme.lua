@@ -19,7 +19,7 @@ return {
         autocmd VimEnter * highlight! CurSearch guifg=#dcd7ba guibg=#c34043
 
         " autocmd VimEnter * highlight Visual cterm=reverse gui=reverse guibg=NONE
-        autocmd VimEnter * highlight! Visual cterm=bold gui=bold guibg=#45475a
+        autocmd VimEnter * highlight! Visual cterm=NONE gui=NONE guibg=#45475a
         " 改变QuickFixLine的颜色
         autocmd VimEnter * highlight! QuickFixLine ctermbg=NONE cterm=bold guibg=NONE gui=bold
         autocmd VimEnter * highlight! LspInlayHint guifg=#686778 guibg=#1F1F28
@@ -93,11 +93,32 @@ return {
           -- miscs = {}, -- Uncomment to turn off hard-coded styles
         },
         color_overrides = {},
+        highlight_overrides = {
+          -- all = function(colors)
+          --   return {
+          --     TreesitterContext = { bg = colors.mantle },
+          --     NormalFloat = { bg = colors.base },
+          --     FloatBorder = { bg = colors.base },
+          --   }
+          -- end,
+          frappe = function(frappe)
+            return {
+              TreesitterContext = { bg = frappe.mantle },
+              NormalFloat = { bg = frappe.base },
+              FloatBorder = { bg = frappe.base },
+            }
+          end,
+          mocha = function(mocha)
+            return {
+              TreesitterContext = { bg = mocha.mantle },
+              NormalFloat = { bg = mocha.base },
+              FloatBorder = { bg = mocha.base },
+            }
+          end,
+        },
         custom_highlights = function()
           return {
-            NormalFloat = { bg = "#1e1e2f" },
-            FloatBorder = { bg = "#1e1e2f" },
-            TreesitterContext = { bg = "#181826" },
+            CompetiTestCorrect = { cterm = bold, gui = bold },
           }
         end,
         default_integrations = true,
@@ -124,7 +145,7 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "kanagawa",
-      colorscheme = "catppuccin",
+      colorscheme = "catppuccin-frappe",
       -- colorscheme = "vscode",
     },
   },

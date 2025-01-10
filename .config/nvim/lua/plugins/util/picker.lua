@@ -186,12 +186,12 @@ function M.asyncfunc()
 
   for _, task in ipairs(tasks) do
     -- local display
-    if string.find(task[1], "file") then
-      task[1] = "📝 " .. task[1]
-    elseif string.find(task[1], "project") then
-      task[1] = "📚 " .. task[1]
-    else
-    end
+    -- if string.find(task[1], "file") then
+    --   task[1] = "📝 " .. task[1]
+    -- elseif string.find(task[1], "project") then
+    --   task[1] = "📚 " .. task[1]
+    -- else
+    -- end
 
     local make_display = function()
       return displayer({
