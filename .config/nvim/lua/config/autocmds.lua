@@ -111,6 +111,13 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "leetcode.nvim" },
+  callback = function()
+    vim.opt.wrap = true
+  end,
+})
+
 -- LSP设置, notification
 -- local progress = vim.defaulttable()
 -- vim.api.nvim_create_autocmd("LspProgress", {

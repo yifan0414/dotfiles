@@ -1,7 +1,7 @@
 return {
   {
     "echasnovski/mini.icons",
-    enabled = false,
+    -- enabled = false,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
@@ -254,7 +254,7 @@ return {
           normal_cur = "yss",
           normal_line = "yS",
           normal_cur_line = "ySS",
-          visual = "s",
+          visual = "S",
           visual_line = "gS",
           delete = "ds",
           change = "cs",

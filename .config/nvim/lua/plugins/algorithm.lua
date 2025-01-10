@@ -3,6 +3,13 @@ return {
   {
     "kawre/leetcode.nvim",
     dependencies = {
+      -- {
+      --   "upidapi/image.nvim",
+      --   config = function()
+      --     vim.opt.wrap = true
+      --     require("image").setup()
+      --   end,
+      -- },
       "nvim-telescope/telescope.nvim",
       "nvim-lua/plenary.nvim", -- required by telescope
       "MunifTanjim/nui.nvim",
@@ -16,6 +23,7 @@ return {
     lazy = leet_arg ~= vim.fn.argv()[1],
     opts = {
       -- configuration goes here
+      image_support = true,
       cn = { -- leetcode.cn
         enabled = true,
         translator = true,

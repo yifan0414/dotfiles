@@ -29,6 +29,12 @@ return {
             -- color = { bg = "#1e1e2f" },
             -- color = { bg = "2a2a37" },
             separator = "",
+            fmt = function(str)
+              if str == "" then
+                return "" -- 默认图标（例如，文档图标）
+              end
+              return str
+            end,
           },
           {
             function()
@@ -60,13 +66,14 @@ return {
             "filetype",
             -- colored = true, -- Displays filetype icon in color if set to true
             icon_only = true, -- Display only an icon for filetype
-            -- icon = { align = "right" }, -- Display filetype icon on the right hand side
-            -- icon =    {'X', align='right'}
-            -- Icon string ^ in table is ignored in filetype component
             padding = { left = 1, right = -2 },
-            -- color = { bg = "#1e1e2f" },
-            -- color = { bg = "2a2a37" },
             separator = "",
+            fmt = function(str)
+              if str == "" then
+                return "" -- 默认图标（例如，文档图标）
+              end
+              return str
+            end,
           },
           {
             function()
@@ -140,7 +147,18 @@ return {
               hint = icons.diagnostics.Hint,
             },
           },
-          { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+          {
+            "filetype",
+            icon_only = true,
+            separator = "",
+            padding = { left = 1, right = 0 },
+            fmt = function(str)
+              if str == "" then
+                return "" -- 默认图标（例如，文档图标）
+              end
+              return str
+            end,
+          },
           { LazyVim.lualine.pretty_path(), separator = "›" },
         },
         lualine_x = {
