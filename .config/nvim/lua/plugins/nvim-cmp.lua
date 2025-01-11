@@ -76,6 +76,14 @@ return {
     local cmp = require("cmp")
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
+    local has_words_before = function()
+      if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+        return false
+      end
+      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+      return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+    end
+
     return {
       window = {
         -- completion = cmp.config.window.bordered({
@@ -111,7 +119,7 @@ return {
 
       mapping = cmp.mapping.preset.insert({
         ["<Tab>"] = cmp.mapping(function()
-          if cmp.visible() then
+          if cmp.visible() and has_words_before() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
             -- cmp.abort()
             -- else
@@ -260,6 +268,9 @@ return {
         disallow_partial_matching = false,
         disallow_prefix_unmatching = false,
       },
+      -- experimental = {
+      --   ghost_text = true, -- this feature conflict with copilot.vim's preview.
+      -- },
     }
   end,
 }

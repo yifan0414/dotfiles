@@ -122,6 +122,38 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
   group = "CompetiTestLineNumber",
 })
+
+vim.api.nvim_create_user_command("OverseerRestartLast", function()
+  local overseer = require("overseer")
+  local tasks = overseer.list_tasks({ recent_first = true })
+  if vim.tbl_isempty(tasks) then
+    vim.notify("No tasks found", vim.log.levels.WARN)
+  else
+    overseer.run_action(tasks[1], "restart")
+  end
+end, {})
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  desc = "Auto enter insert mode when opening a terminal",
+  pattern = "*",
+  callback = function()
+    -- Wait briefly just in case we immediately switch out of the buffer
+    vim.defer_fn(function()
+      -- Make sure this is still a terminal, and it's not overseer task output
+      if vim.bo.buftype == "terminal" and not vim.b.overseer_task then
+        vim.cmd.startinsert()
+      end
+    end, 100)
+  end,
+})
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function()
+    vim.api.nvim_buf_set_keymap(0, "t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
+  end,
+})
+
 -- LSP设置, notification
 -- local progress = vim.defaulttable()
 -- vim.api.nvim_create_autocmd("LspProgress", {

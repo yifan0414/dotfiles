@@ -106,7 +106,8 @@ return {
               TreesitterContext = { bg = frappe.mantle },
               NormalFloat = { bg = frappe.base },
               FloatBorder = { bg = frappe.base },
-              Winbar = {bg = frappe.base},
+              -- ["@function"] = { fg = "#ff8800", bold = true },
+              ["@function.builtin"] = { fg = "#8caaef", bold = true },
             }
           end,
           mocha = function(mocha)
@@ -121,6 +122,7 @@ return {
               TreesitterContext = { bg = latte.mantle },
               NormalFloat = { bg = latte.base },
               FloatBorder = { bg = latte.base },
+              ["@function.builtin"] = { fg = "#1e66f6", bold = true },
             }
           end,
         },
@@ -136,6 +138,7 @@ return {
             enabled = true,
             indentscope_color = "",
           },
+          overseer = true,
           navic = {
             enabled = false,
             custom_bg = "lualine", -- "lualine" will set background to mantle
@@ -150,7 +153,7 @@ return {
     opts = {
       -- colorscheme = "kanagawa",
       colorscheme = "catppuccin-frappe",
-      -- colorscheme = "catppuccin",
+      -- colorscheme = "catppuccin-latte",
       -- colorscheme = "vscode",
     },
   },
