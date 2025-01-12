@@ -187,11 +187,11 @@ return {
             end
           end,
         },
-        {
-          name = "copilot",
-          group_index = 1,
-          priority = 100,
-        },
+        -- {
+        --   name = "copilot",
+        --   group_index = 1,
+        --   priority = 100,
+        -- },
         {
           name = "buffer",
           -- group_index = 2,

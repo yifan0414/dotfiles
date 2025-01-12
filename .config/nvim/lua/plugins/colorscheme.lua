@@ -106,8 +106,9 @@ return {
               TreesitterContext = { bg = frappe.mantle },
               NormalFloat = { bg = frappe.base },
               FloatBorder = { bg = frappe.base },
-              -- ["@function"] = { fg = "#ff8800", bold = true },
-              ["@function.builtin"] = { fg = "#8caaef", bold = true },
+              ["@function.builtin"] = { fg = frappe.blue, bold = true },
+              CompetiTestCorrect = { bold = true, fg = frappe.green },
+              CompetiTestWrong = { bold = true, fg = frappe.red },
             }
           end,
           mocha = function(mocha)
@@ -115,6 +116,8 @@ return {
               TreesitterContext = { bg = mocha.mantle },
               NormalFloat = { bg = mocha.base },
               FloatBorder = { bg = mocha.base },
+              CompetiTestCorrect = { bold = true, fg = mocha.green },
+              CompetiTestWrong = { bold = true, fg = mocha.red },
             }
           end,
           latte = function(latte)
@@ -122,7 +125,9 @@ return {
               TreesitterContext = { bg = latte.mantle },
               NormalFloat = { bg = latte.base },
               FloatBorder = { bg = latte.base },
-              ["@function.builtin"] = { fg = "#1e66f6", bold = true },
+              ["@function.builtin"] = { fg = latte.blue, bold = true },
+              CompetiTestCorrect = { bold = true, fg = latte.green },
+              CompetiTestWrong = { bold = true, fg = latte.red },
             }
           end,
         },
@@ -152,8 +157,8 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "kanagawa",
-      colorscheme = "catppuccin-frappe",
-      -- colorscheme = "catppuccin-latte",
+      -- colorscheme = "catppuccin-frappe",
+      colorscheme = "catppuccin-latte",
       -- colorscheme = "vscode",
     },
   },

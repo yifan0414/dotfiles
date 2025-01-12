@@ -1,187 +1,238 @@
-# - DOCS https://starship.rs/config/
-# - Ansi color codes: https://i.stack.imgur.com/KTSQa.png
-# - INFO some nerd font requires a space after them to be properly sized
-#───────────────────────────────────────────────────────────────────────────────
+"$schema" = 'https://starship.rs/config-schema.json'
 
-format = """[\
-$directory${custom.location_indicator}${custom.folder_number}\
-${custom.main_branch}$git_branch\
-$git_status$git_metrics$git_commit$git_state\
-$sudo$status\
-]()
-$character
-"""
-
-# right_format = """\
-# $cmd_duration\
-# ${custom.tokei_loc}\
-# ${custom.alfred}\
-# ${custom.venv_on}${custom.venv_off}\
-# $java$c$python$nodejs\
-# """
-
-right_format = """\
-$hostname\
+format = """
+$os\
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$status\
 $cmd_duration\
-${custom.venv_on}${custom.venv_off}\
-$java$c$python$nodejs\
+$java\
+$python\
+$nodejs\
+$c\
+$bun\
+$dotnet\
+$deno\
+$sudo\
+$time\
+$shell\
+$username\
+$hostname \
+$line_break\
+$character\
 """
-
 add_newline = false
-# continuation_prompt = '▶▶ '
 
-#───────────────────────────────────────────────────────────────────────────────
+[os]
+format = '[$symbol ]($style)'
+style = 'bold white'
+disabled = true
 
-# ~/.config/starship.toml
-
-
-# [character]
-# success_symbol = "[➜ ](fg:green)"
-# error_symbol = "[➜ ](fg:red)"
-# vimcmd_symbol = "[➜ ](fg:blue)"
-
-[status] # exit code
-disabled = false
-format = "[ $status $symbol]($style)"
-style = "fg:bold 255 bg:red" # 255 as ansi enforces white regardless of terminal theme
-symbol = ""
-
-[sudo]
-disabled = false
-style = 'fg:yellow '
-symbol = "  "
-format = "[$symbol]($style)"
-
-# Indicate if in my local repo folder. Helps differentiating between my local
-# Alfred workflows and their respective repos.
-[custom.location_indicator]
-when = '[[ "$PWD" =~ "$HOME/.config" ]]'
-style = "fg:cyan  bold"
-# command = 'echo  "󰔽"'                   # output trimmed, so spaces must be added at `format`
-command = 'echo  '                   # output trimmed, so spaces must be added at `format`
-format = '[ $output  ]($style)'        # extra space for proper nerdfont sizing
+[os.symbols]
+Alpine = ''
+Amazon = ''
+Android = ''
+Arch = ''
+CentOS = ''
+Debian = ''
+EndeavourOS = ''
+Fedora = ''
+FreeBSD = ''
+Garuda = ''
+Gentoo = ''
+Linux = ''
+Macos = ''
+Manjaro = ''
+Mariner = ''
+Mint = ''
+NetBSD = ''
+NixOS = ''
+OpenBSD = ''
+OpenCloudOS = ''
+openEuler = ''
+openSUSE = ''
+OracleLinux = '⊂⊃'
+Pop = ''
+Raspbian = ''
+Redhat = ''
+RedHatEnterprise = ''
+Solus = ''
+SUSE = ''
+Ubuntu = ''
+Unknown = ''
+Windows = ''
 
 [directory]
-truncation_length = 0
-truncate_to_repo = false
-# truncate_to_repo = true
-read_only = "󰌾  "
-read_only_style = "fg:red "
-style = "fg:cyan  bold"
-format = "[$path]($style) [$read_only]($read_only_style)"
+#   📂     |
+format = '[ $path]($style)[$read_only]($read_only_style) '
+style = 'bold bright-cyan'
+read_only_style = 'red'
+home_symbol = "~"
+truncation_symbol = '…/'
+truncation_length = 3
+read_only = ' 🔒'
+use_os_path_sep = true
+#fish_style_pwd_dir_length = 1
+truncate_to_repo = true
 
-[directory.substitutions]
-# ".config" = " "
-"main-vault" = "󱉽 "
-"~/Library/Mobile Documents/com~apple~CloudDocs/File Hub" = "/󰀶 "
-"~/Library/Mobile Documents/com~apple~CloudDocs" = "/ "
-
-[custom.folder_number]
-description = "Number of files (and folders) in the current working directory"
-command = "find . -mindepth 1 -maxdepth 1 -not -name '.git' -not -name '.DS_Store' -not -name 'Icon?' | wc -l"
-when = "true" # always show
-symbol = " "
-format = '[$symbol$output]($style) '
-style = "fg:yellow  bold"
-
-#───────────────────────────────────────────────────────────────────────────────
-# GIT
-
-[git_state] # conflicts or rebasing
-style = 'fg:yellow bold '
-
-[git_commit] # checkout
-style = "fg:purple "
-only_detached = true
-format = "[󰘬 $hash]($style) "
-
-[git_branch] # branch
-only_attached = true
-symbol = "󰘬 " # 
-style = "fg:purple  bold"
-format = "[$symbol$branch]($style) "
-ignore_branches = ["main"]
-
-# since "ignore_branches" fully hides the git_branch component, still showing the symbol
-[custom.main_branch]
-when = "[[ $(git branch --show-current) == 'main' ]]"
-format = '[󰘬 ](fg:purple  bold)'
-
-[git_status] # files
-stashed = '[󰜦  $count ](fg:cyan )'
-untracked = '[+$count ](fg:green )'
-deleted = '[-$count ](fg:red )' # these are unstaged as well as stage deletion
-modified = '[~$count ](fg:208 )'
-renamed = '[󰑕  $count ](fg:blue )'
-staged = '[  $count ](fg:green )'
-conflicted = '[  $count ](fg:red )'
-diverged = '[󰃻 $count ](fg:red )'
-ahead = '[󰶣 $count ](fg:cyan )'
-behind = '[󰶡 $count ](fg:yellow )'
-style = ''
-format = '[( $ahead_behind$conflicted$stashed$staged$untracked$renamed$modified$deleted)]($style)'
-
-# INFO putting a variable into a bracket ensures that the bracket content is
-# only shown when the variable is set.
-[git_metrics] # changed lines
+[git_branch]
+format = """
+[$symbol$branch]($style)\
+[(:$remote_name/$remote_branch)]($style)\
+"""
+#               |
+symbol = ' '
+style = 'bold purple'
+always_show_remote = false
 disabled = false
-added_style = "fg:green "
-deleted_style = "fg:red "
-format = '(\([(+$added)]($added_style)/[(-$deleted)]($deleted_style)\)) '
 
-#───────────────────────────────────────────────────────────────────────────────
-#───────────────────────────────────────────────────────────────────────────────
-# RIGHT SIDE
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style)) '
+style = 'bold red'
+# untracked:'?'; staged:'+'; modified:'!'; deleted:'x';
+#windows_starship = '/mnt/c/Users/username/scoop/apps/starship/current/starship.exe'
 
-# [custom.tokei_loc]
-# description = "Number of lines of code in the current project using tokei (for performance)."
-# command = "tokei --compact --exclude='*.txt' --num-format='commas' | tail -n2 | awk 'NR==1 {print $3}'"
-# when = "[[ -f Makefile ]] || [[ -f info.plist ]] || [[ -d .git ]]"
-# format = '  [$output ]($style)'
-# style = "blue"
+[fill]
+style = 'fg:c5 bg:c4'
+symbol = '·'
+# symbol = ' '
+# style = 'bright-black'
+# disabled = false
 
-[cmd_duration]
+[status]
+# '[\[$symbol$common_meaning$signal_name$maybe_int\]]($style) '
+format = '$symbol'
+symbol = '[●\($status\)](bright-red) '
+success_symbol = '[●](green) '
+not_executable_symbol = '[⌽\($status\)](bright-red) '
+not_found_symbol = '[◎\($status\)](bright-red) '
+sigint_symbol = '[✶\($status\)](bright-red) '
+signal_symbol = '[✕\($status\)](bright-red) '
+recognize_signal_code = true
+map_symbol = true
+disabled = false
+
+[cmd_duration] #        |
+format = '[☗](bright-red)[ $duration]($style) '
+style = 'bold yellow'
 min_time = 2000
-format = "[󰔟  $duration](bold cyan)"
-
-[custom.alfred]
-description = "Version number of Alfred Workflow"
-when = "[[ -f info.plist ]] || [[ -f ../info.plist ]]"
-command = "if [[ -f ../info.plist ]] ; then ; plist=$(plutil -extract version xml1 -o - ../info.plist) ; else ; plist=$(plutil -extract version xml1 -o - info.plist) ; fi ; echo \"$plist\" | sed -n 4p | cut -d'>' -f2 | cut -d'<' -f1"
-os = "macos"
-format = '  [󰮤  $output]($style)'
-style = "bold yellow"
-
-[python]
-format = ' [${symbol}${pyenv_prefix}($version)]($style)'
-version_format = "$major.$minor"
-symbol = "  "
-style = "bold yellow"
-
-[custom.venv_on]
-format = '[ $output ]($style)'   # extra space for proper nerdfont sizing
-when = '[[ -n "$VIRTUAL_ENV" ]]'
-command = 'echo "󱥒"'             # output is trimmed, so spaces must be added at `format`
-style = "bold yellow"
-
-[custom.venv_off]
-format = '[ $output ]($style)'
-when = '[[ -z "$VIRTUAL_ENV" ]] && [[ -d ".venv" ]]'
-command = 'echo "󱥓"'
-style = "bold red"
-
-[nodejs]
-style = "bold yellow"
-format = '  [${symbol} $version]($style)'
-version_format = "$major.$minor"
-# disabled detecting via extensions; detect only via `package.json` or
-# `node_modules` to avoid false positives
-detect_extensions = []
-not_capable_style = "ft:white bg:red"
-
-[c]
-format = ' [${symbol}${pyenv_prefix}($version)]($style)'
+show_milliseconds = false
 
 [java]
-format = ' [${symbol}${pyenv_prefix}($version)]($style)'
-style = "cyan"
+# ⚰︎ ♲ ⇞ ⚕︎ ☥ º                                 |
+format = '[ ](bold green)[${symbol}(${version} )]($style)'
+symbol = 'Java'
+style = 'bright-purple'
+detect_extensions = ['java', 'class', 'gradle', 'jar', 'cljs', 'cljc']
+detect_files = ['pom.xml', 'build.gradle.kts', 'build.sbt', '.java-version', 'deps.edn', 'project.clj', 'build.boot', '.sdkmanrc']
+version_format = '${major}.${minor}'
+disabled = false
+
+[python]
+format = '[ ](bold green)[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style) '
+symbol = 'PY' # 󰌠  🐍 👾  |
+style = 'bright-purple'
+#detect_files = [['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini', 'pixi.toml']]
+version_format = '${major}.${minor}'
+disabled = false
+
+[nodejs]
+format = '[ ](bold green)[$symbol($version)]($style) '
+symbol = 'Node'
+style = 'bright-purple'
+#detect_extensions = []
+detect_files = ['package.json', '.node-version', '.nvmrc']
+detect_folders = ['node_modules']
+not_capable_style = 'red'
+version_format = '${major}.${minor}'
+disabled = false
+
+[c]
+format = '[ ](bold green)[$symbol]($style)[$version(\($name\))]($style) '
+symbol = 'C' #    |
+style = 'bright-purple'
+detect_extensions = ['c', 'h']
+#commands = [['cc', '--version'], ['gcc', '--version'], ['clang', '--version']]
+version_format = '${major}.${minor}'
+disabled = false
+
+[bun]
+format = '[ ](bold green)[$symbol($version)]($style) '
+symbol = 'Bun'
+style = 'bright-purple'
+detect_files = ['bun.lockb', 'bunfig.toml']
+version_format = '${major}.${minor}'
+disabled = true
+
+[dotnet]
+format = '[ ](bold green)[$symbol($version)(\($tfm\))]($style) '
+symbol = '.NET'
+style = 'bright-purple'
+detect_extensions = ['csproj', 'fsproj', 'xproj']
+detect_files = ['global.json', 'project.json', 'Directory.Build.props', 'Directory.Build.targets', 'Packages.props']
+version_format = '${major}.${minor}'
+disabled = true
+
+[deno]
+format = '[ ](bold green)[$symbol($version)]($style) '
+symbol = 'Deno'
+style = 'bright-purple'
+detect_files = ['deno.json', 'deno.jsonc', 'deno.lock', 'mod.ts', 'mod.js', 'deps.ts', 'deps.js']
+version_format = '${major}.${minor}'
+disabled = true
+
+[aws]
+# 'on [$symbol($profile )(\($region\) )(\[$duration\] )]($style)'
+format = '[$symbol](bold green)[( $profile)]($style) '
+symbol = ' '
+style = 'bright-purple'
+disabled = true
+
+[sudo]
+#           |
+format = '[$symbol]($style)'
+symbol = ' '
+style = 'bold 9'
+allow_windows = false
+disabled = false
+
+[time]
+#  🕙                  |
+format = '[ ](bold 248)[$time]($style) '
+style = 'bold bright-cyan'
+time_format = '%H:%M'
+use_12hr = false
+disabled = false
+
+[shell] #      _ |
+format = '[ ](bold 248)[$indicator]($style) '
+style = 'bold bright-blue'
+unknown_indicator = 'shell'
+powershell_indicator = 'powershell'
+fish_indicator = 'fish'
+bash_indicator = 'bash'
+zsh_indicator = 'zsh'
+disabled = false
+
+[username]
+#           |
+format = '[ ](bold 248)[$user]($style)'
+style_user = 'bold yellow'
+style_root = 'bold red'
+show_always = true
+
+[hostname]
+format = '[([ ]($style)$hostname)](bold bright-cyan)'
+ssh_symbol = '🌐 ' #   |
+style = 'bold green'
+ssh_only = true
+trim_at = ''
+aliases = { "loganmac.local" = "mac" }
+# detect_env_vars = ['!TMUX', 'SSH_CONNECTION']
+disabled = false
+
+[character]
+success_symbol = "[❯](red)[❯](yellow)[❯](green)"
+error_symbol = "[❯](red)[❯](red)[❯](red)"

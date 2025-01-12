@@ -83,8 +83,8 @@ return {
     cmd = "CompetiTest",
     init = function()
       vim.cmd([[
-        hi CompetiTestCorrect cterm=bold gui=bold guifg=#b3f6c0
-        hi CompetiTestWrong cterm=bold gui=bold guifg=#e78285
+        " hi CompetiTestCorrect cterm=bold gui=bold guifg=#b3f6c0
+        " hi CompetiTestWrong cterm=bold gui=bold guifg=#e78285
       ]])
     end,
     keys = {
