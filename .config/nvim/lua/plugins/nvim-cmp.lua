@@ -9,6 +9,73 @@ return {
     { "saadparwaiz1/cmp_luasnip" },
     { "onsails/lspkind.nvim" },
     {
+      "xzbdmw/colorful-menu.nvim",
+      config = function()
+        -- You don't need to set these options.
+        require("colorful-menu").setup({
+          ls = {
+            lua_ls = {
+              -- Maybe you want to dim arguments a bit.
+              arguments_hl = "@comment",
+            },
+            gopls = {
+              -- By default, we render variable/function's type in the right most side,
+              -- to make them not to crowd together with the original label.
+
+              -- when true:
+              -- foo             *Foo
+              -- ast         "go/ast"
+
+              -- when false:
+              -- foo *Foo
+              -- ast "go/ast"
+              align_type_to_right = true,
+              -- When true, label for field and variable will format like "foo: Foo"
+              -- instead of go's original syntax "foo Foo".
+              add_colon_before_type = false,
+            },
+            -- for lsp_config or typescript-tools
+            ts_ls = {
+              extra_info_hl = "@comment",
+            },
+            vtsls = {
+              extra_info_hl = "@comment",
+            },
+            ["rust-analyzer"] = {
+              -- Such as (as Iterator), (use std::io).
+              extra_info_hl = "@comment",
+            },
+            clangd = {
+              -- Such as "From <stdio.h>".
+              arguments_hl = "@comment",
+              extra_info_hl = "@comment",
+            },
+            roslyn = {
+              extra_info_hl = "@comment",
+            },
+            -- The same applies to pyright/pylance
+            basedpyright = {
+              -- It is usually import path such as "os"
+              extra_info_hl = "@comment",
+            },
+
+            -- If true, try to highlight "not supported" languages.
+            fallback = true,
+          },
+          -- If the built-in logic fails to find a suitable highlight group,
+          -- this highlight is applied to the label.
+          fallback_highlight = "@variable",
+          -- If provided, the plugin truncates the final displayed text to
+          -- this width (measured in display cells). Any highlights that extend
+          -- beyond the truncation point are ignored. When set to a float
+          -- between 0 and 1, it'll be treated as percentage of the width of
+          -- the window: math.floor(max_width * vim.api.nvim_win_get_width(0))
+          -- Default 60.
+          max_width = 40,
+        })
+      end,
+    },
+    {
       "hrsh7th/cmp-cmdline",
       -- event = "CmdlineEnter",
       keys = { ":", "/", "?" }, -- lazy load cmp on more keys along with insert mode
@@ -111,6 +178,9 @@ return {
         -- keyword_length = 2,
         -- keyword_length = 1,
       },
+
+      preselect = cmp.PreselectMode.None,
+
       snippet = {
         expand = function(args)
           require("luasnip").lsp_expand(args.body)
@@ -167,6 +237,38 @@ return {
         ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
       sources = cmp.config.sources({
+        -- {
+        --   name = "copilot",
+        --   group_index = 1,
+        --   priority = 100,
+        -- },
+        {
+          name = "nvim_lsp",
+          -- group_index = 1,
+          -- max_item_count = 5,
+          entry_filter = function(entry)
+            local kind = entry:get_kind()
+            return cmp.lsp.CompletionItemKind.Snippet ~= kind
+          end,
+        },
+        {
+          name = "buffer",
+          -- group_index = 2,
+          max_item_count = 5,
+          -- 筛选出去数字
+          option = {
+            get_bufnrs = function()
+              local bufs = {}
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                bufs[vim.api.nvim_win_get_buf(win)] = true
+              end
+              return vim.tbl_keys(bufs)
+            end,
+          },
+          entry_filter = function(entry)
+            return not string.match(entry:get_completion_item().label, "^%d+$")
+          end,
+        },
         {
           name = "luasnip",
           -- group_index = 1,
@@ -187,52 +289,27 @@ return {
             end
           end,
         },
-        -- {
-        --   name = "copilot",
-        --   group_index = 1,
-        --   priority = 100,
-        -- },
-        {
-          name = "buffer",
-          -- group_index = 2,
-          max_item_count = 5,
-          -- 筛选出去数字
-          option = {
-            get_bufnrs = function()
-              local bufs = {}
-              for _, win in ipairs(vim.api.nvim_list_wins()) do
-                bufs[vim.api.nvim_win_get_buf(win)] = true
-              end
-              return vim.tbl_keys(bufs)
-            end,
-          },
-          entry_filter = function(entry)
-            return not string.match(entry:get_completion_item().label, "^%d+$")
-          end,
-        },
-        {
-          name = "nvim_lsp",
-          -- group_index = 1,
-          -- max_item_count = 5,
-          entry_filter = function(entry)
-            local kind = entry:get_kind()
-            return cmp.lsp.CompletionItemKind.Snippet ~= kind
-          end,
-        },
         -- { name = "vim-dadbod-completion" },
         -- { name = "orgmode" },
         -- { name = "path" },
       }),
 
       formatting = {
-        fields = { "kind", "abbr", "menu" },
+        fields = { "kind", "abbr" },
         format = function(entry, vim_item)
           local kind = require("lspkind").cmp_format({
             mode = "symbol_text",
             preset = "codicons",
             symbol_map = { Copilot = "" },
             maxwidth = 20,
-          })(entry, vim_item)
+          })(entry, vim.deepcopy(vim_item))
+
+          local highlights_info = require("colorful-menu").cmp_highlights(entry)
+
+          if highlights_info ~= nil then
+            vim_item.abbr_hl_group = highlights_info.highlights
+            vim_item.abbr = highlights_info.text
+          end
 
           vim_item.dup = ({
             luasnip = 1,
@@ -240,10 +317,11 @@ return {
             buffer = 0,
             path = 0,
           })[entry.source.name] or 0
+
           local strings = vim.split(kind.kind, "%s", { trimempty = true })
-          kind.kind = " " .. (strings[1] or "") .. " "
-          kind.menu = "    (" .. (strings[2] or "") .. ")"
-          return kind
+          vim_item.kind = " " .. (strings[1] or "") .. " "
+          vim_item.menu = "    (" .. (strings[2] or "") .. ")"
+          return vim_item
         end,
       },
       sorting = {

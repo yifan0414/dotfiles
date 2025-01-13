@@ -5,8 +5,6 @@ $os\
 $directory\
 $git_branch\
 $git_status\
-$fill\
-$status\
 $cmd_duration\
 $java\
 $python\
@@ -17,9 +15,7 @@ $dotnet\
 $deno\
 $sudo\
 $time\
-$shell\
-$username\
-$hostname \
+$status\
 $line_break\
 $character\
 """
@@ -28,7 +24,7 @@ add_newline = false
 [os]
 format = '[$symbol ]($style)'
 style = 'bold white'
-disabled = true
+disabled = false
 
 [os.symbols]
 Alpine = ''
@@ -66,7 +62,7 @@ Windows = ''
 
 [directory]
 #   📂     |
-format = '[ $path]($style)[$read_only]($read_only_style) '
+format = '[$path]($style)[$read_only]($read_only_style) '
 style = 'bold bright-cyan'
 read_only_style = 'red'
 home_symbol = "~"
@@ -99,7 +95,7 @@ style = 'fg:c5 bg:c4'
 symbol = '·'
 # symbol = ' '
 # style = 'bright-black'
-# disabled = false
+disabled = true
 
 [status]
 # '[\[$symbol$common_meaning$signal_name$maybe_int\]]($style) '
@@ -126,13 +122,22 @@ format = '[ ](bold green)[${symbol}(${version} )]($style)'
 symbol = 'Java'
 style = 'bright-purple'
 detect_extensions = ['java', 'class', 'gradle', 'jar', 'cljs', 'cljc']
-detect_files = ['pom.xml', 'build.gradle.kts', 'build.sbt', '.java-version', 'deps.edn', 'project.clj', 'build.boot', '.sdkmanrc']
+detect_files = [
+  'pom.xml',
+  'build.gradle.kts',
+  'build.sbt',
+  '.java-version',
+  'deps.edn',
+  'project.clj',
+  'build.boot',
+  '.sdkmanrc',
+]
 version_format = '${major}.${minor}'
 disabled = false
 
 [python]
 format = '[ ](bold green)[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style) '
-symbol = 'PY' # 󰌠  🐍 👾  |
+symbol = 'PY'                                                                               # 󰌠  🐍 👾  |
 style = 'bright-purple'
 #detect_files = [['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini', 'pixi.toml']]
 version_format = '${major}.${minor}'
@@ -151,7 +156,7 @@ disabled = false
 
 [c]
 format = '[ ](bold green)[$symbol]($style)[$version(\($name\))]($style) '
-symbol = 'C' #    |
+symbol = 'C'                                                               #    |
 style = 'bright-purple'
 detect_extensions = ['c', 'h']
 #commands = [['cc', '--version'], ['gcc', '--version'], ['clang', '--version']]
@@ -171,7 +176,13 @@ format = '[ ](bold green)[$symbol($version)(\($tfm\))]($style) '
 symbol = '.NET'
 style = 'bright-purple'
 detect_extensions = ['csproj', 'fsproj', 'xproj']
-detect_files = ['global.json', 'project.json', 'Directory.Build.props', 'Directory.Build.targets', 'Packages.props']
+detect_files = [
+  'global.json',
+  'project.json',
+  'Directory.Build.props',
+  'Directory.Build.targets',
+  'Packages.props',
+]
 version_format = '${major}.${minor}'
 disabled = true
 
@@ -179,7 +190,15 @@ disabled = true
 format = '[ ](bold green)[$symbol($version)]($style) '
 symbol = 'Deno'
 style = 'bright-purple'
-detect_files = ['deno.json', 'deno.jsonc', 'deno.lock', 'mod.ts', 'mod.js', 'deps.ts', 'deps.js']
+detect_files = [
+  'deno.json',
+  'deno.jsonc',
+  'deno.lock',
+  'mod.ts',
+  'mod.js',
+  'deps.ts',
+  'deps.js',
+]
 version_format = '${major}.${minor}'
 disabled = true
 
@@ -200,7 +219,7 @@ disabled = false
 
 [time]
 #  🕙                  |
-format = '[ ](bold 248)[$time]($style) '
+format = '[ ](bold 248)[$time]($style) '
 style = 'bold bright-cyan'
 time_format = '%H:%M'
 use_12hr = false
@@ -225,7 +244,7 @@ show_always = true
 
 [hostname]
 format = '[([ ]($style)$hostname)](bold bright-cyan)'
-ssh_symbol = '🌐 ' #   |
+ssh_symbol = '🌐 '                                      #   |
 style = 'bold green'
 ssh_only = true
 trim_at = ''
