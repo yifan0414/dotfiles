@@ -69,6 +69,6 @@ listen_on unix:/tmp/kitty
 
 
 # BEGIN_KITTY_THEME
-# GitHub Light
+# Atom
 include current-theme.conf
 # END_KITTY_THEME

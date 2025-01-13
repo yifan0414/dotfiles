@@ -21,7 +21,7 @@ return {
         word = false,
         cyclic = true,
       })
-      
+
       local ordinal_numbers = augend.constant.new({
         -- elements through which we cycle. When we increment, we go down
         -- On decrement we go up

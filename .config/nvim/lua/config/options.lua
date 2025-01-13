@@ -84,12 +84,11 @@ vim.g.VimuxOrientation = "h"
 vim.opt.foldmethod = "manual"
 
 vim.opt.fillchars = {
-  fold = " ",    -- 折叠行的填充字符
+  fold = " ", -- 折叠行的填充字符
   foldopen = "▾", -- 展开的折叠符号
   foldclose = "▸", -- 折叠的折叠符号
-  foldsep = "│",  -- 折叠线之间的分隔符
+  foldsep = "│", -- 折叠线之间的分隔符
 }
 -- vim.opt.tabstop = 4
 -- vim.opt.shiftwidth = 4
 -- vim.opt.softtabstop = 4
-

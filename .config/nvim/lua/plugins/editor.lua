@@ -5,7 +5,49 @@ return {
     opts = {}, -- this is equalent to setup({}) function
   },
   {
+    "MunsMan/kitty-navigator.nvim",
+    build = {
+      "cp navigate_kitty.py ~/.config/kitty",
+      "cp pass_keys.py ~/.config/kitty",
+    },
+    keys = {
+      {
+        "<C-h>",
+        function()
+          require("kitty-navigator").navigateLeft()
+        end,
+        desc = "Move left a Split",
+        mode = { "n" },
+      },
+      {
+        "<C-j>",
+        function()
+          require("kitty-navigator").navigateDown()
+        end,
+        desc = "Move down a Split",
+        mode = { "n" },
+      },
+      {
+        "<C-k>",
+        function()
+          require("kitty-navigator").navigateUp()
+        end,
+        desc = "Move up a Split",
+        mode = { "n" },
+      },
+      {
+        "<C-l>",
+        function()
+          require("kitty-navigator").navigateRight()
+        end,
+        desc = "Move right a Split",
+        mode = { "n" },
+      },
+    },
+  },
+  {
     "christoomey/vim-tmux-navigator",
+    enabled = false,
     cmd = {
       "TmuxNavigateLeft",
       "TmuxNavigateDown",
@@ -14,10 +56,10 @@ return {
       "TmuxNavigatePrevious",
     },
     keys = {
-      { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>",     silent = true, noremap = true },
-      { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>",     silent = true, noremap = true },
-      { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>",       silent = true, noremap = true },
-      { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>",    silent = true, noremap = true },
+      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>", silent = true, noremap = true },
+      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>", silent = true, noremap = true },
+      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>", silent = true, noremap = true },
+      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>", silent = true, noremap = true },
       { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>", silent = true, noremap = true },
     },
   },

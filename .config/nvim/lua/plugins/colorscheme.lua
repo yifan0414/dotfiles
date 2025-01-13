@@ -1,13 +1,54 @@
 return {
   {
-    "Mofiqul/vscode.nvim",
+    "EdenEast/nightfox.nvim",
     enabled = false,
     config = function()
-      require("vscode").setup({
-        style = "dark",
+      -- Default options
+      require("nightfox").setup({
+        options = {
+          -- Compiled file's destination location
+          compile_path = vim.fn.stdpath("cache") .. "/nightfox",
+          compile_file_suffix = "_compiled", -- Compiled file suffix
+          transparent = false, -- Disable setting background
+          terminal_colors = false, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+          dim_inactive = false, -- Non focused panes set to alternative background
+          module_default = true, -- Default enable value for modules
+          colorblind = {
+            enable = false, -- Enable colorblind support
+            simulate_only = false, -- Only show simulated colorblind colors and not diff shifted
+            severity = {
+              protan = 0, -- Severity [0,1] for protan (red)
+              deutan = 0, -- Severity [0,1] for deutan (green)
+              tritan = 0, -- Severity [0,1] for tritan (blue)
+            },
+          },
+          styles = { -- Style to be applied to different syntax groups
+            comments = "NONE", -- Value is any valid attr-list value `:help attr-list`
+            conditionals = "NONE",
+            constants = "NONE",
+            functions = "bold",
+            keywords = "NONE",
+            numbers = "NONE",
+            operators = "NONE",
+            strings = "NONE",
+            types = "NONE",
+            variables = "NONE",
+          },
+          inverse = { -- Inverse highlight for different types
+            match_paren = false,
+            visual = false,
+            search = false,
+          },
+          modules = { -- List of various plugins and additional options
+            -- ...
+          },
+        },
+        palettes = {},
+        specs = {},
+        groups = {},
       })
     end,
-  },
+  }, -- lazy
   {
     "rebelot/kanagawa.nvim",
     enabled = false,
@@ -107,6 +148,8 @@ return {
               NormalFloat = { bg = frappe.base },
               FloatBorder = { bg = frappe.base },
               ["@function.builtin"] = { fg = frappe.blue, bold = true },
+              -- ["@type.builtin.cpp"] = { fg = frappe.mauve },
+              ["@type.cpp"] = { fg = frappe.mauve },
               CompetiTestCorrect = { bold = true, fg = frappe.green },
               CompetiTestWrong = { bold = true, fg = frappe.red },
             }
@@ -126,8 +169,12 @@ return {
               NormalFloat = { bg = latte.base },
               FloatBorder = { bg = latte.base },
               ["@function.builtin"] = { fg = latte.blue, bold = true },
+              -- ["@type.builtin.cpp"] = { fg = latte.mauve },
+              ["@type.cpp"] = { fg = latte.mauve },
+              ["@lsp.type.class.cpp"] = {bold = true},
               CompetiTestCorrect = { bold = true, fg = latte.green },
               CompetiTestWrong = { bold = true, fg = latte.red },
+
             }
           end,
         },
@@ -157,8 +204,9 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "kanagawa",
-      -- colorscheme = "catppuccin-frappe",
-      colorscheme = "catppuccin-latte",
+      colorscheme = "catppuccin-frappe",
+      -- colorscheme = "catppuccin-latte",
+      -- colorscheme = "dawnfox",
       -- colorscheme = "vscode",
     },
   },
