@@ -1,101 +1,209 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+# Which is equivalent to
+add_newline = false
+
 format = """
 $os\
 $directory\
 $git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
 $git_status\
-$cmd_duration\
-$java\
-$python\
-$nodejs\
+$package\
 $c\
-$bun\
-$dotnet\
-$deno\
-$sudo\
-$time\
+$cmake\
+$golang\
+$java\
+$lua\
+$nodejs\
+$python\
+$rust\
+$conda\
+$custom\
 $status\
+$cmd_duration\
 $line_break\
-$character\
-"""
-add_newline = false
+$sudo\
+$jobs\
+$battery\
+$time\
+$container\
+$shell\
+$character"""
 
 [os]
 format = '[$symbol ]($style)'
 style = 'bold white'
-disabled = false
-
-[os.symbols]
-Alpine = ''
-Amazon = ''
-Android = ''
-Arch = ''
-CentOS = ''
-Debian = ''
-EndeavourOS = ''
-Fedora = ''
-FreeBSD = ''
-Garuda = ''
-Gentoo = ''
-Linux = ''
-Macos = ''
-Manjaro = ''
-Mariner = ''
-Mint = ''
-NetBSD = ''
-NixOS = ''
-OpenBSD = ''
-OpenCloudOS = ''
-openEuler = ''
-openSUSE = ''
-OracleLinux = '⊂⊃'
-Pop = ''
-Raspbian = ''
-Redhat = ''
-RedHatEnterprise = ''
-Solus = ''
-SUSE = ''
-Ubuntu = ''
-Unknown = ''
-Windows = ''
+disabled = true
 
 [directory]
 #   📂     |
-format = '[$path]($style)[$read_only]($read_only_style) '
+format = '[ $path]($style)[$read_only]($read_only_style) '
 style = 'bold bright-cyan'
 read_only_style = 'red'
 home_symbol = "~"
 truncation_symbol = '…/'
 truncation_length = 3
-read_only = ' 🔒'
+read_only = ' 󰌾'
 use_os_path_sep = true
 #fish_style_pwd_dir_length = 1
 truncate_to_repo = true
 
-[git_branch]
-format = """
-[$symbol$branch]($style)\
-[(:$remote_name/$remote_branch)]($style)\
-"""
-#               |
-symbol = ' '
-style = 'bold purple'
-always_show_remote = false
-disabled = false
+
+[character]
+success_symbol = "[❯](red)[❯](yellow)[❯](green)"
+error_symbol = "[❯](red)[❯](red)[❯](red)"
+
+[git_commit]
+commit_hash_length = 4
+tag_symbol = '🔖 '
 
 [git_status]
-format = '([\[$all_status$ahead_behind\]]($style)) '
-style = 'bold red'
-# untracked:'?'; staged:'+'; modified:'!'; deleted:'x';
-#windows_starship = '/mnt/c/Users/username/scoop/apps/starship/current/starship.exe'
+# untracked = '[ $count](bold yellow) '
+# staged = '[ $count](bold green) '
+stashed = "[ ](cyan) "
+# deleted = '[ $count](bold red) '
+# modified = '[ $count](bold blue) '
+# behind = '[ ](bold purple) '
+# ahead = '[ ](bold purple) '
+# format = '([$all_status$ahead_behind]($style))'
 
-[fill]
-style = 'fg:c5 bg:c4'
-symbol = '·'
-# symbol = ' '
-# style = 'bright-black'
-disabled = true
+[[battery.display]]
+threshold = 50
+
+[lua]
+detect_folders = []
+symbol = " "
+
+[git_metrics]
+disabled = false
+
+[aws]
+symbol = "  "
+
+[buf]
+symbol = " "
+
+[c]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[fossil_branch]
+symbol = " "
+
+[git_branch]
+symbol = " "
+
+[golang]
+symbol = " "
+
+[guix_shell]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[haxe]
+symbol = "⌘ "
+
+[hg_branch]
+symbol = " "
+
+[hostname]
+ssh_symbol = " "
+
+[julia]
+symbol = " "
+
+[memory_usage]
+symbol = "󰍛 "
+
+[meson]
+symbol = "󰔷 "
+
+[nim]
+symbol = "󰆥 "
+
+[nix_shell]
+symbol = " "
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Windows = "󰍲 "
+
+[package]
+symbol = "󰏗 "
+
+[pijul_channel]
+symbol = "🪺 "
+
+[rlang]
+symbol = "󰟔 "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = " "
+
+[scala]
+symbol = " "
+
+[spack]
+symbol = "🅢 "
 
 [status]
 # '[\[$symbol$common_meaning$signal_name$maybe_int\]]($style) '
@@ -116,11 +224,19 @@ style = 'bold yellow'
 min_time = 2000
 show_milliseconds = false
 
+[sudo]
+#           |
+format = '[$symbol]($style)'
+symbol = ' '
+style = 'bold 9'
+allow_windows = false
+disabled = false
+
 [java]
 # ⚰︎ ♲ ⇞ ⚕︎ ☥ º                                 |
-format = '[ ](bold green)[${symbol}(${version} )]($style)'
-symbol = 'Java'
-style = 'bright-purple'
+# format = '[ ](bold green)[${symbol}(${version} )]($style)'
+# symbol = ' '
+# style = 'bright-purple'
 detect_extensions = ['java', 'class', 'gradle', 'jar', 'cljs', 'cljc']
 detect_files = [
   'pom.xml',
@@ -132,126 +248,26 @@ detect_files = [
   'build.boot',
   '.sdkmanrc',
 ]
-version_format = '${major}.${minor}'
+# version_format = '${major}.${minor}'
 disabled = false
 
 [python]
-format = '[ ](bold green)[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style) '
-symbol = 'PY'                                                                               # 󰌠  🐍 👾  |
-style = 'bright-purple'
+# 
+# format = '[ ](bold green)[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style) '
+# symbol = 'PY'                                                                               # 󰌠  🐍 👾  |
+# style = 'bright-purple'
 #detect_files = [['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini', 'pixi.toml']]
-version_format = '${major}.${minor}'
+# version_format = '${major}.${minor}'
 disabled = false
 
 [nodejs]
-format = '[ ](bold green)[$symbol($version)]($style) '
-symbol = 'Node'
-style = 'bright-purple'
+# 
+# format = '[ ](bold green)[$symbol($version)]($style) '
+# symbol = 'Node'
+# style = 'bright-purple'
 #detect_extensions = []
 detect_files = ['package.json', '.node-version', '.nvmrc']
 detect_folders = ['node_modules']
-not_capable_style = 'red'
-version_format = '${major}.${minor}'
+# not_capable_style = 'red'
+# version_format = '${major}.${minor}'
 disabled = false
-
-[c]
-format = '[ ](bold green)[$symbol]($style)[$version(\($name\))]($style) '
-symbol = 'C'                                                               #    |
-style = 'bright-purple'
-detect_extensions = ['c', 'h']
-#commands = [['cc', '--version'], ['gcc', '--version'], ['clang', '--version']]
-version_format = '${major}.${minor}'
-disabled = false
-
-[bun]
-format = '[ ](bold green)[$symbol($version)]($style) '
-symbol = 'Bun'
-style = 'bright-purple'
-detect_files = ['bun.lockb', 'bunfig.toml']
-version_format = '${major}.${minor}'
-disabled = true
-
-[dotnet]
-format = '[ ](bold green)[$symbol($version)(\($tfm\))]($style) '
-symbol = '.NET'
-style = 'bright-purple'
-detect_extensions = ['csproj', 'fsproj', 'xproj']
-detect_files = [
-  'global.json',
-  'project.json',
-  'Directory.Build.props',
-  'Directory.Build.targets',
-  'Packages.props',
-]
-version_format = '${major}.${minor}'
-disabled = true
-
-[deno]
-format = '[ ](bold green)[$symbol($version)]($style) '
-symbol = 'Deno'
-style = 'bright-purple'
-detect_files = [
-  'deno.json',
-  'deno.jsonc',
-  'deno.lock',
-  'mod.ts',
-  'mod.js',
-  'deps.ts',
-  'deps.js',
-]
-version_format = '${major}.${minor}'
-disabled = true
-
-[aws]
-# 'on [$symbol($profile )(\($region\) )(\[$duration\] )]($style)'
-format = '[$symbol](bold green)[( $profile)]($style) '
-symbol = ' '
-style = 'bright-purple'
-disabled = true
-
-[sudo]
-#           |
-format = '[$symbol]($style)'
-symbol = ' '
-style = 'bold 9'
-allow_windows = false
-disabled = false
-
-[time]
-#  🕙                  |
-format = '[ ](bold 248)[$time]($style) '
-style = 'bold bright-cyan'
-time_format = '%H:%M'
-use_12hr = false
-disabled = false
-
-[shell] #      _ |
-format = '[ ](bold 248)[$indicator]($style) '
-style = 'bold bright-blue'
-unknown_indicator = 'shell'
-powershell_indicator = 'powershell'
-fish_indicator = 'fish'
-bash_indicator = 'bash'
-zsh_indicator = 'zsh'
-disabled = false
-
-[username]
-#           |
-format = '[ ](bold 248)[$user]($style)'
-style_user = 'bold yellow'
-style_root = 'bold red'
-show_always = true
-
-[hostname]
-format = '[([ ]($style)$hostname)](bold bright-cyan)'
-ssh_symbol = '🌐 '                                      #   |
-style = 'bold green'
-ssh_only = true
-trim_at = ''
-aliases = { "loganmac.local" = "mac" }
-# detect_env_vars = ['!TMUX', 'SSH_CONNECTION']
-disabled = false
-
-[character]
-success_symbol = "[❯](red)[❯](yellow)[❯](green)"
-error_symbol = "[❯](red)[❯](red)[❯](red)"

@@ -170,3 +170,5 @@ vim.keymap.set("n", "<leader>ap", "<cmd>%d _ | :0put +<cr>", { desc = "replace e
 vim.keymap.set("n", "<leader>ay", "<cmd>%yank +<cr>", { desc = "copy entire buffer" })
 vim.keymap.set("n", "<leader>ad", "<cmd>%d _ | startinsert<cr>", { desc = "delete entire buffer" })
 vim.keymap.set("n", "<D-a>", "GVgg", { noremap = true, silent = true })
+
+vim.keymap.set("n", "<F3>", function() Snacks.terminal() end, { desc = "Terminal (cwd)" })
