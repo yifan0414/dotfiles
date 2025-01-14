@@ -65,13 +65,16 @@ return {
           },
         },
       },
-      -- setup = {
-      --   clangd = function(_, opts)
-      --     opts.on_attach = function(client, _)
-      --       client.server_capabilities.semanticTokensProvider = nil -- 禁用语义高亮
-      --     end
-      --   end,
-      -- },
+      setup = {
+        clangd = function(_, opts)
+          opts.capabilities.offsetEncoding = { "utf-16" }
+        end,
+        -- clangd = function(_, opts)
+        --   opts.on_attach = function(client, _)
+        --     client.server_capabilities.semanticTokensProvider = nil -- 禁用语义高亮
+        --   end
+        -- end,
+      },
       inlay_hints = { enabled = false },
     },
   },

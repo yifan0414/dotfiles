@@ -13,6 +13,19 @@ return {
     words = { enabled = false },
     indent = { enabled = false },
     scroll = { enabled = false },
+    zen = {
+      styles = {
+        zen = {
+          enter = true,
+          fixbuf = false,
+          minimal = false,
+          width = 120,
+          height = 0,
+          backdrop = { transparent = false },
+          keys = { q = true },
+        },
+      },
+    },
     dashboard = {
       width = 60,
       row = nil, -- dashboard position. nil for center

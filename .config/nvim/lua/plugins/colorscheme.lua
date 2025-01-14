@@ -171,10 +171,9 @@ return {
               ["@function.builtin"] = { fg = latte.blue, bold = true },
               -- ["@type.builtin.cpp"] = { fg = latte.mauve },
               ["@type.cpp"] = { fg = latte.mauve },
-              ["@lsp.type.class.cpp"] = {bold = true},
+              ["@lsp.type.class.cpp"] = { bold = true },
               CompetiTestCorrect = { bold = true, fg = latte.green },
               CompetiTestWrong = { bold = true, fg = latte.red },
-
             }
           end,
         },
@@ -185,7 +184,6 @@ return {
           gitsigns = true,
           nvimtree = true,
           treesitter = true,
-          notify = false,
           mini = {
             enabled = true,
             indentscope_color = "",
@@ -195,6 +193,24 @@ return {
             enabled = false,
             custom_bg = "lualine", -- "lualine" will set background to mantle
           },
+          snacks = true,
+          telescope = true,
+          treesitter_context = true,
+          which_key = true,
+          dashboard = true,
+          flash = true,
+          fzf = true,
+          grug_far = true,
+          headlines = true,
+          illuminate = true,
+          leap = true,
+          -- lsp_trouble = true,
+          mason = true,
+          markdown = true,
+          neotest = true,
+          neotree = true,
+          noice = true,
+          semantic_tokens = true,
           -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
         },
       })
@@ -204,8 +220,8 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "kanagawa",
-      colorscheme = "catppuccin-frappe",
-      -- colorscheme = "catppuccin-latte",
+      -- colorscheme = "catppuccin-frappe",
+      colorscheme = "catppuccin-latte",
       -- colorscheme = "dawnfox",
       -- colorscheme = "vscode",
     },
