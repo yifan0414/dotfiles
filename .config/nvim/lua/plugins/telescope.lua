@@ -32,6 +32,11 @@ return {
     end,
     keys = {
       {
+        "<leader>sM",
+        "<cmd>lua require('telescope.builtin').man_pages({ sections = { 'ALL' } })<CR>",
+        desc = "Man Pages",
+      },
+      {
         "<Leader>fs",
         "<cmd>Telescope resume<cr>",
         { noremap = true, silent = true },

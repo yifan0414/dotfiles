@@ -66,6 +66,7 @@ export PATH="$HOME/.luaver/lua/5.1/bin:$PATH"
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 export http_proxy="http://127.0.0.1:7890"
 export http_proxys="https://127.0.0.1:7890"
+export MANPATH="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/share/man"
 
 # export FZF_DEFAULT_OPTS=" \
 # --color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \

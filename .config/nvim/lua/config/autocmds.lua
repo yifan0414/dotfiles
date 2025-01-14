@@ -154,6 +154,14 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "man",
+  callback = function()
+    vim.opt_local.wrap = false -- 禁用自动换行
+    vim.opt_local.linebreak = false -- 确保单词不会强制换行
+  end,
+})
+
 -- LSP设置, notification
 -- local progress = vim.defaulttable()
 -- vim.api.nvim_create_autocmd("LspProgress", {
