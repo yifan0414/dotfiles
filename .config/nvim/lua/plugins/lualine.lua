@@ -160,6 +160,7 @@ return {
           { LazyVim.lualine.pretty_path(), separator = "›" },
         },
         lualine_x = {
+          "searchcount",
           Snacks.profiler.status(),
           -- stylua: ignore
           {

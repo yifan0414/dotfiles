@@ -1,5 +1,8 @@
 return {
   {
+    "dstein64/vim-startuptime"
+  },
+  {
     "echasnovski/mini.icons",
     enabled = false,
   },
