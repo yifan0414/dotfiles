@@ -51,7 +51,32 @@ return {
         jdtls = {
           inlayHints = { parameterNames = { enabled = "all" } },
         },
-        pyright = {},
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                diagnosticSeverityOverrides = {
+                  reportIncompatibleMethodOverride = "none",
+                },
+              },
+            },
+          },
+          python = {
+            analysis = {
+              -- Ignore all files for analysis to exclusively use Ruff for linting
+              ignore = { "error" },
+            },
+          },
+          capabilities = {
+            textDocument = {
+              publishDiagnostics = {
+                tagSupport = {
+                  valueSet = { 3 },
+                },
+              },
+            },
+          },
+        },
         clangd = {
           cmd = {
             "clangd",
