@@ -13,6 +13,7 @@ return {
     words = { enabled = false },
     indent = { enabled = false },
     scroll = { enabled = false },
+    picker = { enabled = true },
     zen = {
       styles = {
         zen = {
