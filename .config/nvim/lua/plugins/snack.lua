@@ -11,9 +11,42 @@ return {
     quickfile = { enabled = true },
     statuscolumn = { enabled = true },
     words = { enabled = false },
-    indent = { enabled = false },
+    indent = {
+      indent = {
+        priority = 1,
+        enabled = true, -- enable indent guides
+        char = "│",
+        only_scope = false, -- only show indent guides of the scope
+        only_current = false, -- only show indent guides in the current window
+        hl = "SnacksIndent", ---@type string|string[] hl groups for indent gu
+      },
+      scope = {
+        enabled = false, -- enable highlighting the current scope
+      },
+      chunk = {
+        -- when enabled, scopes will be rendered as chunks, except for the
+        -- top-level scope which will be rendered as a scope.
+        enabled = true,
+        -- only show chunk scopes in the current window
+        only_current = true,
+        priority = 500,
+        hl = "snackchunk",
+        char = {
+          -- corner_top = "┌",
+          -- corner_bottom = "└",
+          corner_top = "╭",
+          corner_bottom = "╰",
+          horizontal = "─",
+          vertical = "│",
+          arrow = ">",
+        },
+      },
+      animate = {
+        enabled = false,
+      },
+    },
     scroll = { enabled = false },
-    picker = { enabled = true },
+    picker = { enabled = false },
     zen = {
       styles = {
         zen = {

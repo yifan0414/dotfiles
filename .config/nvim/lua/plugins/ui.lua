@@ -1,6 +1,7 @@
 return {
   {
-    "dstein64/vim-startuptime"
+    "dstein64/vim-startuptime",
+    enabled = false,
   },
   {
     "echasnovski/mini.icons",
@@ -9,7 +10,7 @@ return {
   {
     "lukas-reineke/indent-blankline.nvim",
     event = "LazyFile",
-    -- enabled = false,
+    enabled = false,
     opts = function()
       return {
         indent = {
@@ -176,7 +177,7 @@ return {
   },
   {
     "shellRaining/hlchunk.nvim",
-    -- enabled = false,
+    enabled = false,
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       chunk = {
@@ -213,7 +214,7 @@ return {
       },
 
       indent = {
-        enable = false,
+        enable = true,
         use_treesitter = false,
         exclude_filetypes = {
           help = true,

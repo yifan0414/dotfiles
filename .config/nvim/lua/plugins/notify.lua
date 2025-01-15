@@ -1,5 +1,6 @@
 return {
   "rcarriga/nvim-notify",
+  enabled = false,
   opts = function(_, opts)
     vim.keymap.set("n", "<leader>fn", function()
       require("telescope").extensions.notify.notify()

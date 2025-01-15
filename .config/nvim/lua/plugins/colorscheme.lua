@@ -177,7 +177,9 @@ return {
             }
           end,
         },
-        custom_highlights = {},
+        custom_highlights = {
+          snackchunk = { fg = "#806d9c" },
+        },
         default_integrations = true,
         integrations = {
           cmp = true,

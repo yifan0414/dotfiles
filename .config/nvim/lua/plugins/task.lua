@@ -151,7 +151,6 @@ return {
   },
   {
     "folke/todo-comments.nvim",
-    version = "*",
     opts = {
       keywords = {
         FIX = {
