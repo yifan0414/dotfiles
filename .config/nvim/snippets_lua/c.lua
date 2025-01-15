@@ -30,7 +30,7 @@ local treesitter_postfix = require("luasnip.extras.treesitter_postfix").treesitt
 -- ls.add_snippets("c"-- https://zjp-cn.github.io/neovim0.6-blogs/nvim/luasnip/doc1.html#postfix
 ls.add_snippets("c", {
   postfix({
-    trig = "\\.(scanf|cin)",
+    trig = ".cin",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
@@ -45,7 +45,7 @@ ls.add_snippets("c", {
   }),
 
   postfix({
-    trig = "\\.(printf|cout)",
+    trig = ".(printf|cout)",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
@@ -61,7 +61,7 @@ ls.add_snippets("c", {
     end),
   }),
   postfix({
-    trig = "\\.stderr",
+    trig = ".stderr",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
@@ -77,7 +77,7 @@ ls.add_snippets("c", {
     end),
   }),
   postfix({
-    trig = "\\.for",
+    trig = ".for",
     match_pattern = "[%w%.%_%->%[%]]+$",
     trigEngine = "ecma",
     snippetType = "autosnippet",

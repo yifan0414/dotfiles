@@ -100,6 +100,8 @@ return {
   },
   {
     "catppuccin/nvim",
+    lazy = true,
+    name = "catppuccin",
     config = function()
       require("catppuccin").setup({
         flavour = "auto", -- latte, frappe, macchiato, mocha
@@ -213,6 +215,7 @@ return {
           neotree = true,
           noice = true,
           semantic_tokens = true,
+          blink_cmp = true,
           -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
         },
       })

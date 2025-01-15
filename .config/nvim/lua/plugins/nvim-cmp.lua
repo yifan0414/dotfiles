@@ -1,6 +1,7 @@
 return {
   "hrsh7th/nvim-cmp",
   version = false, -- last release is way too old
+  enabled = false,
   -- event = "VeryLazy",
   dependencies = {
     { "hrsh7th/cmp-nvim-lsp" },
@@ -8,73 +9,8 @@ return {
     { "hrsh7th/cmp-path" },
     { "saadparwaiz1/cmp_luasnip" },
     { "onsails/lspkind.nvim" },
-    {
-      "xzbdmw/colorful-menu.nvim",
-      config = function()
-        -- You don't need to set these options.
-        require("colorful-menu").setup({
-          ls = {
-            lua_ls = {
-              -- Maybe you want to dim arguments a bit.
-              arguments_hl = "@comment",
-            },
-            gopls = {
-              -- By default, we render variable/function's type in the right most side,
-              -- to make them not to crowd together with the original label.
-
-              -- when true:
-              -- foo             *Foo
-              -- ast         "go/ast"
-
-              -- when false:
-              -- foo *Foo
-              -- ast "go/ast"
-              align_type_to_right = true,
-              -- When true, label for field and variable will format like "foo: Foo"
-              -- instead of go's original syntax "foo Foo".
-              add_colon_before_type = false,
-            },
-            -- for lsp_config or typescript-tools
-            ts_ls = {
-              extra_info_hl = "@comment",
-            },
-            vtsls = {
-              extra_info_hl = "@comment",
-            },
-            ["rust-analyzer"] = {
-              -- Such as (as Iterator), (use std::io).
-              extra_info_hl = "@comment",
-            },
-            clangd = {
-              -- Such as "From <stdio.h>".
-              arguments_hl = "@comment",
-              extra_info_hl = "@comment",
-            },
-            roslyn = {
-              extra_info_hl = "@comment",
-            },
-            -- The same applies to pyright/pylance
-            basedpyright = {
-              -- It is usually import path such as "os"
-              extra_info_hl = "@comment",
-            },
-
-            -- If true, try to highlight "not supported" languages.
-            fallback = true,
-          },
-          -- If the built-in logic fails to find a suitable highlight group,
-          -- this highlight is applied to the label.
-          -- fallback_highlight = "@variable",
-          -- If provided, the plugin truncates the final displayed text to
-          -- this width (measured in display cells). Any highlights that extend
-          -- beyond the truncation point are ignored. When set to a float
-          -- between 0 and 1, it'll be treated as percentage of the width of
-          -- the window: math.floor(max_width * vim.api.nvim_win_get_width(0))
-          -- Default 60.
-          max_width = 60,
-        })
-      end,
-    },
+    { "L3MON4D3/LuaSnip" },
+    { "xzbdmw/colorful-menu.nvim" },
     {
       "hrsh7th/cmp-cmdline",
       -- event = "CmdlineEnter",
@@ -131,14 +67,9 @@ return {
 
     local neotab = require("neotab")
     local luasnip = require("luasnip")
-
     luasnip.setup({
       enable_autosnippets = true,
     })
-
-    require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
-    require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets_lua" })
-
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     local cmp = require("cmp")
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())

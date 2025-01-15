@@ -67,7 +67,7 @@ return {
     "kawre/neotab.nvim",
     event = "InsertEnter",
     opts = {
-      tabkey = "",
+      tabkey = "<tab>", -- for cmp
       act_as_tab = true,
       behavior = "nested", ---@type ntab.behavior
       pairs = { ---@type ntab.pair[]

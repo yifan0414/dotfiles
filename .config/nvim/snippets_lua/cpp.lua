@@ -116,7 +116,7 @@ ls.add_snippets("cpp", {
   ),
 
   postfix({
-    trig = "\\.printf",
+    trig = ".printf",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
@@ -144,7 +144,7 @@ ls.add_snippets("cpp", {
   -- }),
 
   postfix({
-    trig = "\\.all",
+    trig = ".all",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
@@ -155,7 +155,7 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
-    trig = "\\.scanf",
+    trig = ".scanf",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
@@ -170,7 +170,7 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
-    trig = "\\.cin",
+    trig = ".cin",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
@@ -181,7 +181,7 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
-    trig = "\\.cerr",
+    trig = ".cerr",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",
@@ -192,7 +192,7 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
-    trig = "\\.for",
+    trig = ".for",
     match_pattern = "[%w%.%_%->%[%]%(%)]+$",
     trigEngine = "ecma",
     snippetType = "autosnippet",
@@ -220,7 +220,7 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
-    trig = "\\.2d",
+    trig = ".2d",
     match_pattern = "[%w%.%_%->%[%]%(%)]+$",
     trigEngine = "ecma",
     snippetType = "autosnippet",
@@ -249,7 +249,7 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
-    trig = "\\.3d",
+    trig = ".3d",
     match_pattern = "[%w%.%_%->%[%]%(%)]+$",
     trigEngine = "ecma",
     snippetType = "autosnippet",
@@ -274,7 +274,7 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
-    trig = "\\.range",
+    trig = ".range",
     match_pattern = "[%w%.%_%->%[%]%(%)]+$",
     trigEngine = "ecma",
     snippetType = "autosnippet",
@@ -293,7 +293,7 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
-    trig = "\\.sort",
+    trig = ".sort",
     match_pattern = "[%w%.%_%->%[%]%(%)]+$",
     trigEngine = "ecma",
     snippetType = "autosnippet",
@@ -308,7 +308,7 @@ ls.add_snippets("cpp", {
   }),
 
   postfix({
-    trig = "\\.post",
+    trig = ".post",
     match_pattern = "[%w%.%_%->%[%]%(%)]+$",
     trigEngine = "ecma",
     snippetType = "autosnippet",

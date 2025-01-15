@@ -2,8 +2,12 @@ return {
   {
     -- lspconfig
     "neovim/nvim-lspconfig",
-    event = "LazyFile",
+    -- event = "LazyFile",
     -- options for vim.diagnostic.config()
+    -- dependencies = {
+      -- "mason.nvim",
+      -- { "williamboman/mason-lspconfig.nvim", config = function() end },
+    -- },
     opts = {
       document_highlight = {
         enabled = false,
@@ -92,6 +96,7 @@ return {
       },
       setup = {
         clangd = function(_, opts)
+          opts.capabilities.textDocument.completion.completionItem.snippetSupport = false
           opts.capabilities.offsetEncoding = { "utf-16" }
         end,
         -- clangd = function(_, opts)

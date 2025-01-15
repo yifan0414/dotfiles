@@ -7,7 +7,12 @@ return {
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
     bigfile = { enabled = true },
-    notifier = { enabled = true },
+    notifier = {
+      enabled = true,
+      width = { min = 40, max = 0.6 },
+      height = { min = 1, max = 0.6 },
+      styles = {},
+    },
     quickfile = { enabled = true },
     statuscolumn = { enabled = true },
     words = { enabled = false },
@@ -30,7 +35,7 @@ return {
         -- only show chunk scopes in the current window
         only_current = true,
         priority = 500,
-        hl = "snackchunk",
+        -- hl = "snackchunk",
         char = {
           -- corner_top = "┌",
           -- corner_bottom = "└",
@@ -47,17 +52,13 @@ return {
     },
     scroll = { enabled = false },
     picker = { enabled = false },
-    zen = {
-      styles = {
-        zen = {
-          enter = true,
-          fixbuf = false,
-          minimal = false,
-          width = 120,
-          height = 0,
-          backdrop = { transparent = false },
-          keys = { q = true },
-        },
+    styles = {
+      notification_history = {
+        width = 0.7,
+        height = 0.7,
+      },
+      zen = {
+        backdrop = { transparent = false },
       },
     },
     dashboard = {
