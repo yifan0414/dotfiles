@@ -5,8 +5,8 @@ return {
     -- event = "LazyFile",
     -- options for vim.diagnostic.config()
     -- dependencies = {
-      -- "mason.nvim",
-      -- { "williamboman/mason-lspconfig.nvim", config = function() end },
+    -- "mason.nvim",
+    -- { "williamboman/mason-lspconfig.nvim", config = function() end },
     -- },
     opts = {
       document_highlight = {
@@ -31,6 +31,10 @@ return {
             [vim.diagnostic.severity.WARN] = " ",
             [vim.diagnostic.severity.HINT] = "󰋽 ",
             [vim.diagnostic.severity.INFO] = "󰋽 ",
+            -- [vim.diagnostic.severity.HINT] = "󱐮",
+            -- [vim.diagnostic.severity.ERROR] = "✘",
+            -- [vim.diagnostic.severity.INFO] = "◉",
+            -- [vim.diagnostic.severity.WARN] = "",
           },
         },
         -- virtual_text = {

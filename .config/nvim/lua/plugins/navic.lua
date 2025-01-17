@@ -1,5 +1,5 @@
 return {
-  "yifan0414/nvim-navic",
+  "SmiteshP/nvim-navic",
   lazy = true,
   init = function()
     vim.g.navic_silence = true
@@ -22,6 +22,7 @@ return {
     -- vim.api.nvim_set_hl(0, "NavicIconsField", { fg = "#E6C384" })
     -- vim.api.nvim_set_hl(0, "NavicIconsString", { fg = "#a6e3a2" })
     -- vim.api.nvim_set_hl(0, "NavicIconsFunction", { fg = "#89b4fb", bold = true })
+    -- vim.api.nvim_set_hl(0, "NavicText", { fg = "#c6d0f6" })
     return {
       -- { "Module", " ", "Exception" },
       -- { "Namespace", " ", "Include" },
@@ -77,7 +78,8 @@ return {
       },
       -- separator = "%#Comment#" .. " › " .. "%#Normal#",
       separator = " › ",
-      highlight = false,
+      highlight = true,
+      depth_limit = 5,
       -- depth_limit = 7,
       -- depth_limit_indicator = "%#Comment#" .. ".." .. "%#Normal#",
       lazy_update_context = false,

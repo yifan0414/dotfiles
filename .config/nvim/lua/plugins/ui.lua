@@ -1,5 +1,9 @@
 return {
   {
+    "hiphish/rainbow-delimiters.nvim",
+    event = "LazyFile",
+  },
+  {
     "dstein64/vim-startuptime",
     enabled = false,
   },
@@ -298,20 +302,5 @@ return {
   {
     "fladson/vim-kitty",
     ft = "kitty",
-  },
-  {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      icons = {
-        indent = {
-          fold_closed = "",
-          fold_open = "", -- icon used for open folds
-        },
-      },
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
   },
 }

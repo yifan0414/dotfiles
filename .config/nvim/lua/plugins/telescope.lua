@@ -171,13 +171,13 @@ return {
       "yifan0414/asyncrun.vim",
       "yifan0414/asynctasks.vim",
       "folke/which-key.nvim",
-      "danielfalk/smart-open.nvim", -- 解决了直接打开 smart-open 无法注册keymap的问题
+      -- "danielfalk/smart-open.nvim", -- 解决了直接打开 smart-open 无法注册keymap的问题
       "jvgrootveld/telescope-zoxide",
     },
   },
-
   {
     "danielfalk/smart-open.nvim",
+    enabled = false,
     branch = "0.2.x",
     config = function()
       require("telescope").load_extension("smart_open")

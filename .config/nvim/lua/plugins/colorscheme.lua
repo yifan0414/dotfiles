@@ -146,6 +146,8 @@ return {
           -- end,
           frappe = function(frappe)
             return {
+              NavicText = { fg = "#c6d0f6" },
+              WinBar = { bg = frappe.mantle },
               TreesitterContext = { bg = frappe.mantle },
               NormalFloat = { bg = frappe.base },
               FloatBorder = { bg = frappe.base },
@@ -167,6 +169,7 @@ return {
           end,
           latte = function(latte)
             return {
+              WinBar = { bg = latte.mantle },
               TreesitterContext = { bg = latte.mantle },
               NormalFloat = { bg = latte.base },
               FloatBorder = { bg = latte.base },
@@ -188,26 +191,22 @@ return {
           gitsigns = true,
           nvimtree = true,
           treesitter = true,
+          treesitter_context = true,
           mini = {
             enabled = true,
             indentscope_color = "",
           },
           overseer = true,
           navic = {
-            enabled = false,
-            custom_bg = "lualine", -- "lualine" will set background to mantle
+            enabled = true,
+            custom_bg = "NONE", -- "lualine" will set background to mantle
           },
           snacks = true,
           telescope = true,
-          treesitter_context = true,
-          which_key = true,
+          which_key = false,
           dashboard = true,
           flash = true,
           fzf = true,
-          grug_far = true,
-          headlines = true,
-          illuminate = true,
-          leap = true,
           -- lsp_trouble = true,
           mason = true,
           markdown = true,
@@ -216,6 +215,7 @@ return {
           noice = true,
           semantic_tokens = true,
           blink_cmp = true,
+          rainbow_delimiters = true,
           -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
         },
       })

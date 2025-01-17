@@ -145,7 +145,7 @@ return {
   },
   {
     "numToStr/Comment.nvim",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
     keys = {
       { "gcc", mode = { "n" } },
       { "gbc", mode = { "n" } },
