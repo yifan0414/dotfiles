@@ -67,11 +67,11 @@
 [
   ")"
   "}"
-  ; (statement_identifier)
+  (statement_identifier)
 ] @indent.branch
 
 ; 确保 label 不受影响
-(identifier) @indent.zero
+; (identifier) @indent.zero
 
 
 [

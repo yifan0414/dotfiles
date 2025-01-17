@@ -31,14 +31,11 @@ local postfix_builtin = require("luasnip.extras.treesitter_postfix").builtin
 
 local expr_query = [[
             [
-              (if_statement)
               (call_expression)
               (identifier)
               (type_identifier)
-              (template_function)
               (subscript_expression)
               (field_expression)
-              (user_defined_literal)
             ] @prefix
 ]]
 

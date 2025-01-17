@@ -45,7 +45,7 @@ ls.add_snippets("c", {
   }),
 
   postfix({
-    trig = ".(printf|cout)",
+    trig = ".cout",
     trigEngine = "ecma",
     match_pattern = "[%w%.%_%->%[%]]+$",
     snippetType = "autosnippet",

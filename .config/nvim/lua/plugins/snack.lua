@@ -51,7 +51,7 @@ return {
       },
     },
     scroll = { enabled = false },
-    picker = { enabled = false },
+    -- picker = { enabled = false },
     styles = {
       notification_history = {
         width = 0.7,

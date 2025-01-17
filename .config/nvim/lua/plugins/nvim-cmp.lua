@@ -1,7 +1,7 @@
 return {
   "hrsh7th/nvim-cmp",
   version = false, -- last release is way too old
-  enabled = false,
+  -- enabled = false,
   -- event = "VeryLazy",
   dependencies = {
     { "hrsh7th/cmp-nvim-lsp" },
@@ -67,9 +67,6 @@ return {
 
     local neotab = require("neotab")
     local luasnip = require("luasnip")
-    luasnip.setup({
-      enable_autosnippets = true,
-    })
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     local cmp = require("cmp")
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
@@ -100,8 +97,8 @@ return {
           -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
           -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
           winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
-          max_width = 50,
-          max_height = math.floor(vim.o.lines * 0.5),
+          -- max_width = 50,
+          -- max_height = math.floor(vim.o.lines * 0.5),
         },
       },
       completion = {
@@ -131,6 +128,18 @@ return {
             neotab.tabout()
           end
         end, { "i", "s" }),
+        ["<C-n>"] = cmp.mapping(function()
+          if cmp.visible() and has_words_before() then
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+            -- cmp.abort()
+            -- else
+            --   neotab.tabout_luasnip()
+          elseif luasnip.expand_or_locally_jumpable() then
+            luasnip.expand_or_jump()
+          else
+            neotab.tabout()
+          end
+        end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
@@ -140,24 +149,33 @@ return {
             fallback()
           end
         end, { "i", "s" }),
-        ["<C-n>"] = cmp.mapping(function()
-          if luasnip.choice_active() then
-            luasnip.change_choice(1)
-          elseif luasnip.expand_or_locally_jumpable() then
-            luasnip.expand_or_jump()
-          elseif cmp.visible() then
-            cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-          end
-        end),
-        ["<C-p>"] = cmp.mapping(function()
-          if luasnip.choice_active() then
-            luasnip.change_choice(-1)
+        ["<C-p>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
           elseif luasnip.expand_or_locally_jumpable(-1) then
             luasnip.expand_or_jump(-1)
-          elseif cmp.visible() then
-            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+          else
+            fallback()
           end
-        end),
+        end, { "i", "s" }),
+        -- ["<C-n>"] = cmp.mapping(function()
+        --   if luasnip.choice_active() then
+        --     luasnip.change_choice(1)
+        --   elseif luasnip.expand_or_locally_jumpable() then
+        --     luasnip.expand_or_jump()
+        --   elseif cmp.visible() then
+        --     cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+        --   end
+        -- end),
+        -- ["<C-p>"] = cmp.mapping(function()
+        --   if luasnip.choice_active() then
+        --     luasnip.change_choice(-1)
+        --   elseif luasnip.expand_or_locally_jumpable(-1) then
+        --     luasnip.expand_or_jump(-1)
+        --   elseif cmp.visible() then
+        --     cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+        --   end
+        -- end),
         ["<DOWN>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<UP>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -255,6 +273,17 @@ return {
           return vim_item
         end,
       },
+
+      performance = {
+        debounce = 30,
+        throttle = 20,
+        fetching_timeout = 500,
+        filtering_context_budget = 3,
+        confirm_resolve_timeout = 80,
+        async_budget = 1,
+        max_view_entries = 200,
+      },
+
       sorting = {
         priority_weight = 2,
         comparators = {
