@@ -1,5 +1,13 @@
 return {
   {
+    "folke/trouble.nvim",
+    cmd = { "Trouble" },
+    opts = {
+      auto_preview = false,
+      focus = false,
+    },
+  },
+  {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     opts = {}, -- this is equalent to setup({}) function

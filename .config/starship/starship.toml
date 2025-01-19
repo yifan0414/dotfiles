@@ -3,271 +3,271 @@
 # Which is equivalent to
 add_newline = false
 
-format = """
-$os\
-$directory\
-$git_branch\
-$git_commit\
-$git_state\
-$git_metrics\
-$git_status\
-$package\
-$c\
-$cmake\
-$golang\
-$java\
-$lua\
-$nodejs\
-$python\
-$rust\
-$conda\
-$custom\
-$status\
-$cmd_duration\
-$line_break\
-$sudo\
-$jobs\
-$battery\
-$time\
-$container\
-$shell\
-$character"""
+# format = """
+# $os\
+# $directory\
+# $git_branch\
+# $git_commit\
+# $git_state\
+# $git_metrics\
+# $git_status\
+# $package\
+# $c\
+# $cmake\
+# $golang\
+# $java\
+# $lua\
+# $nodejs\
+# $python\
+# $rust\
+# $conda\
+# $custom\
+# $status\
+# $cmd_duration\
+# $line_break\
+# $sudo\
+# $jobs\
+# $battery\
+# $time\
+# $container\
+# $shell\
+# $character"""
 
-[os]
-format = '[$symbol ]($style)'
-style = 'bold white'
-disabled = true
-
-[directory]
-#   📂     |
-format = '[ $path]($style)[$read_only]($read_only_style) '
-style = 'bold bright-cyan'
-read_only_style = 'red'
-home_symbol = "~"
-truncation_symbol = '…/'
-truncation_length = 3
-read_only = ' 󰌾'
-use_os_path_sep = true
-#fish_style_pwd_dir_length = 1
-truncate_to_repo = true
-
-
+# [os]
+# format = '[$symbol ]($style)'
+# style = 'bold white'
+# disabled = true
+#
+# [directory]
+# #   📂     |
+# format = '[ $path]($style)[$read_only]($read_only_style) '
+# style = 'bold bright-cyan'
+# read_only_style = 'red'
+# home_symbol = "~"
+# truncation_symbol = '…/'
+# truncation_length = 3
+# read_only = ' 󰌾'
+# use_os_path_sep = true
+# #fish_style_pwd_dir_length = 1
+# truncate_to_repo = true
+#
+#
 [character]
 success_symbol = "[❯](red)[❯](yellow)[❯](green)"
 error_symbol = "[❯](red)[❯](red)[❯](red)"
-
-[git_commit]
-commit_hash_length = 4
-tag_symbol = '🔖 '
-
-[git_status]
-# untracked = '[ $count](bold yellow) '
-# staged = '[ $count](bold green) '
-stashed = "[ ](cyan) "
-# deleted = '[ $count](bold red) '
-# modified = '[ $count](bold blue) '
-# behind = '[ ](bold purple) '
-# ahead = '[ ](bold purple) '
-# format = '([$all_status$ahead_behind]($style))'
-
-[[battery.display]]
-threshold = 50
-
-[lua]
-detect_folders = []
-symbol = " "
-
-[git_metrics]
-disabled = false
-
-[aws]
-symbol = "  "
-
-[buf]
-symbol = " "
-
-[c]
-symbol = " "
-
-[conda]
-symbol = " "
-
-[dart]
-symbol = " "
-
-[docker_context]
-symbol = " "
-
-[elixir]
-symbol = " "
-
-[elm]
-symbol = " "
-
-[fossil_branch]
-symbol = " "
-
-[git_branch]
-symbol = " "
-
-[golang]
-symbol = " "
-
-[guix_shell]
-symbol = " "
-
-[haskell]
-symbol = " "
-
-[haxe]
-symbol = "⌘ "
-
-[hg_branch]
-symbol = " "
-
-[hostname]
-ssh_symbol = " "
-
-[julia]
-symbol = " "
-
-[memory_usage]
-symbol = "󰍛 "
-
-[meson]
-symbol = "󰔷 "
-
-[nim]
-symbol = "󰆥 "
-
-[nix_shell]
-symbol = " "
-
-[os.symbols]
-Alpaquita = " "
-Alpine = " "
-Amazon = " "
-Android = " "
-Arch = " "
-Artix = " "
-CentOS = " "
-Debian = " "
-DragonFly = " "
-Emscripten = " "
-EndeavourOS = " "
-Fedora = " "
-FreeBSD = " "
-Garuda = "󰛓 "
-Gentoo = " "
-HardenedBSD = "󰞌 "
-Illumos = "󰈸 "
-Linux = " "
-Mabox = " "
-Macos = " "
-Manjaro = " "
-Mariner = " "
-MidnightBSD = " "
-Mint = " "
-NetBSD = " "
-NixOS = " "
-OpenBSD = "󰈺 "
-openSUSE = " "
-OracleLinux = "󰌷 "
-Pop = " "
-Raspbian = " "
-Redhat = " "
-RedHatEnterprise = " "
-Redox = "󰀘 "
-Solus = "󰠳 "
-SUSE = " "
-Ubuntu = " "
-Unknown = " "
-Windows = "󰍲 "
-
-[package]
-symbol = "󰏗 "
-
-[pijul_channel]
-symbol = "🪺 "
-
-[rlang]
-symbol = "󰟔 "
-
-[ruby]
-symbol = " "
-
-[rust]
-symbol = " "
-
-[scala]
-symbol = " "
-
-[spack]
-symbol = "🅢 "
-
-[status]
-# '[\[$symbol$common_meaning$signal_name$maybe_int\]]($style) '
-format = '$symbol'
-symbol = '[●\($status\)](bright-red) '
-success_symbol = '[●](green) '
-not_executable_symbol = '[⌽\($status\)](bright-red) '
-not_found_symbol = '[◎\($status\)](bright-red) '
-sigint_symbol = '[✶\($status\)](bright-red) '
-signal_symbol = '[✕\($status\)](bright-red) '
-recognize_signal_code = true
-map_symbol = true
-disabled = false
-
-[cmd_duration] #        |
-format = '[☗](bright-red)[ $duration]($style) '
-style = 'bold yellow'
-min_time = 2000
-show_milliseconds = false
-
-[sudo]
-#           |
-format = '[$symbol]($style)'
-symbol = ' '
-style = 'bold 9'
-allow_windows = false
-disabled = false
-
-[java]
-# ⚰︎ ♲ ⇞ ⚕︎ ☥ º                                 |
-# format = '[ ](bold green)[${symbol}(${version} )]($style)'
-# symbol = ' '
-# style = 'bright-purple'
-detect_extensions = ['java', 'class', 'gradle', 'jar', 'cljs', 'cljc']
-detect_files = [
-  'pom.xml',
-  'build.gradle.kts',
-  'build.sbt',
-  '.java-version',
-  'deps.edn',
-  'project.clj',
-  'build.boot',
-  '.sdkmanrc',
-]
-# version_format = '${major}.${minor}'
-disabled = false
-
-[python]
-# 
-# format = '[ ](bold green)[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style) '
-# symbol = 'PY'                                                                               # 󰌠  🐍 👾  |
-# style = 'bright-purple'
-#detect_files = [['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini', 'pixi.toml']]
-# version_format = '${major}.${minor}'
-disabled = false
-
-[nodejs]
-# 
-# format = '[ ](bold green)[$symbol($version)]($style) '
-# symbol = 'Node'
-# style = 'bright-purple'
-#detect_extensions = []
-detect_files = ['package.json', '.node-version', '.nvmrc']
-detect_folders = ['node_modules']
-# not_capable_style = 'red'
-# version_format = '${major}.${minor}'
-disabled = false
+#
+# [git_commit]
+# commit_hash_length = 4
+# tag_symbol = '🔖 '
+#
+# [git_status]
+# # untracked = '[ $count](bold yellow) '
+# # staged = '[ $count](bold green) '
+# stashed = "[ ](cyan) "
+# # deleted = '[ $count](bold red) '
+# # modified = '[ $count](bold blue) '
+# # behind = '[ ](bold purple) '
+# # ahead = '[ ](bold purple) '
+# # format = '([$all_status$ahead_behind]($style))'
+#
+# [[battery.display]]
+# threshold = 50
+#
+# [lua]
+# detect_folders = []
+# symbol = " "
+#
+# [git_metrics]
+# disabled = false
+#
+# [aws]
+# symbol = "  "
+#
+# [buf]
+# symbol = " "
+#
+# [c]
+# symbol = " "
+#
+# [conda]
+# symbol = " "
+#
+# [dart]
+# symbol = " "
+#
+# [docker_context]
+# symbol = " "
+#
+# [elixir]
+# symbol = " "
+#
+# [elm]
+# symbol = " "
+#
+# [fossil_branch]
+# symbol = " "
+#
+# [git_branch]
+# symbol = " "
+#
+# [golang]
+# symbol = " "
+#
+# [guix_shell]
+# symbol = " "
+#
+# [haskell]
+# symbol = " "
+#
+# [haxe]
+# symbol = "⌘ "
+#
+# [hg_branch]
+# symbol = " "
+#
+# [hostname]
+# ssh_symbol = " "
+#
+# [julia]
+# symbol = " "
+#
+# [memory_usage]
+# symbol = "󰍛 "
+#
+# [meson]
+# symbol = "󰔷 "
+#
+# [nim]
+# symbol = "󰆥 "
+#
+# [nix_shell]
+# symbol = " "
+#
+# [os.symbols]
+# Alpaquita = " "
+# Alpine = " "
+# Amazon = " "
+# Android = " "
+# Arch = " "
+# Artix = " "
+# CentOS = " "
+# Debian = " "
+# DragonFly = " "
+# Emscripten = " "
+# EndeavourOS = " "
+# Fedora = " "
+# FreeBSD = " "
+# Garuda = "󰛓 "
+# Gentoo = " "
+# HardenedBSD = "󰞌 "
+# Illumos = "󰈸 "
+# Linux = " "
+# Mabox = " "
+# Macos = " "
+# Manjaro = " "
+# Mariner = " "
+# MidnightBSD = " "
+# Mint = " "
+# NetBSD = " "
+# NixOS = " "
+# OpenBSD = "󰈺 "
+# openSUSE = " "
+# OracleLinux = "󰌷 "
+# Pop = " "
+# Raspbian = " "
+# Redhat = " "
+# RedHatEnterprise = " "
+# Redox = "󰀘 "
+# Solus = "󰠳 "
+# SUSE = " "
+# Ubuntu = " "
+# Unknown = " "
+# Windows = "󰍲 "
+#
+# [package]
+# symbol = "󰏗 "
+#
+# [pijul_channel]
+# symbol = "🪺 "
+#
+# [rlang]
+# symbol = "󰟔 "
+#
+# [ruby]
+# symbol = " "
+#
+# [rust]
+# symbol = " "
+#
+# [scala]
+# symbol = " "
+#
+# [spack]
+# symbol = "🅢 "
+#
+# [status]
+# # '[\[$symbol$common_meaning$signal_name$maybe_int\]]($style) '
+# format = '$symbol'
+# symbol = '[●\($status\)](bright-red) '
+# success_symbol = '[●](green) '
+# not_executable_symbol = '[⌽\($status\)](bright-red) '
+# not_found_symbol = '[◎\($status\)](bright-red) '
+# sigint_symbol = '[✶\($status\)](bright-red) '
+# signal_symbol = '[✕\($status\)](bright-red) '
+# recognize_signal_code = true
+# map_symbol = true
+# disabled = false
+#
+# [cmd_duration] #        |
+# format = '[☗](bright-red)[ $duration]($style) '
+# style = 'bold yellow'
+# min_time = 2000
+# show_milliseconds = false
+#
+# [sudo]
+# #           |
+# format = '[$symbol]($style)'
+# symbol = ' '
+# style = 'bold 9'
+# allow_windows = false
+# disabled = false
+#
+# [java]
+# # ⚰︎ ♲ ⇞ ⚕︎ ☥ º                                 |
+# # format = '[ ](bold green)[${symbol}(${version} )]($style)'
+# # symbol = ' '
+# # style = 'bright-purple'
+# detect_extensions = ['java', 'class', 'gradle', 'jar', 'cljs', 'cljc']
+# detect_files = [
+#   'pom.xml',
+#   'build.gradle.kts',
+#   'build.sbt',
+#   '.java-version',
+#   'deps.edn',
+#   'project.clj',
+#   'build.boot',
+#   '.sdkmanrc',
+# ]
+# # version_format = '${major}.${minor}'
+# disabled = false
+#
+# [python]
+# # 
+# # format = '[ ](bold green)[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style) '
+# # symbol = 'PY'                                                                               # 󰌠  🐍 👾  |
+# # style = 'bright-purple'
+# #detect_files = [['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini', 'pixi.toml']]
+# # version_format = '${major}.${minor}'
+# disabled = false
+#
+# [nodejs]
+# # 
+# # format = '[ ](bold green)[$symbol($version)]($style) '
+# # symbol = 'Node'
+# # style = 'bright-purple'
+# #detect_extensions = []
+# detect_files = ['package.json', '.node-version', '.nvmrc']
+# detect_folders = ['node_modules']
+# # not_capable_style = 'red'
+# # version_format = '${major}.${minor}'
+# disabled = false
