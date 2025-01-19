@@ -5,6 +5,8 @@ return {
     opts = function(_, opts)
       -- see :help telescope.setup()
       local actions = require("telescope.actions")
+      local open_with_trouble = require("trouble.sources.telescope").open
+
       opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
         mappings = {
           i = {
@@ -14,6 +16,7 @@ return {
             ["<C-Q>"] = actions.select_vertical,
             ["<C-n>"] = actions.cycle_history_next,
             ["<C-p>"] = actions.cycle_history_prev,
+            ["<c-t>"] = open_with_trouble,
           },
         },
         -- The below pattern is lua regex and not wildcard

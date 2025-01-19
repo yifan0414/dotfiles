@@ -11,6 +11,9 @@ return {
         mode = { "buffers", "tabs" },
         -- max_name_length = 7,
         max_prefix_length = 5, -- prefix used when a buffer is de-duplicated
+        pick = {
+          alphabet = "abcdefghijklmnopqrstuvwxyz",
+        },
         truncate_names = true, -- whether or not tab names should be truncated
         tab_size = 7,
         show_close_icon = false,
@@ -61,11 +64,14 @@ return {
       outline_window = {
         width = 20,
       },
+      outline_items = {
+        show_symbol_details = false,
+      },
     },
   },
   {
     "tiagovla/scope.nvim",
-    event = "BufAdd",
+    event = "TabLeave",
     config = function()
       require("scope").setup({})
     end,

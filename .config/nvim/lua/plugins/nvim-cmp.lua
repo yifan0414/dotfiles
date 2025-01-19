@@ -54,11 +54,19 @@ return {
     -- 获取现有的 Pmenu 高亮组配置
     local pmenu_hl = vim.api.nvim_get_hl(0, { name = "Pmenu" })
 
-    -- 添加/覆盖 blend 值
-    pmenu_hl.blend = 0
-
-    -- 重新设置 Pmenu 高亮组
-    vim.api.nvim_set_hl(0, "Pmenu", pmenu_hl)
+    -- 只保留 `vim.api.nvim_set_hl` 需要的字段
+    local valid_hl = {
+      fg = pmenu_hl.fg,
+      bg = pmenu_hl.bg,
+      sp = pmenu_hl.sp,
+      blend = 0, -- 设置新的 blend 值
+      bold = pmenu_hl.bold,
+      italic = pmenu_hl.italic,
+      underline = pmenu_hl.underline,
+      undercurl = pmenu_hl.undercurl,
+      strikethrough = pmenu_hl.strikethrough,
+    }
+    vim.api.nvim_set_hl(0, "Pmenu", valid_hl)
 
     -- vim.api.nvim_set_hl(0, "Pmenu", { bg = "#29293b", blend = 0 })
     -- vim.api.nvim_set_hl(0, "PmenuSel", { bg = colors.blue, fg = colors.base, blend = 0 })

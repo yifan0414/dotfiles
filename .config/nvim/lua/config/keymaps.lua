@@ -50,7 +50,7 @@ vim.keymap.set(
   "v",
   "<leader>xW",
   "y:AsyncRun rg -ni <C-R>0 <cwd><CR>",
-  { desc = "search word in quickfix(root dir)", noremap = true, silent = true }
+  { desc = "search word in quickfix(cwd)", noremap = true, silent = true }
 )
 
 -- So I can move around in insert
@@ -64,7 +64,7 @@ vim.keymap.set("v", "<leader>y", [["+y <cmd>call system('clip.exe', @+)<cr>]], {
 
 vim.keymap.set("n", "<leader>td", function()
   local os_date = os.date
-  local diary_path = "~/org/"
+  local diary_path = "/Users/yifansu/Library/CloudStorage/OneDrive-st.gxu.edu.cn/CSNote/Diary/"
 
   -- 获取当前日期
   local year = os_date("%Y")
@@ -72,7 +72,7 @@ vim.keymap.set("n", "<leader>td", function()
   local day = os_date("%Y-%m-%d")
 
   -- 构建文件路径
-  local file_path = diary_path .. year .. "/" .. month .. "/" .. day .. ".org"
+  local file_path = diary_path .. year .. "/" .. month .. "/" .. day .. ".md"
 
   -- 检查文件是否存在
   -- local file = io.open(file_path, "r")
@@ -155,8 +155,7 @@ vim.keymap.set("n", "<leader>ux", function()
 end, { silent = true, noremap = true, desc = "Toggle Statusline" })
 
 -- toggle nvim cmp
-
-vim.keymap.set("n", "<leader>uc", function()
+vim.keymap.set("n", "<leader>un", function()
   local cmp = require("cmp")
   local current_setting = cmp.get_config().completion.autocomplete
   if current_setting and #current_setting > 0 then
@@ -171,4 +170,10 @@ vim.keymap.set("n", "<leader>ay", "<cmd>%yank +<cr>", { desc = "copy entire buff
 vim.keymap.set("n", "<leader>ad", "<cmd>%d _ | startinsert<cr>", { desc = "delete entire buffer" })
 vim.keymap.set("n", "<D-a>", "GVgg", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<F3>", function() Snacks.terminal() end, { desc = "Terminal (cwd)" })
+vim.keymap.set("n", "<F2>", function()
+  Snacks.terminal()
+end, { desc = "Terminal" })
+
+vim.keymap.set("t", "<F2>", function()
+  Snacks.terminal()
+end, { desc = "Terminal" })

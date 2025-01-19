@@ -133,27 +133,6 @@ vim.api.nvim_create_user_command("OverseerRestartLast", function()
   end
 end, {})
 
-vim.api.nvim_create_autocmd("TermOpen", {
-  desc = "Auto enter insert mode when opening a terminal",
-  pattern = "*",
-  callback = function()
-    -- Wait briefly just in case we immediately switch out of the buffer
-    vim.defer_fn(function()
-      -- Make sure this is still a terminal, and it's not overseer task output
-      if vim.bo.buftype == "terminal" and not vim.b.overseer_task then
-        vim.cmd.startinsert()
-      end
-    end, 100)
-  end,
-})
-
-vim.api.nvim_create_autocmd("TermOpen", {
-  pattern = "*",
-  callback = function()
-    vim.api.nvim_buf_set_keymap(0, "t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
-  end,
-})
-
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "man",
   callback = function()

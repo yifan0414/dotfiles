@@ -6,6 +6,7 @@ return {
   },
   {
     "MunsMan/kitty-navigator.nvim",
+    enabled = false,
     build = {
       "cp navigate_kitty.py ~/.config/kitty",
       "cp pass_keys.py ~/.config/kitty",
@@ -47,7 +48,7 @@ return {
   },
   {
     "christoomey/vim-tmux-navigator",
-    enabled = false,
+    -- enabled = false,
     cmd = {
       "TmuxNavigateLeft",
       "TmuxNavigateDown",
@@ -130,6 +131,9 @@ return {
     -- lazy = true,
     event = "VeryLazy",
     opts = {
+      keymaps = {
+        useDefaults = true,
+      },
       -- useDefaultKeymaps = true,
       -- disabledKeymaps   = {
       --   "gc",

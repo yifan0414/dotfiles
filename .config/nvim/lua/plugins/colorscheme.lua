@@ -124,7 +124,7 @@ return {
           comments = {}, -- Change the style of comments
           conditionals = { "italic" },
           loops = { "italic" },
-          functions = { "bold" },
+          functions = { "italic", "bold" },
           keywords = { "italic" },
           strings = {},
           variables = {},
@@ -152,7 +152,7 @@ return {
               NormalFloat = { bg = frappe.base },
               FloatBorder = { bg = frappe.base },
               ["@function.builtin"] = { fg = frappe.blue, bold = true },
-              -- ["@type.builtin.cpp"] = { fg = frappe.mauve },
+              ["@type.builtin.cpp"] = { fg = frappe.mauve },
               ["@type.cpp"] = { fg = frappe.mauve },
               CompetiTestCorrect = { bold = true, fg = frappe.green },
               CompetiTestWrong = { bold = true, fg = frappe.red },
@@ -169,12 +169,13 @@ return {
           end,
           latte = function(latte)
             return {
+              NavicText = { fg = "#4c4f6a" },
               WinBar = { bg = latte.mantle },
               TreesitterContext = { bg = latte.mantle },
               NormalFloat = { bg = latte.base },
               FloatBorder = { bg = latte.base },
               ["@function.builtin"] = { fg = latte.blue, bold = true },
-              -- ["@type.builtin.cpp"] = { fg = latte.mauve },
+              ["@type.builtin.cpp"] = { fg = latte.mauve },
               ["@type.cpp"] = { fg = latte.mauve },
               ["@lsp.type.class.cpp"] = { bold = true },
               CompetiTestCorrect = { bold = true, fg = latte.green },
@@ -202,20 +203,24 @@ return {
             custom_bg = "NONE", -- "lualine" will set background to mantle
           },
           snacks = true,
-          telescope = true,
           which_key = false,
           dashboard = true,
           flash = true,
           fzf = true,
-          -- lsp_trouble = true,
+          lsp_trouble = false,
           mason = true,
-          markdown = true,
+          markdown = false,
           neotest = true,
           neotree = true,
           noice = true,
           semantic_tokens = true,
           blink_cmp = true,
           rainbow_delimiters = true,
+          render_markdown = true,
+          telescope = {
+            enabled = true,
+            style = "nvchad"
+          },
           -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
         },
       })
@@ -225,8 +230,8 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "kanagawa",
-      colorscheme = "catppuccin-frappe",
-      -- colorscheme = "catppuccin-latte",
+      -- colorscheme = "catppuccin-frappe",
+      colorscheme = "catppuccin-latte",
       -- colorscheme = "dawnfox",
       -- colorscheme = "vscode",
     },

@@ -33,4 +33,8 @@ return {
     "rafamadriz/friendly-snippets",
     enabled = false,
   },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    enabled = false,
+  }
 }

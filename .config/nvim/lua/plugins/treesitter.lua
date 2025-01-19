@@ -6,9 +6,9 @@ return {
   --   }
   -- end
   opts = {
-    indent = {
-      enable = true,
-      disabled = { "c", "cpp" },
-    },
+    -- indent = {
+    --   enable = true,
+    --   disabled = { "c", "cpp" },
+    -- },
   },
 }

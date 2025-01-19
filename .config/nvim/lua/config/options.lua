@@ -32,20 +32,20 @@ elseif os.getenv("TMUX") then
     cache_enabled = 1, -- 要设置成1，不然使用x或者d的时候鼠标会闪烁
   }
 elseif vim.fn.has("wsl") == 1 then
-  vim.g.clipboard = {
-    name = "WslClipboard",
-    copy = {
-      ["+"] = "clip.exe",
-      ["*"] = "clip.exe",
-    },
-    paste = {
-      ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-      ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-    },
-    cache_enabled = 1,
-  }
-  vim.g.python3_host_prog = "/usr/bin/python3"
-  vim.g.node_host_prog = "/usr/local/lib/node_modules/neovim/bin/cli.js"
+  -- vim.g.clipboard = {
+  --   name = "WslClipboard",
+  --   copy = {
+  --     ["+"] = "clip.exe",
+  --     ["*"] = "clip.exe",
+  --   },
+  --   paste = {
+  --     ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+  --     ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+  --   },
+  --   cache_enabled = 1,
+  -- }
+  -- vim.g.python3_host_prog = "/usr/bin/python3"
+  -- vim.g.node_host_prog = "/usr/local/lib/node_modules/neovim/bin/cli.js"
 else
 end
 
@@ -66,7 +66,9 @@ vim.g.loaded_ruby_provider = 0
 vim.o.smartindent = false
 vim.o.cindent = true
 vim.o.autoindent = true
-vim.o.cinoptions = "L0,g0"
+-- vim.o.cinoptions = "L0,g0"
+vim.opt.cinkeys = "0{,0},0),0],0#,!^F,o,O,e"
+vim.opt.indentkeys = "0{,0},0),0],0#,!^F,o,O,e"
 
 vim.o.report = 100 -- 为了关闭行数提示
 
@@ -77,18 +79,11 @@ vim.wo.cursorlineopt = "number"
 
 -- NOTE: asyncrun 的配置
 vim.g.asyncrun_open = 12
-vim.g.VimuxHeight = "50"
+vim.g.asynctasks_term_reuse = 1
+vim.g.VimuxHeight = "40%" -- 80%
 vim.g.VimuxOrientation = "h"
 
 -- 手动fold
 vim.opt.foldmethod = "manual"
 
-vim.opt.fillchars = {
-  fold = " ", -- 折叠行的填充字符
-  foldopen = "▾", -- 展开的折叠符号
-  foldclose = "▸", -- 折叠的折叠符号
-  foldsep = "│", -- 折叠线之间的分隔符
-}
--- vim.opt.tabstop = 4
--- vim.opt.shiftwidth = 4
--- vim.opt.softtabstop = 4
+vim.g.trouble_lualine = false

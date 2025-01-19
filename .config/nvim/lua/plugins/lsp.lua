@@ -96,13 +96,29 @@ return {
             "--fallback-style=llvm",
             "--header-insertion-decorators=false",
           },
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern(
+              "Makefile",
+              "configure.ac",
+              "configure.in",
+              "config.h.in",
+              "meson.build",
+              "meson_options.txt",
+              "build.ninja"
+            )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(
+              fname
+            ) or require("lspconfig.util").find_git_ancestor(fname)
+          end,
+          capabilities = {
+            offsetEncoding = { "utf-16" },
+          },
         },
       },
       setup = {
-        clangd = function(_, opts)
-          opts.capabilities.textDocument.completion.completionItem.snippetSupport = false
-          opts.capabilities.offsetEncoding = { "utf-16" }
-        end,
+        -- clangd = function(_, opts)
+        --   opts.capabilities.textDocument.completion.completionItem.snippetSupport = false
+        --   opts.capabilities.offsetEncoding = { "utf-16" }
+        -- end,
         -- clangd = function(_, opts)
         --   opts.on_attach = function(client, _)
         --     client.server_capabilities.semanticTokensProvider = nil -- 禁用语义高亮

@@ -1,125 +1,59 @@
 {
-  "self": {
-    "prefix": "self:",
-    "body": [
-      "function self:${1:methodName}($2)",
-      "\t$0",
-      "end"
-    ]
-  },
-  "while": {
-    "prefix": "while",
-    "body": [
-      "while ${1:true} do",
-      "\t$0",
-      "end"
-    ]
-  },
-  "local": {
-    "body": [
-      "local ${0}"
-    ],
-    "prefix": "l",
-    "description": "create a variable"
-  },
-  "if": {
-    "prefix": "if",
-    "body": [
-      "if ${1:true} then",
-      "\t$0",
-      "end"
-    ]
-  },
   "return": {
-    "body": [
-      "return $0"
-    ],
+    "body": ["return $0"],
     "prefix": "return",
     "description": "return value"
   },
-  "locpcall": {
-    "body": [
-      "local ${1:status}, ${2:err_or_value} = pcall(${3:function})"
-    ],
-    "prefix": "lpca",
-    "description": "Protect call a function as a variable"
-  },
-  "for": {
-    "body": [
-      "for ${1:i}=${2:1},${3:10} do",
-      "\t$0",
-      "end"
-    ],
-    "prefix": "for",
-    "description": "for loop range"
-  },
-  "print": {
-    "prefix": "print",
-    "body": [
-      "print(${0})"
-    ]
-  },
-  "foreach": {
-    "prefix": "foreach",
-    "body": [
-      "for i, ${1:x} in pairs(${2:table}) do",
-      "\t$0",
-      "end"
-    ]
-  },
-  "locreq": {
-    "body": [
-      "local ${1:var} = require(\"${2:module}\")"
-    ],
-    "prefix": "lreq",
-    "description": "Require module as a variable"
-  },
+  "while": { "body": ["while ${1:true} do", "\t$0", "end"], "prefix": "while" },
   "pcall": {
-    "body": [
-      "pcall(${1:function})"
-    ],
+    "body": ["pcall(${1:function})"],
     "prefix": "pca",
     "description": "Protect call a function"
   },
-  "inline-function": {
-    "prefix": "f=",
+  "keys": {
     "body": [
-      "local ${1:name} = function($2)",
-      "\t${0:-- code}",
-      "end"
-    ]
+      "{",
+      "  \"${1:}\",",
+      "  mode = { \"n\", \"x\" },",
+      "  ${2:},",
+      "  desc = \"${3:}\",",
+      "},"
+    ],
+    "prefix": "keys"
   },
   "require": {
-    "description": "Require module",
     "body": "require(\"${0:module}\")",
-    "prefix": "require"
+    "prefix": "require",
+    "description": "Require module"
   },
-  "assigment": {
-    "body": [
-      "local ${1:varName} = ${0:value}"
-    ],
-    "prefix": "ll",
-    "description": "create a variable"
+  "foreach": {
+    "body": ["for i, ${1:x} in pairs(${2:table}) do", "\t$0", "end"],
+    "prefix": "foreach"
   },
-  "forline": {
-    "body": [
-      "f = io.open(${1:\"${2:filename}\"}, \"${3:r}\")\n",
-      "while true do",
-      "\tline = f:read()",
-      "\tif line == nil then break end\n",
-      "\t${0:-- code}",
-      "end"
-    ],
-    "prefix": "forline",
-    "description": "read file line by line"
+  "locreq": {
+    "body": ["local ${1:var} = require(\"${2:module}\")"],
+    "prefix": "lreq",
+    "description": "Require module as a variable"
+  },
+  "print": { "body": ["print(${0})"], "prefix": "print" },
+  "elseif": { "body": ["elseif ${1:true} then", "\t$0"], "prefix": "elseif" },
+  "self": {
+    "body": ["function self:${1:methodName}($2)", "\t$0", "end"],
+    "prefix": "self:"
+  },
+  "for": {
+    "body": ["for ${1:i}=${2:1},${3:10} do", "\t$0", "end"],
+    "prefix": "for",
+    "description": "for loop range"
   },
   "function": {
-    "prefix": "function",
-    "body": [
-      "function ${1}($2)",
-      "\t${0}",
-      "end"
-    ]
+    "body": ["function ${1}($2)", "\t${0}", "end"],
+    "prefix": "function"
+  },
+  "locpcall": {
+    "body": ["local ${1:status}, ${2:err_or_value} = pcall(${3:function})"],
+    "prefix": "lpca",
+    "description": "Protect call a function as a variable"
   },
   "class": {
     "body": [
@@ -133,11 +67,32 @@
     "prefix": "cl",
     "description": "Create a class"
   },
-  "elseif": {
-    "prefix": "elseif",
+  "local": {
+    "body": ["local ${0}"],
+    "prefix": "l",
+    "description": "create a variable"
+  },
+  "assigment": {
+    "body": ["local ${1:varName} = ${0:value}"],
+    "prefix": "ll",
+    "description": "create a variable"
+  },
+  "inline-function": {
+    "body": ["local ${1:name} = function($2)", "\t${0:-- code}", "end"],
+    "prefix": "f="
+  },
+  "forline": {
     "body": [
-      "elseif ${1:true} then",
-      "\t$0"
-    ]
-  }
+      "f = io.open(${1:\"${2:filename}\"}, \"${3:r}\")\n",
+      "while true do",
+      "\tline = f:read()",
+      "\tif line == nil then break end\n",
+      "\t${0:-- code}",
+      "end"
+    ],
+    "prefix": "forline",
+    "description": "read file line by line"
+  },
+  "if": { "body": ["if ${1:true} then", "\t$0", "end"], "prefix": "if" }
 }
+
