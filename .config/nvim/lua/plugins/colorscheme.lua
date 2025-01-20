@@ -50,27 +50,10 @@ return {
     end,
   }, -- lazy
   {
-    "rebelot/kanagawa.nvim",
-    -- enabled = false,
+    "yifan0414/kanagawa.nvim",
     enabled = true,
-    -- init = function()
-    --   vim.cmd([[
-    --     autocmd VimEnter * highlight! StatusLine  guibg=#1F1F28 guifg=#dcd7ba
-    --     autocmd VimEnter * highlight! Noicemini guifg=#54546d guibg=#1F1F28
-    --     " autocmd VimEnter * highlight Search guifg=#223249 guibg=#ff9e3b
-    --     autocmd VimEnter * highlight! CurSearch guifg=#dcd7ba guibg=#c34043
-    --
-    --     " autocmd VimEnter * highlight Visual cterm=reverse gui=reverse guibg=NONE
-    --     autocmd VimEnter * highlight! Visual cterm=NONE gui=NONE guibg=#45475a
-    --     " 改变QuickFixLine的颜色
-    --     autocmd VimEnter * highlight! QuickFixLine ctermbg=NONE cterm=bold guibg=NONE gui=bold
-    --     autocmd VimEnter * highlight! LspInlayHint guifg=#686778 guibg=#1F1F28
-    --     autocmd VimEnter * highlight! TermCursor guifg=#1f1f28 guibg=#dcd7ba gui=NONE cterm=NONE
-    --     autocmd VimEnter * highlight! MatchParen cterm=bold gui=bold guibg=#45475a
-    -- ]])
-    -- end,
     opts = {
-      -- compile = true, -- 如果修改内容，记得要重新编译
+      compile = true, -- 如果修改内容，记得要重新编译
       colors = {
         theme = {
           all = {
@@ -120,36 +103,7 @@ return {
 
           -- cmp
           CmpItemAbbrMatch = { fg = "#7fb4ca" },
-          CmpItemAbbrMatchFuzzy = { fg = "#e6c384" },
-
-          SnacksDashboardHeader = { fg = theme.vcs.removed },
-          SnacksDashboardFooter = { fg = theme.syn.comment },
-          SnacksDashboardDesc = { fg = theme.syn.identifier },
-          SnacksDashboardIcon = { fg = theme.ui.special },
-          SnacksDashboardKey = { fg = theme.syn.special1 },
-          SnacksDashboardSpecial = { fg = theme.syn.comment },
-          SnacksDashboardDir = { fg = theme.syn.identifier },
-          -- SnacksNotifier
-          SnacksNotifierBorderError = { link = "DiagnosticError" },
-          SnacksNotifierBorderWarn = { link = "DiagnosticWarn" },
-          SnacksNotifierBorderInfo = { link = "DiagnosticInfo" },
-          SnacksNotifierBorderDebug = { link = "Debug" },
-          SnacksNotifierBorderTrace = { link = "Comment" },
-          SnacksNotifierIconError = { link = "DiagnosticError" },
-          SnacksNotifierIconWarn = { link = "DiagnosticWarn" },
-          SnacksNotifierIconInfo = { link = "DiagnosticInfo" },
-          SnacksNotifierIconDebug = { link = "Debug" },
-          SnacksNotifierIconTrace = { link = "Comment" },
-          SnacksNotifierTitleError = { link = "DiagnosticError" },
-          SnacksNotifierTitleWarn = { link = "DiagnosticWarn" },
-          SnacksNotifierTitleInfo = { link = "DiagnosticInfo" },
-          SnacksNotifierTitleDebug = { link = "Debug" },
-          SnacksNotifierTitleTrace = { link = "Comment" },
-          SnacksNotifierError = { link = "DiagnosticError" },
-          SnacksNotifierWarn = { link = "DiagnosticWarn" },
-          SnacksNotifierInfo = { link = "DiagnosticInfo" },
-          SnacksNotifierDebug = { link = "Debug" },
-          SnacksNotifierTrace = { link = "Comment" }, -- CompetiTestWrong
+          CmpItemAbbrMatchFuzzy = { fg = "#7fb4ca" },
         }
       end,
     },
@@ -164,6 +118,7 @@ return {
   {
     "catppuccin/nvim",
     lazy = true,
+    enabled = true,
     name = "catppuccin",
     config = function()
       require("catppuccin").setup({

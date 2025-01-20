@@ -114,7 +114,7 @@ return {
               vim.cmd("stopinsert")
               vim.api.nvim_win_set_cursor(0, term_pos)
             else
-              vim.notify("Invalid format", vim.log.levels.ERROR)
+              Snacks.notify("Invalid format", vim.log.levels.ERROR)
             end
           end,
 

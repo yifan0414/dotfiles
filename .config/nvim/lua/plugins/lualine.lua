@@ -115,7 +115,8 @@ return {
         component_separators = "",
         section_separators = "",
         -- theme = "vscode",
-        theme = "kanagawa",
+        -- theme = "kanagawa",
+      
         globalstatus = vim.o.laststatus == 3,
         disabled_filetypes = {
           statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" },
