@@ -15,7 +15,11 @@ return {
     -- PERF: we don't need this lualine require madness 🤷
     local icons = LazyVim.config.icons
     vim.o.laststatus = vim.g.lualine_laststatus
+    local colors = require("kanagawa.colors").setup()
+    local palette_colors = colors.palette
+    local theme_colors = colors.theme
     require("lualine").setup({
+
       winbar = {
         lualine_c = {
           {
@@ -70,6 +74,7 @@ return {
               end
               return str
             end,
+            color = { fg = palette_colors.fujiWhite, bg = palette_colors.sumiInk4 },
           },
           {
             function()
@@ -82,6 +87,7 @@ return {
               end
             end,
             padding = { left = -2 },
+            color = { fg = palette_colors.fujiWhite, bg = palette_colors.sumiInk4 },
           },
           {
             function()
@@ -90,6 +96,7 @@ return {
             cond = function()
               return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
             end,
+            color = { fg = palette_colors.fujiWhite, bg = palette_colors.sumiInk4 },
             -- padding = { left = -2 },
           },
         },
@@ -108,6 +115,7 @@ return {
         component_separators = "",
         section_separators = "",
         -- theme = "vscode",
+        theme = "kanagawa",
         globalstatus = vim.o.laststatus == 3,
         disabled_filetypes = {
           statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" },
@@ -201,8 +209,16 @@ return {
           },
         },
         lualine_y = {
-          { "progress", separator = " ", padding = { left = 1, right = 0 } },
-          { "location", padding = { left = 0, right = 1 } },
+          {
+            "progress",
+            padding = { left = 1, right = 1 },
+            color = { bg = palette_colors.crystalBlue, fg = palette_colors.sumiInk0 },
+          },
+          {
+            "location",
+            padding = { left = 0, right = 1 },
+            color = { bg = palette_colors.crystalBlue, fg = palette_colors.sumiInk0 },
+          },
         },
         lualine_z = {
           -- function()

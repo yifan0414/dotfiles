@@ -39,6 +39,7 @@ return {
         clangd = {
           -- Such as "From <stdio.h>".
           arguments_hl = "@comment",
+          function_hl = "@comment",
           extra_info_hl = "@comment",
         },
         roslyn = {

@@ -23,6 +23,7 @@ return {
       },
     },
     indent = {
+      -- enabled = false,
       indent = {
         priority = 1,
         enabled = true, -- enable indent guides
@@ -40,7 +41,7 @@ return {
         enabled = true,
         -- only show chunk scopes in the current window
         only_current = true,
-        priority = 500,
+        priority = 200,
         -- hl = "snackchunk",
         char = {
           -- corner_top = "┌",
@@ -99,18 +100,37 @@ return {
               end)
             end
           end,
+          p = function()
+            local term_pos = vim.api.nvim_win_get_cursor(0)
+            local line = vim.api.nvim_get_current_line()
+            local pattern = "([^:%s]+):(%d+):(%d+)"
+            local filepath, line_nr, column_nr = string.match(line, pattern)
+            if filepath and line_nr and column_nr then
+              vim.cmd(":wincmd k")
+              vim.cmd("e " .. filepath)
+              vim.cmd("redraw!")
+              vim.api.nvim_win_set_cursor(0, { tonumber(line_nr), tonumber(column_nr) })
+              vim.cmd(":wincmd j")
+              vim.cmd("stopinsert")
+              vim.api.nvim_win_set_cursor(0, term_pos)
+            else
+              vim.notify("Invalid format", vim.log.levels.ERROR)
+            end
+          end,
+
           term_normal = {
             "<esc>",
-            function(self)
-              self.esc_timer = self.esc_timer or (vim.uv or vim.loop).new_timer()
-              if self.esc_timer:is_active() then
-                self.esc_timer:stop()
-                vim.cmd("stopinsert")
-              else
-                self.esc_timer:start(200, 0, function() end)
-                return "<esc>"
-              end
-            end,
+            -- function(self)
+            --   self.esc_timer = self.esc_timer or (vim.uv or vim.loop).new_timer()
+            --   if self.esc_timer:is_active() then
+            --     self.esc_timer:stop()
+            --     vim.cmd("stopinsert")
+            --   else
+            --     self.esc_timer:start(200, 0, function() end)
+            --     return "<esc>"
+            --   end
+            -- end,
+            "<C-\\><C-n>",
             mode = "t",
             expr = true,
             desc = "Double escape to normal mode",

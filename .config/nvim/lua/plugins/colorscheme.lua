@@ -51,7 +51,8 @@ return {
   }, -- lazy
   {
     "rebelot/kanagawa.nvim",
-    enabled = false,
+    -- enabled = false,
+    enabled = true,
     -- init = function()
     --   vim.cmd([[
     --     autocmd VimEnter * highlight! StatusLine  guibg=#1F1F28 guifg=#dcd7ba
@@ -69,7 +70,7 @@ return {
     -- ]])
     -- end,
     opts = {
-      compile = true, -- 如果修改内容，记得要重新编译
+      -- compile = true, -- 如果修改内容，记得要重新编译
       colors = {
         theme = {
           all = {
@@ -80,13 +81,49 @@ return {
         },
       },
       keywordStyle = { italic = true },
-      functionStyle = { italic = true },
+      functionStyle = { italic = true, bold = true },
       commentStyle = { italic = false },
       terminalColors = false,
-      overrides = function()
+      overrides = function(colors)
+        local theme = colors.theme
+        local makeDiagnosticColor = function(color)
+          local c = require("kanagawa.lib.color")
+          return { fg = color, bg = c(color):blend(theme.ui.bg, 0.95):to_hex() }
+        end
+
         return {
-          NormalFloat = { fg = "#dcd7ba", bg = "#1F1F28" },
-          FloatBorder = { fg = "#54546D", bg = "#1F1F28" },
+          NormalFloat = { fg = colors.palette.lotusGray, bg = colors.palette.sumiInk3 },
+          FloatBorder = { fg = colors.palette.sumiInk6, bg = colors.palette.sumiInk3 },
+          TreesitterContextLineNumber = { bg = colors.palette.sumiInk4 },
+
+          Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 }, -- add `blend = vim.o.pumblend` to enable transparency
+          PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
+          PmenuSbar = { bg = theme.ui.bg_m1 },
+          PmenuThumb = { bg = theme.ui.bg_p2 },
+
+          -- Diagnostic
+          DiagnosticVirtualTextHint = makeDiagnosticColor(theme.diag.hint),
+          DiagnosticVirtualTextInfo = makeDiagnosticColor(theme.diag.info),
+          DiagnosticVirtualTextWarn = makeDiagnosticColor(theme.diag.warning),
+          DiagnosticVirtualTextError = makeDiagnosticColor(theme.diag.error),
+
+          -- navic
+          WinBar = { bg = colors.palette.sumiInk4 },
+          WinBarNc = { bg = colors.palette.sumiInk4 },
+          lualine_a_inactive = { bg = colors.palette.sumiInk3 },
+          lualine_b_inactive = { bg = colors.palette.sumiInk3 },
+          lualine_c_inactive = { bg = colors.palette.sumiInk3 },
+
+          -- algorithm
+          CompetiTestCorrect = { fg = colors.palette.springGreen },
+          CompetiTestWrong = { fg = colors.palette.waveRed },
+
+          -- cmp
+          CmpItemAbbrMatch = { fg = "#7fb4ca" },
+          CmpItemAbbrMatchFuzzy = { fg = "#e6c384" },
+
+          SnacksDashboardTerminal = { bg = "#1f1f28" },
+          -- CompetiTestWrong
         }
       end,
     },
@@ -219,7 +256,7 @@ return {
           render_markdown = true,
           telescope = {
             enabled = true,
-            style = "nvchad"
+            style = "nvchad",
           },
           -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
         },
@@ -229,8 +266,8 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      -- colorscheme = "kanagawa",
-      colorscheme = "catppuccin-frappe",
+      colorscheme = "kanagawa",
+      -- colorscheme = "catppuccin-frappe",
       -- colorscheme = "catppuccin-latte",
       -- colorscheme = "dawnfox",
       -- colorscheme = "vscode",
