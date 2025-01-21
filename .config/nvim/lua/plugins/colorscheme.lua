@@ -53,7 +53,7 @@ return {
     "yifan0414/kanagawa.nvim",
     enabled = true,
     opts = {
-      -- compile = true, -- 如果修改内容，记得要重新编译
+      compile = true, -- 如果修改内容，记得要重新编译
       colors = {
         theme = {
           all = {
@@ -79,10 +79,13 @@ return {
           FloatBorder = { fg = colors.palette.sumiInk6, bg = colors.palette.sumiInk3 },
           TreesitterContextLineNumber = { bg = colors.palette.sumiInk4 },
 
-          Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 }, -- add `blend = vim.o.pumblend` to enable transparency
+          Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1, blend = 0 }, -- add `blend = vim.o.pumblend` to enable transparency
           PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
           PmenuSbar = { bg = theme.ui.bg_m1 },
           PmenuThumb = { bg = theme.ui.bg_p2 },
+
+          CmpItemKindText = { fg = colors.palette.carpYellow },
+          CmpItemKindVariable = { fg = colors.palette.carpYellow },
 
           -- Diagnostic
           DiagnosticVirtualTextHint = makeDiagnosticColor(theme.diag.hint),

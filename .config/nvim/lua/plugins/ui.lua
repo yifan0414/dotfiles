@@ -70,7 +70,7 @@ return {
   },
   {
     "shellRaining/hlchunk.nvim",
-    enabled = false,
+    enabled = true,
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       chunk = {

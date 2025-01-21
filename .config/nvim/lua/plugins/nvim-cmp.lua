@@ -51,51 +51,15 @@ return {
   },
 
   opts = function()
-    -- 获取现有的 Pmenu 高亮组配置
-    local pmenu_hl = vim.api.nvim_get_hl(0, { name = "Pmenu" })
-
-    -- 只保留 `vim.api.nvim_set_hl` 需要的字段
-    local valid_hl = {
-      fg = pmenu_hl.fg,
-      bg = pmenu_hl.bg,
-      sp = pmenu_hl.sp,
-      blend = 0, -- 设置新的 blend 值
-      bold = pmenu_hl.bold,
-      italic = pmenu_hl.italic,
-      underline = pmenu_hl.underline,
-      undercurl = pmenu_hl.undercurl,
-      strikethrough = pmenu_hl.strikethrough,
-    }
-    vim.api.nvim_set_hl(0, "Pmenu", valid_hl)
-
-    -- vim.api.nvim_set_hl(0, "Pmenu", { bg = "#29293b", blend = 0 })
-    -- vim.api.nvim_set_hl(0, "PmenuSel", { bg = colors.blue, fg = colors.base, blend = 0 })
-    -- vim.api.nvim_set_hl(0, "PmenuBorder", { bg = colors.base, fg = colors.blue, blend = 0 })
-    -- vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
-
     local neotab = require("neotab")
     local luasnip = require("luasnip")
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     local cmp = require("cmp")
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
-    -- local has_words_before = function()
-    --   unpack = unpack or table.unpack
-    --   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    --   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-    -- end
-
     return {
       window = {
-        -- completion = cmp.config.window.bordered({
-        --   -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-        --   winhighlight = "Normal:Pmenu,FloatBorder:PmenuSel,Search:None",
-        -- }),
-        -- documentation = cmp.config.window.bordered({
-        --   winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-        -- }),
         completion = {
-          -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
           col_offset = -3,
           side_padding = 0,
         },
@@ -125,13 +89,8 @@ return {
         ["<Tab>"] = cmp.mapping(function()
           if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-            -- cmp.abort()
-            -- else
-            --   neotab.tabout_luasnip()
           elseif luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
-          -- elseif has_words_before() then
-          --   cmp.complete()
           else
             neotab.tabout()
           end
@@ -139,9 +98,6 @@ return {
         ["<C-n>"] = cmp.mapping(function()
           if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-            -- cmp.abort()
-            -- else
-            --   neotab.tabout_luasnip()
           elseif luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           else

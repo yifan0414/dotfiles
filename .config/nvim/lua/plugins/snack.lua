@@ -8,10 +8,36 @@ return {
     -- refer to the configuration section below
     bigfile = { enabled = true },
     notifier = {
-      enabled = true,
-      width = { min = 40, max = 0.6 },
+      timeout = 3000, -- default timeout in ms
+      width = { min = 40, max = 0.4 },
       height = { min = 1, max = 0.6 },
-      styles = {},
+      -- editor margin to keep free. tabline and statusline are taken into account automatically
+      margin = { top = 1, right = 1, bottom = 0 },
+      padding = true, -- add 1 cell of left/right padding to the notification window
+      sort = { "level", "added" }, -- sort by level and time
+      -- minimum log level to display. TRACE is the lowest
+      -- all notifications are stored in history
+      level = vim.log.levels.TRACE,
+      icons = {
+        error = " ",
+        warn = " ",
+        info = " ",
+        debug = " ",
+        trace = " ",
+      },
+      keep = function(notif)
+        return vim.fn.getcmdpos() > 0
+      end,
+      ---@type snacks.notifier.style
+      style = "fancy",
+      top_down = true, -- place notifications from top to bottom
+      date_format = "%R", -- time format for notifications
+      -- format for footer when more lines are available
+      -- `%d` is replaced with the number of lines.
+      -- only works for styles with a border
+      ---@type string|boolean
+      more_format = " ↓ %d lines ",
+      refresh = 50, -- refresh at most every 50ms
     },
     quickfile = { enabled = true },
     statuscolumn = { enabled = true },
@@ -22,8 +48,17 @@ return {
         -- position = "float",
       },
     },
+    zen = {
+      toggles = {
+        dim = false,
+        git_signs = false,
+        mini_diff_signs = false,
+        -- diagnostics = false,
+        -- inlay_hints = false,
+      },
+    },
     indent = {
-      -- enabled = false,
+      enabled = false,
       indent = {
         priority = 1,
         enabled = true, -- enable indent guides
@@ -33,12 +68,12 @@ return {
         hl = "SnacksIndent", ---@type string|string[] hl groups for indent gu
       },
       scope = {
-        enabled = false, -- enable highlighting the current scope
+        enabled = true, -- enable highlighting the current scope
       },
       chunk = {
         -- when enabled, scopes will be rendered as chunks, except for the
         -- top-level scope which will be rendered as a scope.
-        enabled = true,
+        enabled = false,
         -- only show chunk scopes in the current window
         only_current = true,
         priority = 200,
