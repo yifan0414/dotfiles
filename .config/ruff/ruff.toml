@@ -1,0 +1,3 @@
+[lint]
+# 2. Avoid enforcing line-length violations (`E501`)
+ignore = ["F403", "F405"]
