@@ -17,9 +17,7 @@ return {
     vim.o.laststatus = vim.g.lualine_laststatus
     local colors = require("kanagawa.colors").setup()
     local palette_colors = colors.palette
-    local theme_colors = colors.theme
     require("lualine").setup({
-
       winbar = {
         lualine_c = {
           {
@@ -42,6 +40,10 @@ return {
           {
             function()
               local filename = vim.fn.expand("%:t")
+              if filename == "" then
+                local filetype = vim.bo.filetype -- 获取当前 buffer 的文件类型
+                return filetype ~= "" and filetype or "" -- 如果 filetype 不为空，返回它，否则返回 "unknown"
+              end
               local _, type = filename:match("^(CompetiTest)(%a+)(%d+)$")
               if type then
                 return type
@@ -79,6 +81,10 @@ return {
           {
             function()
               local filename = vim.fn.expand("%:t")
+              if filename == "" then
+                local filetype = vim.bo.filetype -- 获取当前 buffer 的文件类型
+                return filetype ~= "" and filetype or "" -- 如果 filetype 不为空，返回它，否则返回 "unknown"
+              end
               local _, type = filename:match("^(CompetiTest)(%a+)(%d+)$")
               if type then
                 return type
@@ -113,10 +119,10 @@ return {
       tabline = {},
       options = {
         component_separators = "",
-        section_separators = "",
+        section_separators = " ",
         -- theme = "vscode",
         -- theme = "kanagawa",
-      
+
         globalstatus = vim.o.laststatus == 3,
         disabled_filetypes = {
           statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" },
@@ -150,21 +156,8 @@ return {
               hint = icons.diagnostics.Hint,
             },
           },
-          -- {
-          --   "filetype",
-          --   icon_only = true,
-          --   padding = { left = 1, right = 0 },
-          --   fmt = function(str)
-          --     if str == "" then
-          --       return "" -- 默认图标（例如，文档图标）
-          --     end
-          --     return str
-          --   end,
-          -- },
-          -- { LazyVim.lualine.pretty_path(), separator = "›" },
         },
         lualine_x = {
-          "searchcount",
           Snacks.profiler.status(),
           -- stylua: ignore
           {
@@ -208,17 +201,17 @@ return {
               end
             end,
           },
+          { "filetype", color = { gui = "italic" } },
         },
         lualine_y = {
           {
             "progress",
-            padding = { left = 1, right = 1 },
-            color = { bg = palette_colors.crystalBlue, fg = palette_colors.sumiInk0 },
+            separator = " ",
+            padding = { left = 1, right = 0 },
           },
           {
             "location",
             padding = { left = 0, right = 1 },
-            color = { bg = palette_colors.crystalBlue, fg = palette_colors.sumiInk0 },
           },
         },
         lualine_z = {

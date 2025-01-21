@@ -53,7 +53,7 @@ return {
     "yifan0414/kanagawa.nvim",
     enabled = true,
     opts = {
-      compile = true, -- 如果修改内容，记得要重新编译
+      -- compile = true, -- 如果修改内容，记得要重新编译
       colors = {
         theme = {
           all = {
@@ -104,6 +104,33 @@ return {
           -- cmp
           CmpItemAbbrMatch = { fg = "#7fb4ca" },
           CmpItemAbbrMatchFuzzy = { fg = "#7fb4ca" },
+
+          -- match
+          MatchParen = { bg = "#45475a" },
+
+          -- telescope
+          -- TelescopeTitle = { fg = theme.ui.special, bold = true },
+          TelescopePromptNormal = { bg = theme.ui.bg_p1 },
+          TelescopePromptBorder = { fg = theme.ui.bg_p1, bg = theme.ui.bg_p1 },
+          TelescopeResultsNormal = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m1 },
+          TelescopeResultsBorder = { fg = theme.ui.bg_m1, bg = theme.ui.bg_m1 },
+          TelescopePreviewNormal = { bg = theme.ui.bg_dim },
+          TelescopePreviewBorder = { bg = theme.ui.bg_dim, fg = theme.ui.bg_dim },
+          -- TelescopePreviewTitle = {
+          --   fg = O.transparent_background and C.green or C.base,
+          --   bg = O.transparent_background and C.none or C.green,
+          -- },
+          -- TelescopePromptTitle = {
+          --   fg = O.transparent_background and C.red or C.base,
+          --   bg = O.transparent_background and C.none or C.red,
+          -- },
+          -- TelescopeResultsTitle = {
+          --   fg = O.transparent_background and C.lavender or C.mantle,
+          --   bg = O.transparent_background and C.none or C.lavender,
+          -- },
+
+          -- Snack Notifier
+          SnacksNotifierError = { fg = theme.diag.error },
         }
       end,
     },
@@ -118,7 +145,7 @@ return {
   {
     "catppuccin/nvim",
     lazy = true,
-    enabled = true,
+    enabled = false,
     name = "catppuccin",
     config = function()
       require("catppuccin").setup({

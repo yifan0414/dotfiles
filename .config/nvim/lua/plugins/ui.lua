@@ -2,7 +2,7 @@ return {
   {
     "dstein64/vim-startuptime",
     -- lazy-load on a command
-    enabled = true,
+    enabled = false,
     cmd = "StartupTime",
     -- init is called during startup. Configuration for vim plugins typically should be set in an init function
     init = function()

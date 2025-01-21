@@ -56,11 +56,11 @@ return {
       lsp_doc_border = false,
     },
     messages = {
-      view_search = false,
+      view_search = "virtualtext",
     },
     lsp = {
       progress = {
-        enabled = false,
+        enabled = true,
         -- Lsp Progress is formatted using the builtins for lsp_progress. See config.format.builtin
         -- See the section on formatting for more details on how to customize.
         format = "lsp_progress",

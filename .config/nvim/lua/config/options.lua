@@ -87,7 +87,3 @@ vim.g.VimuxOrientation = "h"
 vim.opt.foldmethod = "manual"
 
 vim.g.trouble_lualine = false
-
-vim.diagnostic.config({
-    underline = false,
-})
