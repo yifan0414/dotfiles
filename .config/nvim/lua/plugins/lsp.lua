@@ -65,25 +65,33 @@ return {
               analysis = {
                 diagnosticSeverityOverrides = {
                   reportIncompatibleMethodOverride = "none",
+                  reportAttributeAccessIssue = "none"
+
+                  -- reportMissingImports = "none", -- 禁用报告缺少导入的诊断
+                  -- reportGeneralTypeIssues = "none", -- 禁用报告一般类型问题的诊断
+                  -- reportUndefinedVariable = "none", -- 禁用未定义变量的报告
+                  -- reportUnusedImport = "none", -- 禁用未使用导入的报告
+                  -- -- 如果你想禁用 F405 错误代码，可以设置为 "none"（对于某些插件可能有效）
+                  -- reportStarImport = "none", -- 禁用通过星号导入的警告
                 },
               },
             },
           },
-          python = {
-            analysis = {
-              -- Ignore all files for analysis to exclusively use Ruff for linting
-              ignore = { "error" },
-            },
-          },
-          capabilities = {
-            textDocument = {
-              publishDiagnostics = {
-                tagSupport = {
-                  valueSet = { 3 },
-                },
-              },
-            },
-          },
+          -- python = {
+          --   analysis = {
+          --     -- Ignore all files for analysis to exclusively use Ruff for linting
+          --     ignore = { "error" },
+          --   },
+          -- },
+          -- capabilities = {
+          --   textDocument = {
+          --     publishDiagnostics = {
+          --       tagSupport = {
+          --         valueSet = { 3 },
+          --       },
+          --     },
+          --   },
+          -- },
         },
         clangd = {
           cmd = {
