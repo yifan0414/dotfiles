@@ -177,4 +177,3 @@ end, { desc = "Terminal" })
 vim.keymap.set("t", "<F2>", function()
   Snacks.terminal()
 end, { desc = "Terminal" })
-

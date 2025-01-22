@@ -131,25 +131,110 @@ return {
     enabled = false,
   },
   {
-    "smoka7/multicursors.nvim",
+    "jake-stewart/multicursor.nvim",
     -- event = "VeryLazy",
-    dependencies = {
-      "smoka7/hydra.nvim",
-    },
-    opts = {},
-    cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
-    config = function()
-      require("multicursors").setup({
-        hint_config = false,
-      })
-    end,
+    branch = "1.0",
     keys = {
+      -- {
+      --   "<esc>",
+      --   function()
+      --     local mc = require("multicursor-nvim")
+      --     if not mc.cursorsEnabled() then
+      --       mc.enableCursors()
+      --     elseif mc.hasCursors() then
+      --       mc.clearCursors()
+      --     else
+      --       vim.cmd("noh")
+      --       LazyVim.cmp.actions.snippet_stop()
+      --       return "<esc>"
+      --     end
+      --   end,
+      -- },
       {
-        mode = { "v", "n" },
         "<leader>m",
-        "<cmd>MCstart<cr>",
-        desc = "Create a selection for selected text or word under the cursor",
+        function()
+          local mc = require("multicursor-nvim")
+          if vim.fn.mode() ~= "v" then
+            vim.cmd("normal! viw")
+          end
+          mc.matchAddCursor(1)
+        end,
+        mode = { "n", "v" },
       },
     },
+    config = function()
+      local mc = require("multicursor-nvim")
+      mc.setup()
+
+      local set = vim.keymap.set
+
+      set("n", "<esc>", function()
+        if not mc.cursorsEnabled() then
+          mc.enableCursors()
+        elseif mc.hasCursors() then
+          mc.clearCursors()
+        else
+          -- Default <esc> handler.
+          vim.cmd("noh")
+          LazyVim.cmp.actions.snippet_stop()
+          return "<esc>"
+        end
+      end)
+      -- Add or skip adding a new cursor by matching word/selection
+      set({ "n", "v" }, "<c-n>", function()
+        if vim.fn.mode() ~= "v" then
+          vim.cmd("normal! viw")
+        end
+        mc.matchAddCursor(1)
+      end)
+      set({ "n", "v" }, "<c-p>", function()
+        mc.matchSkipCursor(1)
+      end)
+
+      -- Add all matches in the document
+      set({ "n", "v" }, "<leader>va", mc.matchAllAddCursors)
+
+      -- Delete the main cursor.
+      set({ "n", "v" }, "<leader>vx", mc.deleteCursor)
+
+      -- Add and remove cursors with control + left click.
+      set("n", "<c-leftmouse>", mc.handleMouse)
+
+      -- Easy way to add and remove cursors using the main cursor.
+      set({ "n", "v" }, "<c-q>", mc.toggleCursor)
+
+      -- Clone every cursor and disable the originals.
+      set({ "n", "v" }, "<leader><c-q>", mc.duplicateCursors)
+
+      -- bring back cursors if you accidentally clear them
+      set("n", "<leader>vs", mc.restoreCursors)
+
+      -- Align cursor columns.
+      set("n", "<leader>va", mc.alignCursors)
+
+      -- Split visual selections by regex.
+      set("v", "<leader>vS", mc.splitCursors)
+
+      -- Append/insert for each line of visual selections.
+      set("v", "I", mc.insertVisual)
+      set("v", "A", mc.appendVisual)
+
+      -- Rotate visual selection contents.
+      set("v", "<leader>nt", function()
+        mc.transposeCursors(1)
+      end)
+      set("v", "<leader>NT", function()
+        mc.transposeCursors(-1)
+      end)
+
+      -- Customize how cursors look.
+      local hl = vim.api.nvim_set_hl
+      hl(0, "MultiCursorCursor", { link = "Cursor" })
+      hl(0, "MultiCursorVisual", { link = "Visual" })
+      hl(0, "MultiCursorSign", { link = "SignColumn" })
+      hl(0, "MultiCursorDisabledCursor", { link = "Visual" })
+      hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+      hl(0, "MultiCursorDisabledSign", { link = "SignColumn" })
+    end,
   },
 }

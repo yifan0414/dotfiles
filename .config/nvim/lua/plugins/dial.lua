@@ -1,14 +1,14 @@
 return {
   "monaqa/dial.nvim",
-  keys = {
-    {
-      "<C-n>",
-      function()
-        require("dial.map").manipulate("increment", "normal")
-      end,
-      mode = { "n" },
-    },
-  },
+  -- keys = {
+  --   {
+  --     "<C-n>",
+  --     function()
+  --       require("dial.map").manipulate("increment", "normal")
+  --     end,
+  --     mode = { "n" },
+  --   },
+  -- },
 
   opts = function()
     local augend = require("dial.augend")
