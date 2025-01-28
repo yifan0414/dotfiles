@@ -53,7 +53,7 @@ return {
     "yifan0414/kanagawa.nvim",
     enabled = true,
     opts = {
-      compile = true, -- 如果修改内容，记得要重新编译
+      -- compile = true, -- 如果修改内容，记得要重新编译
       colors = {
         theme = {
           all = {
@@ -102,7 +102,9 @@ return {
 
           -- algorithm
           CompetiTestCorrect = { fg = colors.palette.springGreen },
+          -- CompetiTestCorrect = { fg = "#b3f6c0" },
           CompetiTestWrong = { fg = colors.palette.waveRed },
+          -- CompetiTestWrong = { fg = "#ff5d62" },
 
           -- cmp
           CmpItemAbbrMatch = { fg = "#7fb4ca" },
@@ -119,18 +121,15 @@ return {
           TelescopeResultsBorder = { fg = theme.ui.bg_m1, bg = theme.ui.bg_m1 },
           TelescopePreviewNormal = { bg = theme.ui.bg_dim },
           TelescopePreviewBorder = { bg = theme.ui.bg_dim, fg = theme.ui.bg_dim },
-          -- TelescopePreviewTitle = {
-          --   fg = O.transparent_background and C.green or C.base,
-          --   bg = O.transparent_background and C.none or C.green,
-          -- },
-          -- TelescopePromptTitle = {
-          --   fg = O.transparent_background and C.red or C.base,
-          --   bg = O.transparent_background and C.none or C.red,
-          -- },
-          -- TelescopeResultsTitle = {
-          --   fg = O.transparent_background and C.lavender or C.mantle,
-          --   bg = O.transparent_background and C.none or C.lavender,
-          -- },
+          TelescopePreviewTitle = {
+            bg = colors.palette.waveRed,
+          },
+          TelescopePromptTitle = {
+            bg = colors.palette.springGreen,
+          },
+          TelescopeResultsTitle = {
+            bg = "#99aee5",
+          },
 
           -- Snack Notifier
           SnacksNotifierError = { fg = theme.diag.error },

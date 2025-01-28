@@ -1,19 +1,10 @@
 return {
   {
-    "dstein64/vim-startuptime",
-    -- lazy-load on a command
-    enabled = false,
-    cmd = "StartupTime",
-    -- init is called during startup. Configuration for vim plugins typically should be set in an init function
-    init = function()
-      vim.g.startuptime_tries = 10
-    end,
-  },
-  {
     "hiphish/rainbow-delimiters.nvim",
     enabled = false,
     event = "LazyFile",
   },
+  { "nvim-tree/nvim-web-devicons", lazy = true },
   {
     "echasnovski/mini.icons",
     enabled = false,
@@ -70,7 +61,7 @@ return {
   },
   {
     "shellRaining/hlchunk.nvim",
-    enabled = true,
+    enabled = false,
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       chunk = {

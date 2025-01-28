@@ -2,13 +2,60 @@ return {
   "hrsh7th/nvim-cmp",
   version = false, -- last release is way too old
   -- enabled = false,
-  -- event = "VeryLazy",
+  event = "VeryLazy",
   dependencies = {
     { "hrsh7th/cmp-nvim-lsp" },
     { "hrsh7th/cmp-buffer" },
     { "hrsh7th/cmp-path" },
     { "saadparwaiz1/cmp_luasnip" },
-    { "onsails/lspkind.nvim" },
+    {
+      "onsails/lspkind.nvim",
+      config = function()
+        require("lspkind").init({
+          symbol_map = {
+            Array = " ",
+            Boolean = "󰨙 ",
+            Class = "󰯳 ",
+            Codeium = "󰘦 ",
+            Color = "󰰠 ",
+            Control = " ",
+            Collapsed = "> ",
+            Constant = "󰯱 ",
+            Constructor = " ",
+            Copilot = " ",
+            Enum = "󰯹 ",
+            EnumMember = "E ",
+            Event = " ",
+            Field = " ",
+            File = " ",
+            Folder = " ",
+            Function = "󰡱 ",
+            Interface = "󰰅 ",
+            Key = " ",
+            Keyword = "󱕴 ",
+            Method = "󰰑 ",
+            Module = "󰆼 ",
+            Namespace = "󰰔 ",
+            Null = " ",
+            Number = "󰰔 ",
+            Object = "󰲟 ",
+            Operator = " ",
+            Package = "󰰚 ",
+            Property = "󰲽 ",
+            Reference = "󰰠 ",
+            Snippet = " ",
+            String = " ",
+            Struct = "󰰣 ",
+            TabNine = "󰏚 ",
+            Text = "󱜥 ",
+            TypeParameter = "󰰦 ",
+            Unit = "󱜥 ",
+            Value = " ",
+            Variable = "󰫧 ",
+          },
+        })
+      end,
+    },
     { "L3MON4D3/LuaSnip" },
     { "xzbdmw/colorful-menu.nvim" },
     {
@@ -70,11 +117,6 @@ return {
           -- max_width = 50,
           -- max_height = math.floor(vim.o.lines * 0.5),
         },
-      },
-      completion = {
-        -- autocomplete = false,
-        -- keyword_length = 2,
-        -- keyword_length = 1,
       },
 
       preselect = cmp.PreselectMode.None,
@@ -212,9 +254,11 @@ return {
         format = function(entry, vim_item)
           local kind = require("lspkind").cmp_format({
             mode = "symbol_text",
-            preset = "codicons",
-            symbol_map = { Copilot = "" },
-            maxwidth = 20,
+            maxwidth = {
+              abbr = 15,
+            },
+            ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+            show_labelDetails = true, -- show labelDetails in menu. Disabled by default
           })(entry, vim.deepcopy(vim_item))
 
           local highlights_info = require("colorful-menu").cmp_highlights(entry)

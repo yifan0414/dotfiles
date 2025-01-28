@@ -38,9 +38,9 @@ return {
         },
         clangd = {
           -- Such as "From <stdio.h>".
-          arguments_hl = "@comment",
-          function_hl = "@comment",
           extra_info_hl = "@comment",
+          -- Similar to the same setting of gopls.
+          align_type_to_right = true,
         },
         roslyn = {
           extra_info_hl = "@comment",
@@ -63,7 +63,7 @@ return {
       -- between 0 and 1, it'll be treated as percentage of the width of
       -- the window: math.floor(max_width * vim.api.nvim_win_get_width(0))
       -- Default 60.
-      max_width = 60,
+      max_width = 50,
     })
   end,
 }

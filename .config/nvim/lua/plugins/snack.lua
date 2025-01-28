@@ -39,7 +39,7 @@ return {
       more_format = " ↓ %d lines ",
       refresh = 50, -- refresh at most every 50ms
     },
-    quickfile = { enabled = true },
+    -- quickfile = { enabled = true },
     statuscolumn = { enabled = true },
     words = { enabled = false },
     terminal = {
@@ -58,17 +58,19 @@ return {
       },
     },
     indent = {
-      enabled = false,
+      enabled = true,
       indent = {
         priority = 1,
         enabled = true, -- enable indent guides
-        char = "│",
+        -- char = "│",
+        -- char = "│",
+        char = "┊",
         only_scope = false, -- only show indent guides of the scope
         only_current = false, -- only show indent guides in the current window
         hl = "SnacksIndent", ---@type string|string[] hl groups for indent gu
       },
       scope = {
-        enabled = true, -- enable highlighting the current scope
+        enabled = false, -- enable highlighting the current scope
       },
       chunk = {
         -- when enabled, scopes will be rendered as chunks, except for the

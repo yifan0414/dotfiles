@@ -2,11 +2,11 @@ local leet_arg = "leetcode"
 return {
   {
     "kawre/leetcode.nvim",
+    enabled = false,
     dependencies = {
       -- {
       --   "upidapi/image.nvim",
       --   config = function()
-      --     vim.opt.wrap = true
       --     require("image").setup()
       --   end,
       -- },

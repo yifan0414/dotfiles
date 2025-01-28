@@ -27,10 +27,15 @@ return {
         },
         signs = {
           text = {
-            [vim.diagnostic.severity.ERROR] = " ",
-            [vim.diagnostic.severity.WARN] = " ",
-            [vim.diagnostic.severity.HINT] = "󰋽 ",
-            [vim.diagnostic.severity.INFO] = "󰋽 ",
+            -- [vim.diagnostic.severity.ERROR] = " ",
+            -- [vim.diagnostic.severity.WARN] = " ",
+            -- [vim.diagnostic.severity.HINT] = "󰋽 ",
+            -- [vim.diagnostic.severity.INFO] = "󰋽 ",
+
+            [vim.diagnostic.severity.ERROR] = LazyVim.config.icons.diagnostics.Error,
+            [vim.diagnostic.severity.WARN] = LazyVim.config.icons.diagnostics.Warn,
+            [vim.diagnostic.severity.HINT] = LazyVim.config.icons.diagnostics.Hint,
+            [vim.diagnostic.severity.INFO] = LazyVim.config.icons.diagnostics.Info,
             -- [vim.diagnostic.severity.HINT] = "󱐮",
             -- [vim.diagnostic.severity.ERROR] = "✘",
             -- [vim.diagnostic.severity.INFO] = "◉",
@@ -65,7 +70,7 @@ return {
               analysis = {
                 diagnosticSeverityOverrides = {
                   reportIncompatibleMethodOverride = "none",
-                  reportAttributeAccessIssue = "none"
+                  reportAttributeAccessIssue = "none",
 
                   -- reportMissingImports = "none", -- 禁用报告缺少导入的诊断
                   -- reportGeneralTypeIssues = "none", -- 禁用报告一般类型问题的诊断
@@ -181,6 +186,7 @@ return {
   },
   {
     "j-hui/fidget.nvim",
+    enabled = false,
     event = "LspAttach",
     opts = {
       progress = {
