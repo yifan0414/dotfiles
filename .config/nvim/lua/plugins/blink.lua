@@ -1,12 +1,11 @@
 return {
   "saghen/blink.cmp",
-  enabled = false,
+  -- enabled = false,
   -- optional: provides snippets for the snippet source
   event = "InsertEnter",
   dependencies = { { "xzbdmw/colorful-menu.nvim" } },
-
-  version = "*",
-
+  build = "cargo build --release",
+  version = false,
   opts = function()
     return {
       snippets = { preset = "luasnip" },
@@ -40,10 +39,11 @@ return {
         },
         -- optionally, separate cmdline keymaps
         cmdline = {
-          ["enter"] = {
-            "accept",
-            "fallback",
-          },
+          preset = "enter",
+          -- ["enter"] = {
+          --   "accept",
+          --   "fallback",
+          -- },
           ["<Tab>"] = {
             "select_next",
             "fallback",
@@ -66,7 +66,7 @@ return {
           -- show_on_insert_on_trigger_character = false,
           -- show_on_accept_on_trigger_character = false,
           show_in_snippet = true,
-          show_on_accept_on_trigger_character = false,
+          show_on_accept_on_trigger_character = true,
           show_on_x_blocked_trigger_characters = { "'", '"', "(", ".", " " },
         },
 
@@ -121,32 +121,47 @@ return {
       },
 
       appearance = {
+        -- use_nvim_cmp_as_default = true,
         kind_icons = {
-          Text = "",
-          Method = "",
-          Function = "",
-          Constructor = "",
-          Field = "",
-          Variable = "",
-          Class = "",
-          Interface = "",
-          Module = "",
-          Property = "",
-          Unit = "",
-          Value = "",
-          Enum = "",
-          Keyword = "",
-          Snippet = "",
-          Color = "",
-          File = "",
-          Reference = "",
-          Folder = "",
-          EnumMember = "",
-          Constant = "",
-          Struct = "",
-          Event = "",
-          Operator = "",
-          TypeParameter = "",
+          Array = " ",
+          Boolean = "󰨙 ",
+          Class = "󰯳 ",
+          Codeium = "󰘦 ",
+          Color = "󰰠 ",
+          Control = " ",
+          Collapsed = "> ",
+          Constant = "󰯱 ",
+          Constructor = " ",
+          Copilot = " ",
+          Enum = "󰯹 ",
+          EnumMember = "E ",
+          Event = " ",
+          Field = " ",
+          File = " ",
+          Folder = " ",
+          Function = "󰡱 ",
+          Interface = "󰰅 ",
+          Key = " ",
+          Keyword = "󱕴 ",
+          Method = "󰰑 ",
+          Module = "󰆼 ",
+          Namespace = "󰰔 ",
+          Null = " ",
+          Number = "󰰔 ",
+          Object = "󰲟 ",
+          Operator = " ",
+          Package = "󰰚 ",
+          Property = "󰲽 ",
+          Reference = "󰰠 ",
+          Snippet = " ",
+          String = " ",
+          Struct = "󰰣 ",
+          TabNine = "󰏚 ",
+          Text = "󱜥 ",
+          TypeParameter = "󰰦 ",
+          Unit = "󱜥 ",
+          Value = " ",
+          Variable = "󰫧 ",
         },
       },
 
@@ -155,6 +170,14 @@ return {
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
         providers = {
+          lsp = {
+            transform_items = function(_, items)
+              return vim.tbl_filter(function(item)
+                return item.kind ~= require("blink.cmp.types").CompletionItemKind.Snippet
+                  and item.kind ~= require("blink.cmp.types").CompletionItemKind.Constructor
+              end, items)
+            end,
+          },
           snippets = {
             max_items = 4,
             should_show_items = function(ctx)
@@ -167,7 +190,6 @@ return {
               -- Whether to show autosnippets in the completion list
               show_autosnippets = false,
             },
-            score_offset = -9,
           },
           buffer = {
             max_items = 5,
@@ -178,11 +200,13 @@ return {
         },
       },
       fuzzy = {
-        -- use_frecency = false,
-        -- Proximity bonus boosts the score of items matching nearby words
-        -- use_proximity = false,
-        use_typo_resistance = false,
-        sorts = { "sort_text", "score" },
+        -- use_frecency = true,
+        -- use_proximity = true,
+        sorts = { "score", "sort_text" },
+        prebuilt_binaries = {
+          download = false,
+          extra_curl_args = { "--proxy", "http://127.0.0.1:7890" },
+        },
       },
     }
   end,

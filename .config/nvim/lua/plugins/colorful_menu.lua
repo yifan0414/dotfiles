@@ -35,6 +35,7 @@ return {
         ["rust-analyzer"] = {
           -- Such as (as Iterator), (use std::io).
           extra_info_hl = "@comment",
+          align_type_to_right = true,
         },
         clangd = {
           -- Such as "From <stdio.h>".
@@ -54,6 +55,8 @@ return {
         -- If true, try to highlight "not supported" languages.
         fallback = true,
       },
+
+      fallback_highlight = "@variable",
       -- If the built-in logic fails to find a suitable highlight group,
       -- this highlight is applied to the label.
       -- fallback_highlight = "@variable",

@@ -69,10 +69,10 @@ return {
       terminalColors = false,
       overrides = function(colors)
         local theme = colors.theme
-        local makeDiagnosticColor = function(color)
-          local c = require("kanagawa.lib.color")
-          return { fg = color, bg = c(color):blend(theme.ui.bg, 0.95):to_hex() }
-        end
+        -- local makeDiagnosticColor = function(color)
+        --   local c = require("kanagawa.lib.color")
+        --   return { fg = color, bg = c(color):blend(theme.ui.bg, 0.95):to_hex() }
+        -- end
 
         return {
           NormalFloat = { fg = colors.palette.lotusGray, bg = colors.palette.sumiInk3 },
@@ -88,10 +88,10 @@ return {
           CmpItemKindVariable = { fg = colors.palette.carpYellow },
 
           -- Diagnostic
-          DiagnosticVirtualTextHint = makeDiagnosticColor(theme.diag.hint),
-          DiagnosticVirtualTextInfo = makeDiagnosticColor(theme.diag.info),
-          DiagnosticVirtualTextWarn = makeDiagnosticColor(theme.diag.warning),
-          DiagnosticVirtualTextError = makeDiagnosticColor(theme.diag.error),
+          -- DiagnosticVirtualTextHint = makeDiagnosticColor(theme.diag.hint),
+          -- DiagnosticVirtualTextInfo = makeDiagnosticColor(theme.diag.info),
+          -- DiagnosticVirtualTextWarn = makeDiagnosticColor(theme.diag.warning),
+          -- DiagnosticVirtualTextError = makeDiagnosticColor(theme.diag.error),
 
           -- navic
           WinBar = { bg = colors.palette.sumiInk4 },
@@ -107,7 +107,7 @@ return {
           -- CompetiTestWrong = { fg = "#ff5d62" },
 
           -- cmp
-          CmpItemAbbrMatch = { fg = "#7fb4ca" },
+          CmpItemAbbrMatch = { fg = "#7fb4ca", bold = true },
           CmpItemAbbrMatchFuzzy = { fg = "#7fb4ca" },
 
           -- match
@@ -147,7 +147,7 @@ return {
   {
     "catppuccin/nvim",
     lazy = true,
-    enabled = false,
+    -- enabled = false,
     name = "catppuccin",
     config = function()
       require("catppuccin").setup({

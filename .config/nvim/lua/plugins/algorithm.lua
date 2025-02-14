@@ -88,7 +88,16 @@ return {
       ]])
     end,
     keys = {
-      { "<leader>1", "<cmd>CompetiTest run<cr><c-w>h", desc = "Run TestCase" },
+      {
+        "<leader>1",
+        function()
+          local current_window = vim.api.nvim_get_current_win()
+          vim.cmd("CompetiTest run")
+          vim.api.nvim_set_current_win(current_window)
+        end,
+        desc = "Run testcases",
+      },
+      -- { "<leader>1", "<cmd>CompetiTest run<cr><c-w>h", desc = "Run TestCase" },
       { "<leader>2", "<cmd>CompetiTest add_testcase<cr>", desc = "Add TestCase" },
       { "<leader>3", "<cmd>CompetiTest edit_testcase<cr>", desc = "Edit TestCase" },
       { "<leader>rd", "<cmd>CompetiTest delete_testcase<cr>", desc = "Delete TestCase" },

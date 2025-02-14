@@ -133,6 +133,7 @@ return {
   {
     "jake-stewart/multicursor.nvim",
     -- event = "VeryLazy",
+    enabled = false,
     branch = "1.0",
     keys = {
       -- {

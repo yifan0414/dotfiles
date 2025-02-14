@@ -1,7 +1,7 @@
 return {
   "hrsh7th/nvim-cmp",
   version = false, -- last release is way too old
-  -- enabled = false,
+  enabled = false,
   event = "VeryLazy",
   dependencies = {
     { "hrsh7th/cmp-nvim-lsp" },
@@ -221,7 +221,8 @@ return {
             end,
           },
           entry_filter = function(entry)
-            return not string.match(entry:get_completion_item().label, "^%d+$")
+            -- return not string.match(entry:get_completion_item().label, "^%d+$")
+            return not string.match(entry:get_completion_item().label, "^%d+%.?%d*[eE]?%d*$")
           end,
         },
         {
@@ -303,7 +304,7 @@ return {
           cmp.config.compare.locality,
           cmp.config.compare.kind,
           -- compare.sort_text,
-          -- cmp.config.compare.length,
+          cmp.config.compare.length,
           cmp.config.compare.order,
         },
       },
