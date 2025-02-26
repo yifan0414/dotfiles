@@ -1,6 +1,6 @@
 return {
   "saghen/blink.cmp",
-  -- enabled = false,
+  enabled = false,
   -- optional: provides snippets for the snippet source
   event = "InsertEnter",
   dependencies = { { "xzbdmw/colorful-menu.nvim" } },
@@ -38,19 +38,37 @@ return {
           "fallback",
         },
         -- optionally, separate cmdline keymaps
-        cmdline = {
-          preset = "enter",
-          -- ["enter"] = {
-          --   "accept",
+        -- cmdline = {
+        --   preset = "enter",
+        --   -- ["enter"] = {
+        --   --   "accept",
+        --   --   "fallback",
+        --   -- },
+        -- },
+      },
+      cmdline = {
+        keymap = {
+          -- preset = "enter",
+          -- ["<enter>"] = {
+          --   "accept_and_enter",
           --   "fallback",
           -- },
           ["<Tab>"] = {
             "select_next",
             "fallback",
           },
-          ["<S-Tab>"] = {
-            "select_prev",
-            "fallback",
+          -- ["<S-Tab>"] = {
+          --   "select_prev",
+          --   "fallback",
+          -- },
+        },
+        completion = {
+          trigger = {
+            show_on_blocked_trigger_characters = {},
+            show_on_x_blocked_trigger_characters = nil, -- Inherits from top level `completion.trigger.show_on_blocked_trigger_characters` config when not set
+          },
+          menu = {
+            auto_show = true, -- Inherits from top level `completion.menu.auto_show` config when not set
           },
         },
       },
@@ -202,7 +220,7 @@ return {
       fuzzy = {
         -- use_frecency = true,
         -- use_proximity = true,
-        sorts = { "score", "sort_text" },
+        sorts = { "exact", "score", "sort_text" },
         prebuilt_binaries = {
           download = false,
           extra_curl_args = { "--proxy", "http://127.0.0.1:7890" },
