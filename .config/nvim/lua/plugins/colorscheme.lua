@@ -53,7 +53,7 @@ return {
     "yifan0414/kanagawa.nvim",
     enabled = true,
     opts = {
-      -- compile = true, -- 如果修改内容，记得要重新编译
+      compile = true, -- 如果修改内容，记得要重新编译
       colors = {
         theme = {
           all = {
@@ -64,7 +64,7 @@ return {
         },
       },
       keywordStyle = { italic = true },
-      functionStyle = { italic = true, bold = true },
+      functionStyle = { italic = true, bold = true},
       commentStyle = { italic = false },
       terminalColors = false,
       overrides = function(colors)

@@ -51,7 +51,7 @@ return {
                 return filename
               end
             end,
-            color = { gui = "italic" },
+            color = { gui = "bold" },
             padding = { left = -2 },
           },
           {
@@ -94,7 +94,7 @@ return {
               end
             end,
             padding = { left = -2 },
-            color = { gui = "italic", fg = palette_colors.fujiWhite, bg = palette_colors.sumiInk4 },
+            color = { gui = "bold", fg = palette_colors.fujiWhite, bg = palette_colors.sumiInk4 },
           },
           {
             function()
