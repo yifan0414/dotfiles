@@ -16,9 +16,9 @@ source $ZSH/oh-my-zsh.sh
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # python version
-alias python='python3'
-alias pip='pip3'
-alias pol='python3 ok --local'
+# alias python='~/miniforge3/bin/python'
+# alias pip='~/miniforge3/bin/pip'
+# alias pol='python3 ok --local'
 
 #-- alias ------------------------------
 alias vim="/opt/homebrew/bin/nvim"
@@ -30,6 +30,8 @@ alias tmux="/opt/homebrew/bin/tmux"
 alias ci="chezmoi"
 alias cie="chezmoi edit"
 export LUA_PATH="~/.config/nvim/lua/"
+
+# alias curl='curl -x http://127.0.0.1:7890'
 
 # set english
 export LANG=en_US.UTF-8
@@ -66,7 +68,16 @@ fi
 ZVM_CURSOR_STYE_EABLED=false
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export PATH="$HOME/.luaver/lua/5.1/bin:$PATH"
-# export STARSHIP_CONFIG=~/.config/starship/starship.toml
 # export http_proxy="http://127.0.0.1:7890"
 # export https_proxy="https://127.0.0.1:7890"
 export MANPATH="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/share/man"
+export PATH="$HOME/miniconda3/bin:$PATH"
+
+function on() {
+  export https_proxy=http://127.0.0.1:7890
+  export http_proxy=http://127.0.0.1:7890
+  export all_proxy=socks5://127.0.0.1:7890
+
+  git config --global http.proxy http://127.0.0.1:7890
+  git config --global https.proxy http://127.0.0.1:7890
+}
