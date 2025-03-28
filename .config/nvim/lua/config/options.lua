@@ -4,50 +4,50 @@
 
 -- 检查 tmux 环境的 Lua 脚本
 
--- if vim.fn.has("mac") == 1 then
---   vim.g.clipboard = {
---     name = "macOSClipboard",
---     copy = {
---       ["+"] = "pbcopy",
---       ["*"] = "pbcopy",
---     },
---     paste = {
---       ["+"] = "pbpaste",
---       ["*"] = "pbpaste",
---     },
---     cache_enabled = 1,
---   }
---   vim.g.python3_host_prog = "/Users/yifansu/miniforge3/bin/python3"
--- elseif os.getenv("TMUX") then
---   vim.g.clipboard = {
---     name = "TmuxClipboard",
---     copy = {
---       ["+"] = "tmux load-buffer -w -",
---       ["*"] = "tmux load-buffer -w -",
---     },
---     paste = {
---       ["+"] = "tmux save-buffer -",
---       ["*"] = "tmux save-buffer -",
---     },
---     cache_enabled = 1, -- 要设置成1，不然使用x或者d的时候鼠标会闪烁
---   }
--- elseif vim.fn.has("wsl") == 1 then
-  -- vim.g.clipboard = {
-  --   name = "WslClipboard",
-  --   copy = {
-  --     ["+"] = "clip.exe",
-  --     ["*"] = "clip.exe",
-  --   },
-  --   paste = {
-  --     ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-  --     ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-  --   },
-  --   cache_enabled = 1,
-  -- }
-  -- vim.g.python3_host_prog = "/usr/bin/python3"
-  -- vim.g.node_host_prog = "/usr/local/lib/node_modules/neovim/bin/cli.js"
--- else
--- end
+if vim.fn.has("mac") == 1 then
+  vim.g.clipboard = {
+    name = "macOSClipboard",
+    copy = {
+      ["+"] = "pbcopy",
+      ["*"] = "pbcopy",
+    },
+    paste = {
+      ["+"] = "pbpaste",
+      ["*"] = "pbpaste",
+    },
+    cache_enabled = 1,
+  }
+  vim.g.python3_host_prog = "/Users/yifansu/miniforge3/bin/python3"
+elseif os.getenv("TMUX") then
+  vim.g.clipboard = {
+    name = "TmuxClipboard",
+    copy = {
+      ["+"] = "tmux load-buffer -w -",
+      ["*"] = "tmux load-buffer -w -",
+    },
+    paste = {
+      ["+"] = "tmux save-buffer -",
+      ["*"] = "tmux save-buffer -",
+    },
+    cache_enabled = 1, -- 要设置成1，不然使用x或者d的时候鼠标会闪烁
+  }
+elseif vim.fn.has("wsl") == 1 then
+  vim.g.clipboard = {
+    name = "WslClipboard",
+    copy = {
+      ["+"] = "clip.exe",
+      ["*"] = "clip.exe",
+    },
+    paste = {
+      ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    },
+    cache_enabled = 1,
+  }
+  vim.g.python3_host_prog = "/usr/bin/python3"
+  vim.g.node_host_prog = "/usr/local/lib/node_modules/neovim/bin/cli.js"
+else
+end
 
 vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 vim.opt.list = false

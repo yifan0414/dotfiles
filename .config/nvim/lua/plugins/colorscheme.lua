@@ -63,9 +63,9 @@ return {
           },
         },
       },
-      keywordStyle = { italic = true },
+      keywordStyle = { italic = true, bold = true },
       functionStyle = { italic = true, bold = true},
-      commentStyle = { italic = false },
+      commentStyle = { italic = true, bold =true },
       terminalColors = false,
       overrides = function(colors)
         local theme = colors.theme
@@ -147,7 +147,7 @@ return {
   {
     "catppuccin/nvim",
     lazy = true,
-    -- enabled = false,
+    enabled = false,
     name = "catppuccin",
     config = function()
       require("catppuccin").setup({

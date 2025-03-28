@@ -202,7 +202,7 @@ return {
               end
             end,
           },
-          { "filetype", color = { gui = "italic" } },
+          { "filetype", color = { gui = "bold" } },
         },
         lualine_y = {
           {
