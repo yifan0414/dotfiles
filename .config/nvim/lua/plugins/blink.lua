@@ -1,11 +1,13 @@
 return {
   "saghen/blink.cmp",
-  enabled = false,
+  enabled = true,
   -- optional: provides snippets for the snippet source
   event = "InsertEnter",
   dependencies = { { "xzbdmw/colorful-menu.nvim" } },
-  build = "cargo build --release",
-  version = false,
+  -- build = "cargo build --release",
+  -- build = "rustup run nightly cargo build --release",
+  -- version = false,
+  version = "1.*",
   opts = function()
     return {
       snippets = { preset = "luasnip" },
@@ -47,7 +49,20 @@ return {
         -- },
       },
       cmdline = {
+        sources = function()
+          local type = vim.fn.getcmdtype()
+          -- Search forward and backward
+          if type == "/" or type == "?" then
+            return { "buffer" }
+          end
+          -- Commands
+          if type == ":" or type == "@" then
+            return { "cmdline" }
+          end
+          return {}
+        end,
         keymap = {
+          -- preset = "inherit",
           -- preset = "enter",
           -- ["<enter>"] = {
           --   "accept_and_enter",
@@ -70,6 +85,14 @@ return {
           menu = {
             auto_show = true, -- Inherits from top level `completion.menu.auto_show` config when not set
           },
+          list = {
+            selection = {
+              -- When `true`, will automatically select the first item in the completion list
+              preselect = false,
+              -- When `true`, inserts the completion item automatically when selecting it
+              auto_insert = true,
+            },
+          },
         },
       },
       completion = {
@@ -79,13 +102,14 @@ return {
         keyword = { range = "prefix" },
 
         trigger = {
-          -- show_on_keyword = false,
-          show_on_trigger_character = true,
-          -- show_on_insert_on_trigger_character = false,
-          -- show_on_accept_on_trigger_character = false,
+          prefetch_on_insert = true,
           show_in_snippet = true,
+          show_on_keyword = true,
+          show_on_blocked_trigger_characters = { " ", "\n", "\t", "-" },
+
+          show_on_trigger_character = false,
           show_on_accept_on_trigger_character = true,
-          show_on_x_blocked_trigger_characters = { "'", '"', "(", ".", " " },
+          show_on_x_blocked_trigger_characters = { "'", '"', "(", ".", " ", "-", "+" },
         },
 
         documentation = {
@@ -95,7 +119,7 @@ return {
             min_width = 10,
             max_width = 80,
             max_height = 20,
-            border = "padded",
+            border = nil,
             winblend = 0,
             winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenu,EndOfBuffer:BlinkCmpMenu",
 
@@ -140,47 +164,47 @@ return {
 
       appearance = {
         -- use_nvim_cmp_as_default = true,
-        kind_icons = {
-          Array = " ",
-          Boolean = "󰨙 ",
-          Class = "󰯳 ",
-          Codeium = "󰘦 ",
-          Color = "󰰠 ",
-          Control = " ",
-          Collapsed = "> ",
-          Constant = "󰯱 ",
-          Constructor = " ",
-          Copilot = " ",
-          Enum = "󰯹 ",
-          EnumMember = "E ",
-          Event = " ",
-          Field = " ",
-          File = " ",
-          Folder = " ",
-          Function = "󰡱 ",
-          Interface = "󰰅 ",
-          Key = " ",
-          Keyword = "󱕴 ",
-          Method = "󰰑 ",
-          Module = "󰆼 ",
-          Namespace = "󰰔 ",
-          Null = " ",
-          Number = "󰰔 ",
-          Object = "󰲟 ",
-          Operator = " ",
-          Package = "󰰚 ",
-          Property = "󰲽 ",
-          Reference = "󰰠 ",
-          Snippet = " ",
-          String = " ",
-          Struct = "󰰣 ",
-          TabNine = "󰏚 ",
-          Text = "󱜥 ",
-          TypeParameter = "󰰦 ",
-          Unit = "󱜥 ",
-          Value = " ",
-          Variable = "󰫧 ",
-        },
+        -- kind_icons = {
+        --   Array = " ",
+        --   Boolean = "󰨙 ",
+        --   Class = "󰯳 ",
+        --   Codeium = "󰘦 ",
+        --   Color = "󰰠 ",
+        --   Control = " ",
+        --   Collapsed = "> ",
+        --   Constant = "󰯱 ",
+        --   Constructor = " ",
+        --   Copilot = " ",
+        --   Enum = "󰯹 ",
+        --   EnumMember = "E ",
+        --   Event = " ",
+        --   Field = " ",
+        --   File = " ",
+        --   Folder = " ",
+        --   Function = "󰡱 ",
+        --   Interface = "󰰅 ",
+        --   Key = " ",
+        --   Keyword = "󱕴 ",
+        --   Method = "󰰑 ",
+        --   Module = "󰆼 ",
+        --   Namespace = "󰰔 ",
+        --   Null = " ",
+        --   Number = "󰰔 ",
+        --   Object = "󰲟 ",
+        --   Operator = " ",
+        --   Package = "󰰚 ",
+        --   Property = "󰲽 ",
+        --   Reference = "󰰠 ",
+        --   Snippet = " ",
+        --   String = " ",
+        --   Struct = "󰰣 ",
+        --   TabNine = "󰏚 ",
+        --   Text = "󱜥 ",
+        --   TypeParameter = "󰰦 ",
+        --   Unit = "󱜥 ",
+        --   Value = " ",
+        --   Variable = "󰫧 ",
+        -- },
       },
 
       -- Default list of enabled providers defined so that you can extend it
@@ -194,6 +218,9 @@ return {
                 return item.kind ~= require("blink.cmp.types").CompletionItemKind.Snippet
                   and item.kind ~= require("blink.cmp.types").CompletionItemKind.Constructor
               end, items)
+            end,
+            should_show_items = function(ctx)
+              return ctx.trigger.initial_kind ~= "trigger_character"
             end,
           },
           snippets = {
@@ -218,12 +245,23 @@ return {
         },
       },
       fuzzy = {
-        -- use_frecency = true,
-        -- use_proximity = true,
+        max_typos = function(keyword)
+          return math.floor(#keyword / 4)
+        end,
+        implementation = "prefer_rust_with_warning",
+        use_frecency = true,
+        use_proximity = true,
         sorts = { "exact", "score", "sort_text" },
         prebuilt_binaries = {
-          download = false,
-          extra_curl_args = { "--proxy", "http://127.0.0.1:7890" },
+          -- force_eersion = "main",
+          download = true,
+          -- extra_curl_args = { "--proxy", "http://127.0.0.1:7890" },
+          proxy = {
+            -- When downloading a prebuilt binary, use the HTTPS_PROXY environment variable
+            from_env = true,
+            -- When downloading a prebuilt binary, use this proxy URL. This will ignore the HTTPS_PROXY environment variable
+            -- url = nil,
+          },
         },
       },
     }
