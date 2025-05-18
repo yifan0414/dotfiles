@@ -1,0 +1,47 @@
+2025-05-19 04:06:12 [PicGo INFO] Before transform 
+2025-05-19 04:06:12 [PicGo INFO] Transforming... Current transformer is [path] 
+2025-05-19 04:06:12 [PicGo INFO] Before upload 
+2025-05-19 04:06:12 [PicGo INFO] Uploading... Current uploader is [aliyun] 
+2025-05-19 04:06:13 [PicGo WARN] failed 
+2025-05-19 04:06:13 [PicGo ERROR] {
+  "method": "PUT",
+  "url": "https://picture-suyifan.oss-cn-shenzhen.aliyuncs.com.aliyuncs.com/20250519040612403.png",
+  "statusCode": 0,
+  "message": "getaddrinfo ENOTFOUND picture-suyifan.oss-cn-shenzhen.aliyuncs.com.aliyuncs.com",
+  "stack": "Error: getaddrinfo ENOTFOUND picture-suyifan.oss-cn-shenzhen.aliyuncs.com.aliyuncs.com\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)",
+  "response": {
+    "status": 0,
+    "statusCode": 0,
+    "body": ""
+  }
+} 
+2025-05-19 04:06:57 [PicGo INFO] Before transform 
+2025-05-19 04:06:57 [PicGo INFO] Transforming... Current transformer is [path] 
+2025-05-19 04:06:57 [PicGo INFO] Before upload 
+2025-05-19 04:06:57 [PicGo INFO] Uploading... Current uploader is [aliyun] 
+2025-05-19 04:06:57 [PicGo WARN] failed 
+2025-05-19 04:06:57 [PicGo ERROR] {
+  "method": "PUT",
+  "url": "https://picture-suyifan.oss-cn-shenzhen.aliyuncs.com.aliyuncs.com/2323423-20220518181130256-119361302.png",
+  "statusCode": 0,
+  "message": "getaddrinfo ENOTFOUND picture-suyifan.oss-cn-shenzhen.aliyuncs.com.aliyuncs.com",
+  "stack": "Error: getaddrinfo ENOTFOUND picture-suyifan.oss-cn-shenzhen.aliyuncs.com.aliyuncs.com\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)",
+  "response": {
+    "status": 0,
+    "statusCode": 0,
+    "body": ""
+  }
+} 
+2025-05-19 04:08:31 [PicGo ERROR] 
+------Error Stack Begin------
+Error: image not found in clipboard
+    at $t.upload (/opt/homebrew/lib/node_modules/picgo/dist/index.cjs.js:1:75025)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async /opt/homebrew/lib/node_modules/picgo/dist/index.cjs.js:1:5821
+-------Error Stack End------- 
+2025-05-19 04:08:42 [PicGo INFO] Before transform 
+2025-05-19 04:08:42 [PicGo INFO] Transforming... Current transformer is [path] 
+2025-05-19 04:08:42 [PicGo INFO] Before upload 
+2025-05-19 04:08:42 [PicGo INFO] Uploading... Current uploader is [aliyun] 
+2025-05-19 04:08:42 [PicGo SUCCESS] 
+picture-suyifan.oss-cn-shenzhen.aliyuncs.com/2323423-20220518181130256-119361302.png 
