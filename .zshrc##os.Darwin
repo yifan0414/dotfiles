@@ -21,15 +21,15 @@ source $ZSH/oh-my-zsh.sh
 # alias pol='python3 ok --local'
 
 #-- alias ------------------------------
-alias vim="/opt/homebrew/bin/nvim"
-alias view="nvim -R"
-alias vimdiff="nvim -d"
+# alias vim="/opt/homebrew/bin/nvim"
+# alias view="nvim -R"
+# alias vimdiff="nvim -d"
 alias ll="ls -all"
-export EDITOR=nvim
+# export EDITOR=nvim
 alias tmux="/opt/homebrew/bin/tmux"
 alias ci="chezmoi"
 alias cie="chezmoi edit"
-export LUA_PATH="~/.config/nvim/lua/"
+# export LUA_PATH="~/.config/nvim/lua/"
 
 # alias curl='curl -x http://127.0.0.1:7890'
 
@@ -68,6 +68,8 @@ fi
 ZVM_CURSOR_STYE_EABLED=false
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export PATH="$HOME/.luaver/lua/5.1/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+
 # export http_proxy="http://127.0.0.1:7890"
 # export https_proxy="https://127.0.0.1:7890"
 export MANPATH="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/share/man"

@@ -7,9 +7,15 @@
             "bucket": "picture-suyifan",  // 存储空间名
             "area": "oss-cn-shenzhen",  // 存储区域代号
             "path": "",  // 自定义存储路径
-            "customUrl": "picture-suyifan.oss-cn-shenzhen.aliyuncs.com",  // 自定义域名，注意要加 http://或者 https://
+            "customUrl": "http://picture-suyifan.oss-cn-shenzhen.aliyuncs.com",  // 自定义域名，注意要加 http://或者 https://
             "options": ""   // 针对图片的一些后缀处理参数 PicGo 2.2.0+ PicGo-Core 1.4.0+
         }
     },
+
+    "settings": {
+      // ...
+      "logPath": "~/.picgo/picgo.log"
+    }
+
     "picgoPlugins": {}  // 插件
 }
