@@ -1,21 +1,15 @@
 {
     "picBed": {
-        "uploader": "aliyun",  // 代表当前的默认上传图床为 aliyun,
+        "uploader": "aliyun",
         "aliyun": {
-            "accessKeyId": "LTAI5t7jK2HNLBfn1NYiAVuq",  // OSS中的accessKeyId
-            "accessKeySecret": "EjMe8HO7OMo2xmMixLphk9MFq9djz0",   // OSS中的accessKeySecret
-            "bucket": "picture-suyifan",  // 存储空间名
-            "area": "oss-cn-shenzhen",  // 存储区域代号
-            "path": "",  // 自定义存储路径
-            "customUrl": "http://picture-suyifan.oss-cn-shenzhen.aliyuncs.com",  // 自定义域名，注意要加 http://或者 https://
-            "options": ""   // 针对图片的一些后缀处理参数 PicGo 2.2.0+ PicGo-Core 1.4.0+
+            "accessKeyId": "LTAI5t7jK2HNLBfn1NYiAVuq",
+            "accessKeySecret": "EjMe8HO7OMo2xmMixLphk9MFq9djz0",
+            "bucket": "picture-suyifan",
+            "area": "oss-cn-shenzhen",
+            "path": "",
+            "customUrl": "http://picture-suyifan.oss-cn-shenzhen.aliyuncs.com",
+            "options": ""
         }
     },
-
-    "settings": {
-      // ...
-      "logPath": "~/.picgo/picgo.log"
-    }
-
-    "picgoPlugins": {}  // 插件
+    "picgoPlugins": {}
 }
