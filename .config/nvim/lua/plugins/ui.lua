@@ -6,7 +6,7 @@ return {
   },
   { "nvim-tree/nvim-web-devicons", lazy = true },
   {
-    "echasnovski/mini.icons",
+    "nvim-mini/mini.icons",
     enabled = false,
   },
   {

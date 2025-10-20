@@ -12,15 +12,15 @@ return {
   --   enabled = false,
   -- },
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     enabled = false,
   },
   {
-    "echasnovski/mini.ai",
+    "nvim-mini/mini.ai",
     enabled = false,
   },
   {
-    "echasnovski/mini.comment",
+    "nvim-mini/mini.comment",
     enabled = false,
   },
   -- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:

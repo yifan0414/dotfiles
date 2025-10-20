@@ -170,7 +170,7 @@ return {
     end,
   },
   {
-    "echasnovski/mini.align",
+    "nvim-mini/mini.align",
     version = false,
     keys = {
       { "ga", mode = { "x" } },

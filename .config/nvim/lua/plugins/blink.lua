@@ -1,6 +1,6 @@
 return {
   "saghen/blink.cmp",
-  enabled = true,
+  enabled = false,
   -- optional: provides snippets for the snippet source
   event = "InsertEnter",
   dependencies = { { "xzbdmw/colorful-menu.nvim" } },
