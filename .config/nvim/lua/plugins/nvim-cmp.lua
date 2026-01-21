@@ -251,7 +251,7 @@ return {
       }),
 
       formatting = {
-        fields = { "kind", "abbr" },
+        fields = { "icon", "abbr" },
         format = function(entry, vim_item)
           local kind = require("lspkind").cmp_format({
             mode = "symbol_text",

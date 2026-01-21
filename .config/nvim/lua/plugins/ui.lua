@@ -4,10 +4,10 @@ return {
     enabled = false,
     event = "LazyFile",
   },
-  { "nvim-tree/nvim-web-devicons", lazy = true },
+  { "nvim-tree/nvim-web-devicons", lazy = true, enabled = false },
   {
     "nvim-mini/mini.icons",
-    enabled = false,
+    enabled = true,
   },
   {
     "RRethy/vim-illuminate",
