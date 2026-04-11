@@ -1,1 +1,38 @@
 shell-integration = fish
+# ========================
+# Ghostty - Frosted Glass
+# ========================
+
+# 字体
+font-size = 14
+
+# 主题建议选偏深色，磨砂效果更明显
+theme = Kanagawabones
+
+# 透明度：0.82~0.92 比较舒服
+background-opacity = 0.88
+
+# 开启背景模糊
+# true 等价于默认强度 20
+background-blur = true
+
+# 让 nvim / tmux 这类程序的背景也跟着透明
+background-opacity-cells = true
+
+# 留白，磨砂感会更高级一点
+window-padding-x = 12
+window-padding-y = 12
+
+# 光标
+cursor-style = block
+# 滚动缓冲
+scrollback-limit = 100000
+
+# 选中即复制（可选）
+copy-on-select = true
+
+# 分屏未聚焦时不要再额外变暗
+unfocused-split-opacity = 1
+
+# macOS 可选：透明标题栏，更像原生磨砂玻璃
+macos-titlebar-style = transparent

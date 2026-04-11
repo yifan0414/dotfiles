@@ -17,6 +17,7 @@ return {
     local icons = LazyVim.config.icons
     vim.o.laststatus = vim.g.lualine_laststatus
     local colors = require("kanagawa.colors").setup()
+    -- local colors = require("catppuccin.colors").setup()
     local palette_colors = colors.palette
     require("lualine").setup({
       winbar = {
