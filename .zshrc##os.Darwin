@@ -19,8 +19,6 @@ source $ZSH/oh-my-zsh.sh
 # alias vimdiff="nvim -d"
 alias ll="ls -all"
 export EDITOR=nvim
-alias ci="chezmoi"
-alias cie="chezmoi edit"
 alias yb="$HOME/.local/bin/yadm-daily-backup"
 # export LUA_PATH="~/.config/nvim/lua/"
 
@@ -37,6 +35,8 @@ if [[ "$(uname)" == "Darwin" ]]; then
     export PATH="/opt/homebrew/bin:$PATH"
     export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
     export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+
+    export PATH="$HOME/.luaver/lua/5.1/bin:$PATH"
 
     if [[ -d "$HOME/miniforge3/bin" ]]; then
       export PATH="$HOME/miniforge3/bin:$PATH"
@@ -88,7 +88,6 @@ fi
 
 # # Disable the cursor style feature
 ZVM_CURSOR_STYLE_ENABLED=false
-export PATH="$HOME/.luaver/lua/5.1/bin:$PATH"
 
 # export http_proxy="http://127.0.0.1:7890"
 # export https_proxy="https://127.0.0.1:7890"
@@ -96,10 +95,6 @@ export PATH="$HOME/.luaver/lua/5.1/bin:$PATH"
 # export OPENAI_API_KEY=sk-WcifhIzcsc5emcTN38uUUsahUInelubhXbx8MEPNCHQgyk6r
 
 alias curl="curl -x http://127.0.0.1:7897"
-
-# export https_proxy=http://127.0.0.1:7897
-# export http_proxy=http://127.0.0.1:7897
-# export all_proxy=http://127.0.0.1:7897
 
 function on() {
   export https_proxy=http://127.0.0.1:7897
