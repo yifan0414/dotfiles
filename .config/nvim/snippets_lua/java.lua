@@ -29,7 +29,7 @@ local k = require("luasnip.nodes.key_indexer").new_key
 local treesitter_postfix = require("luasnip.extras.treesitter_postfix").treesitter_postfix
 local postfix_builtin = require("luasnip.extras.treesitter_postfix").builtin
 
-ls.add_snippets("java", {
+return {
   postfix({
     -- trig = "([A-Za-z\\.]*[A-Za-z]+\\d*)\\.print",
     trig = "\\.stdout",
@@ -87,4 +87,4 @@ ls.add_snippets("java", {
     i(0),
     t(");"),
   }),
-})
+}

@@ -29,7 +29,7 @@ local k = require("luasnip.nodes.key_indexer").new_key
 local treesitter_postfix = require("luasnip.extras.treesitter_postfix").treesitter_postfix
 local postfix_builtin = require("luasnip.extras.treesitter_postfix").builtin
 
-ls.add_snippets("lua", {
+return {
   treesitter_postfix(
     {
       matchTSNode = {
@@ -57,14 +57,4 @@ ls.add_snippets("lua", {
       }
     )
   ),
-})
-
-ls.add_snippets("rust", {
-  treesitter_postfix({
-    trig = ".testing",
-    matchTSNode = {
-      query = [[(call_expression) @prefix]],
-      query_lang = "rust",
-    },
-  }, { t("hello") }),
-})
+}

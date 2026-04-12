@@ -27,8 +27,8 @@ local ms = ls.multi_snippet
 local k = require("luasnip.nodes.key_indexer").new_key
 local treesitter_postfix = require("luasnip.extras.treesitter_postfix").treesitter_postfix
 
--- ls.add_snippets("c"-- https://zjp-cn.github.io/neovim0.6-blogs/nvim/luasnip/doc1.html#postfix
-ls.add_snippets("c", {
+-- https://zjp-cn.github.io/neovim0.6-blogs/nvim/luasnip/doc1.html#postfix
+return {
   postfix({
     trig = ".cin",
     trigEngine = "ecma",
@@ -103,4 +103,4 @@ ls.add_snippets("c", {
     i(0),
     t({ "", "}" }),
   }),
-})
+}

@@ -39,7 +39,7 @@ local expr_query = [[
             ] @prefix
 ]]
 
-ls.add_snippets("cpp", {
+return {
   treesitter_postfix(
     {
       trig = ".sc",
@@ -315,4 +315,4 @@ ls.add_snippets("cpp", {
       return "(" .. parent.snippet.env.POSTFIX_MATCH .. ".begin(), " .. parent.snippet.env.POSTFIX_MATCH .. ".end());"
     end),
   }),
-})
+}
