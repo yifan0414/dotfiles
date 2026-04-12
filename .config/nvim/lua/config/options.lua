@@ -17,7 +17,13 @@ if vim.fn.has("mac") == 1 then
     },
     cache_enabled = 1,
   }
-  vim.g.python3_host_prog = "/Users/yifansu/miniforge3/bin/python3"
+  if vim.fn.executable(vim.env.HOME .. "/miniforge3/bin/python3") == 1 then
+    vim.g.python3_host_prog = vim.env.HOME .. "/miniforge3/bin/python3"
+  elseif vim.fn.executable(vim.env.HOME .. "/miniconda3/bin/python3") == 1 then
+    vim.g.python3_host_prog = vim.env.HOME .. "/miniconda3/bin/python3"
+  else
+    vim.g.python3_host_prog = "/usr/bin/python3"
+  end
 elseif os.getenv("TMUX") then
   vim.g.clipboard = {
     name = "TmuxClipboard",

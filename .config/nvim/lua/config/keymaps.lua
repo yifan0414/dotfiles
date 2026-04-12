@@ -64,7 +64,7 @@ vim.keymap.set("v", "<leader>y", [["+y <cmd>call system('clip.exe', @+)<cr>]], {
 
 vim.keymap.set("n", "<leader>td", function()
   local os_date = os.date
-  local diary_path = "/Users/yifansu/Library/CloudStorage/OneDrive-st.gxu.edu.cn/CSNote/Diary/"
+  local diary_path = vim.env.HOME .. "/Library/CloudStorage/OneDrive-st.gxu.edu.cn/CSNote/Diary/"
 
   -- 获取当前日期
   local year = os_date("%Y")
