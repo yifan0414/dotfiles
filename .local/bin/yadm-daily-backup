@@ -1,0 +1,22 @@
+#!/bin/zsh
+
+set -euo pipefail
+
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+repo_root="${HOME}"
+cd "${repo_root}"
+
+# Stage tracked dotfiles without traversing protected macOS directories.
+yadm add -u
+
+if yadm diff --cached --quiet; then
+  echo "No tracked changes to back up."
+  exit 0
+fi
+
+branch="$(yadm rev-parse --abbrev-ref HEAD)"
+timestamp="$(date '+%Y-%m-%d %H:%M:%S %z')"
+
+yadm commit -m "Daily backup ${timestamp}"
+yadm push origin "${branch}"
