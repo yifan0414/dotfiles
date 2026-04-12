@@ -24,6 +24,7 @@ fi
 alias ll="ls -all"
 export EDITOR=nvim
 alias yb="$HOME/.local/bin/yadm-daily-backup"
+[[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
 # export LUA_PATH="~/.config/nvim/lua/"
 
 # alias curl='curl -x http://127.0.0.1:7890'

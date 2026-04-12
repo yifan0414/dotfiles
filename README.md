@@ -29,6 +29,7 @@ The bootstrap will:
 - configure shell and git proxy first
 - fail fast if the dotfiles checkout is not present under `$HOME`
 - install system-level software when a supported package manager is available
+- install `zoxide` via the official install script into `~/.local/bin`
 - apply yadm alternate files
 - install `oh-my-zsh`, `powerlevel10k`, `zsh-autosuggestions`, `fast-syntax-highlighting`, `zsh-syntax-highlighting`, and `fzf-tab`
 - run the existing tmux bootstrap
@@ -41,6 +42,7 @@ System package behavior:
 - macOS: if `brew` exists, install CLI packages from `.config/yadm/packages/homebrew/core.Brewfile`
 - macOS GUI apps: install `kitty`, `ghostty`, `squirrel` only when `DOTFILES_INSTALL_GUI_APPS=1`
 - Linux: if `apt-get`, `dnf`, or `pacman` exists, install core CLI packages from the matching manifest under `.config/yadm/packages/linux/`
+- `zoxide` is installed separately via the official install script, not via Brewfile or Linux package manifests
 - if package installation fails or no supported package manager exists, bootstrap continues and skips dependent runtime steps where needed
 - set `DOTFILES_SKIP_SYSTEM_PACKAGES=1` to disable system package installation entirely
 - set `DOTFILES_SELF_CHECK=0` to disable the final self-check summary

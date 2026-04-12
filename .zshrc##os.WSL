@@ -38,7 +38,7 @@ export RANGER_LOAD_DEFAULT_RC=false
 
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
-export PATH="$PATH:/home/suyi/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/go/bin"
 
 # alias proxy="source ~/proxy.sh"
@@ -85,8 +85,6 @@ function ya() {
 
 # disable Bracketed Paste Mode
 # unset zle_bracketed_paste
-
-# eval "$(zoxide init zsh)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

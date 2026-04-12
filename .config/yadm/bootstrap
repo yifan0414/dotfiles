@@ -199,6 +199,7 @@ PROXY_PORT="${DOTFILES_PROXY_PORT:-7897}"
 PROXY_SCHEME="${DOTFILES_PROXY_SCHEME:-http}"
 PROXY_URL="${DOTFILES_PROXY_URL:-${PROXY_SCHEME}://${PROXY_HOST}:${PROXY_PORT}}"
 GIT_PROXY_URL="${DOTFILES_GIT_PROXY_URL:-$PROXY_URL}"
+export PATH="$HOME/.local/bin:$PATH"
 
 require_supported_os() {
   case "$(uname -s)" in
@@ -426,6 +427,42 @@ bootstrap_system_packages() {
       install_linux_packages
       ;;
   esac
+}
+
+bootstrap_zoxide_binary() {
+  local install_url="https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh"
+  local zoxide_path="$HOME/.local/bin/zoxide"
+
+  if [[ "${DOTFILES_SKIP_SYSTEM_PACKAGES:-0}" == "1" ]]; then
+    record_status "zoxide binary" "skipped" "DOTFILES_SKIP_SYSTEM_PACKAGES=1"
+    return 0
+  fi
+
+  if need_cmd zoxide; then
+    record_status "zoxide binary" "present" "$(command -v zoxide)"
+    return 0
+  fi
+
+  if ! need_cmd curl; then
+    warn "curl is unavailable; skipped zoxide install"
+    record_status "zoxide binary" "skipped" "curl unavailable"
+    return 0
+  fi
+
+  log "installing zoxide via official install script"
+  if curl -sSfL "$install_url" | sh; then
+    hash -r
+    if need_cmd zoxide; then
+      record_status "zoxide binary" "installed" "$(command -v zoxide)"
+    elif [[ -x "$zoxide_path" ]]; then
+      record_status "zoxide binary" "installed" "$zoxide_path"
+    else
+      record_status "zoxide binary" "installed" "~/.local/bin"
+    fi
+  else
+    warn "zoxide install script reported errors"
+    record_status "zoxide binary" "failed" "official install script"
+  fi
 }
 
 require_dotfiles_checkout() {
@@ -668,6 +705,7 @@ main() {
   require_cmd git "git is required before bootstrap. Install git, then rerun this script."
   require_dotfiles_checkout
   bootstrap_system_packages
+  bootstrap_zoxide_binary
   apply_yadm_alternates
   verify_alternates
   bootstrap_zsh_runtime
