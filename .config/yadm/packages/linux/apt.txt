@@ -1,0 +1,9 @@
+git
+python3
+ripgrep
+fzf
+fd-find
+tmux
+neovim
+zsh
+xclip

@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 
 cache_file="${TMPDIR:-/tmp}/tmux-macos-appearance"
 

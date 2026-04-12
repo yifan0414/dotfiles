@@ -1,5 +1,680 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 
 set -euo pipefail
 
-exec "$HOME/.bootstrap-dotfiles.sh" "$@"
+REPORT_NAMES=()
+REPORT_STATUSES=()
+REPORT_DETAILS=()
+SUMMARY_PRINTED=0
+STDOUT_RESET=""
+STDOUT_BOLD=""
+STDOUT_RED=""
+STDOUT_GREEN=""
+STDOUT_YELLOW=""
+STDOUT_BLUE=""
+STDOUT_CYAN=""
+STDERR_RESET=""
+STDERR_BOLD=""
+STDERR_RED=""
+STDERR_GREEN=""
+STDERR_YELLOW=""
+STDERR_BLUE=""
+STDERR_CYAN=""
+
+init_stream_colors() {
+  local prefix="$1"
+  local fd="$2"
+  local use_color=0
+  local colors=""
+
+  eval "${prefix}_RESET=''"
+  eval "${prefix}_BOLD=''"
+  eval "${prefix}_RED=''"
+  eval "${prefix}_GREEN=''"
+  eval "${prefix}_YELLOW=''"
+  eval "${prefix}_BLUE=''"
+  eval "${prefix}_CYAN=''"
+
+  if [[ -n "${NO_COLOR:-}" ]]; then
+    return 0
+  fi
+
+  if [[ "${CLICOLOR_FORCE:-0}" != "0" ]]; then
+    eval "${prefix}_RESET=\$'\\033[0m'"
+    eval "${prefix}_BOLD=\$'\\033[1m'"
+    eval "${prefix}_RED=\$'\\033[31m'"
+    eval "${prefix}_GREEN=\$'\\033[32m'"
+    eval "${prefix}_YELLOW=\$'\\033[33m'"
+    eval "${prefix}_BLUE=\$'\\033[34m'"
+    eval "${prefix}_CYAN=\$'\\033[36m'"
+    return 0
+  elif [[ -t "$fd" && "${TERM:-dumb}" != "dumb" ]]; then
+    use_color=1
+  fi
+
+  if [[ "$use_color" -eq 0 ]]; then
+    return 0
+  fi
+
+  if command -v tput >/dev/null 2>&1; then
+    colors="$(tput colors 2>/dev/null || printf '0')"
+    if [[ "$colors" =~ ^[0-9]+$ ]] && [[ "$colors" -ge 8 ]]; then
+      eval "${prefix}_RESET=\$(tput sgr0 2>/dev/null || printf '')"
+      eval "${prefix}_BOLD=\$(tput bold 2>/dev/null || printf '')"
+      eval "${prefix}_RED=\$(tput setaf 1 2>/dev/null || printf '')"
+      eval "${prefix}_GREEN=\$(tput setaf 2 2>/dev/null || printf '')"
+      eval "${prefix}_YELLOW=\$(tput setaf 3 2>/dev/null || printf '')"
+      eval "${prefix}_BLUE=\$(tput setaf 4 2>/dev/null || printf '')"
+      eval "${prefix}_CYAN=\$(tput setaf 6 2>/dev/null || printf '')"
+      return 0
+    fi
+  fi
+
+  eval "${prefix}_RESET=\$'\\033[0m'"
+  eval "${prefix}_BOLD=\$'\\033[1m'"
+  eval "${prefix}_RED=\$'\\033[31m'"
+  eval "${prefix}_GREEN=\$'\\033[32m'"
+  eval "${prefix}_YELLOW=\$'\\033[33m'"
+  eval "${prefix}_BLUE=\$'\\033[34m'"
+  eval "${prefix}_CYAN=\$'\\033[36m'"
+}
+
+init_colors() {
+  init_stream_colors "STDOUT" 1
+  init_stream_colors "STDERR" 2
+}
+
+colorize_stdout() {
+  local color="$1"
+  local text="$2"
+
+  if [[ -n "$color" ]]; then
+    printf '%s%s%s' "$color" "$text" "$STDOUT_RESET"
+  else
+    printf '%s' "$text"
+  fi
+}
+
+colorize_stderr() {
+  local color="$1"
+  local text="$2"
+
+  if [[ -n "$color" ]]; then
+    printf '%s%s%s' "$color" "$text" "$STDERR_RESET"
+  else
+    printf '%s' "$text"
+  fi
+}
+
+stdout_prefix() {
+  colorize_stdout "${STDOUT_BOLD}${STDOUT_BLUE}" "[dotfiles]"
+}
+
+stderr_prefix() {
+  colorize_stderr "${STDERR_BOLD}${STDERR_BLUE}" "[dotfiles]"
+}
+
+summary_status_color() {
+  case "$1" in
+    configured | reachable | present | linked | installed | applied | reloaded | loaded | restarted)
+      printf '%s' "${STDOUT_BOLD}${STDOUT_GREEN}"
+      ;;
+    failed | missing | unreachable)
+      printf '%s' "${STDOUT_BOLD}${STDOUT_RED}"
+      ;;
+    skipped)
+      printf '%s' "${STDOUT_BOLD}${STDOUT_YELLOW}"
+      ;;
+    *)
+      printf '%s' "${STDOUT_BOLD}${STDOUT_CYAN}"
+      ;;
+  esac
+}
+
+log() {
+  printf '%s %s\n' "$(stdout_prefix)" "$1"
+}
+
+die() {
+  printf '%s %s %s\n' "$(stderr_prefix)" "$(colorize_stderr "${STDERR_BOLD}${STDERR_RED}" "error:")" "$1" >&2
+  exit 1
+}
+
+warn() {
+  printf '%s %s %s\n' "$(stderr_prefix)" "$(colorize_stderr "${STDERR_BOLD}${STDERR_YELLOW}" "warning:")" "$1" >&2
+}
+
+need_cmd() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+record_status() {
+  REPORT_NAMES+=("$1")
+  REPORT_STATUSES+=("$2")
+  REPORT_DETAILS+=("${3:-}")
+}
+
+print_summary() {
+  local i
+  local detail
+  local status_text
+
+  if [[ "$SUMMARY_PRINTED" -eq 1 ]]; then
+    return 0
+  fi
+
+  SUMMARY_PRINTED=1
+  printf '%s %s\n' "$(stdout_prefix)" "$(colorize_stdout "${STDOUT_BOLD}${STDOUT_CYAN}" "self-check summary")"
+
+  for ((i = 0; i < ${#REPORT_NAMES[@]}; i++)); do
+    detail="${REPORT_DETAILS[i]}"
+    status_text="$(printf '%-12s' "${REPORT_STATUSES[i]}")"
+    status_text="$(colorize_stdout "$(summary_status_color "${REPORT_STATUSES[i]}")" "$status_text")"
+    if [[ -n "$detail" ]]; then
+      printf '%s   %s %s (%s)\n' "$(stdout_prefix)" "$status_text" "${REPORT_NAMES[i]}" "$detail"
+    else
+      printf '%s   %s %s\n' "$(stdout_prefix)" "$status_text" "${REPORT_NAMES[i]}"
+    fi
+  done
+}
+
+on_exit() {
+  local rc="$1"
+
+  if [[ "${DOTFILES_SELF_CHECK:-1}" == "1" ]]; then
+    print_summary
+  fi
+
+  if [[ "$rc" -ne 0 ]]; then
+    warn "bootstrap exited with status $rc"
+  fi
+}
+
+trap 'on_exit $?' EXIT
+
+init_colors
+
+PROXY_HOST="${DOTFILES_PROXY_HOST:-127.0.0.1}"
+PROXY_PORT="${DOTFILES_PROXY_PORT:-7897}"
+PROXY_SCHEME="${DOTFILES_PROXY_SCHEME:-http}"
+PROXY_URL="${DOTFILES_PROXY_URL:-${PROXY_SCHEME}://${PROXY_HOST}:${PROXY_PORT}}"
+GIT_PROXY_URL="${DOTFILES_GIT_PROXY_URL:-$PROXY_URL}"
+
+require_supported_os() {
+  case "$(uname -s)" in
+    Darwin | Linux)
+      return 0
+      ;;
+    *)
+      die "unsupported OS: $(uname -s). This bootstrap only supports macOS and Linux."
+      ;;
+  esac
+}
+
+require_cmd() {
+  local cmd="$1"
+  local help_message="$2"
+
+  if ! need_cmd "$cmd"; then
+    die "$help_message"
+  fi
+}
+
+run_as_root() {
+  if [[ "$(id -u)" -eq 0 ]]; then
+    "$@"
+    return
+  fi
+
+  if need_cmd sudo; then
+    sudo "$@"
+    return
+  fi
+
+  return 127
+}
+
+configure_proxy() {
+  export http_proxy="$PROXY_URL"
+  export https_proxy="$PROXY_URL"
+  export all_proxy="$PROXY_URL"
+  export HTTP_PROXY="$PROXY_URL"
+  export HTTPS_PROXY="$PROXY_URL"
+  export ALL_PROXY="$PROXY_URL"
+
+  if need_cmd git; then
+    git config --global http.proxy "$GIT_PROXY_URL"
+    git config --global https.proxy "$GIT_PROXY_URL"
+  else
+    warn "git is unavailable; skipped global git proxy setup"
+    record_status "git proxy" "skipped" "git unavailable"
+  fi
+
+  log "proxy configured: $PROXY_URL"
+  record_status "proxy env" "configured" "$PROXY_URL"
+
+  if need_cmd git; then
+    record_status "git proxy" "configured" "$GIT_PROXY_URL"
+  fi
+
+  if need_cmd nc; then
+    if nc -z "$PROXY_HOST" "$PROXY_PORT" >/dev/null 2>&1; then
+      log "proxy endpoint reachable: ${PROXY_HOST}:${PROXY_PORT}"
+      record_status "proxy endpoint" "reachable" "${PROXY_HOST}:${PROXY_PORT}"
+    else
+      warn "proxy endpoint ${PROXY_HOST}:${PROXY_PORT} is not reachable yet"
+      record_status "proxy endpoint" "unreachable" "${PROXY_HOST}:${PROXY_PORT}"
+    fi
+  else
+    record_status "proxy endpoint" "skipped" "nc unavailable"
+  fi
+}
+
+install_homebrew_packages() {
+  local core_brewfile="$HOME/.config/yadm/packages/homebrew/core.Brewfile"
+  local gui_brewfile="$HOME/.config/yadm/packages/homebrew/gui.Brewfile"
+
+  if ! need_cmd brew; then
+    warn "Homebrew is unavailable; skipped macOS system package installation"
+    record_status "system packages" "skipped" "brew unavailable"
+    record_status "GUI packages" "skipped" "brew unavailable"
+    return 0
+  fi
+
+  if [[ -f "$core_brewfile" ]]; then
+    log "installing macOS CLI packages via Homebrew"
+    if brew bundle --file="$core_brewfile"; then
+      record_status "system packages" "installed" "brew core"
+    else
+      warn "Homebrew CLI package installation reported errors"
+      record_status "system packages" "failed" "brew core"
+    fi
+  else
+    record_status "system packages" "skipped" "missing core.Brewfile"
+  fi
+
+  if [[ "${DOTFILES_INSTALL_GUI_APPS:-0}" == "1" && -f "$gui_brewfile" ]]; then
+    log "installing macOS GUI apps via Homebrew"
+    if brew bundle --file="$gui_brewfile"; then
+      record_status "GUI packages" "installed" "brew gui"
+    else
+      warn "Homebrew GUI package installation reported errors"
+      record_status "GUI packages" "failed" "brew gui"
+    fi
+  elif [[ "${DOTFILES_INSTALL_GUI_APPS:-0}" == "1" ]]; then
+    record_status "GUI packages" "skipped" "missing gui.Brewfile"
+  else
+    record_status "GUI packages" "skipped" "DOTFILES_INSTALL_GUI_APPS=0"
+  fi
+}
+
+load_packages_from_file() {
+  local package_file="$1"
+  local package_name
+
+  PACKAGE_LIST=()
+
+  if [[ ! -f "$package_file" ]]; then
+    return 0
+  fi
+
+  while IFS= read -r package_name || [[ -n "$package_name" ]]; do
+    if [[ -z "$package_name" || "$package_name" == \#* ]]; then
+      continue
+    fi
+    PACKAGE_LIST+=("$package_name")
+  done <"$package_file"
+}
+
+install_linux_packages() {
+  local package_dir="$HOME/.config/yadm/packages/linux"
+  local manager=""
+  local package_file=""
+  local package_name
+  local updated=0
+
+  if [[ "$(id -u)" -ne 0 ]] && ! need_cmd sudo; then
+    warn "sudo is unavailable; skipped Linux system package installation"
+    record_status "system packages" "skipped" "sudo unavailable"
+    return 0
+  fi
+
+  if need_cmd apt-get; then
+    manager="apt"
+    package_file="$package_dir/apt.txt"
+  elif need_cmd dnf; then
+    manager="dnf"
+    package_file="$package_dir/dnf.txt"
+  elif need_cmd pacman; then
+    manager="pacman"
+    package_file="$package_dir/pacman.txt"
+  else
+    warn "no supported Linux package manager found; skipped system package installation"
+    record_status "system packages" "skipped" "no supported package manager"
+    return 0
+  fi
+
+  load_packages_from_file "$package_file"
+  if [[ "${#PACKAGE_LIST[@]}" -eq 0 ]]; then
+    warn "no package manifest found for Linux package manager: $manager"
+    record_status "system packages" "skipped" "missing ${manager} manifest"
+    return 0
+  fi
+
+  log "installing Linux system packages via $manager"
+  for package_name in "${PACKAGE_LIST[@]}"; do
+    case "$manager" in
+      apt)
+        if [[ "$updated" -eq 0 ]]; then
+          if ! run_as_root apt-get update; then
+            warn "failed to update apt package index; skipped Linux system package installation"
+            record_status "system packages" "failed" "apt update"
+            return 0
+          fi
+          updated=1
+        fi
+        if ! run_as_root apt-get install -y "$package_name"; then
+          warn "failed to install package via apt: $package_name"
+          record_status "linux package" "failed" "$package_name"
+        else
+          record_status "linux package" "installed" "$package_name"
+        fi
+        ;;
+      dnf)
+        if ! run_as_root dnf install -y "$package_name"; then
+          warn "failed to install package via dnf: $package_name"
+          record_status "linux package" "failed" "$package_name"
+        else
+          record_status "linux package" "installed" "$package_name"
+        fi
+        ;;
+      pacman)
+        if [[ "$updated" -eq 0 ]]; then
+          if ! run_as_root pacman -Sy --noconfirm; then
+            warn "failed to refresh pacman package index; skipped Linux system package installation"
+            record_status "system packages" "failed" "pacman sync"
+            return 0
+          fi
+          updated=1
+        fi
+        if ! run_as_root pacman -S --noconfirm --needed "$package_name"; then
+          warn "failed to install package via pacman: $package_name"
+          record_status "linux package" "failed" "$package_name"
+        else
+          record_status "linux package" "installed" "$package_name"
+        fi
+        ;;
+    esac
+  done
+
+  record_status "system packages" "installed" "$manager"
+}
+
+bootstrap_system_packages() {
+  if [[ "${DOTFILES_SKIP_SYSTEM_PACKAGES:-0}" == "1" ]]; then
+    log "skip system package installation: DOTFILES_SKIP_SYSTEM_PACKAGES=1"
+    record_status "system packages" "skipped" "DOTFILES_SKIP_SYSTEM_PACKAGES=1"
+    record_status "GUI packages" "skipped" "DOTFILES_SKIP_SYSTEM_PACKAGES=1"
+    return 0
+  fi
+
+  case "$(uname -s)" in
+    Darwin)
+      install_homebrew_packages
+      ;;
+    Linux)
+      install_linux_packages
+      ;;
+  esac
+}
+
+require_dotfiles_checkout() {
+  local required_paths=(
+    "$HOME/.config/yadm/bootstrap"
+    "$HOME/.tmux.conf"
+    "$HOME/.tmux/scripts/bootstrap.sh"
+  )
+  local missing_path
+
+  for missing_path in "${required_paths[@]}"; do
+    if [[ ! -e "$missing_path" ]]; then
+      die "dotfiles are not checked out under $HOME yet. Install yadm, run 'yadm clone <repo>', then rerun 'yadm bootstrap'."
+    fi
+  done
+
+  record_status "dotfiles checkout" "present" "$HOME"
+
+  require_cmd yadm "yadm is required before bootstrap. Install yadm, run 'yadm clone <repo>', then rerun 'yadm bootstrap'."
+
+  if ! yadm list >/dev/null 2>&1; then
+    die "yadm is installed, but the dotfiles repository is not initialized. Run 'yadm clone <repo>' first."
+  fi
+
+  record_status "yadm repo" "present" "initialized"
+}
+
+ensure_git_checkout() {
+  local label="$1"
+  local repo_url="$2"
+  local target_dir="$3"
+  local ref="${4:-}"
+
+  if ! need_cmd git; then
+    warn "git is unavailable; skipped checkout for $target_dir"
+    record_status "$label" "skipped" "git unavailable"
+    return 0
+  fi
+
+  if [[ -d "$target_dir/.git" ]]; then
+    log "found $(basename "$target_dir")"
+    record_status "$label" "present" "$target_dir"
+    return 0
+  fi
+
+  mkdir -p "$(dirname "$target_dir")"
+  log "cloning $repo_url -> $target_dir"
+  if [[ -n "$ref" ]]; then
+    if git clone --depth 1 --branch "$ref" "$repo_url" "$target_dir"; then
+      record_status "$label" "installed" "$target_dir"
+    else
+      record_status "$label" "failed" "$target_dir"
+      return 1
+    fi
+  else
+    if git clone --depth 1 "$repo_url" "$target_dir"; then
+      record_status "$label" "installed" "$target_dir"
+    else
+      record_status "$label" "failed" "$target_dir"
+      return 1
+    fi
+  fi
+}
+
+apply_yadm_alternates() {
+  if need_cmd yadm; then
+    log "applying yadm alternates"
+    if yadm alt; then
+      record_status "yadm alternates" "applied" ""
+    else
+      record_status "yadm alternates" "failed" ""
+      return 1
+    fi
+  else
+    warn "yadm is unavailable; skipped alternate processing"
+    record_status "yadm alternates" "skipped" "yadm unavailable"
+  fi
+}
+
+verify_alternates() {
+  if [[ "$(uname -s)" == "Darwin" || "$(uname -s)" == "Linux" ]]; then
+    if [[ ! -f "$HOME/.zshrc" ]]; then
+      die "yadm alternates did not produce ~/.zshrc. Check your alternate files before continuing."
+    fi
+
+    if [[ -L "$HOME/.zshrc" ]]; then
+      record_status ".zshrc alternate" "linked" "$(readlink "$HOME/.zshrc")"
+    else
+      record_status ".zshrc alternate" "present" "$HOME/.zshrc"
+    fi
+  fi
+}
+
+bootstrap_zsh_runtime() {
+  local zsh_custom="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+  ensure_git_checkout "oh-my-zsh" "https://github.com/ohmyzsh/ohmyzsh.git" "$HOME/.oh-my-zsh"
+  ensure_git_checkout "powerlevel10k" "https://github.com/romkatv/powerlevel10k.git" "$zsh_custom/themes/powerlevel10k"
+  ensure_git_checkout "zsh-autosuggestions" "https://github.com/zsh-users/zsh-autosuggestions" "$zsh_custom/plugins/zsh-autosuggestions"
+  ensure_git_checkout "fast-syntax-highlighting" "https://github.com/zdharma-continuum/fast-syntax-highlighting.git" "$zsh_custom/plugins/fast-syntax-highlighting"
+  ensure_git_checkout "zsh-syntax-highlighting" "https://github.com/zsh-users/zsh-syntax-highlighting.git" "$zsh_custom/plugins/zsh-syntax-highlighting"
+  ensure_git_checkout "fzf-tab" "https://github.com/Aloxaf/fzf-tab" "$zsh_custom/plugins/fzf-tab"
+}
+
+bootstrap_tmux() {
+  local plugin_dir="$HOME/.tmux/plugins"
+
+  if [[ -f "$HOME/.tmux/scripts/bootstrap.sh" ]]; then
+    if need_cmd tmux; then
+      log "bootstrapping tmux"
+      if "$HOME/.tmux/scripts/bootstrap.sh"; then
+        record_status "tmux bootstrap" "installed" ""
+      else
+        record_status "tmux bootstrap" "failed" ""
+        return 1
+      fi
+    else
+      warn "tmux is unavailable; skipped tmux bootstrap"
+      record_status "tmux bootstrap" "skipped" "tmux unavailable"
+      record_status "tpm" "skipped" "tmux unavailable"
+      record_status "tmux-sensible" "skipped" "tmux unavailable"
+      record_status "tmux-yank" "skipped" "tmux unavailable"
+      record_status "tmux-better-mouse-mode" "skipped" "tmux unavailable"
+      record_status "vim-tmux-navigator" "skipped" "tmux unavailable"
+      return 0
+    fi
+  else
+    log "skip tmux bootstrap: ~/.tmux/scripts/bootstrap.sh not found"
+    record_status "tmux bootstrap" "skipped" "bootstrap script missing"
+    record_status "tpm" "skipped" "tmux bootstrap unavailable"
+    record_status "tmux-sensible" "skipped" "tmux bootstrap unavailable"
+    record_status "tmux-yank" "skipped" "tmux bootstrap unavailable"
+    record_status "tmux-better-mouse-mode" "skipped" "tmux bootstrap unavailable"
+    record_status "vim-tmux-navigator" "skipped" "tmux bootstrap unavailable"
+    return 0
+  fi
+
+  if [[ -d "$plugin_dir/tpm" ]]; then
+    record_status "tpm" "present" "$plugin_dir/tpm"
+  else
+    record_status "tpm" "missing" "$plugin_dir/tpm"
+  fi
+
+  if [[ -d "$plugin_dir/tmux-sensible" ]]; then
+    record_status "tmux-sensible" "present" "$plugin_dir/tmux-sensible"
+  else
+    record_status "tmux-sensible" "missing" "$plugin_dir/tmux-sensible"
+  fi
+
+  if [[ -d "$plugin_dir/tmux-yank" ]]; then
+    record_status "tmux-yank" "present" "$plugin_dir/tmux-yank"
+  else
+    record_status "tmux-yank" "missing" "$plugin_dir/tmux-yank"
+  fi
+
+  if [[ -d "$plugin_dir/tmux-better-mouse-mode" ]]; then
+    record_status "tmux-better-mouse-mode" "present" "$plugin_dir/tmux-better-mouse-mode"
+  else
+    record_status "tmux-better-mouse-mode" "missing" "$plugin_dir/tmux-better-mouse-mode"
+  fi
+
+  if [[ -d "$plugin_dir/vim-tmux-navigator" ]]; then
+    record_status "vim-tmux-navigator" "present" "$plugin_dir/vim-tmux-navigator"
+  else
+    record_status "vim-tmux-navigator" "missing" "$plugin_dir/vim-tmux-navigator"
+  fi
+}
+
+reload_kitty_if_possible() {
+  if [[ ! -f "$HOME/.config/kitty/kitty.conf" ]]; then
+    log "skip kitty bootstrap: ~/.config/kitty/kitty.conf not found"
+    record_status "kitty reload" "skipped" "kitty.conf missing"
+    return 0
+  fi
+
+  if ! need_cmd kitty; then
+    warn "kitty is unavailable; skipped config reload"
+    record_status "kitty reload" "skipped" "kitty unavailable"
+    return 0
+  fi
+
+  if [[ -S /tmp/kitty ]]; then
+    if kitty @ --to unix:/tmp/kitty load-config "$HOME/.config/kitty/kitty.conf" >/dev/null 2>&1; then
+      log "kitty config reloaded"
+      record_status "kitty reload" "reloaded" "/tmp/kitty"
+    else
+      warn "kitty socket found but reload failed; restart kitty manually"
+      record_status "kitty reload" "failed" "/tmp/kitty"
+    fi
+  else
+    log "kitty is not listening on /tmp/kitty; restart kitty to pick up config changes"
+    record_status "kitty reload" "skipped" "kitty socket missing"
+  fi
+}
+
+bootstrap_launch_agent() {
+  local plist="$HOME/Library/LaunchAgents/com.yifan.yadm-daily-backup.plist"
+  local label="com.yifan.yadm-daily-backup"
+  local gui_domain="gui/$(id -u)"
+
+  if [[ "$(uname)" != "Darwin" ]]; then
+    record_status "LaunchAgent" "skipped" "non-macOS"
+    return 0
+  fi
+
+  if [[ ! -f "$plist" ]]; then
+    log "skip launch agent bootstrap: $plist not found"
+    record_status "LaunchAgent" "skipped" "plist missing"
+    return 0
+  fi
+
+  if ! need_cmd launchctl; then
+    warn "launchctl is unavailable; skipped LaunchAgent bootstrap"
+    record_status "LaunchAgent" "skipped" "launchctl unavailable"
+    return 0
+  fi
+
+  if launchctl print "${gui_domain}/${label}" >/dev/null 2>&1; then
+    if launchctl kickstart -k "${gui_domain}/${label}" >/dev/null 2>&1; then
+      log "LaunchAgent restarted: $label"
+      record_status "LaunchAgent" "restarted" "$label"
+    else
+      warn "failed to restart LaunchAgent: $label"
+      record_status "LaunchAgent" "failed" "$label"
+    fi
+  else
+    if launchctl bootstrap "$gui_domain" "$plist" >/dev/null 2>&1; then
+      log "LaunchAgent loaded: $label"
+      record_status "LaunchAgent" "loaded" "$label"
+    else
+      warn "failed to load LaunchAgent: $label"
+      record_status "LaunchAgent" "failed" "$label"
+    fi
+  fi
+}
+
+main() {
+  configure_proxy
+  require_supported_os
+  require_cmd git "git is required before bootstrap. Install git, then rerun this script."
+  require_dotfiles_checkout
+  bootstrap_system_packages
+  apply_yadm_alternates
+  verify_alternates
+  bootstrap_zsh_runtime
+  bootstrap_tmux
+  reload_kitty_if_possible
+  bootstrap_launch_agent
+  log "bootstrap complete"
+}
+
+main "$@"
