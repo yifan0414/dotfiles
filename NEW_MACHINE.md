@@ -26,7 +26,6 @@ clone 之后，bootstrap 会继续负责：
 
 - 再次设置 shell 和 git 代理
 - 安装系统级软件
-- 用 `curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh` 安装 `zoxide`
 - 执行 `yadm alt`
 - 安装 `oh-my-zsh`、`powerlevel10k` 和 zsh 插件
 - 安装 tmux TPM 插件
@@ -158,8 +157,10 @@ exec zsh
 
 当前清单包含：
 
+- `curl`
 - `git`
 - `yadm`
+- `zsh`
 - `tmux`
 - `neovim`
 - `ripgrep`
@@ -168,8 +169,6 @@ exec zsh
 - `eza`
 - `llvm`
 - `yazi`
-
-`zoxide` 不走 Homebrew manifest，而是由 bootstrap 单独用官方安装脚本安装到 `~/.local/bin`。
 
 ### Linux
 
@@ -183,6 +182,7 @@ exec zsh
 
 - `curl`
 - `git`
+- `yadm`
 - `zsh`
 - `tmux`
 - `neovim`
@@ -190,8 +190,9 @@ exec zsh
 - `fzf`
 - `fd` / `fd-find`
 - `python3`
+- `xclip`
 
-`zoxide` 不走 Linux 包清单，而是由 bootstrap 单独用官方安装脚本安装到 `~/.local/bin`。
+bootstrap 在装完这些基础包后，还会额外做一次自检，确认这个仓库实际依赖的核心命令已经可用，例如 `git`、`curl`、`yadm`、`zsh`、`fzf`、`fd`、`rg`、`nvim`、`tmux`。
 
 ## 允许重复执行的命令
 
@@ -233,7 +234,6 @@ bootstrap 不会因为某个可选组件缺失就整体失败。
 
 - 缺包管理器：跳过系统包安装
 - Linux 没有 `sudo`：跳过系统包安装
-- 缺 `curl`：跳过 `zoxide` 官方安装脚本
 - 缺 `tmux`：跳过 tmux bootstrap
 - 缺 `kitty`：跳过 kitty reload
 - 缺 LaunchAgent 文件：跳过 LaunchAgent 加载

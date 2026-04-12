@@ -1,5 +1,6 @@
 curl
 git
+yadm
 python
 ripgrep
 fzf

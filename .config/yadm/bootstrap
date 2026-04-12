@@ -148,6 +148,72 @@ need_cmd() {
   command -v "$1" >/dev/null 2>&1
 }
 
+join_with() {
+  local separator="$1"
+  shift || true
+  local first=1
+  local item
+
+  for item in "$@"; do
+    if [[ "$first" -eq 1 ]]; then
+      printf '%s' "$item"
+      first=0
+    else
+      printf '%s%s' "$separator" "$item"
+    fi
+  done
+}
+
+detect_tool_variant() {
+  local candidate
+
+  for candidate in "$@"; do
+    if need_cmd "$candidate"; then
+      printf '%s' "$candidate"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+record_tool_group() {
+  local label="$1"
+  shift
+  local spec
+  local tool_name
+  local variants
+  local resolved=""
+  local detail=""
+  local -a tool_variants=()
+  local -a present_tools=()
+  local -a missing_tools=()
+
+  for spec in "$@"; do
+    tool_name="${spec%%:*}"
+    variants="${spec#*:}"
+    IFS='|' read -r -a tool_variants <<< "$variants"
+    if resolved="$(detect_tool_variant "${tool_variants[@]}")"; then
+      present_tools+=("$tool_name")
+    else
+      missing_tools+=("$tool_name")
+    fi
+  done
+
+  if [[ "${#missing_tools[@]}" -eq 0 ]]; then
+    record_status "$label" "present" "$(join_with ', ' "${present_tools[@]}")"
+    return 0
+  fi
+
+  detail="missing: $(join_with ', ' "${missing_tools[@]}")"
+  if [[ "${#present_tools[@]}" -gt 0 ]]; then
+    detail="${detail}; present: $(join_with ', ' "${present_tools[@]}")"
+  fi
+
+  warn "$label are incomplete after package installation: $(join_with ', ' "${missing_tools[@]}")"
+  record_status "$label" "missing" "$detail"
+}
+
 record_status() {
   REPORT_NAMES+=("$1")
   REPORT_STATUSES+=("$2")
@@ -429,40 +495,34 @@ bootstrap_system_packages() {
   esac
 }
 
-bootstrap_zoxide_binary() {
-  local install_url="https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh"
-  local zoxide_path="$HOME/.local/bin/zoxide"
+verify_base_tooling() {
+  record_tool_group \
+    "core CLI tools" \
+    "curl:curl" \
+    "git:git" \
+    "yadm:yadm" \
+    "zsh:zsh" \
+    "fzf:fzf" \
+    "fd:fd|fdfind" \
+    "ripgrep:rg" \
+    "neovim:nvim" \
+    "tmux:tmux"
 
-  if [[ "${DOTFILES_SKIP_SYSTEM_PACKAGES:-0}" == "1" ]]; then
-    record_status "zoxide binary" "skipped" "DOTFILES_SKIP_SYSTEM_PACKAGES=1"
-    return 0
-  fi
-
-  if need_cmd zoxide; then
-    record_status "zoxide binary" "present" "$(command -v zoxide)"
-    return 0
-  fi
-
-  if ! need_cmd curl; then
-    warn "curl is unavailable; skipped zoxide install"
-    record_status "zoxide binary" "skipped" "curl unavailable"
-    return 0
-  fi
-
-  log "installing zoxide via official install script"
-  if curl -sSfL "$install_url" | sh; then
-    hash -r
-    if need_cmd zoxide; then
-      record_status "zoxide binary" "installed" "$(command -v zoxide)"
-    elif [[ -x "$zoxide_path" ]]; then
-      record_status "zoxide binary" "installed" "$zoxide_path"
-    else
-      record_status "zoxide binary" "installed" "~/.local/bin"
-    fi
-  else
-    warn "zoxide install script reported errors"
-    record_status "zoxide binary" "failed" "official install script"
-  fi
+  case "$(uname -s)" in
+    Darwin)
+      record_tool_group \
+        "optional CLI tools" \
+        "eza:eza|exa" \
+        "yazi:yazi" \
+        "llvm:clangd|llvm-config"
+      ;;
+    Linux)
+      record_tool_group \
+        "optional CLI tools" \
+        "python:python3|python" \
+        "xclip:xclip"
+      ;;
+  esac
 }
 
 require_dotfiles_checkout() {
@@ -702,10 +762,10 @@ bootstrap_launch_agent() {
 main() {
   configure_proxy
   require_supported_os
-  require_cmd git "git is required before bootstrap. Install git, then rerun this script."
   require_dotfiles_checkout
   bootstrap_system_packages
-  bootstrap_zoxide_binary
+  verify_base_tooling
+  require_cmd git "git is required after system package installation. Install git, then rerun this script."
   apply_yadm_alternates
   verify_alternates
   bootstrap_zsh_runtime

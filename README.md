@@ -28,21 +28,21 @@ The bootstrap will:
 
 - configure shell and git proxy first
 - fail fast if the dotfiles checkout is not present under `$HOME`
-- install system-level software when a supported package manager is available
-- install `zoxide` via the official install script into `~/.local/bin`
+- install repo-required base CLI software first when a supported package manager is available
 - apply yadm alternate files
 - install `oh-my-zsh`, `powerlevel10k`, `zsh-autosuggestions`, `fast-syntax-highlighting`, `zsh-syntax-highlighting`, and `fzf-tab`
 - run the existing tmux bootstrap
 - reload kitty when possible
 - load or restart `com.yifan.yadm-daily-backup`
-- print a self-check summary at the end showing what was configured, installed, present, skipped, or failed
+- print a self-check summary at the end showing what was configured, installed, present, skipped, or failed, including the base CLI toolset required by this repo
 
 System package behavior:
 
 - macOS: if `brew` exists, install CLI packages from `.config/yadm/packages/homebrew/core.Brewfile`
+  - current core set: `curl`, `git`, `yadm`, `zsh`, `tmux`, `neovim`, `ripgrep`, `fzf`, `fd`, `eza`, `llvm`, `yazi`
 - macOS GUI apps: install `kitty`, `ghostty`, `squirrel` only when `DOTFILES_INSTALL_GUI_APPS=1`
 - Linux: if `apt-get`, `dnf`, or `pacman` exists, install core CLI packages from the matching manifest under `.config/yadm/packages/linux/`
-- `zoxide` is installed separately via the official install script, not via Brewfile or Linux package manifests
+  - current core set: `curl`, `git`, `yadm`, `zsh`, `tmux`, `neovim`, `ripgrep`, `fzf`, `fd`/`fd-find`, `python3`, `xclip`
 - if package installation fails or no supported package manager exists, bootstrap continues and skips dependent runtime steps where needed
 - set `DOTFILES_SKIP_SYSTEM_PACKAGES=1` to disable system package installation entirely
 - set `DOTFILES_SELF_CHECK=0` to disable the final self-check summary
