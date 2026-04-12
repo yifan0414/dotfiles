@@ -15,10 +15,8 @@ return {
   config = function()
     -- PERF: we don't need this lualine require madness 🤷
     local icons = LazyVim.config.icons
+    local theme = require("config.theme")
     vim.o.laststatus = vim.g.lualine_laststatus
-    local colors = require("kanagawa.colors").setup()
-    -- local colors = require("catppuccin.colors").setup()
-    local palette_colors = colors.palette
     require("lualine").setup({
       winbar = {
         lualine_c = {
@@ -79,7 +77,9 @@ return {
               end
               return str
             end,
-            color = { fg = palette_colors.fujiWhite, bg = palette_colors.sumiInk4 },
+            color = function()
+              return theme.inactive_winbar_colors()
+            end,
           },
           {
             function()
@@ -96,7 +96,11 @@ return {
               end
             end,
             padding = { left = -2 },
-            color = { gui = "bold", fg = palette_colors.fujiWhite, bg = palette_colors.sumiInk4 },
+            color = function()
+              local colors = theme.inactive_winbar_colors()
+              colors.gui = "bold"
+              return colors
+            end,
           },
           {
             function()
@@ -105,7 +109,9 @@ return {
             cond = function()
               return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
             end,
-            color = { fg = palette_colors.fujiWhite, bg = palette_colors.sumiInk4 },
+            color = function()
+              return theme.inactive_winbar_colors()
+            end,
             -- padding = { left = -2 },
           },
         },

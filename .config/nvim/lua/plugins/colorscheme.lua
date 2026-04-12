@@ -278,8 +278,20 @@ return {
   -- },
   {
     "LazyVim/LazyVim",
+    init = function()
+      local group = vim.api.nvim_create_augroup("theme_background", { clear = true })
+      vim.api.nvim_create_autocmd("OptionSet", {
+        group = group,
+        pattern = "background",
+        callback = function()
+          require("config.theme").apply()
+        end,
+      })
+    end,
     opts = {
-      colorscheme = "kanagawa",
+      colorscheme = function()
+        require("config.theme").apply()
+      end,
       -- colorscheme = "catppuccin-frappe",
       -- colorscheme = "catppuccin-latte",
       -- colorscheme = "dawnfox",
