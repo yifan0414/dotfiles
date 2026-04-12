@@ -6,6 +6,11 @@ log() {
   printf '[dotfiles] %s\n' "$1"
 }
 
+die() {
+  printf '[dotfiles] error: %s\n' "$1" >&2
+  exit 1
+}
+
 warn() {
   printf '[dotfiles] warning: %s\n' "$1" >&2
 }
@@ -19,6 +24,26 @@ PROXY_PORT="${DOTFILES_PROXY_PORT:-7897}"
 PROXY_SCHEME="${DOTFILES_PROXY_SCHEME:-http}"
 PROXY_URL="${DOTFILES_PROXY_URL:-${PROXY_SCHEME}://${PROXY_HOST}:${PROXY_PORT}}"
 GIT_PROXY_URL="${DOTFILES_GIT_PROXY_URL:-$PROXY_URL}"
+
+require_supported_os() {
+  case "$(uname -s)" in
+    Darwin | Linux)
+      return 0
+      ;;
+    *)
+      die "unsupported OS: $(uname -s). This bootstrap only supports macOS and Linux."
+      ;;
+  esac
+}
+
+require_cmd() {
+  local cmd="$1"
+  local help_message="$2"
+
+  if ! need_cmd "$cmd"; then
+    die "$help_message"
+  fi
+}
 
 configure_proxy() {
   export http_proxy="$PROXY_URL"
@@ -43,6 +68,28 @@ configure_proxy() {
     else
       warn "proxy endpoint ${PROXY_HOST}:${PROXY_PORT} is not reachable yet"
     fi
+  fi
+}
+
+require_dotfiles_checkout() {
+  local required_paths=(
+    "$HOME/.bootstrap-dotfiles.sh"
+    "$HOME/.config/yadm/bootstrap"
+    "$HOME/.tmux.conf"
+    "$HOME/.tmux/scripts/bootstrap.sh"
+  )
+  local missing_path
+
+  for missing_path in "${required_paths[@]}"; do
+    if [[ ! -e "$missing_path" ]]; then
+      die "dotfiles are not checked out under $HOME yet. Install yadm, run 'yadm clone <repo>', then rerun 'yadm bootstrap'."
+    fi
+  done
+
+  require_cmd yadm "yadm is required before bootstrap. Install yadm, run 'yadm clone <repo>', then rerun 'yadm bootstrap'."
+
+  if ! yadm list >/dev/null 2>&1; then
+    die "yadm is installed, but the dotfiles repository is not initialized. Run 'yadm clone <repo>' first."
   fi
 }
 
@@ -76,6 +123,14 @@ apply_yadm_alternates() {
     yadm alt
   else
     warn "yadm is unavailable; skipped alternate processing"
+  fi
+}
+
+verify_alternates() {
+  if [[ "$(uname -s)" == "Darwin" || "$(uname -s)" == "Linux" ]]; then
+    if [[ ! -f "$HOME/.zshrc" ]]; then
+      die "yadm alternates did not produce ~/.zshrc. Check your alternate files before continuing."
+    fi
   fi
 }
 
@@ -161,7 +216,11 @@ bootstrap_launch_agent() {
 
 main() {
   configure_proxy
+  require_supported_os
+  require_cmd git "git is required before bootstrap. Install git, then rerun this script."
+  require_dotfiles_checkout
   apply_yadm_alternates
+  verify_alternates
   bootstrap_zsh_runtime
   bootstrap_tmux
   reload_kitty_if_possible

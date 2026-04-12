@@ -12,7 +12,11 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_DISABLE_COMPFIX=true
 plugins=(git fzf zsh-syntax-highlighting zsh-autosuggestions z fzf-tab)
 
-source $ZSH/oh-my-zsh.sh
+if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
+  source "$ZSH/oh-my-zsh.sh"
+else
+  printf '[dotfiles] oh-my-zsh is not installed yet; run yadm bootstrap\n' >&2
+fi
 
 #-- alias ------------------------------
 # alias view="nvim -R"

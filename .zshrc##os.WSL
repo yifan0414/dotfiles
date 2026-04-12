@@ -14,7 +14,11 @@ plugins=(git z fzf fast-syntax-highlighting zsh-autosuggestions fzf-tab sudo)
 
 DISABLE_MAGIC_FUNCTIONS=true
 
-source $ZSH/oh-my-zsh.sh
+if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
+  source "$ZSH/oh-my-zsh.sh"
+else
+  printf '[dotfiles] oh-my-zsh is not installed yet; run yadm bootstrap\n' >&2
+fi
 
 
 # Example aliases
@@ -66,7 +70,9 @@ Man() {
 	man -k . | fzf | awk '{print $1}' | xargs man
 }
 
-FAST_HIGHLIGHT_STYLES[comment]="fg=#7fb4ca"
+if typeset -p FAST_HIGHLIGHT_STYLES >/dev/null 2>&1; then
+  FAST_HIGHLIGHT_STYLES[comment]="fg=#7fb4ca"
+fi
 
 function ya() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
