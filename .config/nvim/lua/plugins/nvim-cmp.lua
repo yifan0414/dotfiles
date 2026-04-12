@@ -1,7 +1,7 @@
 return {
   "hrsh7th/nvim-cmp",
   version = false, -- last release is way too old
-  enabled = true,
+  enabled = false,
   event = "VeryLazy",
   dependencies = {
     { "hrsh7th/cmp-nvim-lsp" },
@@ -126,7 +126,6 @@ return {
           require("luasnip").lsp_expand(args.body)
         end,
       },
-
       mapping = cmp.mapping.preset.insert({
         ["<Tab>"] = cmp.mapping(function()
           if cmp.visible() then
@@ -275,7 +274,6 @@ return {
             buffer = 0,
             path = 0,
           })[entry.source.name] or 0
-
           local strings = vim.split(kind.kind, "%s", { trimempty = true })
           vim_item.kind = " " .. (strings[1] or "") .. " "
           vim_item.menu = "    (" .. (strings[2] or "") .. ")"

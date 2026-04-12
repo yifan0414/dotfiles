@@ -1,6 +1,6 @@
 return {
   "saghen/blink.cmp",
-  enabled = false,
+  enabled = true,
   -- optional: provides snippets for the snippet source
   event = "InsertEnter",
   dependencies = { { "xzbdmw/colorful-menu.nvim" } },
@@ -9,8 +9,23 @@ return {
   -- version = false,
   version = "1.*",
   opts = function()
+    local kinds = require("blink.cmp.types").CompletionItemKind
+
+    local function get_buffer_identifiers(bufnr)
+      local words = {}
+      for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)) do
+        for word in line:gmatch("[%a_][%w_]*") do
+          words[word] = true
+        end
+      end
+      return words
+    end
+
     return {
-      snippets = { preset = "luasnip" },
+      snippets = {
+        preset = "luasnip",
+        score_offset = 0,
+      },
       keymap = {
         -- set to 'none' to disable the 'default' preset
         ["<Tab>"] = {
@@ -57,17 +72,16 @@ return {
           end
           -- Commands
           if type == ":" or type == "@" then
-            return { "cmdline" }
+            return { "cmdline", "buffer" }
           end
           return {}
         end,
         keymap = {
-          -- preset = "inherit",
-          -- preset = "enter",
-          -- ["<enter>"] = {
-          --   "accept_and_enter",
-          --   "fallback",
-          -- },
+          preset = "inherit",
+          ["<CR>"] = {
+            "accept_and_enter",
+            "fallback",
+          },
           ["<Tab>"] = {
             "select_next",
             "fallback",
@@ -101,16 +115,16 @@ return {
         -- example: 'foo_|_bar' will match 'foo_' for 'prefix' and 'foo__bar' for 'full'
         keyword = { range = "prefix" },
 
-        trigger = {
-          prefetch_on_insert = true,
-          show_in_snippet = true,
-          show_on_keyword = true,
-          show_on_blocked_trigger_characters = { " ", "\n", "\t", "-" },
-
-          show_on_trigger_character = false,
-          show_on_accept_on_trigger_character = true,
-          show_on_x_blocked_trigger_characters = { "'", '"', "(", ".", " ", "-", "+" },
-        },
+        -- trigger = {
+        --   prefetch_on_insert = true,
+        --   show_in_snippet = true,
+        --   show_on_keyword = true,
+        --   show_on_blocked_trigger_characters = { " ", "\n", "\t", "-" },
+        --
+        --   show_on_trigger_character = false,
+        --   show_on_accept_on_trigger_character = true,
+        --   show_on_x_blocked_trigger_characters = { "'", '"', "(", "{", "[", ".", " ", "-", "+" },
+        -- },
 
         documentation = {
           auto_show = true,
@@ -119,9 +133,9 @@ return {
             min_width = 10,
             max_width = 80,
             max_height = 20,
-            border = nil,
+            border = "rounded",
             winblend = 0,
-            winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenu,EndOfBuffer:BlinkCmpMenu",
+            winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,EndOfBuffer:BlinkCmpDoc",
 
             -- Note that the gutter will be disabled when border ~= 'none'
             scrollbar = true,
@@ -163,6 +177,7 @@ return {
       },
 
       appearance = {
+        nerd_font_variant = "mono",
         -- use_nvim_cmp_as_default = true,
         -- kind_icons = {
         --   Array = " ",
@@ -213,34 +228,59 @@ return {
         default = { "lsp", "path", "snippets", "buffer" },
         providers = {
           lsp = {
-            transform_items = function(_, items)
-              return vim.tbl_filter(function(item)
+            transform_items = function(ctx, items)
+              local buffer_words = get_buffer_identifiers(ctx.bufnr)
+
+              return vim.tbl_map(function(item)
+                local offset = item.score_offset or 0
+
+                if item.kind == kinds.Variable or item.kind == kinds.Field or item.kind == kinds.Property then
+                  offset = offset + 4
+                  if buffer_words[item.label] then
+                    offset = offset + 6
+                  end
+                elseif item.kind == kinds.Constant or item.kind == kinds.EnumMember then
+                  if buffer_words[item.label] then
+                    offset = offset + 5
+                  end
+                elseif
+                  item.kind == kinds.Function
+                  or item.kind == kinds.Method
+                  or item.kind == kinds.Constructor
+                then
+                  offset = offset - 4
+                end
+
+                item.score_offset = offset
+                return item
+              end, vim.tbl_filter(function(item)
                 return item.kind ~= require("blink.cmp.types").CompletionItemKind.Snippet
                   and item.kind ~= require("blink.cmp.types").CompletionItemKind.Constructor
-              end, items)
+              end, items))
             end,
-            should_show_items = function(ctx)
-              return ctx.trigger.initial_kind ~= "trigger_character"
-            end,
+            -- should_show_items = function(ctx)
+            --   return ctx.trigger.initial_kind ~= "trigger_character"
+            -- end,
           },
           snippets = {
+            score_offset = 2,
             max_items = 4,
-            should_show_items = function(ctx)
-              return ctx.trigger.initial_kind ~= "trigger_character"
-            end,
+            -- should_show_items = function(ctx)
+            --   return ctx.trigger.initial_kind ~= "trigger_character"
+            -- end,
             min_keyword_length = 1, -- don't show when triggered manually, useful for JSON keys
             opts = {
               -- Whether to use show_condition for filtering snippets
               use_show_condition = true,
               -- Whether to show autosnippets in the completion list
-              show_autosnippets = false,
+              show_autosnippets = true,
             },
           },
           buffer = {
             max_items = 5,
-            should_show_items = function(ctx)
-              return ctx.trigger.initial_kind ~= "trigger_character"
-            end,
+            -- should_show_items = function(ctx)
+            --   return ctx.trigger.initial_kind ~= "trigger_character"
+            -- end,
           },
         },
       },
@@ -249,7 +289,7 @@ return {
           return math.floor(#keyword / 4)
         end,
         implementation = "prefer_rust_with_warning",
-        use_frecency = true,
+        frecency = { enabled = true },
         use_proximity = true,
         sorts = { "exact", "score", "sort_text" },
         prebuilt_binaries = {

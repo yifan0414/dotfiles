@@ -83,6 +83,9 @@ return {
           PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
           PmenuSbar = { bg = theme.ui.bg_m1 },
           PmenuThumb = { bg = theme.ui.bg_p2 },
+          BlinkCmpDoc = { fg = colors.palette.lotusGray, bg = theme.ui.bg_m1 },
+          BlinkCmpDocBorder = { fg = colors.palette.sumiInk6, bg = theme.ui.bg_m1 },
+          BlinkCmpDocSeparator = { fg = colors.palette.sumiInk6, bg = theme.ui.bg_m1 },
 
           CmpItemKindText = { fg = colors.palette.carpYellow },
           CmpItemKindVariable = { fg = colors.palette.carpYellow },
