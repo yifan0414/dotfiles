@@ -1,6 +1,7 @@
 return {
   "mfussenegger/nvim-dap",
   optional = true,
+  enable = false,
   dependencies = {
     -- Ensure C/C++ debugger is installed
     "mason-org/mason.nvim",
