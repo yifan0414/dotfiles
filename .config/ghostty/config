@@ -1,38 +1,82 @@
+# Synced from ~/.config/kitty/kitty.conf and current-theme.conf
+# Ghostty can match most visual settings and keybindings, but not every Kitty-only feature.
+
 shell-integration = fish
-# ========================
-# Ghostty - Frosted Glass
-# ========================
+shell-integration-features = no-cursor,sudo,title,ssh-env,ssh-terminfo,path
 
-# 字体
-font-size = 14
+# Fonts
+font-family = "Fira Code"
+font-family-bold = "Fira Code"
+font-family-italic = "Fira Code"
+font-family-bold-italic = "Fira Code"
+font-style = Medium
+font-style-bold = Medium
+font-style-italic = "Medium Italic"
+font-style-bold-italic = "Bold Italic"
+font-size = 14.5
 
-# 主题建议选偏深色，磨砂效果更明显
-theme = Kanagawabones
+# Kitty modify_font equivalents
+adjust-underline-position = 2
+adjust-underline-thickness = 200%
 
-# 透明度：0.82~0.92 比较舒服
-background-opacity = 0.88
-
-# 开启背景模糊
-# true 等价于默认强度 20
-background-blur = true
-
-# 让 nvim / tmux 这类程序的背景也跟着透明
-background-opacity-cells = true
-
-# 留白，磨砂感会更高级一点
-window-padding-x = 12
-window-padding-y = 12
-
-# 光标
+# Cursor
 cursor-style = block
-# 滚动缓冲
-scrollback-limit = 100000
+cursor-style-blink = false
+cursor-color = #E6E0C2
+cursor-text = #1F1F28
 
-# 选中即复制（可选）
-copy-on-select = true
-
-# 分屏未聚焦时不要再额外变暗
+# Window UI
+background-opacity = 1
+background-opacity-cells = false
+background-blur = false
+window-padding-x = 0,1
+window-padding-y = 1,1
+window-padding-balance = false
+confirm-close-surface = false
+copy-on-select = false
+scrollback-limit = 10000000
 unfocused-split-opacity = 1
 
-# macOS 可选：透明标题栏，更像原生磨砂玻璃
+# macOS behavior
 macos-titlebar-style = transparent
+macos-option-as-alt = true
+
+# Theme from ~/.config/kitty/current-theme.conf
+foreground = #DDD8BB
+background = #1F1F28
+selection-foreground = #DDD8BB
+selection-background = #49473E
+palette = 0=#1F1F28
+palette = 1=#E46A78
+palette = 2=#98BC6D
+palette = 3=#E5C283
+palette = 4=#7EB3C9
+palette = 5=#957FB8
+palette = 6=#7EB3C9
+palette = 7=#DDD8BB
+palette = 8=#3C3C51
+palette = 9=#EC818C
+palette = 10=#9EC967
+palette = 11=#F1C982
+palette = 12=#7BC2DF
+palette = 13=#A98FD2
+palette = 14=#7BC2DF
+palette = 15=#A8A48D
+
+# Keybindings mapped from Kitty where Ghostty has equivalent actions.
+# Defaults are left intact unless they conflict.
+keybind = super+c=copy_to_clipboard:mixed
+keybind = super+v=paste_from_clipboard
+keybind = super+enter=new_window
+keybind = ctrl+g>c=new_tab
+keybind = ctrl+g>comma=reload_config
+keybind = ctrl+g>minus=new_split:right
+keybind = ctrl+g>[=write_screen_file:open,plain
+keybind = ctrl+g>r=prompt_tab_title
+keybind = ctrl+g>n=next_tab
+
+# Kitty-only features without Ghostty equivalents:
+# - enabled_layouts tall / full_size
+# - allow_remote_control / listen_on unix:/tmp/kitty
+# - set_colors on ctrl+g>d and ctrl+g>l
+# - hide only the window title text while keeping the same titlebar behavior
