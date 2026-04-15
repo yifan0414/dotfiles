@@ -26,13 +26,3 @@
   <string>/Users/yifan/Library/Logs/yadm-daily-backup.err.log</string>
 </dict>
 </plist>
-bash -n /Users/yifan/.local/bin/yadm-backup-on-wake
-launchctl bootout gui/$(id -u) /Users/yifan/Library/LaunchAgents/com.yifan.yadm-daily-backup.plist >/dev/null 2>&1 || true
-launchctl bootstrap gui/$(id -u) /Users/yifan/Library/LaunchAgents/com.yifan.yadm-daily-backup.plist
-launchctl kickstart -k gui/$(id -u)/com.yifan.yadm-daily-backup >/dev/null 2>&1 || true
-sleep 1
-launchctl print gui/$(id -u)/com.yifan.yadm-daily-backup | sed -n '1,120p'
-printf '\n--- stdout ---\n'
-tail -n 20 /Users/yifan/Library/Logs/yadm-daily-backup.log 2>/dev/null || true
-printf '\n--- stderr ---\n'
-tail -n 20 /Users/yifan/Library/Logs/yadm-daily-backup.err.log 2>/dev/null || true
