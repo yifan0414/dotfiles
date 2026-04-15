@@ -27,7 +27,7 @@ alias yb="$HOME/.local/bin/yadm-daily-backup"
 [[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
 # export LUA_PATH="~/.config/nvim/lua/"
 
-# alias curl='curl -x http://127.0.0.1:7890'
+alias curl='curl -x http://127.0.0.1:7890'
 
 # set english
 export LANG=en_US.UTF-8
@@ -114,3 +114,4 @@ on
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
