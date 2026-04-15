@@ -7,16 +7,48 @@ export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 repo_root="${HOME}"
 cd "${repo_root}"
 
+branch="$(yadm rev-parse --abbrev-ref HEAD)"
+
+has_upstream() {
+  yadm rev-parse --verify --quiet '@{u}' >/dev/null 2>&1
+}
+
+sync_from_remote() {
+  if ! has_upstream; then
+    echo "No upstream configured for ${branch}; skipping pull."
+    return 0
+  fi
+
+  echo "Pulling latest changes from origin/${branch}."
+  yadm pull --rebase --autostash origin "${branch}"
+}
+
+sync_from_remote
+
 # Stage tracked dotfiles without traversing protected macOS directories.
 yadm add -u
 
 if yadm diff --cached --quiet; then
-  echo "No tracked changes to back up."
+  echo "No tracked changes to commit."
+else
+  timestamp="$(date '+%Y-%m-%d %H:%M:%S %z')"
+  yadm commit -m "Daily backup ${timestamp}"
+fi
+
+# Pull again in case another machine pushed while this run was committing.
+sync_from_remote
+
+if ! has_upstream; then
+  echo "No upstream configured for ${branch}; skipping push."
   exit 0
 fi
 
-branch="$(yadm rev-parse --abbrev-ref HEAD)"
-timestamp="$(date '+%Y-%m-%d %H:%M:%S %z')"
+read -r ahead behind <<<"$(yadm rev-list --left-right --count HEAD...@{u})"
 
-yadm commit -m "Daily backup ${timestamp}"
+if (( ahead == 0 )); then
+  echo "Already in sync with origin/${branch}."
+  exit 0
+fi
+
+echo "Pushing ${ahead} local commit(s) to origin/${branch}."
 yadm push origin "${branch}"
