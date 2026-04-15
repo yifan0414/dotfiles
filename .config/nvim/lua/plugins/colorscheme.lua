@@ -277,6 +277,14 @@ return {
   --   end,
   -- },
   {
+    "catppuccin/nvim",
+    optional = true,
+    opts = function(_, opts)
+      opts.styles = opts.styles or {}
+      opts.styles.comments = { "italic", "bold" }
+    end,
+  },
+  {
     "LazyVim/LazyVim",
     init = function()
       local group = vim.api.nvim_create_augroup("theme_background", { clear = true })

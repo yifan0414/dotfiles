@@ -8,3 +8,6 @@ WRN 2026-04-13T16:12:05.839 ?.76314    server_start:197: Failed to start server:
 WRN 2026-04-13T16:12:05.839 ?.76313    server_start:197: Failed to start server: operation not permitted: /var/folders/72/n8bzqzh13jnft9zzqjb220qw0000gn/T/nvim.yifan/cpNcQi/nvim.76313.0
 WRN 2026-04-13T16:15:26.178 ?.77970    server_start:197: Failed to start server: operation not permitted: /var/folders/72/n8bzqzh13jnft9zzqjb220qw0000gn/T/nvim.yifan/WHM78d/nvim.77970.0
 WRN 2026-04-13T16:15:59.930 ?.78344    server_start:197: Failed to start server: operation not permitted: /var/folders/72/n8bzqzh13jnft9zzqjb220qw0000gn/T/nvim.yifan/3HYVqf/nvim.78344.0
+WRN 2026-04-15T23:45:00.099 ?.84998    server_start:197: Failed to start server: operation not permitted: /var/folders/72/n8bzqzh13jnft9zzqjb220qw0000gn/T/nvim.yifan/BYTXPo/nvim.84998.0
+WRN 2026-04-15T23:45:08.463 ?.85037    server_start:197: Failed to start server: operation not permitted: /var/folders/72/n8bzqzh13jnft9zzqjb220qw0000gn/T/nvim.yifan/PEeryr/nvim.85037.0
+WRN 2026-04-15T23:45:39.972 ?.85213    server_start:197: Failed to start server: operation not permitted: /var/folders/72/n8bzqzh13jnft9zzqjb220qw0000gn/T/nvim.yifan/WzeiUl/nvim.85213.0

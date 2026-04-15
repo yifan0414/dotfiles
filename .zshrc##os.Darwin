@@ -1,16 +1,24 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+##################################################################
+### Powerlevel10k instant prompt; keep interactive code above. ###
+##################################################################
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+#############################################
+### Helper functions for PATH management. ###
+#############################################
+prepend_path() {
+  [[ -d "$1" ]] && export PATH="$1:$PATH"
+}
+
+################################
+### Oh My Zsh core settings. ###
+################################
 export ZSH="$HOME/.oh-my-zsh"
-
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# ZSH_DISABLE_COMPFIX=true
 plugins=(git fzf zsh-syntax-highlighting zsh-autosuggestions z fzf-tab)
+ZVM_CURSOR_STYLE_ENABLED=false
 
 if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
   source "$ZSH/oh-my-zsh.sh"
@@ -18,100 +26,71 @@ else
   printf '[dotfiles] oh-my-zsh is not installed yet; run yadm bootstrap\n' >&2
 fi
 
-#-- alias ------------------------------
-# alias view="nvim -R"
-# alias vimdiff="nvim -d"
-alias ll="ls -all"
-export EDITOR=nvim
-alias yb="$HOME/.local/bin/yadm-daily-backup"
-[[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
-# export LUA_PATH="~/.config/nvim/lua/"
+##########################################
+### Locale and default tool selection. ###
+##########################################
+export LANG="en_US.UTF-8"
+export EDITOR="nvim"
+export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
 
-alias curl='curl -x http://127.0.0.1:7890'
+################################################
+### macOS toolchain and runtime environment. ###
+################################################
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 
-# set english
-export LANG=en_US.UTF-8
+prepend_path "$HOME/.local/bin"
+prepend_path "/opt/homebrew/opt/llvm/bin"
+prepend_path "/opt/homebrew/bin"
+prepend_path "$HOME/.luaver/lua/5.1/bin"
+prepend_path "$HOME/miniforge3/bin"
 
-if [[ "$(uname)" == "Darwin" ]]; then
-  {
-    alias vim="/opt/homebrew/bin/nvim"
-    alias tmux="/opt/homebrew/bin/tmux"
-    export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-    export PATH="/opt/homebrew/bin:$PATH"
-    export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-    export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
-
-    export PATH="$HOME/.luaver/lua/5.1/bin:$PATH"
-
-    if [[ -d "$HOME/miniforge3/bin" ]]; then
-      export PATH="$HOME/miniforge3/bin:$PATH"
-    fi
-
-    if [[ -d "/Applications/Xcode.app" ]]; then
-      export MANPATH="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/share/man"
-    fi
-
-    if [[ -d "$HOME/miniconda3/bin" ]]; then
-# export PATH="$HOME/miniconda3/bin:$PATH"  # commented out by conda initialize
-    fi
-
-    # >>> conda initialize >>>
-    if [[ -x "$HOME/miniconda3/bin/conda" ]]; then
-      __conda_setup="$("$HOME/miniconda3/bin/conda" 'shell.bash' 'hook' 2>/dev/null)"
-      if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-      else
-        if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
-# . "$HOME/miniconda3/etc/profile.d/conda.sh"  # commented out by conda initialize
-        else
-# export PATH="$HOME/miniconda3/bin:$PATH"  # commented out by conda initialize
-        fi
-      fi
-      unset __conda_setup
-    fi
-    # <<< conda initialize <<<
-  }
+if [[ -d "/Applications/Xcode.app" ]]; then
+  export MANPATH="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/share/man"
 fi
 
-if [[ "$(uname)" == "Linux" ]]; then
-  {
-    export AM_HOME="$HOME/ics2020/abstract-machine"
-    export NEMU_HOME="$HOME/ics2020/nemu"
-  }
-fi
+###########################################
+### Proxy defaults for network tooling. ###
+###########################################
+proxy_url="http://127.0.0.1:7897"
 
-# typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-# typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
+proxy_on() {
+  export http_proxy="$proxy_url"
+  export https_proxy="$proxy_url"
+  export all_proxy="$proxy_url"
 
-# The plugin will auto execute this zvm_after_init function
-
-# function zvm_after_init() {
-#   [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-#   source ~/.oh-my-zsh/custom/plugins/fzf-tab/fzf-tab.plugin.zsh
-#   source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# }
-
-# # Disable the cursor style feature
-ZVM_CURSOR_STYLE_ENABLED=false
-
-# export http_proxy="http://127.0.0.1:7890"
-# export https_proxy="https://127.0.0.1:7890"
-
-# export OPENAI_API_KEY=sk-WcifhIzcsc5emcTN38uUUsahUInelubhXbx8MEPNCHQgyk6r
-
-alias curl="curl -x http://127.0.0.1:7897"
-
-function on() {
-  export https_proxy=http://127.0.0.1:7897
-  export http_proxy=http://127.0.0.1:7897
-  export all_proxy=http://127.0.0.1:7897
-
-  git config --global http.proxy http://127.0.0.1:7897
-  git config --global https.proxy http://127.0.0.1:7897
+  if command -v git >/dev/null 2>&1; then
+    git config --global http.proxy "$proxy_url"
+    git config --global https.proxy "$proxy_url"
+  fi
 }
 
-on
+proxy_on
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
+#######################
+### Common aliases. ###
+#######################
+alias ll="ls -all"
+alias vim="/opt/homebrew/bin/nvim"
+alias tmux="/opt/homebrew/bin/tmux"
+alias curl="curl -x ${proxy_url}"
+alias yb="$HOME/.local/bin/yadm-daily-backup"
+
+#################################################
+### Conda integration for interactive shells. ###
+#################################################
+if [[ -x "$HOME/miniconda3/bin/conda" ]]; then
+  if __conda_setup="$("$HOME/miniconda3/bin/conda" 'shell.zsh' 'hook' 2>/dev/null)"; then
+    eval "$__conda_setup"
+  elif [[ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]]; then
+    source "$HOME/miniconda3/etc/profile.d/conda.sh"
+  else
+    prepend_path "$HOME/miniconda3/bin"
+  fi
+  unset __conda_setup
+fi
+
+#############################
+### Prompt customization. ###
+#############################
+[[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
