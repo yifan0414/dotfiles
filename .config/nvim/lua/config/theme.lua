@@ -9,7 +9,17 @@ function M.colorscheme()
 end
 
 function M.apply()
-  vim.cmd.colorscheme(M.colorscheme())
+  local colorscheme = M.colorscheme()
+  if vim.g.colors_name == colorscheme then
+    return
+  end
+
+  if colorscheme == "catppuccin-latte" then
+    require("catppuccin").load("latte")
+    return
+  end
+
+  require("kanagawa").load()
 end
 
 local function catppuccin_flavour()

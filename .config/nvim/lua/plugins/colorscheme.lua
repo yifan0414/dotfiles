@@ -358,7 +358,9 @@ return {
         group = group,
         pattern = "background",
         callback = function()
-          require("config.theme").apply()
+          vim.schedule(function()
+            require("config.theme").apply()
+          end)
         end,
       })
     end,
