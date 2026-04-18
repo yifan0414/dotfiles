@@ -503,6 +503,124 @@ bootstrap_system_packages() {
   esac
 }
 
+tmux_version() {
+  local tmux_bin="${1:-tmux}"
+  local version_output=""
+
+  if [[ "$tmux_bin" == */* ]]; then
+    if [[ ! -x "$tmux_bin" ]]; then
+      return 1
+    fi
+  elif ! need_cmd "$tmux_bin"; then
+    return 1
+  fi
+
+  version_output="$("$tmux_bin" -V 2>/dev/null || true)"
+  version_output="${version_output#tmux }"
+
+  if [[ -n "$version_output" ]]; then
+    printf '%s' "$version_output"
+    return 0
+  fi
+
+  return 1
+}
+
+version_gte() {
+  local left="$1"
+  local right="$2"
+  local highest=""
+
+  if [[ "$left" == "$right" ]]; then
+    return 0
+  fi
+
+  highest="$(printf '%s\n%s\n' "$right" "$left" | sort -V | tail -n 1)"
+  [[ "$highest" == "$left" ]]
+}
+
+bootstrap_tmux_from_source_on_apt() {
+  local tmux_target_version="${DOTFILES_TMUX_VERSION:-3.6a}"
+  local tmux_source_url="${DOTFILES_TMUX_SOURCE_URL:-https://github.com/tmux/tmux/releases/download/${tmux_target_version}/tmux-${tmux_target_version}.tar.gz}"
+  local prefix="$HOME/.local"
+  local build_root="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles/tmux"
+  local archive="$build_root/tmux-${tmux_target_version}.tar.gz"
+  local source_dir="$build_root/tmux-${tmux_target_version}"
+  local build_jobs="2"
+  local current_version=""
+
+  if [[ "$(uname -s)" != "Linux" ]]; then
+    record_status "tmux build" "skipped" "non-Linux"
+    return 0
+  fi
+
+  if ! need_cmd apt-get; then
+    record_status "tmux build" "skipped" "apt unavailable"
+    return 0
+  fi
+
+  if [[ "${DOTFILES_SKIP_TMUX_SOURCE_BUILD:-0}" == "1" ]]; then
+    log "skip tmux source build: DOTFILES_SKIP_TMUX_SOURCE_BUILD=1"
+    record_status "tmux build" "skipped" "DOTFILES_SKIP_TMUX_SOURCE_BUILD=1"
+    return 0
+  fi
+
+  if current_version="$(tmux_version tmux 2>/dev/null || true)"; then
+    if [[ -n "$current_version" ]] && version_gte "$current_version" "$tmux_target_version"; then
+      record_status "tmux build" "present" "$current_version"
+      return 0
+    fi
+  fi
+
+  if ! need_cmd curl || ! need_cmd tar || ! need_cmd make; then
+    warn "missing one or more tmux build prerequisites: curl, tar, make"
+    record_status "tmux build" "failed" "missing curl/tar/make"
+    return 0
+  fi
+
+  if need_cmd getconf; then
+    build_jobs="$(getconf _NPROCESSORS_ONLN 2>/dev/null || printf '2')"
+  fi
+
+  mkdir -p "$build_root"
+
+  if [[ ! -f "$archive" ]]; then
+    log "downloading tmux ${tmux_target_version} source tarball"
+    if ! curl -fsSL -o "$archive" "$tmux_source_url"; then
+      warn "failed to download tmux source tarball: $tmux_source_url"
+      record_status "tmux build" "failed" "download"
+      return 0
+    fi
+  fi
+
+  rm -rf "$source_dir"
+  if ! tar -xzf "$archive" -C "$build_root"; then
+    warn "failed to extract tmux source tarball"
+    record_status "tmux build" "failed" "extract"
+    return 0
+  fi
+
+  log "building tmux ${tmux_target_version} into ${prefix}"
+  if ! (
+    cd "$source_dir" &&
+    ./configure --prefix="$prefix" >/dev/null 2>&1 &&
+    make -j "$build_jobs" >/dev/null 2>&1 &&
+    make install >/dev/null 2>&1
+  ); then
+    warn "failed to build or install tmux ${tmux_target_version}"
+    record_status "tmux build" "failed" "${tmux_target_version}"
+    return 0
+  fi
+
+  hash -r
+  current_version="$(tmux_version "$prefix/bin/tmux" 2>/dev/null || true)"
+  if [[ -n "$current_version" ]]; then
+    record_status "tmux build" "installed" "$current_version"
+  else
+    record_status "tmux build" "failed" "${tmux_target_version}"
+  fi
+}
+
 verify_base_tooling() {
   record_tool_group \
     "core CLI tools" \
@@ -874,6 +992,7 @@ main() {
   require_supported_os
   require_dotfiles_checkout
   bootstrap_system_packages
+  bootstrap_tmux_from_source_on_apt
   verify_base_tooling
   require_cmd git "git is required after system package installation. Install git, then rerun this script."
   apply_yadm_alternates

@@ -208,13 +208,22 @@ exec zsh
 - `git`
 - `yadm`
 - `zsh`
-- `tmux`
 - `neovim`
 - `ripgrep`
 - `fzf`
 - `fd` / `fd-find`
 - `python3`
 - `xclip`
+
+在 Ubuntu / Debian 上，bootstrap 会额外安装 tmux 官方 wiki 建议的构建依赖：
+
+- `libevent-dev`
+- `ncurses-dev`
+- `build-essential`
+- `bison`
+- `pkg-config`
+
+然后把 tmux 官方 release tarball 编译安装到 `~/.local`。默认目标版本是 `DOTFILES_TMUX_VERSION=3.6a`，也可以在运行 bootstrap 时覆盖。
 
 bootstrap 在装完这些基础包后，还会额外做一次自检，确认这个仓库实际依赖的核心命令已经可用，例如 `git`、`curl`、`yadm`、`zsh`、`fzf`、`fd`、`rg`、`nvim`、`tmux`。
 
@@ -256,6 +265,18 @@ DOTFILES_PROXY_URL=http://127.0.0.1:7897 yadm bootstrap
 
 ```zsh
 DOTFILES_PROXY_HOST=127.0.0.1 DOTFILES_PROXY_PORT=7897 yadm bootstrap
+```
+
+可覆盖 Ubuntu / Debian 上源码安装的 tmux 版本：
+
+```zsh
+DOTFILES_TMUX_VERSION=3.6a yadm bootstrap
+```
+
+如果想跳过这一步，保留发行版的 tmux 路径：
+
+```zsh
+DOTFILES_SKIP_TMUX_SOURCE_BUILD=1 yadm bootstrap
 ```
 
 ## 跳过与容错策略

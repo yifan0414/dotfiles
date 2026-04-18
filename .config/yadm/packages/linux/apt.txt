@@ -5,7 +5,11 @@ python3
 ripgrep
 fzf
 fd-find
-tmux
 neovim
 zsh
 xclip
+libevent-dev
+ncurses-dev
+build-essential
+bison
+pkg-config

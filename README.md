@@ -42,9 +42,12 @@ System package behavior:
   - current core set: `curl`, `git`, `yadm`, `zsh`, `tmux`, `neovim`, `ripgrep`, `fzf`, `fd`, `eza`, `llvm`, `yazi`, `zoxide`
 - macOS GUI apps: install `kitty`, `ghostty`, `squirrel` only when `DOTFILES_INSTALL_GUI_APPS=1`
 - Linux: if `apt-get`, `dnf`, or `pacman` exists, install core CLI packages from the matching manifest under `.config/yadm/packages/linux/`
-  - current core set: `curl`, `git`, `yadm`, `zsh`, `tmux`, `neovim`, `ripgrep`, `fzf`, `fd`/`fd-find`, `python3`, `xclip`
+  - current core set: `curl`, `git`, `yadm`, `zsh`, `neovim`, `ripgrep`, `fzf`, `fd`/`fd-find`, `python3`, `xclip`
+  - on Ubuntu/Debian, bootstrap also installs tmux build packages (`libevent-dev`, `ncurses-dev`, `build-essential`, `bison`, `pkg-config`) and compiles tmux from the official release tarball into `~/.local`
 - if package installation fails or no supported package manager exists, bootstrap continues and skips dependent runtime steps where needed
 - set `DOTFILES_SKIP_SYSTEM_PACKAGES=1` to disable system package installation entirely
+- set `DOTFILES_SKIP_TMUX_SOURCE_BUILD=1` to keep the distro tmux package path on apt-based Linux systems
+- set `DOTFILES_TMUX_VERSION=3.6a` or another release tag to override the tmux source version used on apt-based Linux systems
 - set `DOTFILES_SELF_CHECK=0` to disable the final self-check summary
 - color output is terminal-aware; set `NO_COLOR=1` to force plain text
 
