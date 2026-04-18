@@ -1,5 +1,29 @@
 local M = {}
 
+-- local function diagnostic_sp(name)
+--   local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
+--   return hl.fg or hl.sp
+-- end
+--
+-- local function apply_diagnostic_undercurl()
+--   local groups = {
+--     Error = "DiagnosticError",
+--     Warn = "DiagnosticWarn",
+--     Info = "DiagnosticInfo",
+--     Hint = "DiagnosticHint",
+--     Ok = "DiagnosticOk",
+--   }
+--
+--   for suffix, source in pairs(groups) do
+--     local spec = { undercurl = true }
+--     local sp = diagnostic_sp(source)
+--     if sp then
+--       spec.sp = sp
+--     end
+--     vim.api.nvim_set_hl(0, "DiagnosticUnderline" .. suffix, spec)
+--   end
+-- end
+
 function M.colorscheme()
   if vim.o.background == "light" then
     return "catppuccin-latte"
@@ -16,10 +40,12 @@ function M.apply()
 
   if colorscheme == "catppuccin-latte" then
     require("catppuccin").load("latte")
+    -- apply_diagnostic_undercurl()
     return
   end
 
   require("kanagawa").load()
+  -- apply_diagnostic_undercurl()
 end
 
 local function catppuccin_flavour()

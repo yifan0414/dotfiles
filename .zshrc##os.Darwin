@@ -74,7 +74,11 @@ alias ll="ls -all"
 alias vim="/opt/homebrew/bin/nvim"
 alias tmux="/opt/homebrew/bin/tmux"
 alias curl="curl -x ${proxy_url}"
-alias yb="$HOME/.local/bin/yadm-daily-backup"
+
+unalias yb 2>/dev/null
+yb() {
+  "$HOME/.local/bin/yadm-daily-backup" "$@"
+}
 
 #################################################
 ### Conda integration for interactive shells. ###

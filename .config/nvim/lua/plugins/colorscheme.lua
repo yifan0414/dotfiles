@@ -323,11 +323,11 @@ return {
           ok = { "italic", "bold" },
         },
         underlines = {
-          errors = { "underline" },
-          hints = { "underline" },
-          warnings = { "underline" },
-          information = { "underline" },
-          ok = { "underline" },
+          errors = { "undercurl" },
+          hints = { "undercurl" },
+          warnings = { "undercurl" },
+          information = { "undercurl" },
+          ok = { "undercurl" },
         },
         inlay_hints = {
           background = true,

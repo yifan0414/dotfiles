@@ -5,11 +5,6 @@ set -euo pipefail
 resolve_appearance() {
   local current_theme=""
 
-  if [[ "${TMUX_APPEARANCE:-}" == "dark" || "${TMUX_APPEARANCE:-}" == "light" ]]; then
-    printf '%s' "$TMUX_APPEARANCE"
-    return 0
-  fi
-
   case "$(uname -s)" in
     Darwin)
       if defaults read -g AppleInterfaceStyle >/dev/null 2>&1; then
@@ -19,6 +14,11 @@ resolve_appearance() {
       fi
       ;;
     *)
+      if [[ "${TMUX_APPEARANCE:-}" == "dark" || "${TMUX_APPEARANCE:-}" == "light" ]]; then
+        printf '%s' "$TMUX_APPEARANCE"
+        return 0
+      fi
+
       current_theme="$(tmux show-options -gqv @appearance_theme 2>/dev/null || printf '')"
       if [[ "$current_theme" == "dark" || "$current_theme" == "light" ]]; then
         printf '%s' "$current_theme"
