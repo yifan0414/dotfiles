@@ -142,140 +142,30 @@ return {
     -- branch = "dev",
     -- commit = "476eb2289d47d132ebacc1a4d459e3204866599b"
   },
-  -- {
-  --   "ellisonleao/gruvbox.nvim",
-  --   enabled = false,
-  --   lazy = true,
-  -- },
-  -- {
-  --   "catppuccin/nvim",
-  --   lazy = true,
-  --   enabled = false,
-  --   name = "catppuccin",
-  --   config = function()
-  --     require("catppuccin").setup({
-  --       flavour = "auto", -- latte, frappe, macchiato, mocha
-  --       background = { -- :h background
-  --         light = "latte",
-  --         dark = "frappe",
-  --       },
-  --       transparent_background = false, -- disables setting the background color.
-  --       show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
-  --       term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
-  --       dim_inactive = {
-  --         enabled = false, -- dims the background color of inactive window
-  --         shade = "dark",
-  --         percentage = 0.15, -- percentage of the shade to apply to the inactive window
-  --       },
-  --       no_italic = false, -- Force no italic
-  --       no_bold = false, -- Force no bold
-  --       no_underline = false, -- Force no underline
-  --       styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
-  --         comments = {}, -- Change the style of comments
-  --         conditionals = { "italic" },
-  --         loops = { "italic" },
-  --         functions = { "italic", "bold" },
-  --         keywords = { "italic" },
-  --         strings = {},
-  --         variables = {},
-  --         numbers = {},
-  --         booleans = {},
-  --         properties = {},
-  --         types = {},
-  --         operators = {},
-  --         -- miscs = {}, -- Uncomment to turn off hard-coded styles
-  --       },
-  --       color_overrides = {},
-  --       highlight_overrides = {
-  --         -- all = function(colors)
-  --         --   return {
-  --         --     TreesitterContext = { bg = colors.mantle },
-  --         --     NormalFloat = { bg = colors.base },
-  --         --     FloatBorder = { bg = colors.base },
-  --         --   }
-  --         -- end,
-  --         frappe = function(frappe)
-  --           return {
-  --             NavicText = { fg = "#c6d0f6" },
-  --             WinBar = { bg = frappe.mantle },
-  --             TreesitterContext = { bg = frappe.mantle },
-  --             NormalFloat = { bg = frappe.base },
-  --             FloatBorder = { bg = frappe.base },
-  --             ["@function.builtin"] = { fg = frappe.blue, bold = true },
-  --             ["@type.builtin.cpp"] = { fg = frappe.mauve },
-  --             ["@type.cpp"] = { fg = frappe.mauve },
-  --             CompetiTestCorrect = { bold = true, fg = frappe.green },
-  --             CompetiTestWrong = { bold = true, fg = frappe.red },
-  --           }
-  --         end,
-  --         mocha = function(mocha)
-  --           return {
-  --             TreesitterContext = { bg = mocha.mantle },
-  --             NormalFloat = { bg = mocha.base },
-  --             FloatBorder = { bg = mocha.base },
-  --             CompetiTestCorrect = { bold = true, fg = mocha.green },
-  --             CompetiTestWrong = { bold = true, fg = mocha.red },
-  --           }
-  --         end,
-  --         latte = function(latte)
-  --           return {
-  --             NavicText = { fg = "#4c4f6a" },
-  --             WinBar = { bg = latte.mantle },
-  --             TreesitterContext = { bg = latte.mantle },
-  --             NormalFloat = { bg = latte.base },
-  --             FloatBorder = { bg = latte.base },
-  --             ["@function.builtin"] = { fg = latte.blue, bold = true },
-  --             ["@type.builtin.cpp"] = { fg = latte.mauve },
-  --             ["@type.cpp"] = { fg = latte.mauve },
-  --             ["@lsp.type.class.cpp"] = { bold = true },
-  --             CompetiTestCorrect = { bold = true, fg = latte.green },
-  --             CompetiTestWrong = { bold = true, fg = latte.red },
-  --           }
-  --         end,
-  --       },
-  --       custom_highlights = {
-  --         snackchunk = { fg = "#806d9c" },
-  --       },
-  --       default_integrations = true,
-  --       integrations = {
-  --         cmp = true,
-  --         gitsigns = true,
-  --         nvimtree = true,
-  --         treesitter = true,
-  --         treesitter_context = true,
-  --         mini = {
-  --           enabled = true,
-  --           indentscope_color = "",
-  --         },
-  --         overseer = true,
-  --         navic = {
-  --           enabled = true,
-  --           custom_bg = "NONE", -- "lualine" will set background to mantle
-  --         },
-  --         snacks = true,
-  --         which_key = false,
-  --         dashboard = true,
-  --         flash = true,
-  --         fzf = true,
-  --         lsp_trouble = false,
-  --         mason = true,
-  --         markdown = false,
-  --         neotest = true,
-  --         neotree = true,
-  --         noice = true,
-  --         semantic_tokens = true,
-  --         blink_cmp = true,
-  --         rainbow_delimiters = true,
-  --         render_markdown = true,
-  --         telescope = {
-  --           enabled = true,
-  --           style = "nvchad",
-  --         },
-  --         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
-  --       },
-  --     })
-  --   end,
-  -- },
+  {
+    "navarasu/onedark.nvim",
+    opts = {
+      style = "light",
+      term_colors = false,
+      code_style = {
+        comments = "italic,bold",
+        keywords = "none",
+        functions = "none",
+        strings = "none",
+        variables = "none",
+      },
+      diagnostics = {
+        darker = false,
+        undercurl = true,
+        background = true,
+      },
+      highlights = {
+        WinBar = { bg = "$bg1" },
+        WinBarNc = { bg = "$bg1" },
+        TreesitterContextLineNumber = { bg = "$bg1" },
+      },
+    },
+  },
   {
     "catppuccin/nvim",
     optional = true,
@@ -340,6 +230,39 @@ return {
       integrations = {
         cmp = true,
         gitsigns = true,
+        lualine = {
+          latte = function(C)
+            return {
+              normal = {
+                a = { bg = C.lavender, fg = C.mantle, gui = "bold" },
+                b = { bg = C.surface0, fg = C.lavender },
+              },
+              insert = {
+                a = { bg = C.teal, fg = C.base, gui = "bold" },
+                b = { bg = C.surface0, fg = C.teal },
+              },
+              terminal = {
+                a = { bg = C.teal, fg = C.base, gui = "bold" },
+                b = { bg = C.surface0, fg = C.teal },
+              },
+              command = {
+                a = { bg = C.yellow, fg = C.base, gui = "bold" },
+                b = { bg = C.surface0, fg = C.yellow },
+              },
+              visual = {
+                a = { bg = C.pink, fg = C.base, gui = "bold" },
+                b = { bg = C.surface0, fg = C.pink },
+              },
+              replace = {
+                a = { bg = C.maroon, fg = C.base, gui = "bold" },
+                b = { bg = C.surface0, fg = C.maroon },
+              },
+              inactive = {
+                a = { fg = C.lavender },
+              },
+            }
+          end,
+        },
         nvimtree = true,
         notify = false,
         mini = {

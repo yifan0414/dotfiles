@@ -38,6 +38,12 @@ function M.apply()
     return
   end
 
+  if colorscheme == "onedark" then
+    require("onedark").load()
+    -- apply_diagnostic_undercurl()
+    return
+  end
+
   if colorscheme == "catppuccin-latte" then
     require("catppuccin").load("latte")
     -- apply_diagnostic_undercurl()
@@ -68,6 +74,11 @@ end
 
 function M.inactive_winbar_colors()
   local colors_name = vim.g.colors_name or ""
+
+  if colors_name == "onedark" then
+    local palette = require("onedark.palette").light
+    return { fg = palette.fg, bg = palette.bg1 }
+  end
 
   if colors_name:find("^catppuccin") then
     local palette = require("catppuccin.palettes").get_palette(catppuccin_flavour())
