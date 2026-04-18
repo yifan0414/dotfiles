@@ -533,11 +533,132 @@ verify_base_tooling() {
   esac
 }
 
+load_nvm() {
+  local candidate
+  local had_nounset=0
+
+  export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+
+  for candidate in \
+    "$NVM_DIR/nvm.sh" \
+    "/opt/homebrew/opt/nvm/nvm.sh" \
+    "/usr/local/opt/nvm/nvm.sh"; do
+    if [[ -s "$candidate" ]]; then
+      if [[ "$-" == *u* ]]; then
+        had_nounset=1
+        set +u
+      fi
+
+      # shellcheck disable=SC1090
+      . "$candidate"
+
+      if [[ "$had_nounset" -eq 1 ]]; then
+        set -u
+      fi
+
+      if command -v nvm >/dev/null 2>&1; then
+        return 0
+      fi
+    fi
+  done
+
+  return 1
+}
+
+bootstrap_nvm() {
+  local nvm_dir="${NVM_DIR:-$HOME/.nvm}"
+  local nvm_version=""
+
+  export NVM_DIR="$nvm_dir"
+
+  if load_nvm; then
+    nvm_version="$(nvm --version 2>/dev/null || true)"
+    record_status "nvm" "present" "${nvm_version:-loaded}"
+    return 0
+  fi
+
+  if [[ -e "$nvm_dir" ]] && [[ ! -d "$nvm_dir/.git" ]]; then
+    if [[ -n "$(find "$nvm_dir" -mindepth 1 -maxdepth 1 -print -quit 2>/dev/null)" ]]; then
+      warn "nvm directory exists but is not loadable: $nvm_dir"
+      record_status "nvm" "failed" "$nvm_dir"
+      return 0
+    fi
+    rmdir "$nvm_dir" >/dev/null 2>&1 || true
+  fi
+
+  log "installing nvm"
+  if git clone --depth 1 https://github.com/nvm-sh/nvm.git "$nvm_dir" >/dev/null 2>&1; then
+    if load_nvm; then
+      nvm_version="$(nvm --version 2>/dev/null || true)"
+      record_status "nvm" "installed" "${nvm_version:-loaded}"
+    else
+      warn "nvm checkout completed but nvm could not be loaded"
+      record_status "nvm" "failed" "$nvm_dir"
+    fi
+  else
+    warn "failed to install nvm"
+    record_status "nvm" "failed" "$nvm_dir"
+  fi
+}
+
+ensure_node_lts() {
+  local node_version=""
+
+  if ! load_nvm; then
+    warn "nvm is unavailable; skipped Node.js setup for Codex"
+    record_status "node runtime" "skipped" "nvm unavailable"
+    return 0
+  fi
+
+  mkdir -p "$NVM_DIR"
+
+  if nvm use --lts >/dev/null 2>&1; then
+    node_version="$(node --version 2>/dev/null || true)"
+    record_status "node runtime" "present" "${node_version:-lts/*}"
+    return 0
+  fi
+
+  log "installing Node.js LTS via nvm"
+  if nvm install --lts >/dev/null 2>&1 && nvm use --lts >/dev/null 2>&1; then
+    node_version="$(node --version 2>/dev/null || true)"
+    record_status "node runtime" "installed" "${node_version:-lts/*}"
+  else
+    warn "failed to install Node.js LTS via nvm"
+    record_status "node runtime" "failed" "lts/*"
+  fi
+}
+
+bootstrap_codex() {
+  local codex_path=""
+
+  ensure_node_lts
+
+  if codex_path="$(command -v codex 2>/dev/null)"; then
+    record_status "codex" "present" "$codex_path"
+    return 0
+  fi
+
+  if ! need_cmd npm; then
+    warn "npm is unavailable; skipped Codex installation"
+    record_status "codex" "skipped" "npm unavailable"
+    return 0
+  fi
+
+  log "installing Codex via npm"
+  if npm install -g @openai/codex >/dev/null 2>&1; then
+    hash -r
+    codex_path="$(command -v codex 2>/dev/null || true)"
+    record_status "codex" "installed" "${codex_path:-@openai/codex}"
+  else
+    warn "failed to install Codex via npm"
+    record_status "codex" "failed" "@openai/codex"
+  fi
+}
+
 require_dotfiles_checkout() {
   local required_paths=(
     "$HOME/.config/yadm/bootstrap"
     "$HOME/.tmux.conf"
-    "$HOME/.tmux/scripts/bootstrap.sh"
   )
   local missing_path
 
@@ -655,64 +776,30 @@ bootstrap_zsh_runtime() {
 bootstrap_tmux() {
   local plugin_dir="$HOME/.tmux/plugins"
 
-  if [[ -f "$HOME/.tmux/scripts/bootstrap.sh" ]]; then
-    if need_cmd tmux; then
-      log "bootstrapping tmux"
-      if "$HOME/.tmux/scripts/bootstrap.sh"; then
-        record_status "tmux bootstrap" "installed" ""
-      else
-        record_status "tmux bootstrap" "failed" ""
-        return 1
-      fi
-    else
-      warn "tmux is unavailable; skipped tmux bootstrap"
-      record_status "tmux bootstrap" "skipped" "tmux unavailable"
-      record_status "tpm" "skipped" "tmux unavailable"
-      record_status "tmux-sensible" "skipped" "tmux unavailable"
-      record_status "tmux-yank" "skipped" "tmux unavailable"
-      record_status "tmux-better-mouse-mode" "skipped" "tmux unavailable"
-      record_status "vim-tmux-navigator" "skipped" "tmux unavailable"
-      return 0
-    fi
-  else
+  if [[ ! -f "$HOME/.tmux/scripts/bootstrap.sh" ]]; then
     log "skip tmux bootstrap: ~/.tmux/scripts/bootstrap.sh not found"
     record_status "tmux bootstrap" "skipped" "bootstrap script missing"
-    record_status "tpm" "skipped" "tmux bootstrap unavailable"
-    record_status "tmux-sensible" "skipped" "tmux bootstrap unavailable"
-    record_status "tmux-yank" "skipped" "tmux bootstrap unavailable"
-    record_status "tmux-better-mouse-mode" "skipped" "tmux bootstrap unavailable"
-    record_status "vim-tmux-navigator" "skipped" "tmux bootstrap unavailable"
     return 0
+  fi
+
+  if ! need_cmd tmux; then
+    warn "tmux is unavailable; skipped tmux bootstrap"
+    record_status "tmux bootstrap" "skipped" "tmux unavailable"
+    return 0
+  fi
+
+  log "bootstrapping tmux plugins"
+  if "$HOME/.tmux/scripts/bootstrap.sh"; then
+    record_status "tmux bootstrap" "installed" "manual activation required"
+  else
+    record_status "tmux bootstrap" "failed" "plugin download or install failed"
+    return 1
   fi
 
   if [[ -d "$plugin_dir/tpm" ]]; then
     record_status "tpm" "present" "$plugin_dir/tpm"
   else
     record_status "tpm" "missing" "$plugin_dir/tpm"
-  fi
-
-  if [[ -d "$plugin_dir/tmux-sensible" ]]; then
-    record_status "tmux-sensible" "present" "$plugin_dir/tmux-sensible"
-  else
-    record_status "tmux-sensible" "missing" "$plugin_dir/tmux-sensible"
-  fi
-
-  if [[ -d "$plugin_dir/tmux-yank" ]]; then
-    record_status "tmux-yank" "present" "$plugin_dir/tmux-yank"
-  else
-    record_status "tmux-yank" "missing" "$plugin_dir/tmux-yank"
-  fi
-
-  if [[ -d "$plugin_dir/tmux-better-mouse-mode" ]]; then
-    record_status "tmux-better-mouse-mode" "present" "$plugin_dir/tmux-better-mouse-mode"
-  else
-    record_status "tmux-better-mouse-mode" "missing" "$plugin_dir/tmux-better-mouse-mode"
-  fi
-
-  if [[ -d "$plugin_dir/vim-tmux-navigator" ]]; then
-    record_status "vim-tmux-navigator" "present" "$plugin_dir/vim-tmux-navigator"
-  else
-    record_status "vim-tmux-navigator" "missing" "$plugin_dir/vim-tmux-navigator"
   fi
 }
 
@@ -793,6 +880,8 @@ main() {
   require_cmd git "git is required after system package installation. Install git, then rerun this script."
   apply_yadm_alternates
   verify_alternates
+  bootstrap_nvm
+  bootstrap_codex
   bootstrap_zsh_runtime
   bootstrap_tmux
   reload_kitty_if_possible

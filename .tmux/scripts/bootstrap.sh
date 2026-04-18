@@ -22,10 +22,5 @@ fi
 
 "$TPM_DIR/bin/install_plugins"
 
-if tmux start-server >/dev/null 2>&1; then
-  tmux source-file "$HOME/.tmux.conf"
-  echo "tmux plugins bootstrapped and config reloaded"
-else
-  echo "tmux plugins bootstrapped"
-  echo "start tmux and run: tmux source-file ~/.tmux.conf"
-fi
+echo "tmux plugins bootstrapped"
+echo "activate manually in tmux, or run: tmux source-file ~/.tmux.conf"
