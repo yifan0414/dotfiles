@@ -1,0 +1,15 @@
+{
+  "picBed": {
+    "uploader": "aliyun",
+    "aliyun": {
+      "accessKeyId": "your-access-key-id",
+      "accessKeySecret": "your-access-key-secret",
+      "bucket": "your-bucket",
+      "area": "oss-cn-shenzhen",
+      "path": "",
+      "customUrl": "https://your-bucket.oss-cn-shenzhen.aliyuncs.com",
+      "options": ""
+    }
+  },
+  "picgoPlugins": {}
+}

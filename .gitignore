@@ -1,2 +1,7 @@
 .tmux/plugins/
 .config/kitty/tmux-client-*.log
+.config/kitty/__pycache__/
+.config/nvim/nvim.log
+.local/bin/zoxide
+.picgo/config.json
+.picgo/picgo.log

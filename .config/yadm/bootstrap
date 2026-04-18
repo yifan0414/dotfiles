@@ -522,6 +522,7 @@ verify_base_tooling() {
         "optional CLI tools" \
         "eza:eza|exa" \
         "yazi:yazi" \
+        "zoxide:zoxide" \
         "llvm:clangd|llvm-config"
       ;;
     Linux)

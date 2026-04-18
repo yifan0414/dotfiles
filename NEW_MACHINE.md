@@ -107,6 +107,22 @@ DOTFILES_INSTALL_GUI_APPS=1 yadm bootstrap
 exec zsh
 ```
 
+### 6. 私有本地配置
+
+PicGo 配置默认不跟踪明文。需要时先从模板生成本地文件：
+
+```zsh
+cp ~/.picgo/config.example.json ~/.picgo/config.json
+```
+
+如果之后希望跨机器安全同步 PicGo 配置，这个仓库已经准备好了 `.config/yadm/encrypt`。填好 `~/.picgo/config.json` 后再执行：
+
+```zsh
+yadm encrypt
+```
+
+生成的 `~/.local/share/yadm/archive` 会在后续 `yadm-daily-backup` 时自动被加入提交。
+
 ## Linux
 
 ### 1. 手动配置代理
@@ -176,6 +192,7 @@ exec zsh
 - `eza`
 - `llvm`
 - `yazi`
+- `zoxide`
 
 ### Linux
 

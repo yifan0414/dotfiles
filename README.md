@@ -39,7 +39,7 @@ The bootstrap will:
 System package behavior:
 
 - macOS: if `brew` exists, install CLI packages from `.config/yadm/packages/homebrew/core.Brewfile`
-  - current core set: `curl`, `git`, `yadm`, `zsh`, `tmux`, `neovim`, `ripgrep`, `fzf`, `fd`, `eza`, `llvm`, `yazi`
+  - current core set: `curl`, `git`, `yadm`, `zsh`, `tmux`, `neovim`, `ripgrep`, `fzf`, `fd`, `eza`, `llvm`, `yazi`, `zoxide`
 - macOS GUI apps: install `kitty`, `ghostty`, `squirrel` only when `DOTFILES_INSTALL_GUI_APPS=1`
 - Linux: if `apt-get`, `dnf`, or `pacman` exists, install core CLI packages from the matching manifest under `.config/yadm/packages/linux/`
   - current core set: `curl`, `git`, `yadm`, `zsh`, `tmux`, `neovim`, `ripgrep`, `fzf`, `fd`/`fd-find`, `python3`, `xclip`
@@ -52,5 +52,12 @@ Operational note:
 
 - plain `yadm clone <repo>` will still auto-apply alternates
 - plain `yadm clone <repo>` may prompt whether to execute bootstrap; in headless or non-interactive environments, prefer `yadm clone --bootstrap <repo>`
+
+Private local files:
+
+- `~/.picgo/config.json` is intentionally local-only and ignored by Git; use `.picgo/config.example.json` as the template.
+- `.config/yadm/encrypt` already marks `~/.picgo/config.json` as a private file for `yadm encrypt` if you later decide to sync it securely.
+- runtime files like `nvim.log`, `picgo.log`, kitty `__pycache__`, and any local `~/.local/bin/zoxide` copy are intentionally ignored so backup commits stay clean.
+- when `~/.local/share/yadm/archive` exists, `~/.local/bin/yadm-daily-backup` stages it automatically.
 
 ![nvim-startuptime](https://picture-suyifan.oss-cn-shenzhen.aliyuncs.com/uPic/QKCmiJ.png)

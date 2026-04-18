@@ -40,6 +40,7 @@ while (($# > 0)); do
 done
 
 repo_root="${HOME}"
+archive_path="${HOME}/.local/share/yadm/archive"
 cd "${repo_root}"
 
 branch="$(yadm rev-parse --abbrev-ref HEAD)"
@@ -62,6 +63,11 @@ sync_from_remote
 
 # Stage tracked dotfiles without traversing protected macOS directories.
 yadm add -u
+
+# Stage the encrypted archive when present so private files can be backed up.
+if [[ -f "${archive_path}" ]]; then
+  yadm add "${archive_path}"
+fi
 
 if yadm diff --cached --quiet; then
   echo "No tracked changes to commit."

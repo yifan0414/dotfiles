@@ -40,7 +40,7 @@
 - LSP / 调试：`clangd`、`codelldb`
 - 编译运行：`gcc`、`g++`、`rustc`、`javac`
 - 格式化：`google-java-format`、`pangu`、`shfmt`
-- 终端工具：`tmux`、`kitty`、`yazi`、`tig`、`fzf`
+- 终端工具：`tmux`、`kitty`、`yazi`、`tig`、`fzf`、`zoxide`
 - 数据库：你自己需要的数据库客户端
 
 如果某个功能你不用，不需要把这些都装齐。
