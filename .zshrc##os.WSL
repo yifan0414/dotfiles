@@ -17,7 +17,7 @@ append_path() {
 ################################
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
-plugins=(git z fzf fast-syntax-highlighting zsh-autosuggestions fzf-tab sudo)
+plugins=(git z fzf zsh-syntax-highlighting zsh-autosuggestions fzf-tab sudo)
 DISABLE_MAGIC_FUNCTIONS=true
 
 if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then

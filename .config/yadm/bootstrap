@@ -759,9 +759,6 @@ bootstrap_zsh_runtime() {
   if ! ensure_git_checkout "zsh-autosuggestions" "https://github.com/zsh-users/zsh-autosuggestions" "$zsh_custom/plugins/zsh-autosuggestions"; then
     clone_failed=1
   fi
-  if ! ensure_git_checkout "fast-syntax-highlighting" "https://github.com/zdharma-continuum/fast-syntax-highlighting.git" "$zsh_custom/plugins/fast-syntax-highlighting"; then
-    clone_failed=1
-  fi
   if ! ensure_git_checkout "zsh-syntax-highlighting" "https://github.com/zsh-users/zsh-syntax-highlighting.git" "$zsh_custom/plugins/zsh-syntax-highlighting"; then
     clone_failed=1
   fi

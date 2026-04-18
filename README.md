@@ -30,7 +30,7 @@ The bootstrap will:
 - fail fast if the dotfiles checkout is not present under `$HOME`
 - install repo-required base CLI software first when a supported package manager is available
 - apply yadm alternate files
-- install `oh-my-zsh`, `powerlevel10k`, `zsh-autosuggestions`, `fast-syntax-highlighting`, `zsh-syntax-highlighting`, and `fzf-tab`
+- install `oh-my-zsh`, `powerlevel10k`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, and `fzf-tab`
 - run the existing tmux bootstrap
 - reload kitty when possible
 - load or restart `com.yifan.yadm-daily-backup`
