@@ -190,8 +190,8 @@ return {
       no_bold = false, -- Force no bold
       no_underline = false, -- Force no underline
       styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
-        comments = { "italic", "bold" }, -- Change the style of comments
-        conditionals = { "italic", "bold"},
+        comments = { "italic"}, -- Change the style of comments
+        conditionals = { "italic"},
         loops = {},
         functions = {},
         keywords = {},
@@ -206,11 +206,11 @@ return {
       },
       lsp_styles = { -- Handles the style of specific lsp hl groups (see `:h lsp-highlight`).
         virtual_text = {
-          errors = { "italic", "bold" },
-          hints = { "italic", "bold" },
-          warnings = { "italic", "bold" },
-          information = { "italic", "bold" },
-          ok = { "italic", "bold" },
+          errors = { "italic"},
+          hints = { "italic"},
+          warnings = { "italic"},
+          information = { "italic"},
+          ok = { "italic"},
         },
         underlines = {
           errors = { "undercurl" },
@@ -250,8 +250,8 @@ return {
                 b = { bg = C.surface0, fg = C.yellow },
               },
               visual = {
-                a = { bg = C.pink, fg = C.base, gui = "bold" },
-                b = { bg = C.surface0, fg = C.pink },
+                a = { bg = "#8150f3", fg = C.base, gui = "bold" },
+                b = { bg = C.surface0, fg = "#8150f3" },
               },
               replace = {
                 a = { bg = C.maroon, fg = C.base, gui = "bold" },
