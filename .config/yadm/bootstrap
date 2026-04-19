@@ -722,6 +722,7 @@ bootstrap_nvm() {
 
 ensure_node_lts() {
   local node_version=""
+  local had_nounset=0
 
   if ! load_nvm; then
     warn "nvm is unavailable; skipped Node.js setup for Codex"
@@ -731,7 +732,16 @@ ensure_node_lts() {
 
   mkdir -p "$NVM_DIR"
 
+  # nvm is not fully compatible with `set -u`; relax nounset while it mutates PATH.
+  if [[ "$-" == *u* ]]; then
+    had_nounset=1
+    set +u
+  fi
+
   if nvm use --lts >/dev/null 2>&1; then
+    if [[ "$had_nounset" -eq 1 ]]; then
+      set -u
+    fi
     node_version="$(node --version 2>/dev/null || true)"
     record_status "node runtime" "present" "${node_version:-lts/*}"
     return 0
@@ -739,9 +749,15 @@ ensure_node_lts() {
 
   log "installing Node.js LTS via nvm"
   if nvm install --lts >/dev/null 2>&1 && nvm use --lts >/dev/null 2>&1; then
+    if [[ "$had_nounset" -eq 1 ]]; then
+      set -u
+    fi
     node_version="$(node --version 2>/dev/null || true)"
     record_status "node runtime" "installed" "${node_version:-lts/*}"
   else
+    if [[ "$had_nounset" -eq 1 ]]; then
+      set -u
+    fi
     warn "failed to install Node.js LTS via nvm"
     record_status "node runtime" "failed" "lts/*"
   fi

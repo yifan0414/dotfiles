@@ -176,4 +176,9 @@ fi
 #################################################
 ### Prompt and shell completion integrations. ###
 #################################################
+# Ubuntu 20.04 ships an older fzf that doesn't support backward-delete-char/eof.
+zstyle ':fzf-tab:*' fzf-bindings-default \
+  'tab:down' 'btab:up' 'change:top' 'ctrl-space:toggle' \
+  'bspace:backward-delete-char' 'ctrl-h:backward-delete-char'
+
 [[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
