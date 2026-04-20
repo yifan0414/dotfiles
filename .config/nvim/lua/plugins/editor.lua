@@ -177,7 +177,13 @@ return {
       { "gA", mode = { "x" } },
     },
     config = function()
-      require("mini.align").setup()
+      require("mini.align").setup({
+        modifiers = {
+          I = function(steps, _)
+            table.insert(steps.pre_split, MiniAlign.gen_step.ignore_split({ '".-"', "'.-'" }, true))
+          end,
+        },
+      })
     end,
   },
 }
