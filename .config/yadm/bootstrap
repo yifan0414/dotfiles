@@ -880,6 +880,71 @@ verify_alternates() {
   fi
 }
 
+bootstrap_vim() {
+  local vim_dir="$HOME/.vim"
+  local autoload_dir="$vim_dir/autoload"
+  local plugged_dir="$vim_dir/plugged"
+  local undo_dir="$vim_dir/undo"
+  local plug_vim="$autoload_dir/plug.vim"
+  local plug_url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+  local editor_name=""
+
+  if [[ -d "$autoload_dir" && -d "$plugged_dir" && -d "$undo_dir" ]]; then
+    record_status "vim dirs" "present" "$vim_dir"
+  else
+    log "preparing Vim runtime directories"
+    mkdir -p "$autoload_dir" "$plugged_dir" "$undo_dir"
+    record_status "vim dirs" "configured" "$vim_dir"
+  fi
+
+  if [[ -f "$plug_vim" ]]; then
+    record_status "vim-plug" "present" "$plug_vim"
+  else
+    log "installing vim-plug"
+    if curl -fLo "$plug_vim" --create-dirs "$plug_url"; then
+      record_status "vim-plug" "installed" "$plug_vim"
+    else
+      warn "failed to install vim-plug"
+      record_status "vim-plug" "failed" "$plug_vim"
+      record_status "vim plugins" "skipped" "vim-plug unavailable"
+      return 0
+    fi
+  fi
+
+  if [[ ! -f "$HOME/.vimrc" ]]; then
+    warn "~/.vimrc is unavailable; skipped Vim plugin bootstrap"
+    record_status "vim plugins" "skipped" ".vimrc missing"
+    return 0
+  fi
+
+  if need_cmd nvim; then
+    editor_name="nvim"
+    log "installing Vim plugins via vim-plug using nvim"
+    if nvim --headless -u "$HOME/.vimrc" +PlugInstall +qall >/dev/null 2>&1; then
+      record_status "vim plugins" "installed" "$editor_name"
+    else
+      warn "failed to install Vim plugins via $editor_name"
+      record_status "vim plugins" "failed" "$editor_name"
+    fi
+    return 0
+  fi
+
+  if need_cmd vim; then
+    editor_name="vim"
+    log "installing Vim plugins via vim-plug"
+    if vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall >/dev/null 2>&1; then
+      record_status "vim plugins" "installed" "$editor_name"
+    else
+      warn "failed to install Vim plugins via $editor_name"
+      record_status "vim plugins" "failed" "$editor_name"
+    fi
+    return 0
+  fi
+
+  warn "neither vim nor nvim is available; skipped Vim plugin bootstrap"
+  record_status "vim plugins" "skipped" "vim/nvim unavailable"
+}
+
 bootstrap_zsh_runtime() {
   local zsh_custom="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
   local clone_failed=0
@@ -1013,6 +1078,7 @@ main() {
   require_cmd git "git is required after system package installation. Install git, then rerun this script."
   apply_yadm_alternates
   verify_alternates
+  bootstrap_vim
   bootstrap_nvm
   bootstrap_codex
   bootstrap_zsh_runtime

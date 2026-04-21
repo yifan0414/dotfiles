@@ -27,6 +27,7 @@ clone 之后，bootstrap 会继续负责：
 - 再次设置 shell 和 git 代理
 - 安装系统级软件
 - 执行 `yadm alt`
+- 准备 `~/.vim/autoload`、`~/.vim/plugged`、`~/.vim/undo`，安装 `vim-plug`，并在可用时自动执行 `PlugInstall`
 - 安装 `nvm`、Node.js LTS 和 Codex CLI
 - 安装 `oh-my-zsh`、`powerlevel10k` 和 zsh 插件
 - 下载 tmux TPM 插件

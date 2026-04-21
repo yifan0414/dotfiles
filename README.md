@@ -30,6 +30,7 @@ The bootstrap will:
 - fail fast if the dotfiles checkout is not present under `$HOME`
 - install repo-required base CLI software first when a supported package manager is available
 - apply yadm alternate files
+- prepare `~/.vim/autoload`, `~/.vim/plugged`, and `~/.vim/undo`, install `vim-plug`, and run `PlugInstall` through `vim` or `nvim` when available
 - install `oh-my-zsh`, `powerlevel10k`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, and `fzf-tab`
 - run the existing tmux bootstrap
 - reload kitty when possible
