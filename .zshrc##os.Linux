@@ -159,13 +159,13 @@ if [[ -f "/hdd1_4t/yifan/shared/env/shared_paths.sh" ]]; then
   source "/hdd1_4t/yifan/shared/env/shared_paths.sh"
 fi
 
-if command -v conda >/dev/null 2>&1; then
-  current_conda_env="${CONDA_DEFAULT_ENV:-}"
-  if [[ -z "$current_conda_env" || "$current_conda_env" == "base" ]]; then
-    conda activate dyto >/dev/null 2>&1 || printf '[zshrc] failed to activate conda env "dyto"\n' >&2
-  fi
-  unset current_conda_env
-fi
+#if command -v conda >/dev/null 2>&1; then
+#  current_conda_env="${CONDA_DEFAULT_ENV:-}"
+#  if [[ -z "$current_conda_env" || "$current_conda_env" == "base" ]]; then
+#    conda activate dyto >/dev/null 2>&1 || printf '[zshrc] failed to activate conda env "dyto"\n' >&2
+#  fi
+#  unset current_conda_env
+#fi
 
 #################################################
 ###                 NVM                       ###
