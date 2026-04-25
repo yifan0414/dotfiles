@@ -12,6 +12,42 @@ prepend_path() {
   [[ -d "$1" ]] && export PATH="$1:$PATH"
 }
 
+gcpush() {
+  local git_status msg
+
+  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
+    echo "❌ 当前目录不是 Git 仓库"
+    return 1
+  }
+
+  git_status="$(git status --short --untracked-files=no)"
+
+  if [[ -z "$git_status" ]]; then
+    echo "✅ 没有已追踪文件改动"
+    return 0
+  fi
+
+  msg="$(printf '%s\n' "$git_status" | codex exec --sandbox read-only \
+'根据下面的 git status --short 输出，生成一个简短英文 git commit message。
+只输出 commit message，不要解释，不要使用 Markdown。')"
+
+  if [[ -z "$msg" ]]; then
+    msg="Update tracked files"
+  fi
+
+  echo "📝 Commit message: $msg"
+
+  git add .
+
+  if git diff --cached --quiet; then
+    echo "✅ 没有 staged 改动"
+    return 0
+  fi
+
+  git commit -m "$msg"
+  git push
+}
+
 ################################
 ### Oh My Zsh core settings. ###
 ################################
