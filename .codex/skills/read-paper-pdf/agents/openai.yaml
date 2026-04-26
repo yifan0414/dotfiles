@@ -1,0 +1,4 @@
+interface:
+  display_name: "Read Paper PDF"
+  short_description: "Read PDFs into Obsidian paper notes"
+  default_prompt: "Use $read-paper-pdf to read this PDF and create an Obsidian paper note."
