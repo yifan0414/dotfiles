@@ -1,0 +1,4 @@
+interface:
+  display_name: "Coding Guardrails"
+  short_description: "Reduce common LLM coding mistakes"
+  default_prompt: "Use $coding-guardrails to apply cautious, minimal, goal-driven coding behavior while following this project's instructions."
