@@ -158,16 +158,18 @@ return {
   {
     "numToStr/Comment.nvim",
     -- event = "VeryLazy",
+    enabled = false,
     keys = {
       { "gcc", mode = { "n" } },
       { "gbc", mode = { "n" } },
       { "gc", mode = { "x", "n" } },
     },
     -- event = { "BufReadPost", "BufNewFile" },
-    opts = function()
-      local commentstring_avail, commentstring = pcall(require, "ts_context_commentstring.integrations.comment_nvim")
-      return commentstring_avail and commentstring and { pre_hook = commentstring.create_pre_hook() } or {}
-    end,
+    opts = {
+      pre_hook = function()
+        return vim.bo.commentstring
+      end,
+    },
   },
   {
     "nvim-mini/mini.align",
