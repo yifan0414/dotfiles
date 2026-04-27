@@ -144,7 +144,8 @@ Heuristics:
 - Extract caption if available (\caption{...})
 - Convert common patterns to Markdown table:
   - columns separated by & and rows ended by \
-  - strip \hline, \toprule, \midrule, \bottomrule
+  - capture grouping cues from `\midrule`, section rows, and `\multicolumn` labels before stripping visual rules such as \hline, \toprule, \midrule, \bottomrule
+  - preserve source emphasis: convert table-cell `\textbf{...}`, `\bfseries`, `{\bf ...}`, and `\mathbf{...}` to Markdown `**...**`; convert `\underline{...}` to `<u>...</u>` only when explicit in the source
   - flatten simple \multicolumn / \multirow headers into readable dataset-metric column names
 - If conversion fails, include a fenced block with the raw LaTeX table and a short note about why it failed (e.g., multicolumn/multirow).
 
@@ -158,19 +159,27 @@ Create these tables if information exists:
    Prefer a 2D paper-style matrix over one-dimensional rows:
    | Method | Model / Setting | Dataset A acc. (%) | Dataset B acc. (%) | Dataset C metric |
    | --- | --- | ---: | ---: | ---: |
-   | Baseline | ... | 12.3 | 45.6 | 78.9 |
-   | ProposedMethod | ... | **13.4** | **47.0** | **80.1** |
+   | Baseline | ... | 12.3 | 45.6 | **81.2** |
+   | ProposedMethod | ... | **13.4** | **47.0** | 80.1 |
    - Rows should be methods, model variants, or ablation settings.
    - Columns should be datasets, benchmarks, or dataset-metric pairs (e.g., `NExTQA acc. (%)`, `VideoMME acc. (%)`).
    - Preserve useful paper columns such as model size, base model, frame length, or training setting before the metric columns when reported.
    - If the paper groups rows (e.g., fine-tuned models vs. training-free approaches), preserve the grouping with a short italic separator row or a note immediately above the table.
-   - Bold the reported numeric results for the paper's proposed method / experimental method row(s). Also bold the method name if the source table emphasizes it. Do not bold unrelated baselines, section labels, missing values, or invented best scores.
+   - Emphasis policy:
+     - First, preserve the paper's own emphasis exactly: source bold values become Markdown bold values, and source-bold method names stay bold.
+     - If the source table has no explicit emphasis, bold best numeric results only when metric direction and comparability are clear.
+     - Prefer column-wise best values for method-by-benchmark matrices. Use row-wise best values only when the paper layout clearly has metrics as rows and methods/settings as columns.
+     - Infer higher-is-better from metric names or symbols such as `acc`, `accuracy`, `F1`, `mAP`, `AP`, `AUC`, `BLEU`, `CIDEr`, `score`, `recall`, `precision`, `success`, or `↑`; infer lower-is-better from `error`, `loss`, `WER`, `CER`, `perplexity`, `PPL`, `RMSE`, `MAE`, `latency`, `time`, `cost`, or `↓`.
+     - Compare only within explicit comparable groups when the paper separates rows by `\midrule`, section labels, model scale, training regime, or other grouping cues.
+     - Bold all exact ties for best when ties are reported; do not invent second-best underlines or extra rankings.
+     - Do not bold metadata/non-score columns such as model size, base model, parameters, FLOPs, frames, or training data unless the table explicitly treats them as optimized metrics.
+     - If metric direction, numeric parsing, or comparability is ambiguous, leave values unbolded and add a brief note instead of guessing.
    - Use the old `Dataset | Metric | Baseline | Ours | Δ` shape only when the paper reports a single dataset/metric and there is no meaningful method-by-dataset matrix to reconstruct.
 3. Ablations / Analysis (if present)
    Use the same 2D style:
    | Variant / Setting | Dataset A metric | Dataset B metric | Notes |
    | --- | ---: | ---: | --- |
-   Bold only the full/proposed method row's reported numeric results, not every local maximum unless the paper itself marks those values.
+   Apply the same emphasis policy as Main Results. Preserve author-marked full/proposed rows, and otherwise bold best values only within comparable ablation groups when metric direction is clear.
 4. Training / Compute (if reported)
    | Item | Value |
 
