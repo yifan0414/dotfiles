@@ -35,6 +35,8 @@ export RANGER_LOAD_DEFAULT_RC="false"
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 export GOPATH="$HOME/go"
 
+export HF_ENDPOINT=https://hf-mirror.com
+
 ##########################################
 ### Development environment variables. ###
 ##########################################
@@ -73,7 +75,7 @@ proxy_on() {
   fi
 }
 
-proxy_on
+# proxy_on
 
 #######################
 ### Common aliases. ###
