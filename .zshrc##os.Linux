@@ -104,8 +104,8 @@ if command -v python3 >/dev/null 2>&1; then
   alias python="python3"
 fi
 
-alias codex-duckcode='CODEX_HOME="$HOME/.codex-duckcode" codex'
-alias codex-duckcode-exec='CODEX_HOME="$HOME/.codex-duckcode" codex exec'
+alias codex-duckcode='CODEX_HOME="$HOME/.codex-linux" codex'
+alias codex-duckcode-exec='CODEX_HOME="$HOME/.codex-linux" codex exec'
 
 yb() {
   "$HOME/.local/bin/yadm-daily-backup" "$@"

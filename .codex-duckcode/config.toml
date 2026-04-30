@@ -18,3 +18,6 @@ env_http_headers = { "x-api-key" = "OPENAI_API_KEY" }
 [projects."/Users/yifan/Library/Mobile Documents/iCloud~md~obsidian/Documents/iCSNote"]
 trust_level = "trusted"
 
+[projects."/home/yifan"]
+trust_level = "trusted"
+
