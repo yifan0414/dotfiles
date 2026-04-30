@@ -111,6 +111,11 @@ alias vim="/opt/homebrew/bin/nvim"
 alias tmux="/opt/homebrew/bin/tmux"
 alias curl="curl -x ${proxy_url}"
 
+alias codex-duckcode='CODEX_HOME="$HOME/.codex-duckcode" codex'
+alias codex-duckcode-exec='CODEX_HOME="$HOME/.codex-duckcode" codex exec'
+
+
+
 yb() {
   "$HOME/.local/bin/yadm-daily-backup" "$@"
 }
