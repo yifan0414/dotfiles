@@ -158,7 +158,7 @@ Create these tables if information exists:
 2. Main Results
    Prefer a 2D paper-style matrix over one-dimensional rows:
    | Method | Model / Setting | Dataset A acc. (%) | Dataset B acc. (%) | Dataset C metric |
-   | --- | --- | ---: | ---: | ---: |
+   | ---- | ---- | ---- | ---- | ---- |
    | Baseline | ... | 12.3 | 45.6 | **81.2** |
    | ProposedMethod | ... | **13.4** | **47.0** | 80.1 |
    - Rows should be methods, model variants, or ablation settings.
@@ -178,7 +178,7 @@ Create these tables if information exists:
 3. Ablations / Analysis (if present)
    Use the same 2D style:
    | Variant / Setting | Dataset A metric | Dataset B metric | Notes |
-   | --- | ---: | ---: | --- |
+   | ---- | ---- | ---- | ---- |
    Apply the same emphasis policy as Main Results. Preserve author-marked full/proposed rows, and otherwise bold best values only within comparable ablation groups when metric direction is clear.
 4. Training / Compute (if reported)
    | Item | Value |
