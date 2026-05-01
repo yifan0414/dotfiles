@@ -106,7 +106,14 @@ proxy_on
 #######################
 ### Common aliases. ###
 #######################
-alias ll="ls -all"
+if command -v eza >/dev/null 2>&1; then
+  alias ls="eza --icons"
+  alias ll="eza --icons --long --all"
+  alias la="eza --icons --all"
+  alias l="eza --icons --long"
+else
+  alias ll="ls -all"
+fi
 alias vim="/opt/homebrew/bin/nvim"
 alias tmux="/opt/homebrew/bin/tmux"
 alias curl="curl -x ${proxy_url}"
