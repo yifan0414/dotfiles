@@ -29,7 +29,8 @@ fi
 ### Locale and default tool selection. ###
 ##########################################
 export LANG="en_US.UTF-8"
-export EDITOR="nvim"
+export EDITOR="vim"
+export VISUAL="vim"
 export LESSCHARSET="utf-8"
 export RANGER_LOAD_DEFAULT_RC="false"
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
@@ -92,10 +93,6 @@ elif command -v exa >/dev/null 2>&1; then
   alias ll="exa -all"
 else
   alias ll="ls -all"
-fi
-
-if command -v nvim >/dev/null 2>&1; then
-  alias vim="nvim"
 fi
 
 alias curl="curl -x ${proxy_url}"
