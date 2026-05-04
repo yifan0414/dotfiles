@@ -210,6 +210,10 @@ return {
                 diagnosticSeverityOverrides = {
                   reportIncompatibleMethodOverride = "none",
                   reportAttributeAccessIssue = "none",
+                  reportMissingImports = "none",
+                  reportMissingTypeStubs = "none",
+                  reportOptionalMemberAccess = "none",
+                  reportUnknownMemberType = "none",
 
                   -- reportMissingImports = "none", -- 禁用报告缺少导入的诊断
                   -- reportGeneralTypeIssues = "none", -- 禁用报告一般类型问题的诊断
