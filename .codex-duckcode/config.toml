@@ -21,3 +21,6 @@ trust_level = "trusted"
 [projects."/home/yifan"]
 trust_level = "trusted"
 
+[projects."/Users/yifan"]
+trust_level = "trusted"
+
