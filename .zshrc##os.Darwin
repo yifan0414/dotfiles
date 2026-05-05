@@ -62,6 +62,16 @@ else
   printf '[dotfiles] oh-my-zsh is not installed yet; run yadm bootstrap\n' >&2
 fi
 
+#################################################
+### Kitty command-block shell integration.    ###
+#################################################
+if [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
+  export KITTY_SHELL_INTEGRATION="${KITTY_SHELL_INTEGRATION:-enabled}"
+  autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+  kitty-integration
+  unfunction kitty-integration 2>/dev/null || true
+fi
+
 #######################################
 ### fzf-tab Catppuccin Latte theme. ###
 #######################################

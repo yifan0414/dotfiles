@@ -1,7 +1,7 @@
-# Synced from ~/.config/kitty/kitty.conf and current-theme.conf
+# Synced from ~/.config/kitty/*.conf
 # Ghostty can match most visual settings and keybindings, but not every Kitty-only feature.
 
-shell-integration = fish
+shell-integration = detect
 shell-integration-features = no-cursor,sudo,title,ssh-env,ssh-terminfo,path
 
 # Fonts
@@ -18,13 +18,12 @@ font-size = 14
 
 # Kitty modify_font equivalents
 adjust-cell-height = 10%
+adjust-underline-position = 2
 adjust-underline-thickness = 50%
 
 # Cursor
 cursor-style = block
 cursor-style-blink = false
-cursor-color = #E6E0C2
-cursor-text = #1F1F28
 
 # Window UI
 background-opacity = 1
@@ -42,27 +41,8 @@ unfocused-split-opacity = 1
 macos-titlebar-style = transparent
 macos-option-as-alt = true
 
-# Theme from ~/.config/kitty/current-theme.conf
-foreground = #DDD8BB
-background = #1F1F28
-selection-foreground =
-selection-background =
-palette = 0=#1F1F28
-palette = 1=#E46A78
-palette = 2=#98BC6D
-palette = 3=#E5C283
-palette = 4=#7EB3C9
-palette = 5=#957FB8
-palette = 6=#7EB3C9
-palette = 7=#DDD8BB
-palette = 8=#3C3C51
-palette = 9=#EC818C
-palette = 10=#9EC967
-palette = 11=#F1C982
-palette = 12=#7BC2DF
-palette = 13=#A98FD2
-palette = 14=#7BC2DF
-palette = 15=#A8A48D
+# Themes translated from Kitty light/dark theme files; dark cursor follows current-theme.conf.
+theme = light:Kitty Catppuccin Latte,dark:Kitty Kanagawabones
 
 # Keybindings mapped from Kitty where Ghostty has equivalent actions.
 # Defaults are left intact unless they conflict.
@@ -75,8 +55,19 @@ keybind = ctrl+g>-=new_split:down
 keybind = ctrl+g>[=write_scrollback_file:open,plain
 keybind = ctrl+g>r=prompt_tab_title
 keybind = ctrl+g>n=next_tab
+keybind = ctrl+g>z=jump_to_prompt:-1
+keybind = ctrl+g>x=jump_to_prompt:1
+keybind = ctrl+g>.=jump_to_prompt:0
 
 # Kitty-only features without Ghostty equivalents:
 # - allow_remote_control / listen_on unix:/tmp/kitty
 # - set_colors on ctrl+g>d and ctrl+g>l
+# - show/copy last command output actions on ctrl+g>g/v/f/y/shift+y
 # - hide only the window title text while keeping the same titlebar behavior
+
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+
+quick-terminal-position = bottom
+# Kitty quick-access-terminal.conf uses 15 lines; Ghostty accepts px/% only.
+quick-terminal-size = 240px
+quick-terminal-autohide = true
