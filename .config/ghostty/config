@@ -5,19 +5,20 @@ shell-integration = fish
 shell-integration-features = no-cursor,sudo,title,ssh-env,ssh-terminfo,path
 
 # Fonts
-font-family = "Fira Code"
-font-family-bold = "Fira Code"
-font-family-italic = "Fira Code"
-font-family-bold-italic = "Fira Code"
+font-family = "Maple Mono CN"
+font-family-bold = "Maple Mono CN"
+font-family-italic = "Maple Mono CN"
+font-family-bold-italic = "Maple Mono CN"
 font-style = Medium
-font-style-bold = Medium
+font-style-bold = Bold
 font-style-italic = "Medium Italic"
 font-style-bold-italic = "Bold Italic"
-font-size = 14.5
+font-feature = +cv03,+zero
+font-size = 14
 
 # Kitty modify_font equivalents
-adjust-underline-position = 2
-adjust-underline-thickness = 200%
+adjust-cell-height = 10%
+adjust-underline-thickness = 50%
 
 # Cursor
 cursor-style = block
@@ -29,8 +30,8 @@ cursor-text = #1F1F28
 background-opacity = 1
 background-opacity-cells = false
 background-blur = false
-window-padding-x = 0,1
-window-padding-y = 1,1
+window-padding-x = 0
+window-padding-y = 0
 window-padding-balance = false
 confirm-close-surface = false
 copy-on-select = false
@@ -44,8 +45,8 @@ macos-option-as-alt = true
 # Theme from ~/.config/kitty/current-theme.conf
 foreground = #DDD8BB
 background = #1F1F28
-selection-foreground = #DDD8BB
-selection-background = #49473E
+selection-foreground =
+selection-background =
 palette = 0=#1F1F28
 palette = 1=#E46A78
 palette = 2=#98BC6D
@@ -69,14 +70,13 @@ keybind = super+c=copy_to_clipboard:mixed
 keybind = super+v=paste_from_clipboard
 keybind = super+enter=new_window
 keybind = ctrl+g>c=new_tab
-keybind = ctrl+g>comma=reload_config
-keybind = ctrl+g>minus=new_split:right
-keybind = ctrl+g>[=write_screen_file:open,plain
+keybind = ctrl+super+,=reload_config
+keybind = ctrl+g>-=new_split:down
+keybind = ctrl+g>[=write_scrollback_file:open,plain
 keybind = ctrl+g>r=prompt_tab_title
 keybind = ctrl+g>n=next_tab
 
 # Kitty-only features without Ghostty equivalents:
-# - enabled_layouts tall / full_size
 # - allow_remote_control / listen_on unix:/tmp/kitty
 # - set_colors on ctrl+g>d and ctrl+g>l
 # - hide only the window title text while keeping the same titlebar behavior
