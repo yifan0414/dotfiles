@@ -17,6 +17,12 @@ requires_openai_auth = true
 [projects."/home/yifan"]
 trust_level = "trusted"
 
+[projects."/hdd1_4t/yifan/DYTO-main"]
+trust_level = "trusted"
+
+[projects."/hdd1_4t/yifan/lmms-eval"]
+trust_level = "trusted"
+
 [tui]
 status_line = ["model-with-reasoning", "current-dir", "context-used", "context-window-size"]
 theme = "inspired-github"
