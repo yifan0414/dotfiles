@@ -40,8 +40,19 @@ export HF_ENDPOINT=https://hf-mirror.com
 
 # 3090*2
 if [[ -d /hdd1_4t/yifan/shared ]]; then
-  export HF_HOME=/hdd1_4t/yifan/shared 
+  export HF_HOME=/hdd1_4t/yifan/shared
   export HF_DATASETS_CACHE=/hdd1_4t/yifan/shared/datasets
+  export UV_CACHE_DIR=/hdd1_4t/yifan/shared/uv-cache
+  export UV_LINK_MODE=hardlink
+
+  export CUDA_HOME=/usr/local/cuda-13.0
+  export PATH=$CUDA_HOME/bin:$PATH
+  export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+fi
+
+if [[ -d /hdd1_4t/yifan/lmms-eval ]]; then
+  export DIRENV_LOG_FORMAT=
+  eval "$(direnv hook zsh)"
 fi
 
 # 3090*4
