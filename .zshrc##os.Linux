@@ -48,6 +48,7 @@ if [[ -d /hdd1_4t/yifan/shared ]]; then
   export CUDA_HOME=/usr/local/cuda-13.0
   export PATH=$CUDA_HOME/bin:$PATH
   export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+  export MODEL_NAME=/hdd1_4t/yifan/shared/models/Qwen2.5-VL-7B-Instruct
 fi
 
 if [[ -d /hdd1_4t/yifan/lmms-eval ]]; then
@@ -57,6 +58,9 @@ fi
 
 # 3090*4
 if [[ -d /ssd_2t/yifan/ ]]; then
+  export HF_HOME=/ssd_2t/yifan/shared
+  export HF_DATASETS_CACHE=/ssd_2t/yifan/shared/datasets
+
   export CUDA_HOME=/usr/local/cuda-12.8
   export PATH=/usr/local/cuda-12.8/bin:$PATH
   export LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64:$LD_LIBRARY_PATH
