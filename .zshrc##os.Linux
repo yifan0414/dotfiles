@@ -60,7 +60,9 @@ if [[ -d /ssd_2t/yifan/ ]]; then
   export CUDA_HOME=/usr/local/cuda-12.8
   export PATH=/usr/local/cuda-12.8/bin:$PATH
   export LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64:$LD_LIBRARY_PATH
+  export MODEL_NAME=/ssd_2t/yifan/shared/models/Qwen2.5-VL-7B-Instruct
 fi
+
 ##########################################
 ### Development environment variables. ###
 ##########################################
