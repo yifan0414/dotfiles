@@ -45,10 +45,11 @@ if [[ -d /hdd1_4t/yifan/shared ]]; then
 fi
 
 # 3090*4
-export CUDA_HOME=/usr/local/cuda-12.8
-export PATH=/usr/local/cuda-12.8/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64:$LD_LIBRARY_PATH
-
+if [[ -d /ssd_2t/yifan/ ]]; then
+  export CUDA_HOME=/usr/local/cuda-12.8
+  export PATH=/usr/local/cuda-12.8/bin:$PATH
+  export LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64:$LD_LIBRARY_PATH
+fi
 ##########################################
 ### Development environment variables. ###
 ##########################################
