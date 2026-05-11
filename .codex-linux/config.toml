@@ -7,6 +7,7 @@ network_access = "enabled"
 windows_wsl_setup_acknowledged = true
 model_context_window = 1000000
 model_auto_compact_token_limit = 900000
+service_tier = "fast"
 
 [model_providers.OpenAI]
 name = "OpenAI"
@@ -23,6 +24,18 @@ trust_level = "trusted"
 [projects."/hdd1_4t/yifan/lmms-eval"]
 trust_level = "trusted"
 
+[projects."/ssd_2t/minjie/Patch-Matters-main"]
+trust_level = "trusted"
+
+[projects."/ssd_2t/yifan/DYTO-main"]
+trust_level = "trusted"
+
+[projects."/ssd_2t/yifan/DIG"]
+trust_level = "trusted"
+
 [tui]
 status_line = ["model-with-reasoning", "current-dir", "context-used", "context-window-size"]
 theme = "inspired-github"
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
