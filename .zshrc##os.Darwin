@@ -62,6 +62,19 @@ else
   printf '[dotfiles] oh-my-zsh is not installed yet; run yadm bootstrap\n' >&2
 fi
 
+#######################################
+### fzf Catppuccin Mocha theme.     ###
+#######################################
+fzf_catppuccin_mocha=(
+  '--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8'
+  '--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc'
+  '--color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8'
+  '--color=selected-bg:#45475a,border:#313244,label:#cdd6f4'
+)
+export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS:+$FZF_DEFAULT_OPTS }${fzf_catppuccin_mocha[*]}"
+zstyle ':fzf-tab:*' fzf-flags "${fzf_catppuccin_mocha[@]}"
+unset fzf_catppuccin_mocha
+
 #################################################
 ### Kitty command-block shell integration.    ###
 #################################################
@@ -72,30 +85,6 @@ if [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
   unfunction kitty-integration 2>/dev/null || true
 fi
 
-#######################################
-### fzf-tab Catppuccin Latte theme. ###
-#######################################
-zstyle ':fzf-tab:*' fzf-flags \
-  --height=40% \
-  --layout=reverse \
-  --border \
-  --color=bg:#eff1f5,bg+:#ccd0da,fg:#4c4f69,fg+:#4c4f69 \
-  --color=hl:#d20f39,hl+:#d20f39 \
-  --color=prompt:#8839ef,pointer:#dc8a78,marker:#7287fd \
-  --color=spinner:#dc8a78,header:#d20f39,info:#8839ef,border:#9ca0b0
-zstyle ':fzf-tab:*' fzf-pad 4
-
-FZF_TAB_GROUP_COLORS=(
-  $'\033[38;2;136;57;239m'
-  $'\033[38;2;30;102;245m'
-  $'\033[38;2;64;160;43m'
-  $'\033[38;2;223;142;29m'
-  $'\033[38;2;210;15;57m'
-  $'\033[38;2;4;165;229m'
-  $'\033[38;2;254;100;11m'
-  $'\033[38;2;220;138;120m'
-)
-zstyle ':fzf-tab:*' group-colors $FZF_TAB_GROUP_COLORS
 
 ##########################################
 ### Locale and default tool selection. ###
