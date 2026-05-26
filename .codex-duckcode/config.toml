@@ -9,7 +9,7 @@ model_auto_compact_token_limit = 900000
 
 [model_providers.OpenAI]
 name = "OpenAI"
-base_url = "https://vip.zpika.com/v1"
+base_url = "https://okapi.buzz/v1"
 wire_api = "responses"
 requires_openai_auth = false
 env_key = "OPENAI_API_KEY"

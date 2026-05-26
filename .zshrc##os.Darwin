@@ -63,23 +63,23 @@ else
 fi
 
 #######################################
-### fzf Catppuccin Mocha theme.     ###
+### fzf Catppuccin Latte theme.     ###
 #######################################
-fzf_catppuccin_mocha=(
-  '--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8'
-  '--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc'
-  '--color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8'
-  '--color=selected-bg:#45475a,border:#313244,label:#cdd6f4'
+fzf_catppuccin_latte=(
+  '--color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39'
+  '--color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78'
+  '--color=marker:#7287fd,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39'
+  '--color=selected-bg:#bcc0cc,border:#ccd0da,label:#4c4f69'
 )
-export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS:+$FZF_DEFAULT_OPTS }${fzf_catppuccin_mocha[*]}"
-zstyle ':fzf-tab:*' fzf-flags "${fzf_catppuccin_mocha[@]}"
-unset fzf_catppuccin_mocha
+export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS:+$FZF_DEFAULT_OPTS }${fzf_catppuccin_latte[*]}"
+zstyle ':fzf-tab:*' fzf-flags "${fzf_catppuccin_latte[@]}"
+unset fzf_catppuccin_latte
 
 #################################################
 ### Kitty command-block shell integration.    ###
 #################################################
 if [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
-  export KITTY_SHELL_INTEGRATION="${KITTY_SHELL_INTEGRATION:-enabled}"
+  export KITTY_SHELL_INTEGRATION="${KITTY_SHELL_INTEGRATION:-enabled no-cursor}"
   autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
   kitty-integration
   unfunction kitty-integration 2>/dev/null || true
@@ -163,6 +163,9 @@ if [[ -x "$HOME/miniconda3/bin/conda" ]]; then
     prepend_path "$HOME/miniconda3/bin"
   fi
   unset __conda_setup
+
+  # Use base Python by default without activating the base environment.
+  prepend_path "$HOME/miniconda3/bin"
 fi
 
 #################################################

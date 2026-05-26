@@ -5,10 +5,10 @@ shell-integration = detect
 shell-integration-features = no-cursor,sudo,title,ssh-env,ssh-terminfo,path
 
 # Fonts
-font-family = "Maple Mono CN"
-font-family-bold = "Maple Mono CN"
-font-family-italic = "Maple Mono CN"
-font-family-bold-italic = "Maple Mono CN"
+font-family = "Maple Mono NF CN"
+font-family-bold = "Maple Mono NF CN"
+font-family-italic = "Maple Mono NF CN"
+font-family-bold-italic = "Maple Mono NF CN"
 font-style = Medium
 font-style-bold = Bold
 font-style-italic = "Medium Italic"
@@ -24,14 +24,17 @@ adjust-underline-thickness = 50%
 # Cursor
 cursor-style = block
 cursor-style-blink = false
+cursor-color = cell-foreground
+cursor-text = cell-background
 
 # Window UI
 background-opacity = 1
 background-opacity-cells = false
 background-blur = false
-window-padding-x = 0
+window-padding-x = 4,0
 window-padding-y = 0
 window-padding-balance = false
+window-padding-color = background
 confirm-close-surface = false
 copy-on-select = false
 scrollback-limit = 10000000
@@ -42,7 +45,7 @@ macos-titlebar-style = transparent
 macos-option-as-alt = true
 
 # Themes translated from Kitty light/dark theme files; dark cursor follows current-theme.conf.
-theme = light:Kitty Catppuccin Latte,dark:Kitty Kanagawabones
+theme = light:Catppuccin Latte,dark:Kanagawabones
 
 # Keybindings mapped from Kitty where Ghostty has equivalent actions.
 # Defaults are left intact unless they conflict.
