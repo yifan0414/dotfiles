@@ -11,7 +11,7 @@ service_tier = "fast"
 
 [model_providers.OpenAI]
 name = "OpenAI"
-base_url = "https://api.duckcode.cn"
+base_url = "https://okapi.buzz/v1"
 wire_api = "responses"
 requires_openai_auth = true
 
@@ -39,7 +39,10 @@ trust_level = "trusted"
 [tui]
 status_line = ["model-with-reasoning", "current-dir", "context-used", "context-window-size", "run-state", "codex-version"]
 theme = "inspired-github"
+<<<<<<< Updated upstream
 status_line_use_colors = true
+=======
+>>>>>>> Stashed changes
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4

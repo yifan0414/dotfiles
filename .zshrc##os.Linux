@@ -125,13 +125,14 @@ else
 fi
 
 alias curl="curl -x ${proxy_url}"
+alias clear="clear -x"
 
 if command -v python3 >/dev/null 2>&1; then
   alias python="python3"
 fi
 
-alias codex='CODEX_HOME="$HOME/.codex-linux" codex'
-alias codex-exec='CODEX_HOME="$HOME/.codex-linux" codex exec'
+alias codex-linux='CODEX_HOME="$HOME/.codex-linux" codex'
+alias codex-linux-exec='CODEX_HOME="$HOME/.codex-linux" codex exec'
 
 yb() {
   "$HOME/.local/bin/yadm-daily-backup" "$@"
