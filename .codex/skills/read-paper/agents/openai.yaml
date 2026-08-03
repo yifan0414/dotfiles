@@ -1,4 +1,0 @@
-interface:
-  display_name: "Read Paper"
-  short_description: "Turn arXiv papers into Obsidian notes"
-  default_prompt: "Use $read-paper to digest this arXiv URL into an Obsidian note: https://arxiv.org/abs/XXXX.XXXXX"
