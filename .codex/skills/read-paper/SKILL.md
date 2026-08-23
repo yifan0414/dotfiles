@@ -1,6 +1,6 @@
 ---
 name: read-paper
-description: Read and digest an arXiv paper from an arXiv URL by downloading the /src archive, unpacking and traversing the LaTeX project recursively, extracting key experimental tables and the main pipeline figure, and writing or overwriting a single Obsidian-compatible Markdown note with YAML frontmatter. Use when asked to read, summarize, analyze, or make an Obsidian note for an arXiv paper.
+description: Read and digest an arXiv paper from an arXiv URL by downloading the /src archive, traversing the LaTeX project, capturing key experimental tables as high-resolution PDF screenshots, extracting the main pipeline figure, and writing or overwriting one Obsidian-compatible Markdown note. Use when asked to read, summarize, analyze, or make an Obsidian note for an arXiv paper.
 ---
 
 # Read arXiv Paper (TeX-first) → Obsidian Note
@@ -65,8 +65,18 @@ After `arxiv_id` is available:
   "框架","总体","架构","方法","流程","系统","概览"])
 - figure_output_dir (default: assets_dir) # unified default
 - figure_fallback_pdf (default: true)
-- figure_raster_dpi (default: 250)
+- figure_raster_dpi (default: 350)
 - figure_min_width_px (default: 800)
+
+### Experimental Table Screenshots
+
+- extract_experiment_tables (default: true)
+- experiment_table_raster_dpi (default: 350)
+- experiment_table_min_width_px (default: 1600)
+- experiment_table_output_dir (default: assets_dir)
+- experiment_table_keywords (default:
+  ["main result","comparison","benchmark","ablation","analysis","efficiency",
+  "performance","state-of-the-art","sota","evaluation","experiment"])
 
 
 ## 1) Normalize URL → arxiv_id (+ version)
@@ -132,56 +142,46 @@ Heuristics:
   - problem statement, contributions
   - method & training details (data, objectives, architecture, compute)
   - evaluation setup (datasets, metrics, baselines)
-  - key results, limitations, open questions
+  - locations and captions of key result tables (without transcribing scores), limitations, open questions
 
-## 6) Extract "relevant data" into Markdown tables
+## 6) Capture experimental result tables as high-resolution images
 
-### 6.1 Identify candidate tables in TeX
+Do not transcribe, normalize, rank, reformat, or rebuild experimental result tables as Markdown. Do not calculate deltas or restyle best/second-best values. Preserve the table exactly as the paper presents it by embedding a high-resolution crop from the PDF.
 
-- Locate environments:
-  - \begin{table}...\end{table}
-  - \begin{tabular}...\end{tabular}
-- Extract caption if available (\caption{...})
-- Convert common patterns to Markdown table:
-  - columns separated by & and rows ended by \
-  - capture grouping cues from `\midrule`, section rows, and `\multicolumn` labels before stripping visual rules such as \hline, \toprule, \midrule, \bottomrule
-  - preserve source emphasis: convert table-cell `\textbf{...}`, `\bfseries`, `{\bf ...}`, and `\mathbf{...}` to Markdown `**...**`; convert `\underline{...}` to `<u>...</u>` only when explicit in the source
-  - flatten simple \multicolumn / \multirow headers into readable dataset-metric column names
-- If conversion fails, include a fenced block with the raw LaTeX table and a short note about why it failed (e.g., multicolumn/multirow).
+### 6.1 Identify candidate result tables from TeX
 
-### 6.2 Normalize experiment info into paper-style tables
+- Locate `table` / `table*` environments referenced from experiment, evaluation, results, analysis, or ablation sections.
+- Capture each candidate's table number, caption, label, source TeX file, and document order.
+- Prefer tables reporting main benchmark comparisons, ablations, analysis, robustness, or efficiency results.
+- Skip tables that only contain dataset statistics, prompt templates, notation, or hyperparameters unless they are essential to understanding the evaluation.
+- Use TeX only to identify and label candidates; use the rendered paper PDF as the visual source for screenshots.
 
-Create these tables if information exists:
+### 6.2 Locate and crop each table in the PDF
 
-1. Datasets / Benchmarks
-   | Dataset | Task | Split | Metric(s) | Notes |
-2. Main Results
-   Prefer a 2D paper-style matrix over one-dimensional rows:
-   | Method | Model / Setting | Dataset A acc. (%) | Dataset B acc. (%) | Dataset C metric |
-   | ---- | ---- | ---- | ---- | ---- |
-   | Baseline | ... | 12.3 | 45.6 | **81.2** |
-   | ProposedMethod | ... | **13.4** | **47.0** | 80.1 |
-   - Rows should be methods, model variants, or ablation settings.
-   - Columns should be datasets, benchmarks, or dataset-metric pairs (e.g., `NExTQA acc. (%)`, `VideoMME acc. (%)`).
-   - Preserve useful paper columns such as model size, base model, frame length, or training setting before the metric columns when reported.
-   - If the paper groups rows (e.g., fine-tuned models vs. training-free approaches), preserve the grouping with a short italic separator row or a note immediately above the table.
-   - Emphasis policy:
-     - First, preserve the paper's own emphasis exactly: source bold values become Markdown bold values, and source-bold method names stay bold.
-     - If the source table has no explicit emphasis, bold best numeric results only when metric direction and comparability are clear.
-     - Prefer column-wise best values for method-by-benchmark matrices. Use row-wise best values only when the paper layout clearly has metrics as rows and methods/settings as columns.
-     - Infer higher-is-better from metric names or symbols such as `acc`, `accuracy`, `F1`, `mAP`, `AP`, `AUC`, `BLEU`, `CIDEr`, `score`, `recall`, `precision`, `success`, or `↑`; infer lower-is-better from `error`, `loss`, `WER`, `CER`, `perplexity`, `PPL`, `RMSE`, `MAE`, `latency`, `time`, `cost`, or `↓`.
-     - Compare only within explicit comparable groups when the paper separates rows by `\midrule`, section labels, model scale, training regime, or other grouping cues.
-     - Bold all exact ties for best when ties are reported; do not invent second-best underlines or extra rankings.
-     - Do not bold metadata/non-score columns such as model size, base model, parameters, FLOPs, frames, or training data unless the table explicitly treats them as optimized metrics.
-     - If metric direction, numeric parsing, or comparability is ambiguous, leave values unbolded and add a brief note instead of guessing.
-   - Use the old `Dataset | Metric | Baseline | Ours | Δ` shape only when the paper reports a single dataset/metric and there is no meaningful method-by-dataset matrix to reconstruct.
-3. Ablations / Analysis (if present)
-   Use the same 2D style:
-   | Variant / Setting | Dataset A metric | Dataset B metric | Notes |
-   | ---- | ---- | ---- | ---- |
-   Apply the same emphasis policy as Main Results. Preserve author-marked full/proposed rows, and otherwise bold best values only within comparable ablation groups when metric direction is clear.
-4. Training / Compute (if reported)
-   | Item | Value |
+1. Search the PDF for the table number, caption, or a distinctive caption phrase to locate its page.
+2. Determine the bounding box containing the complete table, including its table number/caption, column headers, all rows, legends, and table-specific footnotes.
+3. Render and crop from the PDF at `experiment_table_raster_dpi`. Prefer a tight crop with modest padding; exclude unrelated body text and neighboring figures.
+4. If a table spans pages or is split into labeled parts, capture every part and keep their document order.
+5. If automatic bounding-box detection is unreliable, render the page at high resolution and crop it after visual inspection. Use a full-page render only as an internal localization aid; do not embed it. If a reliable table crop cannot be produced, omit that screenshot rather than adding provenance text or reconstructing a Markdown table.
+
+### 6.3 Export and embed in Obsidian
+
+- Save lossless PNG files under `experiment_table_output_dir` using stable names:
+  - `experiment_table_{safe_arxiv_id}_t{table_number}.png`
+  - add `_part2`, `_part3`, etc. for split tables
+  - add `_2`, `_3`, etc. if a target name already exists; do not overwrite existing assets unless the user explicitly asks to refresh them
+- Ensure the exported crop is at least `experiment_table_min_width_px` when the source resolution permits.
+- Under `Experiments`, embed each screenshot in document order using the same presentation style as the pipeline figure:
+
+```markdown
+### Main Results — Table 1
+![[assets/experiment_table_XXXX.XXXXX_t1.png]]
+```
+
+- Because the crop already includes the original table number and caption, do not repeat the caption as Markdown text below the screenshot.
+- Do not emit visible source/provenance text for screenshots, including PDF page numbers, TeX paths, labels, asset export paths, crop methods, or DPI.
+- A short Chinese evaluation-setup paragraph may name datasets, metrics, and baselines directly reported by the paper. Do not reproduce score values, make numeric comparisons, or infer rankings in prose.
+- Elsewhere in the note, avoid derived quantitative claims. If a qualitative performance claim is important, attribute it to the authors and point the reader to the corresponding screenshot.
 
 ## 7) Extract pipeline/framework figure (TeX-first, PDF fallback)
 
@@ -237,7 +237,6 @@ Goal: locate the paper’s main “pipeline/framework/overview” figure from Te
 
 - figure_path (relative to note, e.g., `assets/pipeline_XXXX.XXXXX.png`)
 - figure_caption (caption_text if any)
-- figure_source (e.g., `TeX includegraphics from <tex_file>`)
 - cover (Obsidian internal link to the pipeline figure, e.g., `[[assets/pipeline_XXXX.XXXXX.png]]`; leave empty if no reliable pipeline figure exists)
 
 ### 7.2 PDF fallback extraction
@@ -262,13 +261,12 @@ Trigger fallback when:
 3. If extraction fails, render likely page(s) to PNG
 
 - Search PDF text for “Figure” + any `figure_keywords`.
-- Render matching page(s) (whole page acceptable):
+- Render matching page(s) and crop to the pipeline figure before embedding:
   - `{figure_output_dir}/pipeline_{arxiv_id}_p{page}.png`
-- Note explicitly this is a page render if not cropped.
+- If a reliable figure crop cannot be produced, omit the pipeline figure instead of embedding a whole-page render.
 
 4. Record metadata
 
-- figure_source = `PDF fallback (extracted image or rendered page)`
 - figure_caption = best-effort
 
 ## 8) Write Obsidian note with YAML frontmatter (single destination)
@@ -361,7 +359,7 @@ Frontmatter for pipeline figure (best-effort):
 
 - cover: "[[assets/pipeline_{arxiv_id}.png]]"
 
-Do not add separate YAML fields for the pipeline figure path, caption, or source. Put those details in the `Pipeline Figure` body section only.
+Do not add separate YAML fields for the pipeline figure path, caption, or source. In the `Pipeline Figure` body section, show only the embedded image and its original caption. Do not emit visible provenance such as TeX commands/files, figure labels, export paths, PDF pages, crop methods, or DPI.
 
 Body sections (strict order):
 
@@ -372,11 +370,10 @@ Body sections (strict order):
    - If a pipeline figure exists:
      - `![[{figure_path}]]`
      - Caption: {figure_caption}
-     - Source: {figure_source}
 5. Experiments
-   - Datasets table
-   - Main results table(s)
-   - Ablations/Analysis tables (if present)
+   - Brief evaluation setup in Chinese (no reconstructed result tables)
+   - High-resolution screenshots of main-result tables
+   - High-resolution screenshots of ablation/analysis tables, if present
 6. Limitations & Caveats
 7. Concrete Implementation Ideas (2-5 actionable ideas)
 8. Open Questions / Follow-ups
@@ -384,11 +381,18 @@ Body sections (strict order):
 
 ## 9) Safety and quality checks
 
-- Do not hallucinate numbers: only include metrics that appear in the source.
-- When unsure, mark as "not reported" and keep the evidence snippet.
-- Keep tables faithful; avoid “cleaning” that changes meaning.
+- Do not transcribe experimental scores into Markdown tables or prose.
+- Do not calculate improvements, rank methods, or infer best values from result tables.
+- Preserve experimental tables visually through PDF screenshots; do not “clean” or restyle their content.
 - Before finalizing the note, scan for formulas wrapped in backticks or code fences and rewrite them as `$...$` for inline formulas or `$$...$$` for display equations. Keep code fences only for actual pseudocode, BibTeX, or raw LaTeX/table fallback content.
 - For pipeline figure:
   - Do not claim it is the pipeline figure unless caption/keywords strongly indicate it.
-  - If only a whole-page render is available, explicitly note it is a page render.
+  - Do not embed a whole-page render as the pipeline figure; crop to the figure region or omit it.
   - If a PDF figure was converted to PNG, verify it was rendered with the PDF's visible crop bounds rather than the full MediaBox.
+  - Confirm the note contains no visible extraction provenance, source line, TeX path, label, export path, rendering method, or DPI.
+- For experimental table screenshots:
+  - Inspect every exported PNG at full size before finalizing the note.
+  - Confirm headers, all rows, caption, legends, and footnotes are readable and not clipped.
+  - Confirm the crop corresponds to the intended table and that the recorded PDF page is correct.
+  - Confirm no standalone caption text is repeated below a screenshot that already contains its caption.
+  - Confirm the `Experiments` section contains no reconstructed Markdown result tables or transcribed score comparisons.
