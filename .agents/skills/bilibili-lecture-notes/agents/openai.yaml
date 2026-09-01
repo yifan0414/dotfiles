@@ -1,0 +1,4 @@
+interface:
+  display_name: "B站讲座图文讲义"
+  short_description: "将长篇B站讲座经模型复核后整理成带截图与时间戳的Markdown讲义"
+  default_prompt: "使用 $bilibili-lecture-notes 逐段复核这个B站讲座的转录和画面，再生成图文Markdown讲义。"

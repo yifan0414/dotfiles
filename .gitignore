@@ -5,3 +5,4 @@
 .local/bin/zoxide
 .picgo/config.json
 .picgo/picgo.log
+/.agents/models/
