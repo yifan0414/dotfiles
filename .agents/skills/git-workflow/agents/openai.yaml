@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Workflow"
+  short_description: "Use Git safely with focused Conventional Commits"
+  default_prompt: "Use $git-workflow to inspect my repository and handle the requested Git changes safely."
