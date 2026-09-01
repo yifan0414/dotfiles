@@ -1,8 +1,10 @@
 .DS_Store
 **/.idea/
 .vscode/
+dist/
 
 build/
+sync/
 *.userdb/
 installation.yaml
 user.yaml
@@ -12,6 +14,7 @@ user.yaml
 custom_phrase_double.txt
 others/script/scel2txt/out/*
 others/script/scel2txt/scel/*
+cn_dicts/temp.txt
 
 *private*
 

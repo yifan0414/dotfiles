@@ -9,12 +9,12 @@ install_files: >-
   cn_dicts/*.*
   en_dicts/*.*
   opencc/*.*
-  rime.lua
+  build/.gitkeep
   lua/*.*
   lua/cold_word_drop/*.*
   default.yaml
   squirrel.yaml
-  weasel_style.yaml
+  weasel.yaml
   rime_ice.schema.yaml
   rime_ice.dict.yaml
   t9.schema.yaml
@@ -24,10 +24,11 @@ install_files: >-
   double_pinyin_sogou.schema.yaml
   double_pinyin_flypy.schema.yaml
   double_pinyin_ziguang.schema.yaml
+  double_pinyin_jiajia.schema.yaml
   symbols_v.yaml
   symbols_caps_v.yaml
-  liangfen.schema.yaml
-  liangfen.dict.yaml
+  radical_pinyin.schema.yaml
+  radical_pinyin.dict.yaml
   melt_eng.schema.yaml
   melt_eng.dict.yaml
   custom_phrase.txt
