@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import re
 import shutil
 import subprocess
@@ -266,14 +267,9 @@ def parse_showinfo(stderr: str) -> list[float]:
     return [float(value) for value in re.findall(r"pts_time:([0-9]+(?:\.[0-9]+)?)", stderr)]
 
 
-def scene_frames(
-    media: Path, temp_dir: Path, ffmpeg: str, threshold: float
-) -> list[tuple[Path, float]]:
-    pattern = temp_dir / "scene-%06d.jpg"
-    video_filter = (
-        f"select=eq(n\\,0)+gt(scene\\,{threshold}),"
-        "scale=w='min(1600,iw)':h=-2,showinfo"
-    )
+def scene_timestamps(media: Path, ffmpeg: str, threshold: float) -> list[float]:
+    """Return scene-change timestamps without retaining model-visible images."""
+    video_filter = f"select=eq(n\\,0)+gt(scene\\,{threshold}),showinfo"
     result = run(
         [
             ffmpeg,
@@ -282,93 +278,210 @@ def scene_frames(
             "info",
             "-i",
             str(media),
+            "-map",
+            "0:v:0",
             "-vf",
             video_filter,
-            "-fps_mode",
-            "vfr",
-            "-q:v",
-            "3",
-            str(pattern),
+            "-an",
+            "-f",
+            "null",
+            "-",
         ],
         capture=True,
     )
-    files = sorted(temp_dir.glob("scene-*.jpg"))
-    times = parse_showinfo(result.stderr)
-    return list(zip(files, times[: len(files)]))
+    return parse_showinfo(result.stderr)
 
 
-def interval_frames(
-    media: Path, temp_dir: Path, ffmpeg: str, duration: float, count: int = 24
-) -> list[tuple[Path, float]]:
-    interval = max(60, int(duration / max(1, count)))
-    pattern = temp_dir / "interval-%06d.jpg"
-    run(
-        [
-            ffmpeg,
-            "-hide_banner",
-            "-loglevel",
-            "error",
-            "-i",
-            str(media),
-            "-vf",
-            f"fps=1/{interval},scale=w='min(1600,iw)':h=-2",
-            "-q:v",
-            "3",
-            str(pattern),
-        ]
-    )
-    files = sorted(temp_dir.glob("interval-*.jpg"))
-    return [(path, index * interval) for index, path in enumerate(files)]
+def uniform_timestamps(duration: float, count: int) -> list[float]:
+    if count <= 1:
+        return [0.0]
+    end = max(0.0, duration - 0.5)
+    return [round(index * end / (count - 1), 3) for index in range(count)]
 
 
-def evenly_limit(items: list[tuple[Path, float]], maximum: int) -> list[tuple[Path, float]]:
+def evenly_limit_values(items: list[float], maximum: int) -> list[float]:
     if len(items) <= maximum:
         return items
     indices = sorted({round(i * (len(items) - 1) / (maximum - 1)) for i in range(maximum)})
     return [items[index] for index in indices]
 
 
-def extract_frames(
+def spaced_timestamps(items: list[float], minimum_gap: float) -> list[float]:
+    selected: list[float] = []
+    for seconds in sorted(items):
+        if not selected or seconds - selected[-1] >= minimum_gap:
+            selected.append(seconds)
+    return selected
+
+
+def limit_scene_markers(
+    items: list[float],
+    *,
+    chunk_seconds: int,
+    maximum_per_chunk: int,
+    maximum_total: int,
+) -> list[float]:
+    buckets: dict[int, list[float]] = {}
+    for seconds in items:
+        buckets.setdefault(int(seconds // chunk_seconds), []).append(seconds)
+    selected: list[float] = []
+    for bucket in sorted(buckets):
+        selected.extend(evenly_limit_values(buckets[bucket], maximum_per_chunk))
+    return evenly_limit_values(sorted(selected), maximum_total)
+
+
+def extract_thumbnail(media: Path, destination: Path, ffmpeg: str, seconds: float) -> None:
+    run(
+        [
+            ffmpeg,
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-ss",
+            f"{seconds:.3f}",
+            "-i",
+            str(media),
+            "-frames:v",
+            "1",
+            "-vf",
+            (
+                "scale=w=320:h=180:force_original_aspect_ratio=decrease,"
+                "pad=320:180:(ow-iw)/2:(oh-ih)/2:black"
+            ),
+            "-q:v",
+            "3",
+            str(destination),
+        ]
+    )
+
+
+def create_contact_sheet(
+    thumbnails: list[Path], destination: Path, ffmpeg: str
+) -> tuple[int, int]:
+    columns = min(4, max(1, math.ceil(math.sqrt(len(thumbnails)))))
+    rows = math.ceil(len(thumbnails) / columns)
+    command = [ffmpeg, "-hide_banner", "-loglevel", "error"]
+    for thumbnail in thumbnails:
+        command.extend(["-i", str(thumbnail)])
+    layout = "|".join(
+        f"{(index % columns) * 320}_{(index // columns) * 180}"
+        for index in range(len(thumbnails))
+    )
+    command.extend(
+        [
+            "-filter_complex",
+            f"xstack=inputs={len(thumbnails)}:layout={layout}:fill=black",
+            "-frames:v",
+            "1",
+            "-q:v",
+            "3",
+            str(destination),
+        ]
+    )
+    run(command)
+    return columns, rows
+
+
+def build_frame_index(
     media: Path,
     output: Path,
     ffmpeg: str,
     ffprobe: str,
     threshold: float,
-    maximum: int,
-) -> list[dict[str, object]]:
-    images = output / "images"
-    images.mkdir(exist_ok=True)
-    for old in images.glob("slide-*.jpg"):
+    overview_count: int,
+    scene_min_gap: float,
+    scene_markers_per_chunk: int,
+    max_scene_markers: int,
+    chunk_minutes: int,
+) -> dict[str, object]:
+    """Build a cheap visual index; final note images are selected later."""
+    (output / "images").mkdir(exist_ok=True)
+    index_dir = output / "frame-index"
+    index_dir.mkdir(exist_ok=True)
+    (index_dir / "overview.jpg").unlink(missing_ok=True)
+    for old in index_dir.glob("overview-*.jpg"):
         old.unlink()
 
     duration = media_duration(media, ffprobe)
+    overview_times = uniform_timestamps(duration, overview_count)
+    overview_sheets: list[dict[str, object]] = []
     with tempfile.TemporaryDirectory(prefix=".frame-work-", dir=output) as raw_temp:
         temp_dir = Path(raw_temp)
-        frames = scene_frames(media, temp_dir, ffmpeg, threshold)
-        minimum = min(6, max(2, int(duration // 600)))
-        if len(frames) < minimum:
-            frames.extend(interval_frames(media, temp_dir, ffmpeg, duration))
-            frames.sort(key=lambda item: item[1])
-        frames = evenly_limit(frames, maximum)
-
-        manifest: list[dict[str, object]] = []
-        for index, (source, seconds) in enumerate(frames, start=1):
-            stamp = hms(seconds).replace(":", "-")
-            name = f"slide-{index:03d}-{stamp}.jpg"
-            destination = images / name
-            shutil.copy2(source, destination)
-            manifest.append(
+        thumbnails: list[Path] = []
+        for index, seconds in enumerate(overview_times, start=1):
+            thumbnail = temp_dir / f"uniform-{index:03d}.jpg"
+            extract_thumbnail(media, thumbnail, ffmpeg, seconds)
+            thumbnails.append(thumbnail)
+        for sheet_index, start in enumerate(range(0, len(thumbnails), 16), start=1):
+            sheet_thumbnails = thumbnails[start : start + 16]
+            name = f"overview-{sheet_index:03d}.jpg"
+            destination = index_dir / name
+            columns, rows = create_contact_sheet(sheet_thumbnails, destination, ffmpeg)
+            sheet_times = overview_times[start : start + len(sheet_thumbnails)]
+            overview_sheets.append(
                 {
-                    "path": f"images/{name}",
-                    "seconds": round(seconds, 3),
-                    "timestamp": hms(seconds),
+                    "sheet": sheet_index,
+                    "path": f"frame-index/{name}",
+                    "frame_count": len(sheet_times),
+                    "columns": columns,
+                    "rows": rows,
+                    "cells": [
+                        {
+                            "cell": cell,
+                            "global_index": start + cell,
+                            "row": (cell - 1) // columns + 1,
+                            "column": (cell - 1) % columns + 1,
+                            "seconds": round(seconds, 3),
+                            "timestamp": hms(seconds),
+                        }
+                        for cell, seconds in enumerate(sheet_times, start=1)
+                    ],
                 }
             )
 
-    (output / "frames.json").write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    raw_scene_times = scene_timestamps(media, ffmpeg, threshold)
+    spaced_scene_times = spaced_timestamps(raw_scene_times, scene_min_gap)
+    scene_times = limit_scene_markers(
+        spaced_scene_times,
+        chunk_seconds=chunk_minutes * 60,
+        maximum_per_chunk=scene_markers_per_chunk,
+        maximum_total=max_scene_markers,
     )
-    return manifest
+
+    markers = [
+        {
+            "seconds": round(seconds, 3),
+            "timestamp": hms(seconds),
+        }
+        for seconds in scene_times
+    ]
+    frame_index: dict[str, object] = {
+        "version": 2,
+        "strategy": "progressive-disclosure",
+        "overview": {
+            "frame_count": len(overview_times),
+            "frames_per_sheet": 16,
+            "sheet_count": len(overview_sheets),
+            "sheets": overview_sheets,
+        },
+        "scene_changes": {
+            "threshold": threshold,
+            "raw_count": len(raw_scene_times),
+            "minimum_gap_seconds": scene_min_gap,
+            "maximum_per_transcript_chunk": scene_markers_per_chunk,
+            "markers": markers,
+        },
+        "usage": {
+            "purpose": "导航与定位，不是最终讲义图片",
+            "open_overview_sheets_first": True,
+            "do_not_bulk_open_candidates": True,
+            "select_final_images_after_transcript_review": True,
+        },
+    }
+    (output / "frames.json").write_text(
+        json.dumps(frame_index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    return frame_index
 
 
 def load_metadata(output: Path, raw_url: str, media: Path, duration: float) -> dict[str, object]:
@@ -417,7 +530,7 @@ def download(raw_url: str, output: Path, yt_dlp: str, browser: str | None) -> No
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="下载 B 站讲座，取得字幕或 faster-whisper 转录并提取关键帧。"
+        description="下载 B 站讲座，取得字幕或 faster-whisper 转录并建立渐进视觉索引。"
     )
     parser.add_argument("url", help="bilibili.com 或 b23.tv 视频链接")
     parser.add_argument("--output", required=True, type=Path, help="讲义输出目录")
@@ -426,7 +539,31 @@ def main() -> None:
     cookie_group.add_argument("--no-cookies", action="store_true", help="不读取浏览器 Cookie")
     parser.add_argument("--chunk-minutes", type=int, default=12, help="字幕分块时长")
     parser.add_argument("--scene-threshold", type=float, default=0.28, help="场景变化阈值")
-    parser.add_argument("--max-frames", type=int, default=120, help="最多保留的候选截图数")
+    parser.add_argument(
+        "--overview-frames",
+        type=int,
+        default=32,
+        help="均匀总览帧数；每 16 帧生成一张 4×4 联系表",
+    )
+    parser.add_argument(
+        "--scene-min-gap",
+        type=float,
+        default=8,
+        help="场景变化时间标记的最小间隔秒数",
+    )
+    parser.add_argument(
+        "--scene-markers-per-chunk",
+        type=int,
+        default=4,
+        help="每个字幕分块最多保留的场景变化时间标记",
+    )
+    parser.add_argument(
+        "--max-scene-markers",
+        type=int,
+        default=48,
+        help="frames.json 中最多保留的场景变化时间标记",
+    )
+    parser.add_argument("--max-frames", type=int, help=argparse.SUPPRESS)
     parser.add_argument("--whisper-model", default="large-v3-turbo")
     parser.add_argument("--whisper-batch-size", type=int, default=4)
     parser.add_argument("--whisper-cpu-threads", type=int, default=0)
@@ -437,8 +574,16 @@ def main() -> None:
         parser.error("--chunk-minutes 必须在 1 到 60 之间")
     if not 0.01 <= args.scene_threshold <= 1:
         parser.error("--scene-threshold 必须在 0.01 到 1 之间")
-    if not 2 <= args.max_frames <= 500:
-        parser.error("--max-frames 必须在 2 到 500 之间")
+    if not 16 <= args.overview_frames <= 64 or args.overview_frames % 16:
+        parser.error("--overview-frames 必须是 16 到 64 之间的 16 倍数")
+    if not 0 <= args.scene_min_gap <= 600:
+        parser.error("--scene-min-gap 必须在 0 到 600 之间")
+    if not 1 <= args.scene_markers_per_chunk <= 20:
+        parser.error("--scene-markers-per-chunk 必须在 1 到 20 之间")
+    if args.max_frames is not None:
+        args.max_scene_markers = args.max_frames
+    if not 4 <= args.max_scene_markers <= 200:
+        parser.error("--max-scene-markers 必须在 4 到 200 之间")
     if not 1 <= args.whisper_batch_size <= 64:
         parser.error("--whisper-batch-size 必须在 1 到 64 之间")
     if args.whisper_cpu_threads < 0:
@@ -480,13 +625,17 @@ def main() -> None:
 
     cues = read_cues(transcript)
     write_transcript_materials(cues, output, args.chunk_minutes, transcript_source)
-    frames = extract_frames(
+    frame_index = build_frame_index(
         media,
         output,
         ffmpeg,
         ffprobe,
         args.scene_threshold,
-        args.max_frames,
+        args.overview_frames,
+        args.scene_min_gap,
+        args.scene_markers_per_chunk,
+        args.max_scene_markers,
+        args.chunk_minutes,
     )
     duration = media_duration(media, ffprobe)
     metadata = load_metadata(output, args.url, media, duration)
@@ -494,7 +643,18 @@ def main() -> None:
         {
             "transcript_source": transcript_source,
             "transcript_cues": len(cues),
-            "candidate_frames": len(frames),
+            "candidate_frames": (
+                int(frame_index["overview"]["frame_count"])
+                + len(frame_index["scene_changes"]["markers"])
+            ),
+            "frame_index": {
+                "strategy": frame_index["strategy"],
+                "overview_frames": frame_index["overview"]["frame_count"],
+                "overview_sheets": [
+                    sheet["path"] for sheet in frame_index["overview"]["sheets"]
+                ],
+                "scene_markers": len(frame_index["scene_changes"]["markers"]),
+            },
         }
     )
     (output / "manifest.json").write_text(
@@ -502,7 +662,12 @@ def main() -> None:
     )
     print(f"\n素材准备完成：{output}")
     print(f"字幕来源：{transcript_source}")
-    print(f"字幕片段：{len(cues)}；候选截图：{len(frames)}")
+    print(
+        f"字幕片段：{len(cues)}；视觉总览：{frame_index['overview']['sheet_count']} 张联系表 / "
+        f"{frame_index['overview']['frame_count']} 格；"
+        f"场景时间标记：{len(frame_index['scene_changes']['markers'])}"
+    )
+    print("自动视觉索引只用于导航；最终图片须在字幕审校后按语义锚点选择。")
 
 
 if __name__ == "__main__":

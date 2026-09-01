@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 from pathlib import Path
 
@@ -22,6 +23,7 @@ def main() -> None:
         raise SystemExit(f"不存在：{notes}")
     text = notes.read_text(encoding="utf-8")
     failures: list[str] = []
+    warnings: list[str] = []
 
     if len(re.sub(r"\s+", "", text)) < 1000:
         failures.append("正文少于 1000 个非空白字符，可能不是完整讲义")
@@ -33,19 +35,73 @@ def main() -> None:
     image_paths = IMAGE_LINK.findall(text)
     if not image_paths:
         failures.append("没有 Markdown 图片")
+    elif not 8 <= len(image_paths) <= 16:
+        warnings.append(f"当前引用 {len(image_paths)} 张图片；通常建议 8–16 张")
     for raw_path in image_paths:
         if re.match(r"^[a-z]+://", raw_path, re.IGNORECASE):
             continue
         path_only = raw_path.split("#", 1)[0].split("?", 1)[0]
+        if Path(path_only).parts and Path(path_only).parts[0] in {
+            "frame-index",
+            "frame-review",
+        }:
+            failures.append(f"讲义引用了视觉索引或预览图，而非最终图片：{raw_path}")
         target = (notes.parent / path_only).resolve()
         if not target.is_file():
             failures.append(f"图片不存在：{raw_path}")
 
-    timestamp_links = re.findall(
-        r"\[\d{2}:\d{2}:\d{2}\]\(<https?://[^>]+[?&]t=\d+[^>]*>\)", text
+    timestamp_links = list(
+        re.finditer(
+            r"\[(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d{2})\]"
+            r"\(<https?://[^>]+[?&]t=(?P<target>\d+)[^>]*>\)",
+            text,
+        )
     )
     if not timestamp_links:
         failures.append("没有可点击的视频时间戳链接")
+    for match in timestamp_links:
+        label_seconds = (
+            int(match.group("hours")) * 3600
+            + int(match.group("minutes")) * 60
+            + int(match.group("seconds"))
+        )
+        target_seconds = int(match.group("target"))
+        if label_seconds != target_seconds:
+            failures.append(
+                "时间标签与链接秒数不一致："
+                f"{match.group(0)}（标签={label_seconds}，t={target_seconds}）"
+            )
+
+    selected_manifest = notes.parent / "selected-frames.json"
+    if selected_manifest.is_file():
+        try:
+            selected_data = json.loads(selected_manifest.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            failures.append(f"selected-frames.json 不是有效 JSON：{exc}")
+        else:
+            selected = selected_data.get("frames") if isinstance(selected_data, dict) else None
+            if not isinstance(selected, list):
+                failures.append("selected-frames.json 缺少 frames 列表")
+            else:
+                selected_paths = {
+                    str(item.get("path"))
+                    for item in selected
+                    if isinstance(item, dict) and item.get("path")
+                }
+                for selected_path in selected_paths:
+                    if not (notes.parent / selected_path).is_file():
+                        failures.append(f"selected-frames.json 中图片不存在：{selected_path}")
+                local_note_images = {
+                    raw_path.split("#", 1)[0].split("?", 1)[0]
+                    for raw_path in image_paths
+                    if not re.match(r"^[a-z]+://", raw_path, re.IGNORECASE)
+                }
+                untracked = sorted(local_note_images - selected_paths)
+                if untracked:
+                    warnings.append(
+                        "以下讲义图片未记录在 selected-frames.json："
+                        + ", ".join(untracked)
+                    )
 
     raw_chunks = sorted((notes.parent / "chunks").glob("chunk-*.md"))
     reviewed_chunks = sorted((notes.parent / "reviewed").glob("chunk-*.md"))
@@ -97,6 +153,8 @@ def main() -> None:
         raise SystemExit(1)
 
     print(f"验证通过：{notes}")
+    for warning in warnings:
+        print(f"提示：{warning}")
     pending = len(re.findall(r"\[转录待核[:：]", reviewed_text))
     print(
         f"图片：{len(image_paths)}；时间戳链接：{len(timestamp_links)}；"
