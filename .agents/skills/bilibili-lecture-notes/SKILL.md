@@ -37,25 +37,25 @@ python3 <skill-dir>/scripts/assemble_reviewed.py '<output-dir>'
 ## 视觉索引与渐进选帧（必做）
 
 1. 准备完成后先读 `frames.json`，只查看 `overview.sheets` 列出的两张全局联系表。每张按从左到右、从上到下对应其 `cells`；它们只用于了解视频的视觉类型和大致分布，小字不得据此定稿。
-2. 审校时先从语义确定核验时间点，再用场景变化标记辅助定位；场景切换不等于内容重要。对语义锚点生成 `t-2s / t / t+2s` 三联预览：
+2. 审校时先根据字幕确定重要视觉内容对应的语义区间，并优先在区间后半段选择画面稳定、内容较完整的核验时间点 `t`；场景变化标记只用于辅助定位，切屏不等于内容重要。对该时间点生成 `t-2s / t / t+2s` 三联预览：
 
    ```bash
    python3 <skill-dir>/scripts/extract_review_frames.py '<output-dir>' \
      --anchor 00:31:25 --anchor 01:10:31
    ```
 
-   查看 `frame-review/index.json` 与联系图；只有看不清关键文字时才提取原分辨率 PNG：
+   查看 `frame-review/index.json` 并直接比较三张画面；若其中一张相关、完整且清晰，使用该单元格记录的实际时间作为候选。若三张都处于转场、遮挡或尚未完整呈现，根据相邻字幕移动 `t` 后通常只重新生成一次；仍无合适画面则不强行配图，不默认密集采样。只有选中候选的关键文字看不清时，才在该候选的实际时间提取原分辨率 PNG：
 
    ```bash
    python3 <skill-dir>/scripts/extract_review_frames.py '<output-dir>' \
-     --inspect 00:31:25
+     --inspect 00:31:27
    ```
 
 3. 完成字幕审校和内容大纲后再选最终图片。通常每个主要章节 1–2 张、全篇约 8–16 张，不为凑数重复幻灯片；完整查看的全尺寸候选通常不超过最终数量的两倍，关键歧义核验除外。把选定帧提升到 `images/`：
 
    ```bash
    python3 <skill-dir>/scripts/extract_review_frames.py '<output-dir>' \
-     --select 00:31:25 --name intent-spec-impl
+     --select 00:31:27 --name intent-spec-impl
    ```
 
    `images/` 只放最终图片；`notes.md` 不得引用 `frame-index/` 或 `frame-review/`。
