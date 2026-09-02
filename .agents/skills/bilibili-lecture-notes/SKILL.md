@@ -51,7 +51,7 @@ python3 <skill-dir>/scripts/assemble_reviewed.py '<output-dir>'
      --inspect 00:31:25
    ```
 
-3. 完成字幕审校和内容大纲后再选最终图片。通常每个主要章节 1–2 张、全篇 8–16 张，不为凑数重复幻灯片；完整查看的全尺寸候选通常不超过最终数量的两倍，关键歧义核验除外。把选定帧提升到 `images/`：
+3. 完成字幕审校和内容大纲后再选最终图片。通常每个主要章节 1–2 张、全篇约 8–16 张，不为凑数重复幻灯片；完整查看的全尺寸候选通常不超过最终数量的两倍，关键歧义核验除外。把选定帧提升到 `images/`：
 
    ```bash
    python3 <skill-dir>/scripts/extract_review_frames.py '<output-dir>' \
