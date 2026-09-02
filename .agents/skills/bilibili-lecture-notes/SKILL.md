@@ -5,11 +5,17 @@ description: 将长篇 B 站讲座或课程视频转换为经过模型逐段复�
 
 # Bilibili Lecture Notes
 
-把讲座整理成可独立阅读的讲义，而不是只生成短摘要。最终目录至少包含 `notes.md`、原始 `transcript.srt`、模型审校后的 `transcript.reviewed.md`、`corrections.md`、`images/` 和 `manifest.json`。
+把讲座整理成可独立阅读的讲义，而不是只生成短摘要。处理期间生成原始字幕、审校稿、修改记录、视觉索引和源视频等中间产物；全部验证完成后清理它们，最终输出目录只保留 `notes.md` 和 `images/`。
 
 ## 准备素材
 
-1. 从用户取得 B 站视频链接；若未指定输出目录，在当前工作目录创建一个以视频主题命名的目录。
+1. 从用户取得 B 站视频链接；若未指定输出目录，先用技能固定运行环境查询标题，再在当前工作目录创建一个以视频主题命名的目录：
+
+   ```bash
+   python3 <skill-dir>/scripts/get_bilibili_title.py '<url>' --browser chrome
+   ```
+
+   标题查询和素材准备一律使用技能固定环境中的 `yt-dlp`。不要运行 PATH 中的裸 `yt-dlp`，不要先用 `command -v yt-dlp` 探测，也不要因为系统没有全局命令而安装或补依赖；随附脚本会直接检查并调用 `~/.agents/envs/bilibili-lecture-notes/bin/yt-dlp`。
 2. 运行随附脚本：
 
    ```bash
@@ -19,7 +25,7 @@ description: 将长篇 B 站讲座或课程视频转换为经过模型逐段复�
    此用户已允许在本机处理 B 站视频时通过 `yt-dlp --cookies-from-browser chrome` 使用 Chrome 登录会话。只把浏览器会话用于用户提供的 B 站链接；不得导出 Cookie 文件、打印 Cookie 内容或把登录信息写进产物。若用户明确要求不使用登录会话，传入 `--no-cookies`。
 
 3. 脚本优先采用站内中文字幕；没有可用字幕时运行 `faster-whisper`，默认使用 `large-v3-turbo`、CPU `int8`、批量转录和 VAD。不要仅因为转录耗时较长就跳过。
-4. 脚本将逐字稿按约 12 分钟拆入 `chunks/`。视觉部分只建立渐进披露索引：默认均匀采样 32 帧并生成 `frame-index/overview-001.jpg`、`overview-002.jpg` 两张 4×4 全局联系表；`frames.json` 记录每格时间与经过限流的场景变化时间。它们用于导航，不是最终讲义图片。如脚本失败，先根据终端错误修复依赖或访问问题，再继续写作；不要凭视频标题臆造内容。
+4. 脚本将逐字稿按约 12 分钟拆入 `chunks/`。视觉部分只建立渐进披露索引：默认均匀采样 32 帧并生成 `frame-index/overview-001.jpg`、`overview-002.jpg` 两张 2560×1440 的 4×4 全局联系表（每格 640×360）；`frames.json` 记录每格时间、联系表尺寸与经过限流的场景变化时间。它们用于导航，不是最终讲义图片。如脚本失败，先根据终端错误修复依赖或访问问题，再继续写作；不要凭视频标题臆造内容。
 
 ## 模型监督校正（必做）
 
@@ -81,10 +87,12 @@ python3 <skill-dir>/scripts/assemble_reviewed.py '<output-dir>'
 
 ## 验证
 
-完成后运行：
+完成后先确认：所有原始分块均有对应审校分块；`corrections.md` 说明复核范围、修改和未决项；正文可脱离视频阅读；所有相对图片链接存在且都指向 `images/`；时间戳落在对应内容附近；没有把识别错误当作事实。
+
+随后运行验证与最终整理：
 
 ```bash
-python3 <skill-dir>/scripts/validate_notes.py '<output-dir>/notes.md'
+python3 <skill-dir>/scripts/validate_notes.py '<output-dir>/notes.md' --finalize
 ```
 
-同时确认：所有原始分块均有对应审校分块；`corrections.md` 说明复核范围、修改和未决项；正文可脱离视频阅读；所有相对图片链接存在；时间戳落在对应内容附近；没有把识别错误当作事实。只在验证通过后向用户交付 `notes.md` 的绝对路径，并报告字幕来源、模型修正数量和未决项数量。
+`--finalize` 只在完整验证通过后执行，并会核验目标确为 B 站讲义目录且全部本地图片位于 `images/`；随后删除源视频、字幕、审校记录、视觉索引等所有中间产物。整理后再次确认目录根部严格只剩 `notes.md` 和 `images/`。只在这些步骤全部完成后向用户交付 `notes.md` 的绝对路径，并使用整理命令输出的统计报告字幕来源、模型修正数量和未决项数量。

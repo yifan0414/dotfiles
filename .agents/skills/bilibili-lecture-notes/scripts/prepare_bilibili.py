@@ -27,6 +27,10 @@ SRT_BLOCK = re.compile(
 RUNTIME_ROOT = Path.home() / ".agents" / "envs" / "bilibili-lecture-notes"
 MODEL_ROOT = Path.home() / ".agents" / "models" / "faster-whisper"
 
+OVERVIEW_CELL_WIDTH = 640
+OVERVIEW_CELL_HEIGHT = 360
+OVERVIEW_MAX_COLUMNS = 4
+
 
 @dataclass
 class Cue:
@@ -345,8 +349,10 @@ def extract_thumbnail(media: Path, destination: Path, ffmpeg: str, seconds: floa
             "1",
             "-vf",
             (
-                "scale=w=320:h=180:force_original_aspect_ratio=decrease,"
-                "pad=320:180:(ow-iw)/2:(oh-ih)/2:black"
+                f"scale=w={OVERVIEW_CELL_WIDTH}:h={OVERVIEW_CELL_HEIGHT}:"
+                "force_original_aspect_ratio=decrease,"
+                f"pad={OVERVIEW_CELL_WIDTH}:{OVERVIEW_CELL_HEIGHT}:"
+                "(ow-iw)/2:(oh-ih)/2:black"
             ),
             "-q:v",
             "3",
@@ -358,13 +364,16 @@ def extract_thumbnail(media: Path, destination: Path, ffmpeg: str, seconds: floa
 def create_contact_sheet(
     thumbnails: list[Path], destination: Path, ffmpeg: str
 ) -> tuple[int, int]:
-    columns = min(4, max(1, math.ceil(math.sqrt(len(thumbnails)))))
+    columns = min(
+        OVERVIEW_MAX_COLUMNS, max(1, math.ceil(math.sqrt(len(thumbnails))))
+    )
     rows = math.ceil(len(thumbnails) / columns)
     command = [ffmpeg, "-hide_banner", "-loglevel", "error"]
     for thumbnail in thumbnails:
         command.extend(["-i", str(thumbnail)])
     layout = "|".join(
-        f"{(index % columns) * 320}_{(index // columns) * 180}"
+        f"{(index % columns) * OVERVIEW_CELL_WIDTH}_"
+        f"{(index // columns) * OVERVIEW_CELL_HEIGHT}"
         for index in range(len(thumbnails))
     )
     command.extend(
@@ -425,6 +434,10 @@ def build_frame_index(
                     "frame_count": len(sheet_times),
                     "columns": columns,
                     "rows": rows,
+                    "width": columns * OVERVIEW_CELL_WIDTH,
+                    "height": rows * OVERVIEW_CELL_HEIGHT,
+                    "cell_width": OVERVIEW_CELL_WIDTH,
+                    "cell_height": OVERVIEW_CELL_HEIGHT,
                     "cells": [
                         {
                             "cell": cell,

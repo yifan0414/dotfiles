@@ -6,16 +6,90 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 from pathlib import Path
+from urllib.parse import urlparse
 
 
 IMAGE_LINK = re.compile(r"!\[[^\]]*\]\((?:<)?([^)>]+)(?:>)?\)")
 PLACEHOLDER = re.compile(r"\b(?:TODO|TBD)\b|待填写|在此插入|PLACEHOLDER", re.IGNORECASE)
+FINAL_OUTPUT_NAMES = {"images", "notes.md"}
+
+
+def count_corrections(text: str) -> int:
+    match = re.search(r"## 已修正\s*(.*?)(?=\n## |\Z)", text, re.DOTALL)
+    if not match:
+        return 0
+    count = 0
+    for line in match.group(1).splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if not cells or cells[0] in {"时间", "---", "无"}:
+            continue
+        if re.fullmatch(r"-+", cells[0]):
+            continue
+        count += 1
+    return count
+
+
+def finalize_output(notes: Path, image_paths: list[str]) -> tuple[int, str]:
+    output = notes.parent.resolve()
+    filesystem_root = Path(output.anchor).resolve()
+    if output in {filesystem_root, Path.home().resolve()} or len(output.parts) < 3:
+        raise SystemExit(f"拒绝清理过于宽泛的目录：{output}")
+
+    images = output / "images"
+    if not images.is_dir() or images.is_symlink():
+        raise SystemExit("整理失败：images/ 不存在、不是普通目录或是符号链接")
+
+    manifest = output / "manifest.json"
+    if not manifest.is_file() or manifest.is_symlink():
+        raise SystemExit("整理失败：缺少普通文件 manifest.json，无法确认讲义输出目录")
+    try:
+        manifest_data = json.loads(manifest.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"整理失败：manifest.json 不是有效 JSON：{exc}") from exc
+    source_url = str(manifest_data.get("source_url", ""))
+    host = (urlparse(source_url).hostname or "").lower().rstrip(".")
+    if host not in {"b23.tv", "bilibili.com"} and not host.endswith(".bilibili.com"):
+        raise SystemExit("整理失败：manifest.json 不能确认这是 B 站讲义输出目录")
+
+    images_root = images.resolve()
+    for raw_path in image_paths:
+        if re.match(r"^[a-z]+://", raw_path, re.IGNORECASE):
+            continue
+        path_only = raw_path.split("#", 1)[0].split("?", 1)[0]
+        target = (output / path_only).resolve()
+        try:
+            target.relative_to(images_root)
+        except ValueError as exc:
+            raise SystemExit(
+                f"整理失败：讲义引用的本地图片不在 images/ 中：{raw_path}"
+            ) from exc
+
+    removable = [path for path in output.iterdir() if path.name not in FINAL_OUTPUT_NAMES]
+    for path in removable:
+        if path.is_symlink() or path.is_file():
+            path.unlink()
+        elif path.is_dir():
+            shutil.rmtree(path)
+        else:
+            path.unlink()
+    remaining = {path.name for path in output.iterdir()}
+    if remaining != FINAL_OUTPUT_NAMES:
+        raise SystemExit(f"整理后目录内容不符合预期：{sorted(remaining)}")
+    return len(removable), str(manifest_data.get("transcript_source", "unknown"))
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="检查图文讲义 Markdown 的基本完整性。")
     parser.add_argument("notes", type=Path, help="notes.md 路径")
+    parser.add_argument(
+        "--finalize",
+        action="store_true",
+        help="验证通过后清理中间产物，只保留 notes.md 与 images/",
+    )
     args = parser.parse_args()
 
     notes = args.notes.expanduser().resolve()
@@ -130,6 +204,7 @@ def main() -> None:
             failures.append("transcript.reviewed.md 内容过短，可能没有完成全部分块复核")
 
     corrections = notes.parent / "corrections.md"
+    corrections_text = ""
     if not corrections.is_file():
         failures.append("缺少模型复核记录 corrections.md")
     else:
@@ -160,6 +235,17 @@ def main() -> None:
         f"图片：{len(image_paths)}；时间戳链接：{len(timestamp_links)}；"
         f"审校分块：{len(reviewed_chunks)}；待核项：{pending}"
     )
+    correction_total = count_corrections(corrections_text)
+    if args.finalize:
+        removed_count, transcript_source = finalize_output(notes, image_paths)
+        print(
+            f"交付统计：字幕来源={transcript_source}；"
+            f"模型修正={correction_total}；未决项={pending}"
+        )
+        print(
+            f"整理完成：删除 {removed_count} 个中间项；"
+            "最终目录仅保留 notes.md 与 images/"
+        )
 
 
 if __name__ == "__main__":
