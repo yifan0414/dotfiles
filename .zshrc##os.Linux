@@ -16,6 +16,7 @@ prepend_path() {
 ### Oh My Zsh core settings. ###
 ################################
 export ZSH="$HOME/.oh-my-zsh"
+export PATH="$HOME/.fzf/bin:$PATH"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git fzf zsh-syntax-highlighting zsh-autosuggestions z fzf-tab)
 
@@ -45,7 +46,7 @@ if [[ -d /hdd1_4t/yifan/shared ]]; then
   export UV_CACHE_DIR=/hdd1_4t/yifan/shared/uv-cache
   export UV_LINK_MODE=hardlink
 
-  export CUDA_HOME=/usr/local/cuda-13.0
+  export CUDA_HOME=/usr/local/cuda-12.8
   export PATH=$CUDA_HOME/bin:$PATH
   export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
   export MODEL_NAME=/hdd1_4t/yifan/shared/models/Qwen2.5-VL-7B-Instruct
@@ -91,7 +92,7 @@ proxy_scheme="${DOTFILES_PROXY_SCHEME:-http}"
 proxy_url="${DOTFILES_PROXY_URL:-${proxy_scheme}://${proxy_host}:${proxy_port}}"
 git_proxy_url="${DOTFILES_GIT_PROXY_URL:-$proxy_url}"
 
-proxy_on() {
+_proxy_enable() {
   export http_proxy="$proxy_url"
   export https_proxy="$proxy_url"
   export all_proxy="$proxy_url"
@@ -105,7 +106,30 @@ proxy_on() {
   fi
 }
 
-# proxy_on
+_proxy_disable() {
+  unset http_proxy https_proxy all_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY
+
+  if command -v git >/dev/null 2>&1; then
+    git config --global --unset-all http.proxy >/dev/null 2>&1 || true
+    git config --global --unset-all https.proxy >/dev/null 2>&1 || true
+  fi
+}
+
+_proxy_is_enabled() {
+  [[ "${http_proxy:-}" == "$proxy_url" || "${HTTP_PROXY:-}" == "$proxy_url" || "${https_proxy:-}" == "$proxy_url" || "${HTTPS_PROXY:-}" == "$proxy_url" ]]
+}
+
+proxy_on() {
+  if _proxy_is_enabled; then
+    _proxy_disable
+    printf 'Proxy disabled\n'
+  else
+    _proxy_enable
+    printf 'Proxy enabled: %s\n' "$proxy_url"
+  fi
+}
+
+_proxy_enable
 
 #######################
 ### Common aliases. ###
@@ -124,14 +148,21 @@ else
   alias ll="ls -all"
 fi
 
+<<<<<<< Updated upstream
 alias curl="curl -x ${proxy_url}"
 alias clear="clear -x"
 
+=======
+>>>>>>> Stashed changes
 if command -v python3 >/dev/null 2>&1; then
   alias python="python3"
 fi
 
 alias codex-linux='CODEX_HOME="$HOME/.codex-linux" codex'
+<<<<<<< Updated upstream
+=======
+alias codex-krill='CODEX_HOME="$HOME/.codex-krill" codex'
+>>>>>>> Stashed changes
 alias codex-linux-exec='CODEX_HOME="$HOME/.codex-linux" codex exec'
 
 yb() {
@@ -239,3 +270,5 @@ zstyle ':fzf-tab:*' fzf-bindings-default \
   'bspace:backward-delete-char' 'ctrl-h:backward-delete-char'
 
 [[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

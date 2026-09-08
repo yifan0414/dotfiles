@@ -1,0 +1,78 @@
+model_provider = "OpenAI"
+model = "gpt-5.5"
+review_model = "gpt-5.5"
+model_reasoning_effort = "xhigh"
+disable_response_storage = true
+network_access = "enabled"
+windows_wsl_setup_acknowledged = true
+model_context_window = 1000000
+model_auto_compact_token_limit = 900000
+service_tier = "default"
+plan_mode_reasoning_effort = "xhigh"
+sandbox_mode = "danger-full-access"
+approval_policy = "never"
+
+
+[model_providers.OpenAI]
+name = "OpenAI"
+# base_url = "https://okapi.buzz"
+base_url = "https://token.dialoguedui.com/v1"
+# base_url = "https://vip.zpika.com/v1"
+wire_api = "responses"
+requires_openai_auth = true
+
+[projects."/home/yifan"]
+trust_level = "trusted"
+
+[projects."/hdd1_4t/yifan/DYTO-main"]
+trust_level = "trusted"
+
+[projects."/hdd1_4t/yifan/lmms-eval"]
+trust_level = "trusted"
+
+[projects."/ssd_2t/minjie/Patch-Matters-main"]
+trust_level = "trusted"
+
+[projects."/ssd_2t/yifan/DYTO-main"]
+trust_level = "trusted"
+
+[projects."/ssd_2t/yifan/DIG"]
+trust_level = "trusted"
+
+[projects."/hdd1_4t/yifan/shared"]
+trust_level = "trusted"
+
+[projects."/hdd1_4t/yifan/DIG-Evidence"]
+trust_level = "trusted"
+
+[projects."/hdd1_4t/yifan"]
+trust_level = "trusted"
+
+[projects."/home/yifan/.codex-linux"]
+trust_level = "trusted"
+
+[projects."/hdd1_4t/yifan/KTV"]
+trust_level = "trusted"
+
+[projects."/hdd1_4t/yifan/DYTO"]
+trust_level = "trusted"
+
+[projects."/hdd1_4t/yifan/FlashVID"]
+trust_level = "trusted"
+
+[projects."/hdd1_4t/yifan/DyToK"]
+trust_level = "trusted"
+
+[projects."/hdd1_4t/yifan/D-CoDe"]
+trust_level = "trusted"
+
+[tui]
+status_line = ["model-with-reasoning", "current-dir", "five-hour-limit", "weekly-limit", "used-tokens", "context-used", "run-state", "fast-mode", "approval-mode"]
+theme = "inspired-github"
+status_line_use_colors = true
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+
+[notice]
+fast_default_opt_out = true
