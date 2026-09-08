@@ -28,19 +28,28 @@ Use simple, non-destructive Git operations. Follow repository-specific instructi
 
 ## Write Commit Messages
 
-Use Conventional Commits in one of these forms:
+Follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) for message structure and meaning:
 
 ```text
-<type>: <imperative summary>
-<type>(<scope>): <imperative summary>
+<type>[optional scope][optional !]: <description>
+
+[optional body]
+
+[optional footer(s)]
 ```
 
-- Prefer `feat`, `fix`, `perf`, `refactor`, `test`, `docs`, `build`, `ci`, and `chore`.
+- Use `feat` for new features and `fix` for bug fixes. Other types are allowed; prefer `perf`, `refactor`, `test`, `docs`, `build`, `ci`, and `chore` when appropriate, following repository conventions.
+- Put an optional scope in parentheses; use a noun identifying the affected part of the codebase. Follow the colon with a space and a short description.
+- Separate the body and footer section from preceding content with a blank line. Use trailers such as `Refs: #123` or `Closes #123`; footer tokens use hyphens instead of spaces, except for `BREAKING CHANGE`.
+- Mark any breaking change, regardless of type, with `!` immediately before the colon (for example, `feat(api)!:`), a `BREAKING CHANGE: <description>` footer, or both. When using only `!`, describe the breaking change in the subject. Keep `BREAKING CHANGE` uppercase; `BREAKING-CHANGE` is also valid as a footer token.
+- Preserve release meaning: `fix` corresponds to PATCH, `feat` to MINOR, and any breaking change to MAJOR. Other types have no implicit version bump unless they mark a breaking change.
+
+Apply these local writing defaults unless repository-specific instructions override them; they are additional preferences, not requirements of Conventional Commits:
+
 - Use a concise, lowercase scope only when it adds useful context.
-- Keep the subject specific, imperative, and no longer than 72 characters.
+- Keep the full subject line, including the prefix, specific, imperative, and no longer than 72 characters.
 - Do not end the subject with a period.
 - Add a body only when the motivation or non-obvious details are unclear from the subject.
-- Mark breaking changes with `!` or a `BREAKING CHANGE:` footer.
 - Do not add emoji, AI attribution, Codex attribution, or co-author attribution unless explicitly requested.
 
 Use these patterns as guidance:
@@ -51,6 +60,16 @@ fix(loader): handle missing video timestamps
 perf(encoder): batch frame embedding extraction
 refactor(scorer): simplify relevance normalization
 docs: add reproduction instructions
+```
+
+For a breaking change that needs migration context:
+
+```text
+feat(config)!: require an explicit model path
+
+Remove automatic model discovery to make model selection reproducible.
+
+BREAKING CHANGE: set model_path in the config; automatic discovery is removed.
 ```
 
 ## Commit and Verify
