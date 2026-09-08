@@ -148,21 +148,15 @@ else
   alias ll="ls -all"
 fi
 
-<<<<<<< Updated upstream
 alias curl="curl -x ${proxy_url}"
 alias clear="clear -x"
 
-=======
->>>>>>> Stashed changes
 if command -v python3 >/dev/null 2>&1; then
   alias python="python3"
 fi
 
 alias codex-linux='CODEX_HOME="$HOME/.codex-linux" codex'
-<<<<<<< Updated upstream
-=======
 alias codex-krill='CODEX_HOME="$HOME/.codex-krill" codex'
->>>>>>> Stashed changes
 alias codex-linux-exec='CODEX_HOME="$HOME/.codex-linux" codex exec'
 
 yb() {
@@ -272,3 +266,6 @@ zstyle ':fzf-tab:*' fzf-bindings-default \
 [[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
