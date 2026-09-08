@@ -6,6 +6,7 @@ REPORT_NAMES=()
 REPORT_STATUSES=()
 REPORT_DETAILS=()
 SUMMARY_PRINTED=0
+BOOTSTRAP_FAILURES=0
 STDOUT_RESET=""
 STDOUT_BOLD=""
 STDOUT_RED=""
@@ -218,6 +219,9 @@ record_status() {
   REPORT_NAMES+=("$1")
   REPORT_STATUSES+=("$2")
   REPORT_DETAILS+=("${3:-}")
+  if [[ "$2" == "failed" || ( "$1" == "core CLI tools" && "$2" == "missing" ) ]]; then
+    BOOTSTRAP_FAILURES=$((BOOTSTRAP_FAILURES + 1))
+  fi
 }
 
 print_summary() {
@@ -302,44 +306,51 @@ run_as_root() {
 }
 
 configure_proxy() {
-  export http_proxy="$PROXY_URL"
-  export https_proxy="$PROXY_URL"
-  export all_proxy="$PROXY_URL"
-  export HTTP_PROXY="$PROXY_URL"
-  export HTTPS_PROXY="$PROXY_URL"
-  export ALL_PROXY="$PROXY_URL"
+  local mode="${DOTFILES_PROXY_MODE:-inherit}"
+  local config_count="${GIT_CONFIG_COUNT:-0}"
 
-  if need_cmd git; then
-    git config --global http.proxy "$GIT_PROXY_URL"
-    git config --global https.proxy "$GIT_PROXY_URL"
-  else
-    warn "git is unavailable; skipped global git proxy setup"
-    record_status "git proxy" "skipped" "git unavailable"
+  # An explicit endpoint opts in; otherwise keep this machine's network settings.
+  if [[ -z "${DOTFILES_PROXY_MODE:-}" && -n "${DOTFILES_PROXY_URL:-}${DOTFILES_PROXY_HOST:-}${DOTFILES_PROXY_PORT:-}${DOTFILES_GIT_PROXY_URL:-}" ]]; then
+    mode=on
   fi
 
-  log "proxy configured: $PROXY_URL"
-  record_status "proxy env" "configured" "$PROXY_URL"
+  case "$mode" in
+    inherit)
+      record_status "proxy" "skipped" "using existing environment and Git configuration"
+      return 0
+      ;;
+    on)
+      export http_proxy="$PROXY_URL" https_proxy="$PROXY_URL" all_proxy="$PROXY_URL"
+      export HTTP_PROXY="$PROXY_URL" HTTPS_PROXY="$PROXY_URL" ALL_PROXY="$PROXY_URL"
+      ;;
+    off)
+      unset http_proxy https_proxy all_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY
+      GIT_PROXY_URL=""
+      ;;
+    *) die "DOTFILES_PROXY_MODE must be inherit, on, or off" ;;
+  esac
 
-  if need_cmd git; then
-    record_status "git proxy" "configured" "$GIT_PROXY_URL"
-  fi
-
-  if need_cmd nc; then
-    if nc -z "$PROXY_HOST" "$PROXY_PORT" >/dev/null 2>&1; then
-      log "proxy endpoint reachable: ${PROXY_HOST}:${PROXY_PORT}"
-      record_status "proxy endpoint" "reachable" "${PROXY_HOST}:${PROXY_PORT}"
-    else
-      warn "proxy endpoint ${PROXY_HOST}:${PROXY_PORT} is not reachable yet"
-      record_status "proxy endpoint" "unreachable" "${PROXY_HOST}:${PROXY_PORT}"
-    fi
-  else
-    record_status "proxy endpoint" "skipped" "nc unavailable"
-  fi
+  # Override Git only for this process and its children; never rewrite ~/.gitconfig.
+  [[ "$config_count" =~ ^[0-9]+$ ]] || die "invalid GIT_CONFIG_COUNT"
+  export "GIT_CONFIG_KEY_${config_count}=http.proxy"
+  export "GIT_CONFIG_VALUE_${config_count}=$GIT_PROXY_URL"
+  export GIT_CONFIG_COUNT=$((config_count + 1))
+  record_status "proxy" "configured" "$mode (bootstrap process only)"
 }
 
 install_homebrew_packages() {
   local core_brewfile="$HOME/.config/yadm/packages/homebrew/core.Brewfile"
   local gui_brewfile="$HOME/.config/yadm/packages/homebrew/gui.Brewfile"
+  local brew_bin
+
+  if ! need_cmd brew; then
+    for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+      if [[ -x "$brew_bin" ]]; then
+        eval "$("$brew_bin" shellenv)"
+        break
+      fi
+    done
+  fi
 
   if ! need_cmd brew; then
     warn "Homebrew is unavailable; skipped macOS system package installation"
@@ -460,7 +471,7 @@ install_linux_packages() {
         ;;
       pacman)
         if [[ "$updated" -eq 0 ]]; then
-          if ! run_as_root pacman -Sy --noconfirm; then
+          if ! run_as_root pacman -Syu --noconfirm; then
             warn "failed to refresh pacman package index; skipped Linux system package installation"
             record_status "system packages" "failed" "pacman sync"
             return 0
@@ -582,15 +593,17 @@ bootstrap_tmux_from_source_on_apt() {
     build_jobs="$(getconf _NPROCESSORS_ONLN 2>/dev/null || printf '2')"
   fi
 
+  [[ "$tmux_target_version" =~ ^[0-9]+\.[0-9]+[a-z]?$ ]] || die "invalid DOTFILES_TMUX_VERSION"
   mkdir -p "$build_root"
 
   if [[ ! -f "$archive" ]]; then
     log "downloading tmux ${tmux_target_version} source tarball"
-    if ! curl -fsSL -o "$archive" "$tmux_source_url"; then
+    if ! curl -fsSL -o "${archive}.part" "$tmux_source_url"; then
       warn "failed to download tmux source tarball: $tmux_source_url"
       record_status "tmux build" "failed" "download"
       return 0
     fi
+    mv "${archive}.part" "$archive"
   fi
 
   rm -rf "$source_dir"
@@ -901,7 +914,8 @@ bootstrap_vim() {
     record_status "vim-plug" "present" "$plug_vim"
   else
     log "installing vim-plug"
-    if curl -fLo "$plug_vim" --create-dirs "$plug_url"; then
+    if curl -fLo "${plug_vim}.part" --create-dirs "$plug_url"; then
+      mv "${plug_vim}.part" "$plug_vim"
       record_status "vim-plug" "installed" "$plug_vim"
     else
       warn "failed to install vim-plug"
@@ -1049,8 +1063,16 @@ bootstrap_launch_agent() {
     return 0
   fi
 
+  mkdir -p "$HOME/Library/Logs"
+  if ! plutil -lint "$plist" >/dev/null 2>&1; then
+    record_status "LaunchAgent" "failed" "invalid plist"
+    return 0
+  fi
+
   if launchctl print "${gui_domain}/${label}" >/dev/null 2>&1; then
-    if launchctl kickstart -k "${gui_domain}/${label}" >/dev/null 2>&1; then
+    # kickstart reuses the old definition; reload to pick up changed paths/arguments.
+    if launchctl bootout "${gui_domain}/${label}" >/dev/null 2>&1 &&
+      launchctl bootstrap "$gui_domain" "$plist" >/dev/null 2>&1; then
       log "LaunchAgent restarted: $label"
       record_status "LaunchAgent" "restarted" "$label"
     else
@@ -1069,9 +1091,9 @@ bootstrap_launch_agent() {
 }
 
 main() {
-  configure_proxy
   require_supported_os
   require_dotfiles_checkout
+  configure_proxy
   bootstrap_system_packages
   bootstrap_tmux_from_source_on_apt
   verify_base_tooling
@@ -1085,6 +1107,9 @@ main() {
   bootstrap_tmux
   reload_kitty_if_possible
   bootstrap_launch_agent
+  if [[ "$BOOTSTRAP_FAILURES" -gt 0 ]]; then
+    die "bootstrap finished with $BOOTSTRAP_FAILURES failed checks; see summary and rerun after fixing them"
+  fi
   log "bootstrap complete"
 }
 

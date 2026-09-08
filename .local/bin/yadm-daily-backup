@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export GIT_TERMINAL_PROMPT=0
 
 commit_message=""
 
@@ -43,7 +44,31 @@ repo_root="${HOME}"
 archive_path="${HOME}/.local/share/yadm/archive"
 cd "${repo_root}"
 
-branch="$(yadm rev-parse --abbrev-ref HEAD)"
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/yadm-daily-backup"
+lock_dir="$state_dir/lock"
+mkdir -p "$state_dir"
+if ! mkdir "$lock_dir" 2>/dev/null; then
+  echo "Another backup may be running. If none is running, remove $lock_dir and retry." >&2
+  exit 75
+fi
+trap 'rmdir "$lock_dir"' EXIT
+
+if ! branch="$(yadm symbolic-ref --quiet --short HEAD)"; then
+  echo "Detached HEAD; select a branch before syncing." >&2
+  exit 1
+fi
+
+for operation in rebase-merge rebase-apply MERGE_HEAD CHERRY_PICK_HEAD REVERT_HEAD; do
+  if [[ -e "$(yadm rev-parse --git-path "$operation")" ]]; then
+    echo "Unfinished Git operation ($operation); resolve it before syncing." >&2
+    exit 1
+  fi
+done
+
+if [[ -n "$(yadm ls-files -u)" ]]; then
+  echo "Unresolved conflicts; resolve them before syncing." >&2
+  exit 1
+fi
 
 has_upstream() {
   yadm rev-parse --verify --quiet '@{u}' >/dev/null 2>&1
@@ -55,8 +80,13 @@ sync_from_remote() {
     return 0
   fi
 
-  echo "Pulling latest changes from origin/${branch}."
-  yadm pull --rebase --autostash origin "${branch}"
+  echo "Pulling latest changes from the configured upstream of ${branch}."
+  yadm pull --rebase --autostash
+  # Applying an autostash can leave conflicts even when pull exits successfully.
+  if [[ -n "$(yadm ls-files -u)" ]]; then
+    echo "Pull left conflicts; resolve them before syncing." >&2
+    return 1
+  fi
 }
 
 sync_from_remote
@@ -91,9 +121,11 @@ fi
 read -r ahead behind <<<"$(yadm rev-list --left-right --count HEAD...@{u})"
 
 if (( ahead == 0 )); then
-  echo "Already in sync with origin/${branch}."
+  echo "Already in sync with the configured upstream of ${branch}."
   exit 0
 fi
 
-echo "Pushing ${ahead} local commit(s) to origin/${branch}."
-yadm push origin "${branch}"
+upstream_remote="$(yadm gitconfig --get "branch.${branch}.remote")"
+upstream_ref="$(yadm gitconfig --get "branch.${branch}.merge")"
+echo "Pushing ${ahead} local commit(s) to ${upstream_remote}/${upstream_ref}."
+yadm push "$upstream_remote" "HEAD:$upstream_ref"
