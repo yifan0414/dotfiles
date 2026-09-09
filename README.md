@@ -41,7 +41,6 @@ The bootstrap will:
 - install `oh-my-zsh`, `powerlevel10k`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, and `fzf-tab`
 - run the existing tmux bootstrap
 - reload kitty when possible
-- load or restart `com.yifan.yadm-daily-backup`
 - print a self-check summary at the end showing what was configured, installed, present, skipped, or failed, including the base CLI toolset required by this repo
 
 System package behavior:
@@ -63,12 +62,11 @@ System package behavior:
 Operational note:
 
 - bootstrap installs dependencies and applies configuration; it is not a continuous synchronization service
-- macOS loads a user LaunchAgent with paths resolved from `$HOME`; it checks for wake events every 10 minutes
-- Linux has no scheduler installed by this bootstrap; run `~/.local/bin/yadm-daily-backup` manually when you want to sync
+- automatic backup scheduling is intentionally not installed on any platform; run `~/.local/bin/yadm-daily-backup` manually when you want to sync
 - daily backup commits all tracked modifications (including deletions), then syncs the configured upstream; new files need an explicit `yadm add <path>` first
 - configure Git author identity and remote authentication on every machine before the first backup
 - concurrent backup runs stop; conflicts or unfinished Git operations require manual resolution, with no force-push
-- failed wake backups retry on the next poll; if a process is killed and leaves a lock directory, confirm no backup is running before removing the lock under `~/.local/state/yadm-daily-backup/` or `~/.local/state/yadm-backup-on-wake/`
+- if a process is killed and leaves a lock directory, confirm no backup is running before removing the lock under `~/.local/state/yadm-daily-backup/`
 - run `python3 ~/.config/yadm/tests/test_bootstrap.py` for isolated regression checks (no live installs, commits, or remote pushes)
 
 - plain `yadm clone <repo>` will still auto-apply alternates

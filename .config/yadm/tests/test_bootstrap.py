@@ -1,6 +1,5 @@
 """Run only in temporary homes/repositories; never execute the live bootstrap."""
 import os
-import plistlib
 import shlex
 import shutil
 import subprocess
@@ -11,7 +10,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 BOOTSTRAP = (ROOT / '.config/yadm/bootstrap').read_text().rsplit('main "$@"', 1)[0]
 BACKUP = ROOT / '.local/bin/yadm-daily-backup'
-WAKE = ROOT / '.local/bin/yadm-backup-on-wake'
 
 
 class Checks(unittest.TestCase):
@@ -63,7 +61,7 @@ class Checks(unittest.TestCase):
             bootstrap_tmux_from_source_on_apt verify_base_tooling require_cmd \
             apply_yadm_alternates verify_alternates bootstrap_vim bootstrap_nvm \
             bootstrap_codex bootstrap_zsh_runtime bootstrap_tmux \
-            reload_kitty_if_possible bootstrap_launch_agent; do
+            reload_kitty_if_possible; do
             eval "$fn() { :; }"
           done
           bootstrap_system_packages() { record_status packages failed simulated; }
@@ -71,14 +69,6 @@ class Checks(unittest.TestCase):
         ''', check=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('1 failed checks', result.stderr)
-
-    def test_linux_does_not_load_launch_agent(self):
-        self.shell('''
-          uname() { echo Linux; }
-          launchctl() { exit 99; }
-          bootstrap_launch_agent
-          [[ "${REPORT_STATUSES[0]}" == skipped ]]
-        ''')
 
     def test_incomplete_download_is_retried(self):
         self.shell('''
@@ -95,45 +85,6 @@ class Checks(unittest.TestCase):
           bootstrap_vim
           [[ "$(cat "$HOME/.vim/autoload/plug.vim")" == complete ]]
         ''')
-
-    def test_launch_agent_runs_under_other_home(self):
-        plist = plistlib.loads((ROOT / 'Library/LaunchAgents/com.yifan.yadm-daily-backup.plist').read_bytes())
-        stub = self.home / '.local/bin/yadm-backup-on-wake'
-        stub.parent.mkdir(parents=True)
-        stub.write_text('#!/bin/bash\nprintf ran\n')
-        stub.chmod(0o755)
-        subprocess.run(plist['ProgramArguments'], env=self.env, check=True)
-        self.assertEqual((self.home / 'Library/Logs/yadm-daily-backup.log').read_text(), 'ran')
-
-    def test_loaded_launch_agent_is_reloaded(self):
-        self.shell('''
-          uname() { echo Darwin; }
-          plutil() { return 0; }
-          launchctl() { printf '%s\\n' "$1" >> "$HOME/calls"; }
-          mkdir -p "$HOME/Library/LaunchAgents"
-          touch "$HOME/Library/LaunchAgents/com.yifan.yadm-daily-backup.plist"
-          bootstrap_launch_agent
-          [[ "$(cat "$HOME/calls")" == $'print\\nbootout\\nbootstrap' ]]
-        ''')
-
-    def test_wake_failure_retries(self):
-        bash_env = self.root / 'env.sh'
-        bash_env.write_text('ioreg() { echo \'"SleepWakeUUID" = "new"\'; }\n')
-        self.env['BASH_ENV'] = str(bash_env)
-        state = self.home / '.local/state/yadm-backup-on-wake'
-        state.mkdir(parents=True)
-        uuid = state / 'sleepwake.uuid'
-        uuid.write_text('old\n')
-        stub = self.home / '.local/bin/yadm-daily-backup'
-        stub.parent.mkdir(parents=True)
-        stub.write_text('#!/bin/bash\nexit 1\n')
-        stub.chmod(0o755)
-        result = subprocess.run(['/bin/bash', str(WAKE)], env=self.env, capture_output=True)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertEqual(uuid.read_text(), 'old\n')
-        stub.write_text('#!/bin/bash\nexit 0\n')
-        subprocess.run(['/bin/bash', str(WAKE)], env=self.env, check=True, capture_output=True)
-        self.assertEqual(uuid.read_text(), 'new\n')
 
     def git(self, repo, *args):
         return subprocess.run(['git', '-C', str(repo), *args], env=self.env,

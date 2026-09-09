@@ -1041,55 +1041,6 @@ reload_kitty_if_possible() {
   fi
 }
 
-bootstrap_launch_agent() {
-  local plist="$HOME/Library/LaunchAgents/com.yifan.yadm-daily-backup.plist"
-  local label="com.yifan.yadm-daily-backup"
-  local gui_domain="gui/$(id -u)"
-
-  if [[ "$(uname)" != "Darwin" ]]; then
-    record_status "LaunchAgent" "skipped" "non-macOS"
-    return 0
-  fi
-
-  if [[ ! -f "$plist" ]]; then
-    log "skip launch agent bootstrap: $plist not found"
-    record_status "LaunchAgent" "skipped" "plist missing"
-    return 0
-  fi
-
-  if ! need_cmd launchctl; then
-    warn "launchctl is unavailable; skipped LaunchAgent bootstrap"
-    record_status "LaunchAgent" "skipped" "launchctl unavailable"
-    return 0
-  fi
-
-  mkdir -p "$HOME/Library/Logs"
-  if ! plutil -lint "$plist" >/dev/null 2>&1; then
-    record_status "LaunchAgent" "failed" "invalid plist"
-    return 0
-  fi
-
-  if launchctl print "${gui_domain}/${label}" >/dev/null 2>&1; then
-    # kickstart reuses the old definition; reload to pick up changed paths/arguments.
-    if launchctl bootout "${gui_domain}/${label}" >/dev/null 2>&1 &&
-      launchctl bootstrap "$gui_domain" "$plist" >/dev/null 2>&1; then
-      log "LaunchAgent restarted: $label"
-      record_status "LaunchAgent" "restarted" "$label"
-    else
-      warn "failed to restart LaunchAgent: $label"
-      record_status "LaunchAgent" "failed" "$label"
-    fi
-  else
-    if launchctl bootstrap "$gui_domain" "$plist" >/dev/null 2>&1; then
-      log "LaunchAgent loaded: $label"
-      record_status "LaunchAgent" "loaded" "$label"
-    else
-      warn "failed to load LaunchAgent: $label"
-      record_status "LaunchAgent" "failed" "$label"
-    fi
-  fi
-}
-
 main() {
   require_supported_os
   require_dotfiles_checkout
@@ -1106,7 +1057,6 @@ main() {
   bootstrap_zsh_runtime
   bootstrap_tmux
   reload_kitty_if_possible
-  bootstrap_launch_agent
   if [[ "$BOOTSTRAP_FAILURES" -gt 0 ]]; then
     die "bootstrap finished with $BOOTSTRAP_FAILURES failed checks; see summary and rerun after fixing them"
   fi
