@@ -135,3 +135,8 @@ fi
 if [[ -s "$HOME/.bun/_bun" ]]; then
   source "$HOME/.bun/_bun"
 fi
+
+#############################
+### GPG (pinentry needs a TTY). ###
+#############################
+export GPG_TTY=$(tty)
