@@ -6,6 +6,7 @@
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "packages": [
-    "npm:pi-web-access"
+    "npm:pi-web-access",
+    "npm:pi-open-tui"
   ]
 }
