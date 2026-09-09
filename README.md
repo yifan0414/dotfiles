@@ -77,6 +77,7 @@ Private local files:
 - `~/.picgo/config.json` is intentionally local-only and ignored by Git; use `.picgo/config.example.json` as the template.
 - `.config/yadm/encrypt` already marks `~/.picgo/config.json` as a private file for `yadm encrypt` if you later decide to sync it securely.
 - runtime files like `nvim.log`, `picgo.log`, kitty `__pycache__`, and any local `~/.local/bin/zoxide` copy are intentionally ignored so backup commits stay clean.
+- `~/Library/Rime/` is intentionally untracked: its dictionaries are large and regenerable, so keep them local or sync them separately.
 - when `~/.local/share/yadm/archive` exists, `~/.local/bin/yadm-daily-backup` stages it automatically.
 
 ![nvim-startuptime](https://picture-suyifan.oss-cn-shenzhen.aliyuncs.com/uPic/QKCmiJ.png)

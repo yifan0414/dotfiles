@@ -6,6 +6,7 @@
 .picgo/config.json
 .picgo/picgo.log
 /.agents/models/
+/Library/Rime/
 .pi/agent/auth.json
 .pi/agent/models-store.json
 .pi/agent/sessions/
