@@ -166,6 +166,28 @@ def test_check_spacing_inconsistent():
     assert len(issues) > 0
 
 
+def test_check_spacing_reports_correct_pair():
+    """Regression: each gap must stay attached to its own element pair.
+
+    check_spacing used to ``zip()`` an unordered set of pairs against the gap
+    list, so it blamed a perfectly consistent pair while the real outlier went
+    unreported (seen as false FAILs in the Step 2.5 verification gate).
+    """
+    cols = 4
+    top = [rect(c * 120, 0, 100, 50) for c in range(cols)]
+    close = [rect(c * 120, 130, 100, 50) for c in range(cols - 1)]  # 80px gaps
+    far = rect((cols - 1) * 120, 250, 100, 50)                      # 200px gap
+    issues = check_spacing(top + close + [far])
+
+    offender = next(i for i in issues if i["direction"] == "v")
+    assert offender["a_id"] == top[-1]["id"]
+    assert offender["b_id"] == far["id"]
+    assert offender["gap"] == 200
+
+    blamed = {(i["a_id"], i["b_id"]) for i in issues}
+    assert all((a["id"], b["id"]) not in blamed for a, b in zip(top, close))
+
+
 def test_verify_layout_pass():
     a = auto_labeled_rect(0, 0, "Box A")
     b = auto_labeled_rect(300, 0, "Box B")

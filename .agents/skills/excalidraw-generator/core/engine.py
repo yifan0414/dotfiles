@@ -775,9 +775,11 @@ def check_spacing(elements: list, min_gap: float = 20) -> list:
     visible = [e for e in elements if e.get("type") not in skip_types]
 
     # Collect nearest-neighbor gaps only
-    # For each element, find the closest element to its right and below
-    h_gaps = []
-    v_gaps = []
+    # For each element, find the closest element to its right and below.
+    # Keep the pair together with its gap: zipping a set with a list later
+    # would label gaps with the wrong element pairs.
+    h_pairs = []  # [(a_id, b_id, gap)]
+    v_pairs = []
     seen_h = set()
     seen_v = set()
 
@@ -805,7 +807,7 @@ def check_spacing(elements: list, min_gap: float = 20) -> list:
                             break
                     if is_nearest:
                         seen_h.add(key)
-                        h_gaps.append(gap)
+                        h_pairs.append((a.get("id"), b.get("id"), gap))
             # Vertical: b is below a, same column
             if box_a[0] < box_b[2] and box_b[0] < box_a[2] and box_a[3] <= box_b[1]:
                 gap = box_b[1] - box_a[3]
@@ -822,9 +824,9 @@ def check_spacing(elements: list, min_gap: float = 20) -> list:
                             break
                     if is_nearest:
                         seen_v.add(key)
-                        v_gaps.append(gap)
+                        v_pairs.append((a.get("id"), b.get("id"), gap))
 
-    if not h_gaps and not v_gaps:
+    if not h_pairs and not v_pairs:
         return []
 
     # Calculate median gaps
@@ -835,11 +837,11 @@ def check_spacing(elements: list, min_gap: float = 20) -> list:
             return 0
         return s[n // 2] if n % 2 else (s[n // 2 - 1] + s[n // 2]) / 2
 
-    h_med = median(h_gaps) if h_gaps else None
-    v_med = median(v_gaps) if v_gaps else None
+    h_med = median([gap for _, _, gap in h_pairs]) if h_pairs else None
+    v_med = median([gap for _, _, gap in v_pairs]) if v_pairs else None
 
     results = []
-    for (a_id, b_id), gap in zip(seen_h, h_gaps):
+    for a_id, b_id, gap in h_pairs:
         if h_med is None or h_med < min_gap:
             continue
         diff = abs(gap - h_med)
@@ -854,7 +856,7 @@ def check_spacing(elements: list, min_gap: float = 20) -> list:
                 "deviation": round(diff, 1),
                 "severity": severity,
             })
-    for (a_id, b_id), gap in zip(seen_v, v_gaps):
+    for a_id, b_id, gap in v_pairs:
         if v_med is None or v_med < min_gap:
             continue
         diff = abs(gap - v_med)
