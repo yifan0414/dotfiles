@@ -1,0 +1,4 @@
+interface:
+  display_name: "Excalidraw Generator"
+  short_description: "Draw Obsidian-native Excalidraw diagrams, charts, and architecture figures"
+  default_prompt: "Use $excalidraw-generator to draw this as an Excalidraw diagram and save it into my Obsidian vault: <description>"
