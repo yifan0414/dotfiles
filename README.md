@@ -39,6 +39,7 @@ The bootstrap will:
 - decrypt the shared GitHub token, log in with `gh`, and configure Git HTTPS authentication
 - apply yadm alternate files
 - prepare `~/.vim/autoload`, `~/.vim/plugged`, and `~/.vim/undo`, install `vim-plug`, and run `PlugInstall` through `vim` or `nvim` when available
+- after installing Codex, install Pi and its core plugin dependencies, then `pi-web-access` and `pi-open-tui` through `pi install`
 - install `oh-my-zsh`, `powerlevel10k`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, and `fzf-tab`
 - run the existing tmux bootstrap
 - reload kitty when possible
@@ -57,6 +58,7 @@ System package behavior:
 - set `DOTFILES_SKIP_SYSTEM_PACKAGES=1` to disable system package installation entirely
 - set `DOTFILES_SKIP_TMUX_SOURCE_BUILD=1` to keep the distro tmux package path on apt-based Linux systems
 - set `DOTFILES_TMUX_VERSION=3.6a` or another release tag to override the tmux source version used on apt-based Linux systems
+- Each bootstrap installs the latest `@earendil-works/pi-coding-agent`, `pi-ai`, and `pi-tui`. Node.js >=22.19.0 is required. Plugin dependencies are installed by `pi install`; rerunning bootstrap retries failed installs.
 - set `DOTFILES_SELF_CHECK=0` to disable the final self-check summary
 - color output is terminal-aware; set `NO_COLOR=1` to force plain text
 

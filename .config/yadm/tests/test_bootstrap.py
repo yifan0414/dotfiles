@@ -60,7 +60,7 @@ class Checks(unittest.TestCase):
           for fn in require_supported_os require_dotfiles_checkout configure_proxy \
             bootstrap_gh_auth bootstrap_tmux_from_source_on_apt verify_base_tooling require_cmd \
             apply_yadm_alternates verify_alternates bootstrap_vim bootstrap_nvm \
-            bootstrap_codex bootstrap_zsh_runtime bootstrap_tmux \
+            bootstrap_codex bootstrap_pi bootstrap_zsh_runtime bootstrap_tmux \
             reload_kitty_if_possible; do
             eval "$fn() { :; }"
           done
@@ -69,6 +69,51 @@ class Checks(unittest.TestCase):
         ''', check=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('1 failed checks', result.stderr)
+
+    def test_pi_installs_core_before_both_plugins(self):
+        self.shell('''
+          node() { return 0; }
+          npm() {
+            [[ "$*" == "install -g @earendil-works/pi-coding-agent@latest @earendil-works/pi-ai@latest @earendil-works/pi-tui@latest" ]]
+            touch "$HOME/core-installed"
+          }
+          pi() {
+            [[ -f "$HOME/core-installed" ]] || return 1
+            case "$*" in
+              --version) return 0 ;;
+              "install npm:pi-web-access") touch "$HOME/web-installed" ;;
+              "install npm:pi-open-tui") touch "$HOME/tui-installed" ;;
+              *) return 1 ;;
+            esac
+          }
+          bootstrap_pi
+          [[ "$BOOTSTRAP_FAILURES" == 0 ]]
+          [[ -f "$HOME/web-installed" && -f "$HOME/tui-installed" ]]
+        ''')
+
+    def test_pi_core_failure_stops_plugin_installation(self):
+        self.shell('''
+          node() { return 0; }
+          npm() { return 1; }
+          pi() { touch "$HOME/pi-called"; }
+          bootstrap_pi
+          [[ "$BOOTSTRAP_FAILURES" == 1 && ! -e "$HOME/pi-called" ]]
+        ''')
+
+    def test_pi_plugin_failure_is_reported_and_other_plugin_attempted(self):
+        self.shell('''
+          node() { return 0; }
+          npm() { return 0; }
+          pi() {
+            case "$*" in
+              --version) return 0 ;;
+              "install npm:pi-web-access") return 1 ;;
+              "install npm:pi-open-tui") touch "$HOME/tui-installed" ;;
+            esac
+          }
+          bootstrap_pi
+          [[ "$BOOTSTRAP_FAILURES" == 1 && -f "$HOME/tui-installed" ]]
+        ''')
 
     def test_export_helper_preserves_token_on_failed_verification(self):
         self.check_export_helper(valid=False)
