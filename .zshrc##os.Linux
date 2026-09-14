@@ -37,8 +37,6 @@ export RANGER_LOAD_DEFAULT_RC="false"
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 export GOPATH="$HOME/go"
 
-export HF_ENDPOINT=https://hf-mirror.com
-
 # 3090*2
 if [[ -d /hdd1_4t/yifan/shared ]]; then
   export HF_HOME=/hdd1_4t/yifan/shared
@@ -130,6 +128,28 @@ proxy_on() {
 }
 
 _proxy_enable
+
+######################################################
+### Hugging Face: 走国内镜像, 且明确绕开代理.      ###
+######################################################
+# 实测: 直连 huggingface.co 会超时; 直连 hf-mirror.com 拉 548MB 只需 74s (~7.4 MB/s),
+# 所以 HF 的流量一律指到镜像并绕过代理, 其余流量(google/github/npm...)继续走代理.
+export HF_ENDPOINT="https://hf-mirror.com"
+
+# 注意: hf-mirror 的 resolve 会 302 到 cas-bridge.xethub.hf.co, 真正搬数据的域名是 hf.co.
+# 只放行 hf-mirror.com 会导致数据面仍然走代理, 所以 hf.co 必须一起放行.
+export NO_PROXY="hf-mirror.com,.hf-mirror.com,hf.co,.hf.co,localhost,127.0.0.1"
+export no_proxy="$NO_PROXY"
+
+# xet 默认把日志写到 $HF_HOME/xet/logs (root 所有, 不可写), 每次都会报 Permission denied;
+# 挪到自己的目录下.
+export HF_XET_LOG_DIR="$HOME/.cache/xet/logs"
+
+# 兜底: 需要彻底剥离代理变量时用 hfnp <cmd>
+hfnp() {
+  env -u http_proxy -u https_proxy -u all_proxy \
+      -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY "$@"
+}
 
 #######################
 ### Common aliases. ###
