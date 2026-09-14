@@ -634,11 +634,61 @@ bootstrap_tmux_from_source_on_apt() {
   fi
 }
 
+bootstrap_gh_auth() {
+  local token_file="$HOME/.config/gh-token"
+
+  if [[ "${DOTFILES_SKIP_GH_AUTH:-0}" == "1" ]]; then
+    record_status "gh authentication" "skipped" "DOTFILES_SKIP_GH_AUTH=1"
+    return 0
+  fi
+  if ! need_cmd gh; then
+    record_status "gh authentication" "failed" "gh unavailable"
+    return 0
+  fi
+
+  # Always decrypt when an archive exists, so reruns pick up token rotations.
+  if [[ -f "$HOME/.local/share/yadm/archive" ]]; then
+    log "decrypting yadm credentials (enter the archive password if prompted)"
+    if [[ -t 0 ]]; then
+      export GPG_TTY="$(tty)"
+    fi
+    if ! yadm decrypt; then
+      warn "credential decryption failed; rerun yadm bootstrap from a terminal"
+      record_status "gh authentication" "failed" "yadm decrypt"
+      return 0
+    fi
+  fi
+
+  if [[ ! -s "$token_file" || -L "$token_file" ]]; then
+    warn "missing shared token; export it on the source machine with yadm-gh-export-token, then run yadm encrypt and sync"
+    record_status "gh authentication" "failed" "shared token unavailable"
+    return 0
+  fi
+  chmod 600 "$token_file"
+
+  # Environment tokens override stored credentials. Import and verify the file
+  # without exposing it in arguments, logs, or the parent shell environment.
+  if (
+    unset GH_TOKEN GITHUB_TOKEN GH_ENTERPRISE_TOKEN GITHUB_ENTERPRISE_TOKEN GH_DEBUG
+    export GH_PROMPT_DISABLED=1
+    gh auth login --hostname github.com --with-token < "$token_file" >/dev/null 2>&1 &&
+      gh api --hostname github.com user --silent >/dev/null 2>&1 &&
+      gh auth setup-git --hostname github.com >/dev/null 2>&1
+  ); then
+    record_status "gh authentication" "configured" "github.com; Git credential helper configured"
+  else
+    warn "shared GitHub token could not be imported or verified; check network access and token validity"
+    record_status "gh authentication" "failed" "login, API verification, or Git setup"
+  fi
+}
+
 verify_base_tooling() {
   record_tool_group \
     "core CLI tools" \
     "curl:curl" \
     "git:git" \
+    "gh:gh" \
+    "gpg:gpg" \
     "yadm:yadm" \
     "zsh:zsh" \
     "fzf:fzf" \
@@ -1046,6 +1096,7 @@ main() {
   require_dotfiles_checkout
   configure_proxy
   bootstrap_system_packages
+  bootstrap_gh_auth
   bootstrap_tmux_from_source_on_apt
   verify_base_tooling
   require_cmd git "git is required after system package installation. Install git, then rerun this script."

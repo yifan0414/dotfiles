@@ -13,3 +13,5 @@ ncurses-dev
 build-essential
 bison
 pkg-config
+gh
+gnupg

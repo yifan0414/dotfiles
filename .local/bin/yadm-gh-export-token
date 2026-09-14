@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Export only the stored github.com credential; never print it.
+set +x
+set -euo pipefail
+umask 077
+unset GH_TOKEN GITHUB_TOKEN GH_ENTERPRISE_TOKEN GITHUB_ENTERPRISE_TOKEN GH_DEBUG
+command -v gh >/dev/null || { echo "gh is required" >&2; exit 1; }
+mkdir -p "$HOME/.config"
+token_file="$HOME/.config/gh-token"
+[[ ! -L "$token_file" ]] || { echo "Refusing a symlink token file" >&2; exit 1; }
+temporary_file="$(mktemp "$HOME/.config/gh-token.tmp.XXXXXX")"
+trap 'rm -f "$temporary_file"' EXIT
+if ! gh auth token --hostname github.com > "$temporary_file" 2>/dev/null || [[ ! -s "$temporary_file" ]]; then
+  echo "No stored github.com token available; run gh auth login first." >&2
+  exit 1
+fi
+# Verify the exported credential, rather than an inherited environment token.
+if ! GH_TOKEN="$(cat "$temporary_file")" gh api --hostname github.com user --silent >/dev/null 2>&1; then
+  echo "Token verification failed; check network access and authentication." >&2
+  exit 1
+fi
+chmod 600 "$temporary_file"
+mv -f "$temporary_file" "$token_file"
+echo "Saved the github.com token privately. Run yadm encrypt, then sync the encrypted archive."

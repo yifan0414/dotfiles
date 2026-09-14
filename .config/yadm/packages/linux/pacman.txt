@@ -9,3 +9,5 @@ tmux
 neovim
 zsh
 xclip
+github-cli
+gnupg

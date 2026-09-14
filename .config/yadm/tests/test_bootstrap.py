@@ -58,7 +58,7 @@ class Checks(unittest.TestCase):
     def test_main_exits_nonzero_after_recorded_failure(self):
         result = self.shell('''
           for fn in require_supported_os require_dotfiles_checkout configure_proxy \
-            bootstrap_tmux_from_source_on_apt verify_base_tooling require_cmd \
+            bootstrap_gh_auth bootstrap_tmux_from_source_on_apt verify_base_tooling require_cmd \
             apply_yadm_alternates verify_alternates bootstrap_vim bootstrap_nvm \
             bootstrap_codex bootstrap_zsh_runtime bootstrap_tmux \
             reload_kitty_if_possible; do
@@ -69,6 +69,92 @@ class Checks(unittest.TestCase):
         ''', check=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('1 failed checks', result.stderr)
+
+    def test_export_helper_preserves_token_on_failed_verification(self):
+        self.check_export_helper(valid=False)
+
+    def test_export_helper_writes_private_token_without_logging(self):
+        self.check_export_helper(valid=True)
+
+    def check_export_helper(self, valid):
+        config = self.home / '.config'
+        config.mkdir()
+        token = config / 'gh-token'
+        token.write_text('existing-token')
+        bin_dir = self.root / 'bin'
+        bin_dir.mkdir()
+        fake = bin_dir / 'gh'
+        fake.write_text('#!/bin/bash\n'
+                        'case "$1 $2" in\n'
+                        ' "auth token") [[ -z "${GH_TOKEN:-}${GH_DEBUG:-}" ]] || exit 1; '
+                        'printf fake-exported-token ;;\n'
+                        ' "api --hostname") [[ "$GH_TOKEN" == fake-exported-token ]] || exit 1; '
+                        f'exit {0 if valid else 1} ;;\n'
+                        ' *) exit 1 ;;\nesac\n')
+        fake.chmod(0o755)
+        env = dict(self.env, PATH=str(bin_dir) + ':' + self.env['PATH'],
+                   GH_TOKEN='environment-token', GH_DEBUG='api')
+        result = subprocess.run(['/bin/bash', str(ROOT / '.local/bin/yadm-gh-export-token')],
+                                env=env, text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0 if valid else 1)
+        self.assertNotIn('fake-exported-token', result.stdout + result.stderr)
+        self.assertEqual(token.read_text(), 'fake-exported-token' if valid else 'existing-token')
+        self.assertEqual(list(config.glob('gh-token.tmp.*')), [])
+        if valid:
+            self.assertEqual(token.stat().st_mode & 0o777, 0o600)
+
+    def test_gh_decrypt_and_import_without_leaking_token(self):
+        self.env.update(GH_TOKEN='wrong-environment-token', GH_DEBUG='api')
+        result = self.shell('''
+          mkdir -p "$HOME/.local/share/yadm" "$HOME/.config"
+          touch "$HOME/.local/share/yadm/archive"
+          printf old-token > "$HOME/.config/gh-token"
+          yadm() { [[ "$1" == decrypt ]]; printf fake-shared-token > "$HOME/.config/gh-token"; }
+          gh() {
+            [[ -z "${GH_TOKEN:-}${GH_DEBUG:-}" ]] || return 1
+            case "$1 $2" in
+              "auth login") [[ "$*" == "auth login --hostname github.com --with-token" ]] || return 1
+                [[ "$(cat)" == fake-shared-token ]] ;;
+              "api --hostname") return 0 ;;
+              "auth setup-git") touch "$HOME/git-helper-configured" ;;
+              *) return 1 ;;
+            esac
+          }
+          bootstrap_gh_auth
+          [[ "$BOOTSTRAP_FAILURES" == 0 && -f "$HOME/git-helper-configured" ]]
+          [[ "$GH_TOKEN" == wrong-environment-token ]]
+        ''')
+        self.assertNotIn('fake-shared-token', result.stdout + result.stderr)
+        self.assertEqual((self.home / '.config/gh-token').stat().st_mode & 0o777, 0o600)
+
+    def test_gh_decrypt_failure_does_not_import_stale_token(self):
+        self.shell('''
+          mkdir -p "$HOME/.local/share/yadm" "$HOME/.config"
+          touch "$HOME/.local/share/yadm/archive"
+          printf stale > "$HOME/.config/gh-token"
+          yadm() { return 1; }
+          gh() { touch "$HOME/gh-was-called"; }
+          bootstrap_gh_auth
+          [[ "$BOOTSTRAP_FAILURES" == 1 && ! -e "$HOME/gh-was-called" ]]
+        ''')
+
+    def test_gh_missing_token_and_explicit_skip(self):
+        self.shell('''
+          gh() { return 1; }
+          bootstrap_gh_auth
+          [[ "$BOOTSTRAP_FAILURES" == 1 ]]
+          DOTFILES_SKIP_GH_AUTH=1 bootstrap_gh_auth
+          [[ "$BOOTSTRAP_FAILURES" == 1 ]]
+        ''')
+
+    def test_gh_rejected_token_is_failure(self):
+        self.shell('''
+          mkdir -p "$HOME/.config"
+          printf invalid > "$HOME/.config/gh-token"
+          gh() { return 1; }
+          bootstrap_gh_auth
+          [[ "$BOOTSTRAP_FAILURES" == 1 ]]
+        ''')
 
     def test_incomplete_download_is_retried(self):
         self.shell('''

@@ -9,3 +9,5 @@ tmux
 neovim
 zsh
 xclip
+gh
+gnupg2

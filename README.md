@@ -36,6 +36,7 @@ The bootstrap will:
 - preserve machine-specific proxy settings unless explicitly overridden
 - fail fast if the dotfiles checkout is not present under `$HOME`
 - install repo-required base CLI software first when a supported package manager is available
+- decrypt the shared GitHub token, log in with `gh`, and configure Git HTTPS authentication
 - apply yadm alternate files
 - prepare `~/.vim/autoload`, `~/.vim/plugged`, and `~/.vim/undo`, install `vim-plug`, and run `PlugInstall` through `vim` or `nvim` when available
 - install `oh-my-zsh`, `powerlevel10k`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, and `fzf-tab`
@@ -46,10 +47,10 @@ The bootstrap will:
 System package behavior:
 
 - macOS: detect Homebrew on PATH or in `/opt/homebrew` / `/usr/local`; if `brew` exists, install CLI packages from `.config/yadm/packages/homebrew/core.Brewfile`
-  - current core set: `curl`, `git`, `yadm`, `zsh`, `tmux`, `neovim`, `ripgrep`, `fzf`, `fd`, `eza`, `llvm`, `yazi`, `zoxide`
+  - current core set: `curl`, `git`, `gh`, `gnupg`, `yadm`, `zsh`, `tmux`, `neovim`, `ripgrep`, `fzf`, `fd`, `eza`, `llvm`, `yazi`, `zoxide`
 - macOS GUI apps: install `kitty`, `ghostty`, `squirrel` only when `DOTFILES_INSTALL_GUI_APPS=1`
 - Linux: if `apt-get`, `dnf`, or `pacman` exists, install core CLI packages from the matching manifest under `.config/yadm/packages/linux/`
-  - current core set: `curl`, `git`, `yadm`, `zsh`, `neovim`, `ripgrep`, `fzf`, `fd`/`fd-find`, `python3`, `xclip`
+  - current core set: `curl`, `git`, `gh`, `gnupg`, `yadm`, `zsh`, `neovim`, `ripgrep`, `fzf`, `fd`/`fd-find`, `python3`, `xclip`
   - on Ubuntu/Debian, bootstrap also installs tmux build packages (`libevent-dev`, `ncurses-dev`, `build-essential`, `bison`, `pkg-config`) and compiles tmux from the official release tarball into `~/.local`
 - if package installation fails or no supported package manager exists, bootstrap continues where possible; recorded failures or missing core tools make the final exit status nonzero
 - pacman refreshes and upgrades the system together (`-Syu`) to avoid partial upgrades
@@ -75,9 +76,58 @@ Operational note:
 Private local files:
 
 - `~/.picgo/config.json` is intentionally local-only and ignored by Git; use `.picgo/config.example.json` as the template.
-- `.config/yadm/encrypt` already marks `~/.picgo/config.json` as a private file for `yadm encrypt` if you later decide to sync it securely.
+- `.config/yadm/encrypt` includes `.pi/agent/auth.json` and `.config/gh-token`; only their encrypted archive belongs in Git.
 - runtime files like `nvim.log`, `picgo.log`, kitty `__pycache__`, and any local `~/.local/bin/zoxide` copy are intentionally ignored so backup commits stay clean.
 - `~/Library/Rime/` is intentionally untracked: its dictionaries are large and regenerable, so keep them local or sync them separately.
 - when `~/.local/share/yadm/archive` exists, `~/.local/bin/yadm-daily-backup` stages it automatically.
+
+## Shared GitHub authentication
+
+On the source machine, export the active `github.com` token from `gh` (including
+macOS Keychain), then encrypt it with the other private files:
+
+```sh
+~/.local/bin/yadm-gh-export-token
+export GPG_TTY="$(tty)"
+yadm encrypt
+```
+
+Use the existing archive password when updating it. Encrypt on a machine that has
+all private files from `.config/yadm/encrypt`; `yadm encrypt` rebuilds the archive
+from local files. If a listed file is missing, restore it with `yadm decrypt`
+before exporting a new token. Never add `gh-token` or `gh/hosts.yml` to Git.
+
+Sync the bootstrap, package manifests, helper, ignore rules, encryption manifest,
+and `.local/share/yadm/archive` through yadm. The backup script syncs the archive
+but does not automatically re-encrypt changed plaintext credentials.
+
+On a new machine:
+
+```sh
+# Git and yadm must already be installed; macOS also needs Homebrew.
+yadm clone --bootstrap <repo>
+# Enter the archive password when GnuPG asks.
+gh auth status --hostname github.com
+```
+
+Bootstrap installs `gh` and GnuPG using Homebrew, apt, dnf, or pacman (`github-cli`
+on Arch). The configured distribution repositories must provide these packages.
+It decrypts the existing yadm archive (including the other encrypted credentials),
+imports the token through standard input, verifies access to the GitHub user API,
+and runs `gh auth setup-git --hostname github.com`. It prefers the OS credential
+store; on headless Linux, gh may fall back to its local `hosts.yml`, which is ignored.
+The decrypted token file has mode 600.
+
+A private dotfiles repository still requires separate authentication for its first
+clone. Bootstrap cannot use a token that has not been downloaded and decrypted yet.
+Unattended runs need an already available GPG key/password cache; otherwise run
+bootstrap interactively. Failed decryption or authentication makes bootstrap report
+failure. `DOTFILES_SKIP_GH_AUTH=1 yadm bootstrap` explicitly skips credential setup.
+
+To rotate the shared token, log in on the source machine, export and encrypt again,
+then sync. On other machines run `yadm pull` followed by `yadm bootstrap` to import
+the updated token. All machines share the token's permissions and revocation.
+`GH_TOKEN`/`GITHUB_TOKEN` in your own shell still override the stored gh login;
+bootstrap and the export helper ignore those variables while handling this token.
 
 ![nvim-startuptime](https://picture-suyifan.oss-cn-shenzhen.aliyuncs.com/uPic/QKCmiJ.png)
