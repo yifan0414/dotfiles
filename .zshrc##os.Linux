@@ -39,10 +39,6 @@ export GOPATH="$HOME/go"
 
 # 3090*2
 if [[ -d /hdd1_4t/yifan/shared ]]; then
-  if [[ ! -r /etc/profile.d/huggingface.sh ]]; then
-    export HF_HOME=/hdd1_4t/yifan/shared
-    export HF_DATASETS_CACHE=/hdd1_4t/yifan/shared/datasets
-  fi
   export UV_CACHE_DIR=/hdd1_4t/yifan/shared/uv-cache
   export UV_LINK_MODE=hardlink
 
@@ -59,7 +55,6 @@ fi
 
 # 3090*4
 if [[ -d /ssd_2t/yifan/ ]]; then
-  [[ ! -r /etc/profile.d/huggingface.sh ]] || source /etc/profile.d/huggingface.sh
 
   export CUDA_HOME=/usr/local/cuda-12.8
   export PATH=/usr/local/cuda-12.8/bin:$PATH
@@ -139,7 +134,7 @@ export HF_ENDPOINT="https://hf-mirror.com"
 
 # 注意: hf-mirror 的 resolve 会 302 到 cas-bridge.xethub.hf.co, 真正搬数据的域名是 hf.co.
 # 只放行 hf-mirror.com 会导致数据面仍然走代理, 所以 hf.co 必须一起放行.
-export NO_PROXY="hf-mirror.com,.hf-mirror.com,hf.co,.hf.co,localhost,127.0.0.1,::1"
+export NO_PROXY="hf-mirror.com,.hf-mirror.com,hf.co,.hf.co,localhost,127.0.0.1"
 export no_proxy="$NO_PROXY"
 
 # xet 默认把日志写到 $HF_HOME/xet/logs (root 所有, 不可写), 每次都会报 Permission denied;
