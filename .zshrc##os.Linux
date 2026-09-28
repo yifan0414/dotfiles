@@ -41,8 +41,10 @@ export HF_ENDPOINT=https://hf-mirror.com
 
 # 3090*2
 if [[ -d /hdd1_4t/yifan/shared ]]; then
-  export HF_HOME=/hdd1_4t/yifan/shared
-  export HF_DATASETS_CACHE=/hdd1_4t/yifan/shared/datasets
+  if [[ ! -r /etc/profile.d/huggingface.sh ]]; then
+    export HF_HOME=/hdd1_4t/yifan/shared
+    export HF_DATASETS_CACHE=/hdd1_4t/yifan/shared/datasets
+  fi
   export UV_CACHE_DIR=/hdd1_4t/yifan/shared/uv-cache
   export UV_LINK_MODE=hardlink
 
@@ -59,8 +61,7 @@ fi
 
 # 3090*4
 if [[ -d /ssd_2t/yifan/ ]]; then
-  export HF_HOME=/ssd_2t/yifan/shared
-  export HF_DATASETS_CACHE=/ssd_2t/yifan/shared/datasets
+  source /etc/profile.d/huggingface.sh
 
   export CUDA_HOME=/usr/local/cuda-12.8
   export PATH=/usr/local/cuda-12.8/bin:$PATH
@@ -91,6 +92,8 @@ proxy_port="${DOTFILES_PROXY_PORT:-7897}"
 proxy_scheme="${DOTFILES_PROXY_SCHEME:-http}"
 proxy_url="${DOTFILES_PROXY_URL:-${proxy_scheme}://${proxy_host}:${proxy_port}}"
 git_proxy_url="${DOTFILES_GIT_PROXY_URL:-$proxy_url}"
+export NO_PROXY="localhost,127.0.0.1,::1"
+export no_proxy="$NO_PROXY"
 
 _proxy_enable() {
   export http_proxy="$proxy_url"
@@ -265,7 +268,8 @@ zstyle ':fzf-tab:*' fzf-bindings-default \
 
 [[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# The Oh My Zsh fzf plugin initializes fzf before fzf-tab.
+# Sourcing ~/.fzf.zsh again would overwrite fzf-tab's Tab binding.
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
