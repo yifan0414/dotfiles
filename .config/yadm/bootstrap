@@ -853,6 +853,48 @@ bootstrap_codex() {
   fi
 }
 
+bootstrap_pi() {
+  local pi_version=""
+  local source
+
+  if ! need_cmd npm || ! need_cmd node; then
+    record_status "pi" "failed" "Node.js/npm unavailable"
+    return 0
+  fi
+  if ! node -e 'const [major, minor] = process.versions.node.split(".").map(Number); process.exit(major > 22 || (major === 22 && minor >= 19) ? 0 : 1)'; then
+    warn "Pi requires Node.js >=22.19.0; run nvm install --lts and rerun bootstrap"
+    record_status "pi" "failed" "unsupported Node.js version"
+    return 0
+  fi
+
+  # Install into the active nvm runtime, even if an older pi exists elsewhere.
+  # Explicit peers also support plugins left in the legacy global npm directory.
+  log "installing latest Pi and its core plugin dependencies via npm"
+  if ! npm install -g \
+    "@earendil-works/pi-coding-agent@latest" \
+    "@earendil-works/pi-ai@latest" \
+    "@earendil-works/pi-tui@latest"; then
+    record_status "pi" "failed" "npm installation"
+    return 0
+  fi
+  hash -r
+  if ! need_cmd pi || ! pi_version="$(pi --version)"; then
+    record_status "pi" "failed" "installed CLI unavailable"
+    return 0
+  fi
+  record_status "pi" "installed" "$pi_version"
+
+  # pi install installs package dependencies and registers global resources.
+  for source in npm:pi-web-access npm:pi-open-tui; do
+    log "installing Pi plugin: $source"
+    if (cd "$HOME" && pi install "$source"); then
+      record_status "pi plugin" "installed" "$source"
+    else
+      record_status "pi plugin" "failed" "$source"
+    fi
+  done
+}
+
 require_dotfiles_checkout() {
   local required_paths=(
     "$HOME/.config/yadm/bootstrap"
@@ -1105,6 +1147,7 @@ main() {
   bootstrap_vim
   bootstrap_nvm
   bootstrap_codex
+  bootstrap_pi
   bootstrap_zsh_runtime
   bootstrap_tmux
   reload_kitty_if_possible
