@@ -16,7 +16,7 @@ Use simple, non-destructive Git operations. Follow repository-specific instructi
 - Do not rewrite published history or force-push unless explicitly requested.
 - Do not create, switch, merge, rebase, or delete branches unless the task requires it.
 - Treat direct commits to the current branch as acceptable for personal repositories.
-- Stop before committing secrets, credentials, `.env` files, datasets, model checkpoints, caches, logs, or unintended large or generated files.
+- Stop before committing secrets, credentials, `.env` files, datasets, model checkpoints, caches, or unintended large or generated files.
 
 ## Prepare Atomic Commits
 
