@@ -1,12 +1,11 @@
 {
-  "lastChangelogVersion": "0.85.1",
-  "theme": "light",
+  "lastChangelogVersion": "1.0.0",
   "defaultProvider": "deepseek",
-  "defaultModel": "deepseek-v4.1-flash-expires-on-0910",
-  "defaultThinkingLevel": "high",
-  "hideThinkingBlock": true,
+  "defaultModel": "deepseek-flash",
   "packages": [
     "npm:pi-web-access",
     "npm:pi-open-tui"
-  ]
+  ],
+  "hideThinkingBlock": true,
+  "theme": "light"
 }
