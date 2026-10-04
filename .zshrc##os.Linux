@@ -167,9 +167,8 @@ fi
 alias curl="curl -x ${proxy_url}"
 alias clear="clear -x"
 
-if command -v python3 >/dev/null 2>&1; then
-  alias python="python3"
-fi
+# Resolve Python through PATH so activated environments select their own interpreter.
+unalias python 2>/dev/null || true
 
 yb() {
   "$HOME/.local/bin/yadm-daily-backup" "$@"
@@ -210,41 +209,19 @@ fi
 #################################################
 ### Conda integration for interactive shells. ###
 #################################################
-if [[ -x "/opt/miniconda3/bin/conda" ]]; then
-  if __conda_setup="$("/opt/miniconda3/bin/conda" 'shell.zsh' 'hook' 2>/dev/null)"; then
-    eval "$__conda_setup"
-  elif [[ -f "/opt/miniconda3/etc/profile.d/conda.sh" ]]; then
-    source "/opt/miniconda3/etc/profile.d/conda.sh"
-  else
-    prepend_path "/opt/miniconda3/bin"
+for __conda_root in /opt/miniforge3 "$HOME/miniforge3" "$HOME/miniconda3" /opt/miniconda3 /opt/anaconda3; do
+  if [[ -r "$__conda_root/etc/profile.d/conda.sh" ]]; then
+    source "$__conda_root/etc/profile.d/conda.sh"
+    break
   fi
-  unset __conda_setup
-fi
-
-if [[ -x "/opt/anaconda3/bin/conda" ]]; then
-  if __conda_setup="$("/opt/anaconda3/bin/conda" 'shell.zsh' 'hook' 2>/dev/null)"; then
-    eval "$__conda_setup"
-  elif [[ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]]; then
-    source "/opt/anaconda3/etc/profile.d/conda.sh"
-  else
-    prepend_path "/opt/anaconda3/bin"
-  fi
-  unset __conda_setup
-fi
+done
+unset __conda_root
 #########################################
 ### Shared project shell defaults.     ###
 #########################################
 if [[ -f "/hdd1_4t/yifan/shared/env/shared_paths.sh" ]]; then
   source "/hdd1_4t/yifan/shared/env/shared_paths.sh"
 fi
-
-#if command -v conda >/dev/null 2>&1; then
-#  current_conda_env="${CONDA_DEFAULT_ENV:-}"
-#  if [[ -z "$current_conda_env" || "$current_conda_env" == "base" ]]; then
-#    conda activate dyto >/dev/null 2>&1 || printf '[zshrc] failed to activate conda env "dyto"\n' >&2
-#  fi
-#  unset current_conda_env
-#fi
 
 #################################################
 ###                 NVM                       ###
@@ -281,9 +258,20 @@ zstyle ':fzf-tab:*' fzf-bindings-default \
 # Sourcing ~/.fzf.zsh again would overwrite fzf-tab's Tab binding.
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 #############################
 ### GPG (pinentry needs a TTY). ###
 #############################
 export GPG_TTY=$(tty)
+
+# Shared files created for the datausers group.
+umask 0002
+
+# CUDA toolkit on this server.
+if [ -x /usr/local/cuda-12.8/bin/nvcc ]; then
+    export CUDA_HOME=/usr/local/cuda-12.8
+    case ":$PATH:" in
+        *":$CUDA_HOME/bin:"*) ;;
+        *) export PATH="$CUDA_HOME/bin:$PATH" ;;
+    esac
+fi
