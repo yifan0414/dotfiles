@@ -1,5 +1,7 @@
 # Dotfiles
 
+多用户 Linux 深度学习服务器的 Conda 与 pip 配置约定见 [Conda 与 pip 管理设计](.config/yadm/docs/conda-management.md)。在其他机器配置 Conda 或 pip 时先阅读该文档；当前 bootstrap 不自动实施这些约定。
+
 跨机器使用时，先在每台机器安装 Git 和 yadm，再按下面的流程初始化。
 
 New machine bootstrap entry is `~/.config/yadm/bootstrap`, and `yadm bootstrap` executes that file directly.
