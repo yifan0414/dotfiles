@@ -15,3 +15,14 @@
 /.config/gh-token
 /.config/gh-token.tmp.*
 /.config/gh/hosts.yml
+
+# Host-local setup notes, shell overrides and inspection reports.
+/.config/yadm/local/
+# SSH identities and host-specific connections stay on each machine.
+/.ssh/
+
+# Runtime link selected from the tracked hostname-specific NCCL configuration.
+/.config/nvidia-p2p/env.sh
+
+# Generated hostname-selected shell fragment; track its ##hostname.* sources.
+/.zshrc.local

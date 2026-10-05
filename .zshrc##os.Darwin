@@ -96,12 +96,31 @@ export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bot
 ################################################
 ### macOS toolchain and runtime environment. ###
 ################################################
-export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
-
 prepend_path "$HOME/.local/bin"
-prepend_path "/opt/homebrew/opt/llvm/bin"
-prepend_path "/opt/homebrew/bin"
+
+# Homebrew may use either the Apple Silicon or Intel prefix.
+__dotfiles_brew_prefix="${HOMEBREW_PREFIX:-}"
+if [[ -z "$__dotfiles_brew_prefix" ]] && command -v brew >/dev/null 2>&1; then
+  __dotfiles_brew_prefix="$(brew --prefix 2>/dev/null)"
+fi
+if [[ -z "$__dotfiles_brew_prefix" ]]; then
+  for __dotfiles_brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [[ -x "$__dotfiles_brew_bin" ]]; then
+      __dotfiles_brew_prefix="${__dotfiles_brew_bin%/bin/brew}"
+      break
+    fi
+  done
+fi
+if [[ -n "$__dotfiles_brew_prefix" ]]; then
+  prepend_path "$__dotfiles_brew_prefix/opt/llvm/bin"
+  prepend_path "$__dotfiles_brew_prefix/bin"
+  if [[ -d "$__dotfiles_brew_prefix/opt/llvm" ]]; then
+    export LDFLAGS="${LDFLAGS:+$LDFLAGS }-L$__dotfiles_brew_prefix/opt/llvm/lib"
+    export CPPFLAGS="${CPPFLAGS:+$CPPFLAGS }-I$__dotfiles_brew_prefix/opt/llvm/include"
+  fi
+fi
+unset __dotfiles_brew_prefix __dotfiles_brew_bin
+
 prepend_path "$HOME/.luaver/lua/5.1/bin"
 prepend_path "$HOME/miniforge3/bin"
 
@@ -112,30 +131,7 @@ fi
 ###########################################
 ### Proxy defaults for network tooling. ###
 ###########################################
-proxy_url="http://127.0.0.1:7897"
-
-proxy_on() {
-  export http_proxy="$proxy_url"
-  export https_proxy="$proxy_url"
-  export all_proxy="$proxy_url"
-
-  if command -v git >/dev/null 2>&1; then
-    git config --global http.proxy "$proxy_url"
-    git config --global https.proxy "$proxy_url"
-  fi
-}
-
-proxy_off() {
-  unset http_proxy https_proxy all_proxy
-  unset HTTP_PROXY HTTPS_PROXY ALL_PROXY
-
-  if command -v git >/dev/null 2>&1; then
-    git config --global --unset-all http.proxy 2>/dev/null || true
-    git config --global --unset-all https.proxy 2>/dev/null || true
-  fi
-}
-
-proxy_on
+[[ -r "$HOME/.config/yadm/shell/proxy.zsh" ]] && source "$HOME/.config/yadm/shell/proxy.zsh"
 
 #######################
 ### Common aliases. ###
@@ -148,8 +144,9 @@ if command -v eza >/dev/null 2>&1; then
 else
   alias ll="ls -all"
 fi
-alias vim="/opt/homebrew/bin/nvim"
-alias tmux="/opt/homebrew/bin/tmux"
+if command -v nvim >/dev/null 2>&1; then
+  alias vim="nvim"
+fi
 
 alias codex-duckcode='CODEX_HOME="$HOME/.codex-duckcode" codex'
 alias codex-duckcode-exec='CODEX_HOME="$HOME/.codex-duckcode" codex exec'
@@ -206,3 +203,8 @@ fi
 ### GPG (pinentry needs a TTY). ###
 #############################
 export GPG_TTY=$(tty)
+
+# 公共配置保留在 .zshrc##os.*；基础工具初始化后再应用本机差异。
+# yadm 按 hostname 选择 .zshrc.local；跟踪 ##hostname.* 候选，不跟踪生成的链接。
+# 私有设置及需提前读取的值仍放 ~/.config/yadm/local/shell.zsh，由 .zshenv 加载。
+[[ -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

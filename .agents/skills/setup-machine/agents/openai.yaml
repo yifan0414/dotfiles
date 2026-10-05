@@ -1,0 +1,4 @@
+interface:
+  display_name: "Machine Setup"
+  short_description: "Configure a Mac SSH client or Linux deep-learning server"
+  default_prompt: "Use $setup-machine to inspect this Mac or Linux server and finish its yadm setup."

@@ -1,0 +1,13 @@
+# nlp3090-4：保留这台 3090×4 服务器的模型和 CUDA 设置。
+if [[ -d "/ssd_2t/yifan/" ]]; then
+  export CUDA_HOME="/usr/local/cuda-12.8"
+  case ":$PATH:" in
+    *":$CUDA_HOME/bin:"*) ;;
+    *) export PATH="$CUDA_HOME/bin:$PATH" ;;
+  esac
+  case ":${LD_LIBRARY_PATH:-}:" in
+    *":$CUDA_HOME/lib64:"*) ;;
+    *) export LD_LIBRARY_PATH="$CUDA_HOME/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" ;;
+  esac
+  export MODEL_NAME="/ssd_2t/yifan/shared/models/Qwen2.5-VL-7B-Instruct"
+fi

@@ -1,0 +1,1 @@
+../../../../.config/yadm/docs/machine-setup.md

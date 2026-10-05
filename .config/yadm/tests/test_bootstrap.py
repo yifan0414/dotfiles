@@ -61,7 +61,7 @@ class Checks(unittest.TestCase):
             bootstrap_gh_auth bootstrap_tmux_from_source_on_apt verify_base_tooling require_cmd \
             apply_yadm_alternates verify_alternates bootstrap_vim bootstrap_nvm \
             bootstrap_codex bootstrap_pi bootstrap_zsh_runtime bootstrap_tmux \
-            reload_kitty_if_possible; do
+            reload_kitty_if_possible verify_setup_skill; do
             eval "$fn() { :; }"
           done
           bootstrap_system_packages() { record_status packages failed simulated; }
@@ -69,6 +69,7 @@ class Checks(unittest.TestCase):
         ''', check=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('1 failed checks', result.stderr)
+        self.assertIn('setup-machine', result.stdout)
 
     def test_pi_installs_core_before_both_plugins(self):
         self.shell('''
@@ -221,17 +222,19 @@ class Checks(unittest.TestCase):
         return subprocess.run(['git', '-C', str(repo), *args], env=self.env,
                               check=True, text=True, capture_output=True).stdout.strip()
 
-    def setup_repos(self):
+    def setup_repos(self, machine_count=3):
         remote = self.root / 'remote.git'
         subprocess.run(['git', 'init', '--bare', str(remote)], env=self.env,
                        check=True, capture_output=True)
         self.repos = []
-        for name in ('mac-one', 'linux-one', 'linux-two'):
+        names = ['mac-one'] + [f'linux-{i}' for i in range(1, machine_count)]
+        for i, name in enumerate(names):
             repo = self.root / name
             self.git(self.root, 'clone', str(remote), str(repo))
             self.git(repo, 'config', 'core.worktree', str(repo))
             self.git(repo, 'config', 'user.name', 'Bootstrap Test')
             self.git(repo, 'config', 'user.email', 'bootstrap-test@example.invalid')
+            self.git(repo, 'config', 'local.class', 'mac-client' if i == 0 else 'dl-server')
             self.repos.append(repo)
         first = self.repos[0]
         self.git(first, 'checkout', '-b', 'shared')
@@ -251,8 +254,8 @@ class Checks(unittest.TestCase):
         return subprocess.run(['/bin/bash', str(BACKUP)], env=dict(self.env, TEST_REPO=str(repo)),
                               text=True, capture_output=True)
 
-    def test_three_machine_sync_and_different_branch_names(self):
-        self.setup_repos()
+    def test_five_machine_sync_and_different_branch_names(self):
+        self.setup_repos(machine_count=5)
         for i, repo in enumerate(self.repos):
             result = self.backup(repo)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -260,10 +263,13 @@ class Checks(unittest.TestCase):
                 file.write(f'machine {i}\n')
             result = self.backup(repo)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        for repo in self.repos:
+        expected = 'base\n' + ''.join(f'machine {i}\n' for i in range(5))
+        for i, repo in enumerate(self.repos):
             result = self.backup(repo)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertEqual((repo / 'config').read_text(), 'base\nmachine 0\nmachine 1\nmachine 2\n')
+            self.assertEqual((repo / 'config').read_text(), expected)
+            self.assertEqual(self.git(repo, 'config', '--get', 'local.class'),
+                             'mac-client' if i == 0 else 'dl-server')
 
     def test_conflict_is_not_committed_or_pushed(self):
         self.setup_repos()

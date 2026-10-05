@@ -1,0 +1,25 @@
+# nlp3090-2：保留这台 3090×2 服务器的缓存、模型和 CUDA 设置。
+if [[ -d "/hdd1_4t/yifan/shared" ]]; then
+  export UV_CACHE_DIR="/hdd1_4t/yifan/shared/uv-cache"
+  export UV_LINK_MODE="hardlink"
+
+  export CUDA_HOME="/usr/local/cuda-12.8"
+  case ":$PATH:" in
+    *":$CUDA_HOME/bin:"*) ;;
+    *) export PATH="$CUDA_HOME/bin:$PATH" ;;
+  esac
+  case ":${LD_LIBRARY_PATH:-}:" in
+    *":$CUDA_HOME/lib64:"*) ;;
+    *) export LD_LIBRARY_PATH="$CUDA_HOME/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" ;;
+  esac
+  export MODEL_NAME="/hdd1_4t/yifan/shared/models/Qwen2.5-VL-7B-Instruct"
+fi
+
+if [[ -d "/hdd1_4t/yifan/lmms-eval" ]] && command -v direnv >/dev/null 2>&1; then
+  export DIRENV_LOG_FORMAT=""
+  eval "$(direnv hook zsh)"
+fi
+
+if [[ -f "/hdd1_4t/yifan/shared/env/shared_paths.sh" ]]; then
+  source "/hdd1_4t/yifan/shared/env/shared_paths.sh"
+fi

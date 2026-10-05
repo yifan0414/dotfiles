@@ -282,6 +282,83 @@ require_supported_os() {
   esac
 }
 
+resolve_machine_profile() {
+  local profile="${DOTFILES_MACHINE_PROFILE:-auto}"
+  local system="$(uname -s)"
+  local repo
+  local stored=""
+  local rc=0
+
+  if [[ "$profile" == auto ]] && need_cmd git; then
+    for repo in "$HOME/.local/share/yadm/repo.git" "$HOME/.config/yadm/repo.git" "$HOME/.yadm/repo.git"; do
+      [[ -f "$repo/config" ]] || continue
+      # Query Git directly: `yadm config` can also run hooks, alt and chmod.
+      if stored="$(GIT_CONFIG_COUNT=0 git config --no-includes --file="$repo/config" --get local.class 2>/dev/null)"; then
+        case "$stored" in
+          ""|mac-client|dl-server) ;;
+          *) die "local.class must be mac-client or dl-server for this yadm setup" ;;
+        esac
+        [[ -z "$stored" ]] || profile="$stored"
+      else
+        rc=$?
+        [[ "$rc" -eq 1 ]] || die "cannot read this machine's yadm local.class"
+      fi
+      break
+    done
+  fi
+
+  if [[ "$profile" == auto ]]; then
+    case "$system" in
+      Darwin) profile=mac-client ;;
+      Linux) profile=dl-server ;;
+      *) die "machine profiles require macOS or Linux" ;;
+    esac
+  fi
+  case "$profile:$system" in
+    mac-client:Darwin)
+      export DOTFILES_INSTALL_GUI_APPS="${DOTFILES_INSTALL_GUI_APPS:-1}"
+      ;;
+    dl-server:Linux)
+      export DOTFILES_INSTALL_GUI_APPS="${DOTFILES_INSTALL_GUI_APPS:-0}"
+      ;;
+    *) die "machine profile must match the OS: mac-client for macOS, dl-server for Linux" ;;
+  esac
+  case "$DOTFILES_INSTALL_GUI_APPS" in
+    0|1) ;;
+    *) die "DOTFILES_INSTALL_GUI_APPS must be 0 or 1" ;;
+  esac
+  case "${DOTFILES_UPDATE_AGENTS:-0}" in
+    0|1) ;;
+    *) die "DOTFILES_UPDATE_AGENTS must be 0 or 1" ;;
+  esac
+  export DOTFILES_MACHINE_PROFILE="$profile"
+  record_status "machine profile" "configured" "$profile"
+}
+
+verify_setup_skill() {
+  local skill="$HOME/.agents/skills/setup-machine"
+  local document
+  for document in "$skill/SKILL.md" "$skill/references/machine-setup.md" \
+      "$skill/references/mac-client.md" "$skill/references/dl-server.md" \
+      "$skill/references/conda-management.md"; do
+    if [[ ! -r "$document" ]]; then
+      record_status "setup-machine skill" "failed" "missing installation rule; sync the complete yadm checkout"
+      return 0
+    fi
+  done
+  record_status "setup-machine skill" "present" "shared by Codex and Pi"
+}
+
+print_agent_handoff() {
+  printf '\n[bootstrap] Next: finish this machine as %s using setup-machine.\n' "$DOTFILES_MACHINE_PROFILE"
+  printf '  cd %q\n' "$HOME/.config/yadm"
+  printf '  codex\n'
+  printf '  or: pi --skill %q\n' "$HOME/.agents/skills/setup-machine/SKILL.md"
+  printf '  Prompt: Use $setup-machine to inspect and finish this machine as %s.\n' "$DOTFILES_MACHINE_PROFILE"
+  printf '  Inspection: python3 %q --profile %s --strict\n' "$HOME/.config/yadm/scripts/machine-status.py" "$DOTFILES_MACHINE_PROFILE"
+  printf '  Details: %s\n' "$HOME/.config/yadm/docs/machine-setup.md"
+}
+
 require_cmd() {
   local cmd="$1"
   local help_message="$2"
@@ -689,6 +766,8 @@ verify_base_tooling() {
     "git:git" \
     "gh:gh" \
     "gpg:gpg" \
+    "ssh:ssh" \
+    "python3:python3" \
     "yadm:yadm" \
     "zsh:zsh" \
     "fzf:fzf" \
@@ -750,6 +829,7 @@ load_nvm() {
 bootstrap_nvm() {
   local nvm_dir="${NVM_DIR:-$HOME/.nvm}"
   local nvm_version=""
+  local nvm_entries=""
 
   export NVM_DIR="$nvm_dir"
 
@@ -760,7 +840,12 @@ bootstrap_nvm() {
   fi
 
   if [[ -e "$nvm_dir" ]] && [[ ! -d "$nvm_dir/.git" ]]; then
-    if [[ -n "$(find "$nvm_dir" -mindepth 1 -maxdepth 1 -print -quit 2>/dev/null)" ]]; then
+    # POSIX find predicates work with both BSD find on macOS and GNU find.
+    if ! nvm_entries="$(find "$nvm_dir" ! -path "$nvm_dir" -prune -print 2>/dev/null)"; then
+      record_status "nvm" "failed" "cannot inspect existing nvm directory"
+      return 0
+    fi
+    if [[ -n "$nvm_entries" ]]; then
       warn "nvm directory exists but is not loadable: $nvm_dir"
       record_status "nvm" "failed" "$nvm_dir"
       return 0
@@ -831,30 +916,55 @@ bootstrap_codex() {
 
   ensure_node_lts
 
-  if codex_path="$(command -v codex 2>/dev/null)"; then
+  if [[ "${DOTFILES_UPDATE_AGENTS:-0}" != 1 ]] \
+      && codex_path="$(command -v codex 2>/dev/null)" \
+      && codex --version >/dev/null 2>&1; then
     record_status "codex" "present" "$codex_path"
     return 0
   fi
 
   if ! need_cmd npm; then
-    warn "npm is unavailable; skipped Codex installation"
-    record_status "codex" "skipped" "npm unavailable"
+    warn "npm is unavailable; cannot install or repair Codex"
+    record_status "codex" "failed" "npm unavailable"
     return 0
   fi
 
   log "installing Codex via npm"
   if npm install -g @openai/codex >/dev/null 2>&1; then
     hash -r
-    codex_path="$(command -v codex 2>/dev/null || true)"
-    record_status "codex" "installed" "${codex_path:-@openai/codex}"
+    if codex_path="$(command -v codex 2>/dev/null)" && codex --version >/dev/null 2>&1; then
+      record_status "codex" "installed" "$codex_path"
+    else
+      warn "Codex installation finished but its CLI is unavailable or cannot run"
+      record_status "codex" "failed" "installed CLI unavailable; check PATH and Node.js"
+    fi
   else
     warn "failed to install Codex via npm"
     record_status "codex" "failed" "@openai/codex"
   fi
 }
 
+pi_package_available() {
+  local source="$1"
+  local agent_dir="${PI_CODING_AGENT_DIR:-$HOME/.pi/agent}"
+  local settings="$agent_dir/settings.json"
+  [[ -f "$settings" && -f "$agent_dir/npm/node_modules/${source#npm:}/package.json" ]] || return 1
+  node - "$settings" "$source" <<'NODE'
+const fs = require('node:fs');
+try {
+  const settings = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+  const source = process.argv[3];
+  const found = Array.isArray(settings.packages) && settings.packages.some(
+    item => (typeof item === 'string' ? item : item && item.source) === source);
+  process.exit(found ? 0 : 1);
+} catch (_) { process.exit(1); }
+NODE
+}
+
 bootstrap_pi() {
   local pi_version=""
+  local npm_root=""
+  local install_core=1
   local source
 
   if ! need_cmd npm || ! need_cmd node; then
@@ -867,25 +977,41 @@ bootstrap_pi() {
     return 0
   fi
 
-  # Install into the active nvm runtime, even if an older pi exists elsewhere.
-  # Explicit peers also support plugins left in the legacy global npm directory.
-  log "installing latest Pi and its core plugin dependencies via npm"
-  if ! npm install -g \
-    "@earendil-works/pi-coding-agent@latest" \
-    "@earendil-works/pi-ai@latest" \
-    "@earendil-works/pi-tui@latest"; then
-    record_status "pi" "failed" "npm installation"
-    return 0
+  # Reuse complete installations in the active runtime; upgrades are explicit.
+  npm_root="$(npm root -g 2>/dev/null || true)"
+  if [[ "${DOTFILES_UPDATE_AGENTS:-0}" != 1 ]] && need_cmd pi \
+      && [[ -f "$npm_root/@earendil-works/pi-coding-agent/package.json" \
+         && -f "$npm_root/@earendil-works/pi-ai/package.json" \
+         && -f "$npm_root/@earendil-works/pi-tui/package.json" ]]; then
+    install_core=0
+  fi
+  if [[ "$install_core" -eq 1 ]]; then
+    log "installing Pi and its core plugin dependencies via npm"
+    if ! npm install -g \
+      "@earendil-works/pi-coding-agent@latest" \
+      "@earendil-works/pi-ai@latest" \
+      "@earendil-works/pi-tui@latest"; then
+      record_status "pi" "failed" "npm installation"
+      return 0
+    fi
   fi
   hash -r
   if ! need_cmd pi || ! pi_version="$(pi --version)"; then
     record_status "pi" "failed" "installed CLI unavailable"
     return 0
   fi
-  record_status "pi" "installed" "$pi_version"
+  if [[ "$install_core" -eq 1 ]]; then
+    record_status "pi" "installed" "$pi_version"
+  else
+    record_status "pi" "present" "$pi_version"
+  fi
 
   # pi install installs package dependencies and registers global resources.
   for source in npm:pi-web-access npm:pi-open-tui; do
+    if [[ "${DOTFILES_UPDATE_AGENTS:-0}" != 1 ]] && pi_package_available "$source"; then
+      record_status "pi plugin" "present" "$source"
+      continue
+    fi
     log "installing Pi plugin: $source"
     if (cd "$HOME" && pi install "$source"); then
       record_status "pi plugin" "installed" "$source"
@@ -1135,6 +1261,7 @@ reload_kitty_if_possible() {
 
 main() {
   require_supported_os
+  resolve_machine_profile
   require_dotfiles_checkout
   configure_proxy
   bootstrap_system_packages
@@ -1151,6 +1278,8 @@ main() {
   bootstrap_zsh_runtime
   bootstrap_tmux
   reload_kitty_if_possible
+  verify_setup_skill
+  print_agent_handoff
   if [[ "$BOOTSTRAP_FAILURES" -gt 0 ]]; then
     die "bootstrap finished with $BOOTSTRAP_FAILURES failed checks; see summary and rerun after fixing them"
   fi

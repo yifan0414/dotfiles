@@ -1,5 +1,6 @@
 curl
 git
+openssh-clients
 yadm
 python3
 ripgrep

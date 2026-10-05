@@ -1,0 +1,8 @@
+# nlp4090-8：存在 CUDA 12.8 的 nvcc 时启用对应工具链。
+if [[ -x "/usr/local/cuda-12.8/bin/nvcc" ]]; then
+  export CUDA_HOME="/usr/local/cuda-12.8"
+  case ":$PATH:" in
+    *":$CUDA_HOME/bin:"*) ;;
+    *) export PATH="$CUDA_HOME/bin:$PATH" ;;
+  esac
+fi
