@@ -39,8 +39,10 @@ def accounts_for(machine):
 
 
 def own_path(path, home):
-    if not path.resolve().is_relative_to(home.resolve()):
-        raise ValueError(f'User configuration resolves outside its home: {path}')
+    try:
+        path.resolve().relative_to(home.resolve())
+    except ValueError:
+        raise ValueError(f'User configuration resolves outside its home: {path}') from None
     return path.resolve() if path.is_symlink() else path
 
 
