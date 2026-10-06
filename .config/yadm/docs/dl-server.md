@@ -35,9 +35,17 @@ NCCL 继续使用独立的 hostname alternate；Linux `.zshrc` 在主机片段�
 
 ## Hugging Face 多用户配置
 
+HF 环境变量的配置位置是本套 Linux 服务器的固定约定：
+
+- yifan：直接写入 `.zshrc.local##hostname.<主机名>`，由主 `.zshrc` 自动加载 yadm 选中的 `~/.zshrc.local`；跟踪候选文件，保留生成的链接。
+- 其他用户：直接合并到各自的 `~/.zshrc`，保留原有配置和显式项目覆盖；迁移前备份。
+- 不将 HF 默认环境变量写入 `/etc/profile.d`、全局 Bash/Zsh 初始化文件、`BASH_ENV` 或 systemd 环境生成器。独立后台任务通过 `hf-public` / `hf-private` 显式取得任务所需的变量。
+
+这一约定针对 HF 环境变量；Conda/pip 的系统配置继续遵循 [conda-management.md](conda-management.md)。各机共享缓存路径、用户及属组仍需独立核对。
+
 公共模型和数据集的 Hub 原始下载缓存由 `datausers` 共用；凭据、Datasets 的 Arrow/索引、Xet 和 assets 缓存留在各自的 `HF_HOME`。个人 `HF_HOME` 及私有下载目录使用 `700`，令牌文件使用 `600`。共享缓存目录使用 `root:datausers`、`2775`、SGID 和默认 ACL，保证新建子目录及下载锁可供组内协作。
 
-`nlp4090-8` 的 yifan 配置直接写在 `~/.zshrc.local` 对应的 `.zshrc.local##hostname.nlp4090-8` 候选文件中；其他 `datausers` 成员直接写在各自的 `~/.zshrc` 中。保留已有配置，使用独立标记块，保留显式项目覆盖。默认值如下；其他服务器先核对磁盘和账户，不直接套用这些路径。
+`nlp4090-8` 按上述约定使用独立标记块配置，默认值如下；其他服务器先核对磁盘和账户，不直接套用这些路径。
 
 | 变量 | 本机默认值 |
 |---|---|

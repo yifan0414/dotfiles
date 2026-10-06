@@ -20,6 +20,8 @@ agent 先采用本次任务明确指定的角色，随后是 `DOTFILES_MACHINE_P
 
 Linux 和 Mac 主 `.zshrc` 管理公共初始化，稳定且不含敏感信息的主机差异使用 `.zshrc.local##hostname.<主机名>`；主配置直接自动加载 yadm 选中的 `~/.zshrc.local`。跟踪普通候选文件，不跟踪生成的链接。
 
+Linux 服务器的 Hugging Face 环境变量遵循 [HF 多用户配置规范](docs/dl-server.md#hugging-face-多用户配置)：yifan 写入本机的 `.zshrc.local##hostname.<主机名>`，其他用户写入各自的 `~/.zshrc`。不要改用 `/etc/profile.d`、全局 Bash/Zsh 初始化、`BASH_ENV` 或 systemd 环境生成器加载 HF 默认值。公共缓存、个人凭据和独立后台任务的配置边界以该文档为准。
+
 仅本机设置、私密信息与检查报告放在被忽略的 `~/.config/yadm/local/`。早期初始化依赖的 Conda 根目录和代理变量继续由 `.zshenv` 读取安静的 `local/shell.zsh`；主机片段的加载顺序见 [服务器文档](docs/dl-server.md)。不得将 SSH 私钥、令牌或含认证信息的完整命令输出加入仓库。
 
 Linux 的 NCCL 参数按 [服务器文档](docs/dl-server.md) 使用 hostname alternate，继续由 `.zshrc` 直接自动加载已获授权的配置。不同服务器独立确认参数；不要把单机参数改成公共 Linux 默认值。
