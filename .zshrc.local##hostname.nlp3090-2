@@ -50,4 +50,8 @@ if [[ -f "/hdd1_4t/yifan/shared/env/shared_paths.sh" ]]; then
   source "/hdd1_4t/yifan/shared/env/shared_paths.sh"
 fi
 
+# Hugging Face：共享下载缓存，个人配置和访问策略。
+export HF_HOME="${HF_HOME:-$HOME/.cache/huggingface}"
+export HF_HUB_CACHE="${HF_HUB_CACHE:-${HUGGINGFACE_HUB_CACHE:-/hdd1_4t/shared/huggingface/hub}}"
 export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"
+export HF_HUB_DISABLE_IMPLICIT_TOKEN="${HF_HUB_DISABLE_IMPLICIT_TOKEN:-1}"
