@@ -35,11 +35,10 @@ NCCL 继续使用独立的 hostname alternate；Linux `.zshrc` 在主机片段�
 
 ## Hugging Face 多用户配置
 
-HF 环境变量的配置位置是本套 Linux 服务器的固定约定：
+本套 Linux 服务器的 HF 环境变量按以下位置配置：
 
 - yifan：直接写入 `.zshrc.local##hostname.<主机名>`，由主 `.zshrc` 自动加载 yadm 选中的 `~/.zshrc.local`；跟踪候选文件，保留生成的链接。
 - 其他用户：直接合并到各自的 `~/.zshrc`，保留原有配置和显式项目覆盖；迁移前备份。
-- 不将 HF 默认环境变量写入 `/etc/profile.d`、全局 Bash/Zsh 初始化文件、`BASH_ENV` 或 systemd 环境生成器。独立后台任务通过 `hf-public` / `hf-private` 显式取得任务所需的变量。
 
 这一约定针对 HF 环境变量；Conda/pip 的系统配置继续遵循 [conda-management.md](conda-management.md)。各机共享缓存路径、用户及属组仍需独立核对。
 
@@ -56,7 +55,7 @@ HF 环境变量的配置位置是本套 Linux 服务器的固定约定：
 | `HF_ASSETS_CACHE` | `$HF_HOME/assets` |
 | `HF_ENDPOINT` | `https://hf-mirror.com` |
 
-交互式 Zsh 直接从个人配置加载，新终端自动生效；yifan 当前终端执行 `source ~/.zshrc.local`，其他用户执行 `source ~/.zshrc`。从这些终端启动的 Bash/Python 子进程会继承导出的变量。独立的 cron、systemd、容器或调度作业使用下述任务入口取得相同默认值。系统 `/etc/profile.d`、全局 Bash/Zsh 初始化及 systemd 环境生成器均不承载本机 HF 配置。
+交互式 Zsh 直接从个人配置加载，新终端自动生效；yifan 当前终端执行 `source ~/.zshrc.local`，其他用户执行 `source ~/.zshrc`。从这些终端启动的 Bash/Python 子进程会继承导出的变量。独立的 cron、systemd、容器或调度作业使用下述任务入口取得相同默认值。
 
 `.config/huggingface/bin/` 中的入口安装到 `/usr/local/bin/`：
 
