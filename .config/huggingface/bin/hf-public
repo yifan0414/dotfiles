@@ -1,0 +1,26 @@
+#!/bin/sh
+# Run a command against the shared public cache without personal credentials.
+set -eu
+. /etc/profile.d/huggingface.sh
+if [ "$#" -eq 0 ]; then
+    printf '%s\n' 'Usage: hf-public COMMAND [ARG ...]' >&2
+    exit 2
+fi
+if [ "${1##*/}" = hf ] && [ "${2:-}" = auth ]; then
+    printf '%s\n' 'Use hf-private hf auth ... for personal authentication.' >&2
+    exit 2
+fi
+HF_CACHE_SCOPE=public
+HF_HUB_CACHE=${HF_PUBLIC_HUB_CACHE:-/ssd_4t/shared/huggingface/hub}
+HUGGINGFACE_HUB_CACHE=$HF_HUB_CACHE
+HF_ENDPOINT=${HF_PUBLIC_ENDPOINT:-https://hf-mirror.com}
+HF_HUB_DISABLE_IMPLICIT_TOKEN=1
+HF_TOKEN_PATH=/dev/null
+unset HF_TOKEN HUGGING_FACE_HUB_TOKEN
+export HF_CACHE_SCOPE HF_HUB_CACHE HUGGINGFACE_HUB_CACHE HF_ENDPOINT
+export HF_HUB_DISABLE_IMPLICIT_TOKEN HF_TOKEN_PATH
+if [ "${TRANSFORMERS_CACHE+x}" = x ]; then
+    TRANSFORMERS_CACHE=$HF_HUB_CACHE
+    export TRANSFORMERS_CACHE
+fi
+exec "$@"

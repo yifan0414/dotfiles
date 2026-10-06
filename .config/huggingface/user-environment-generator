@@ -1,0 +1,12 @@
+#!/bin/sh
+# New/reloaded user service managers receive the same non-secret defaults.
+. /etc/profile.d/huggingface.sh
+[ -n "${HF_PUBLIC_HUB_CACHE:-}" ] || exit 0
+for name in HF_PUBLIC_HUB_CACHE HF_PUBLIC_ENDPOINT HF_HOME HF_HUB_CACHE \
+    HUGGINGFACE_HUB_CACHE HF_DATASETS_CACHE HF_XET_CACHE HF_ASSETS_CACHE \
+    HF_TOKEN_PATH HF_ENDPOINT HF_HUB_DISABLE_IMPLICIT_TOKEN BASH_ENV
+do
+    if value=$(printenv "$name"); then
+        printf '%s=%s\n' "$name" "$value"
+    fi
+done

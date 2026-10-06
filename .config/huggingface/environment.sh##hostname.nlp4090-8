@@ -1,0 +1,25 @@
+# Installed as /etc/profile.d/huggingface.sh on nlp4090-8.
+# Public repository downloads are shared; credentials and processed data are private.
+# Respect explicit project overrides. Keep this file POSIX-compatible and quiet.
+case " $(id -nG 2>/dev/null) " in
+    *" datausers "*)
+        HF_PUBLIC_HUB_CACHE=/ssd_4t/shared/huggingface/hub
+        HF_PUBLIC_ENDPOINT=https://hf-mirror.com
+        HF_HOME=${HF_HOME:-"$HOME/.cache/huggingface"}
+        HF_HUB_CACHE=${HF_HUB_CACHE:-${HUGGINGFACE_HUB_CACHE:-$HF_PUBLIC_HUB_CACHE}}
+        HUGGINGFACE_HUB_CACHE=${HUGGINGFACE_HUB_CACHE:-$HF_HUB_CACHE}
+        HF_DATASETS_CACHE=${HF_DATASETS_CACHE:-"$HF_HOME/datasets"}
+        HF_XET_CACHE=${HF_XET_CACHE:-"$HF_HOME/xet"}
+        HF_ASSETS_CACHE=${HF_ASSETS_CACHE:-"$HF_HOME/assets"}
+        HF_TOKEN_PATH=${HF_TOKEN_PATH:-"$HF_HOME/token"}
+        HF_ENDPOINT=${HF_ENDPOINT:-$HF_PUBLIC_ENDPOINT}
+        HF_HUB_DISABLE_IMPLICIT_TOKEN=${HF_HUB_DISABLE_IMPLICIT_TOKEN:-1}
+        BASH_ENV=${BASH_ENV:-/etc/profile.d/huggingface.sh}
+        export HF_PUBLIC_HUB_CACHE HF_PUBLIC_ENDPOINT HF_HOME HF_HUB_CACHE
+        export HUGGINGFACE_HUB_CACHE HF_DATASETS_CACHE HF_XET_CACHE HF_ASSETS_CACHE
+        export HF_TOKEN_PATH HF_ENDPOINT HF_HUB_DISABLE_IMPLICIT_TOKEN BASH_ENV
+        if [ ! -d "$HF_HOME" ]; then
+            (umask 077; mkdir -p -- "$HF_HOME") 2>/dev/null || :
+        fi
+        ;;
+esac

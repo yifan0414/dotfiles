@@ -24,5 +24,8 @@
 # Runtime link selected from the tracked hostname-specific NCCL configuration.
 /.config/nvidia-p2p/env.sh
 
+# Runtime link selected from the tracked hostname-specific Hugging Face defaults.
+/.config/huggingface/environment.sh
+
 # Generated hostname-selected shell fragment; track its ##hostname.* sources.
 /.zshrc.local

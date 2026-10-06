@@ -1,0 +1,2 @@
+huggingface_hub==1.9.0
+click>=8,<9

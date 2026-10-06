@@ -33,6 +33,38 @@
 
 NCCL 继续使用独立的 hostname alternate；Linux `.zshrc` 在主机片段之后直接自动 source `~/.config/nvidia-p2p/env.sh`，保留已获授权的参数与加载方式。其他服务器先核对硬件、库路径和版本，再为各自 hostname 准备参数文件；不直接把这台机器的参数复制到公共 Linux 配置。私密设置和检查报告仍留在忽略的 `~/.config/yadm/local/`。
 
+## Hugging Face 多用户配置
+
+公共模型和数据集的 Hub 原始下载缓存由 `datausers` 共用；凭据、Datasets 的 Arrow/索引、Xet 和 assets 缓存留在各自的 `HF_HOME`。个人 `HF_HOME` 及私有下载目录使用 `700`，令牌文件使用 `600`。共享缓存目录使用 `root:datausers`、`2775`、SGID 和默认 ACL，保证新建子目录及下载锁可供组内协作。
+
+`nlp4090-8` 的非敏感配置源是 `.config/huggingface/environment.sh##hostname.nlp4090-8`，安装到 `/etc/profile.d/huggingface.sh`。默认值如下；其他服务器先核对磁盘和账户，不直接套用这些路径。
+
+| 变量 | 本机默认值 |
+|---|---|
+| `HF_HOME` | `$HOME/.cache/huggingface` |
+| `HF_HUB_CACHE` | `/ssd_4t/shared/huggingface/hub` |
+| `HF_DATASETS_CACHE` | `$HF_HOME/datasets` |
+| `HF_XET_CACHE` | `$HF_HOME/xet` |
+| `HF_ASSETS_CACHE` | `$HF_HOME/assets` |
+| `HF_ENDPOINT` | `https://hf-mirror.com` |
+
+系统 Bash/Zsh 初始化和用户 systemd 环境生成器加载这份配置；非交互 Bash 子进程通过继承的 `BASH_ENV` 加载。配置只对 `datausers` 成员应用默认值，保留显式项目覆盖。已经运行的进程不会自动更换环境；新终端、新任务生效，当前终端可执行 `. /etc/profile.d/huggingface.sh`。直接启动的 cron、容器或调度作业应显式 source 该文件，或使用下述入口。
+
+`.config/huggingface/bin/` 中的入口安装到 `/usr/local/bin/`：
+
+```sh
+hf-public hf download Qwen/Qwen3.5-4B
+hf-public python evaluate.py
+hf-private hf auth login
+hf-private python private_inference.py
+```
+
+`hf-public` 强制使用公共缓存及镜像，在子进程中禁用个人令牌文件和令牌环境变量。默认设置禁用隐式令牌发送；受限模型和私有仓库使用 `hf-private`，它切换至官方端点 `https://huggingface.co`，使用个人 `$HF_HOME/private-hub`，并对该任务设置 `umask 077`。可通过 `HF_PRIVATE_HUB_CACHE` 指定个人 SSD 私有目录。不要把受限资源下载到公共缓存。
+
+全局 `hf` 来自独立的 `/opt/huggingface-tools` 工具环境（依赖记录在 `.config/huggingface/requirements.txt`），认证子命令自动采用个人配置；它不升级项目环境中的 SDK。激活项目环境后，推荐仍使用 `hf-public` / `hf-private` 前缀运行项目的 `hf` 或 Python。现有个人缓存保留原位置，未经确认不向公共缓存迁移。公共 `datasets/`、`models/` 继续提供整理后的本地资源，不作为 Hub 内部缓存。
+
+部署后以两个普通组成员实际验证：首个用户下载一个小型公共文件，另一个用户仅使用本地缓存读取同一文件；同时验证 SDK 下载锁的权限、竞争及个人凭据目录的隔离。系统配置备份、部署报告和检查临时文件保存在本机忽略目录，不写入仓库。
+
 ## 验收
 
 1. 基础 CLI 工具齐备，新开的 shell 能正常启动、使用 agent，实际加载的 `.zshrc.local` 与本机 hostname 匹配。分别确认 Conda 本体健康、实际根目录正确、激活命令可用且未自动进入 base。
