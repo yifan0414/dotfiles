@@ -90,11 +90,11 @@ python3 ~/.config/yadm/scripts/machine-status.py --profile auto --strict
 
 代理端点使用已有的 `DOTFILES_PROXY_URL` 或相关代理变量。新 shell 不应假设所有机器都有 `127.0.0.1:7897` 上的代理服务。
 
-非敏感机器参数统一存放在 `~/.config/yadm/machines/<hostname>.json`。共享根目录、共享组和组件安装位置在目标机器核对后填写；组件部署和 `machine-status.py` 共用同一份参数。当前已确认的文件为 [nlp4090-8.json](../machines/nlp4090-8.json)，其他机器没有参数文件时，盘点会报告共享根目录尚未配置。
+非敏感机器参数统一存放在 `~/.config/yadm/machines/<hostname>.json`。共享根目录、共享组和组件安装位置在目标机器核对后填写；agent 配置机器时参考这份记录，`machine-status.py` 用它定位检查对象。当前已确认的文件为 [nlp4090-8.json](../machines/nlp4090-8.json)，其他机器没有参数文件时，盘点会报告共享根目录尚未配置。
 
-参数文件只保存数据，不执行 shell。组件负责将自己的参数生成到实际配置位置并检查安装副本；HF 的字段和部署命令见 [HF 管理](huggingface.md)。修改参数后运行相应组件的部署入口，再执行检查。
+参数文件记录本机约定，实际配置由 agent 按主题文档合并并验证。变更路径时同步更新记录和相关实际配置；HF 的目标状态与验收方法见 [HF 管理](huggingface.md)。
 
-Linux 和 Mac 主 `.zshrc` 管理公共设置，直接自动加载按 hostname 选中的 `~/.zshrc.local`。需要同步且不含敏感信息的稳定主机差异放在 `.zshrc.local##hostname.<主机名>` 普通候选文件中，生成的链接不跟踪。HF 环境变量在本机片段中由组件维护一个标记块；其他主机设置在标记块外手工维护。独立 NCCL alternate 的加载顺序见 [dl-server.md](dl-server.md)。
+Linux 和 Mac 主 `.zshrc` 管理公共设置，直接自动加载按 hostname 选中的 `~/.zshrc.local`。需要同步且不含敏感信息的稳定主机差异放在 `.zshrc.local##hostname.<主机名>` 普通候选文件中，生成的链接不跟踪。agent 将 HF 环境变量直接合并到本机片段，保留其他设置。独立 NCCL alternate 的加载顺序见 [dl-server.md](dl-server.md)。
 
 仅本机设置、私密信息与报告放在 `~/.config/yadm/local/`，该目录不加入 yadm。不参与同步的实际路径和早期初始化依赖的 Conda 根目录、代理变量使用安静的 `local/shell.zsh`，由 `.zshenv` 提前读取；不要将 SSH 地址、端口、私钥、令牌或实验环境复制进公共规则。
 

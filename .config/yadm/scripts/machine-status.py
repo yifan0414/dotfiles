@@ -280,11 +280,24 @@ def inspect(home, requested):
     for root in roots:
         shared.extend((root / "envs", root / "pkgs"))
     missing = [name for name, path in paths.items() if path is None]
+    hf_paths = {}
+    if machine_data and isinstance(machine_data.get('huggingface'), dict):
+        hf = machine_data['huggingface']
+        hf_paths['public_cache'] = path_status(Path(machine_data['shared_root']) / 'huggingface/hub')
+        hf_paths['personal_home'] = path_status(home / '.cache/huggingface')
+        for key, suffix in (('prefix', 'lib/huggingface/hf_runtime.py'),
+                            ('prefix', 'lib/huggingface/site.json'), ('tools_root', 'bin/hf')):
+            if isinstance(hf.get(key), str) and Path(hf[key]).is_absolute():
+                hf_paths[suffix] = path_status(Path(hf[key]) / suffix)
+        if isinstance(hf.get('prefix'), str) and Path(hf['prefix']).is_absolute():
+            for name in ('hf', 'hf-public', 'hf-private'):
+                hf_paths[name] = path_status(Path(hf['prefix']) / 'bin' / name)
     report = {
         "inspection": "bootstrap",
         "training_environment_validated": False,
         "machine": machine,
         "machine_config": {"path": str(machine_data_path), "loaded": machine_data is not None},
+        "huggingface_paths": hf_paths,
         "profile": profile,
         "essential_tools": paths,
         "missing_essential_tools": missing,

@@ -7,7 +7,7 @@
 | 新机器安装、角色选择、公共与主机配置 | [机器安装流程](.config/yadm/docs/machine-setup.md) |
 | Linux 服务器配置与验收 | [dl-server](.config/yadm/docs/dl-server.md) |
 | Mac 工作机配置与验收 | [mac-client](.config/yadm/docs/mac-client.md) |
-| HF 共享缓存、工具部署与检查 | [Hugging Face](.config/yadm/docs/huggingface.md) |
+| HF 配置、日常工具与验收 | [Hugging Face](.config/yadm/docs/huggingface.md) |
 | Conda 与 pip | [Conda/pip 管理](.config/yadm/docs/conda-management.md) |
 | 日常同步、加密归档与 GitHub 凭据 | [同步与凭据](.config/yadm/docs/sync.md) |
 | 由 agent 维护本仓库 | [AGENTS.md](.config/yadm/AGENTS.md) |

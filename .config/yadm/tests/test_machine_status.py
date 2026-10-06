@@ -227,6 +227,24 @@ class MachineStatusTests(unittest.TestCase):
         self.assertTrue(any('shared root is unknown' in d for d in report['diagnostics']))
         self.assertNotIn('/ssd_4t/shared', [p['path'] for p in report['shared_paths']])
 
+    def test_hf_inventory_is_metadata_only_and_uses_machine_paths(self):
+        config = self.home / '.config/yadm/machines/test-host.json'
+        config.parent.mkdir(parents=True)
+        prefix = self.home / 'test prefix'
+        runtime = prefix / 'lib/huggingface/hf_runtime.py'
+        runtime.parent.mkdir(parents=True)
+        runtime.write_text('raise RuntimeError("Must not execute")')
+        config.write_text(json.dumps({'hostname': 'test-host', 'shared_root': str(self.home / 'shared'),
+                                     'shared_group': 'fixture-team', 'dotfiles_user': 'fixture',
+                                     'huggingface': {'prefix': str(prefix), 'tools_root': str(self.home / 'tools')}}))
+        code, report = self.inspect()
+        self.assertEqual(code, 0)
+        paths = report['huggingface_paths']
+        self.assertEqual(paths['public_cache']['path'], str(self.home / 'shared/huggingface/hub'))
+        self.assertTrue(paths['lib/huggingface/hf_runtime.py']['exists'])
+        self.assertFalse(paths['hf']['exists'])
+        self.run.assert_not_called()
+
     def test_invalid_machine_data_is_reported_without_creating_paths(self):
         config = self.home / '.config/yadm/machines/test-host.json'
         config.parent.mkdir(parents=True)
