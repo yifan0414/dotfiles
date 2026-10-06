@@ -42,6 +42,10 @@ NCCL 继续使用独立的 hostname alternate；Linux `.zshrc` 在主机片段�
 
 这一约定针对 HF 环境变量；Conda/pip 的系统配置继续遵循 [conda-management.md](conda-management.md)。各机共享缓存路径、用户及属组仍需独立核对。
 
+共享根目录是每台机器的配置参数，Hub 缓存放在 `<本机共享根目录>/huggingface/hub`。例如，共享根为 `/ssd_4t/shared` 时使用 `/ssd_4t/shared/huggingface/hub`；共享根为 `/ssd_2t/shared` 时使用 `/ssd_2t/shared/huggingface/hub`。把核对后的实际绝对路径写入该机 hostname 候选文件和同机其他用户的 `.zshrc`，作为 `HF_HUB_CACHE` 的默认值。`HF_HOME` 及个人处理缓存继续基于各用户的 `$HOME` 设置。
+
+复用 `hf-public` 时，将 `HF_PUBLIC_HUB_CACHE` 设置为该机公共 Hub 缓存目录，并同步调整该机安装的脚本默认路径，使独立后台任务也能取得正确目录。仓库中该脚本的当前默认值 `/ssd_4t/shared/huggingface/hub` 对应 `nlp4090-8`；`hf` 使用的 `/opt/huggingface-tools` 工具环境位置也在部署时按目标机器核对。
+
 公共模型和数据集的 Hub 原始下载缓存由 `datausers` 共用；凭据、Datasets 的 Arrow/索引、Xet 和 assets 缓存留在各自的 `HF_HOME`。个人 `HF_HOME` 及私有下载目录使用 `700`，令牌文件使用 `600`。共享缓存目录使用 `root:datausers`、`2775`、SGID 和默认 ACL，保证新建子目录及下载锁可供组内协作。
 
 `nlp4090-8` 按上述约定使用独立标记块配置，默认值如下；其他服务器先核对磁盘和账户，不直接套用这些路径。
