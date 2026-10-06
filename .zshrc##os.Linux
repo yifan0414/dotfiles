@@ -93,8 +93,8 @@ fi
 
 alias clear="clear -x"
 
-# Resolve Python through PATH so activated environments select their own interpreter.
-unalias python 2>/dev/null || true
+# Resolve python3 through PATH, including the currently activated environment.
+alias python=python3
 
 yb() {
   "$HOME/.local/bin/yadm-daily-backup" "$@"
