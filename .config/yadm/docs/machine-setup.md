@@ -90,7 +90,7 @@ python3 ~/.config/yadm/scripts/machine-status.py --profile auto --strict
 
 代理端点使用已有的 `DOTFILES_PROXY_URL` 或相关代理变量。新 shell 不应假设所有机器都有 `127.0.0.1:7897` 上的代理服务。
 
-非敏感机器参数统一存放在 `~/.config/yadm/machines/<hostname>.json`。共享根目录、共享组和组件安装位置在目标机器核对后填写；agent 配置机器时参考这份记录，`machine-status.py` 用它定位检查对象。当前已确认的文件为 [nlp4090-8.json](../machines/nlp4090-8.json)，其他机器没有参数文件时，盘点会报告共享根目录尚未配置。
+非敏感机器参数统一存放在 `~/.config/yadm/machines/<hostname>.json`。共享根目录、共享组和组件安装位置在目标机器核对后填写；agent 配置机器时参考这份记录，`machine-status.py` 用它定位检查对象。已核对的记录见 [machines 目录](../machines)，其他机器没有参数文件时，盘点会报告共享根目录尚未配置。
 
 参数文件记录本机约定，实际配置由 agent 按主题文档合并并验证。变更路径时同步更新记录和相关实际配置；HF 的目标状态与验收方法见 [HF 管理](huggingface.md)。
 

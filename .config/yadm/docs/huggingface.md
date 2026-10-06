@@ -10,7 +10,7 @@
 
 ## 配置目标
 
-yifan 的 HF 环境变量直接合并到 `.zshrc.local##hostname.<主机名>`，由 `~/.zshrc.local` 加载；其他共享组用户直接合并到各自的 `~/.zshrc`。修改前备份，保留原有内容和项目显式覆盖。
+yifan 的 HF 环境变量直接合并到 `.zshrc.local##hostname.<主机名>`，由 `~/.zshrc.local` 加载；其他共享组用户沿用当前 Shell：Zsh 合并到各自的 `~/.zshrc`，Fish 使用个人 `~/.config/fish/conf.d/huggingface.fish`。修改前备份，保留原有内容和项目显式覆盖。
 
 | 变量 | 默认值 |
 |---|---|
@@ -55,6 +55,6 @@ hf-private python private_inference.py
 
 1. 运行只读盘点 `python3 ~/.config/yadm/scripts/machine-status.py --profile auto`，检查 `huggingface_paths` 的路径和权限。该工具只报告元数据，`--strict` 仍只检查基础 CLI；配置内容与默认 ACL 由 agent 核对。
 2. 核对运行文件与源码一致、命令链接正确，`site.json` 与本机记录和 shell 默认值一致；确认独立 CLI 可用、依赖满足 `requirements.txt`。
-3. 新开各用户的 Zsh，验证共享缓存和个人缓存路径；分别验证公共、私有任务入口，确认项目覆盖有效。当前终端中 yifan 执行 `source ~/.zshrc.local`，其他用户执行 `source ~/.zshrc`。
+3. 新开各用户当前使用的 Shell，验证共享缓存和个人缓存路径；分别验证公共、私有任务入口，确认项目覆盖有效。当前终端中 yifan 执行 `source ~/.zshrc.local`，其他 Zsh 用户执行 `source ~/.zshrc`，Fish 用户执行 `source ~/.config/fish/conf.d/huggingface.fish`。
 4. 以两个普通组成员验证小型公共文件首次下载、本地缓存复用和 SDK 下载锁竞争；使用无敏感内容的临时文件验证个人目录隔离并清理。
 5. 记录已验证结果和剩余问题到 `~/.config/yadm/local/`。运行工具的离线回归测试包含在仓库测试集中。

@@ -35,7 +35,7 @@ class HostnameShellTests(unittest.TestCase):
         self.conda = self.base / "fixture Conda"
         for directory in (self.tools, self.runtime, self.cuda / "bin",
                           self.hdd / "yifan/shared/env", self.hdd / "yifan/lmms-eval",
-                          self.ssd / "yifan/shared/models", self.conda / "etc/profile.d"):
+                          self.ssd / "yifan", self.ssd / "shared/models", self.conda / "etc/profile.d"):
             directory.mkdir(parents=True)
         self.shared_paths = self.hdd / "yifan/shared/env/shared_paths.sh"
         self.shared_paths.write_text("export FIXTURE_SHARED_PATHS=loaded\n")
@@ -163,7 +163,7 @@ print -r -- "CUDA_PATH_COUNT=$fixture_cuda_count"
                     self.assertEqual(state["FIXTURE_DIRENV"], "loaded")
                     self.assertEqual(state["FIXTURE_SHARED_PATHS"], "loaded")
                 elif host == "nlp3090-4":
-                    self.assertEqual(state["MODEL_NAME"], str(self.ssd / "yifan/shared/models/Qwen2.5-VL-7B-Instruct"))
+                    self.assertEqual(state["MODEL_NAME"], str(self.ssd / "shared/models/Qwen2.5-VL-7B-Instruct"))
                     for name in ("UV_CACHE_DIR", "UV_LINK_MODE", "FIXTURE_DIRENV", "FIXTURE_SHARED_PATHS"):
                         self.assertEqual(state[name], "", name)
                 else:
