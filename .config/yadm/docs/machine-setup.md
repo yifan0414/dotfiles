@@ -33,9 +33,11 @@ DOTFILES_MACHINE_PROFILE=dl-server yadm bootstrap
 
 不要使用 `yadm bootstrap --profile ...`；角色参数通过环境变量传给脚本。角色优先级为有效的 `DOTFILES_MACHINE_PROFILE`、`yadm config local.class`、系统判断；`auto` 按本机角色与系统判断解析。
 
-bootstrap 保留既有安装流程：基础包、加密的 GitHub 凭据、shell 和编辑器、nvm/Node、Codex 与 Pi。遇到归档解密时在终端输入已有密码；agent 的模型服务登录按该工具的实际提示单独完成。脚本结束后阅读汇总，失败项先修复再重试。
+bootstrap 保留既有安装流程：基础包、加密的 GitHub 凭据、shell 和编辑器、nvm/Node、Codex 与 Pi。遇到归档解密时在终端输入已有密码；agent 的模型服务登录按该工具的实际提示单独完成。脚本结束后阅读汇总，失败项先修复再重试。凭据归档的维护与日常同步见 [同步与凭据](sync.md)。
 
 bootstrap 不自动安装 Conda。Linux 服务器由 agent 先盘点已有安装，确实缺少时按 [Conda/pip 管理约定](conda-management.md) 使用可选模块，再完成共享配置；Mac SSH 客户端不默认安装 Conda。
+
+基础软件清单集中在 [packages](../packages)：Mac 使用 Homebrew，Linux 使用可用的 apt、dnf 或 pacman。apt 平台默认将 tmux 从发行源码编译到 `~/.local`；pacman 使用 `-Syu` 完成整体升级。可通过下表中的环境变量调整对应步骤。
 
 ## 交给 agent 完成角色配置
 
@@ -81,11 +83,18 @@ python3 ~/.config/yadm/scripts/machine-status.py --profile auto --strict
 | Mac GUI 软件 | `mac-client` 默认安装现有清单；显式 `DOTFILES_INSTALL_GUI_APPS=0` 跳过本次安装 |
 | 网络 | `DOTFILES_PROXY_MODE=inherit` 为默认；`on` 使用本机指定代理，`off` 关闭本次代理 |
 | 跳过系统包安装 | `DOTFILES_SKIP_SYSTEM_PACKAGES=1 yadm bootstrap`；仍需自行准备缺失工具 |
+| 使用发行版 tmux | `DOTFILES_SKIP_TMUX_SOURCE_BUILD=1 yadm bootstrap` 跳过 apt 平台的源码构建 |
+| 指定 tmux 源码版本 | `DOTFILES_TMUX_VERSION` 设置发行标签 |
 | 更新 agent | 默认复用已完整安装的 Codex/Pi；需要刷新时显式 `DOTFILES_UPDATE_AGENTS=1 yadm bootstrap` |
+| 输出控制 | `NO_COLOR=1` 关闭颜色；`DOTFILES_SELF_CHECK=0` 关闭末尾汇总 |
 
 代理端点使用已有的 `DOTFILES_PROXY_URL` 或相关代理变量。新 shell 不应假设所有机器都有 `127.0.0.1:7897` 上的代理服务。
 
-Linux 和 Mac 主 `.zshrc` 管理公共设置，直接自动加载按 hostname 选中的 `~/.zshrc.local`。需要同步且不含敏感信息的稳定主机差异放在 `.zshrc.local##hostname.<主机名>` 普通候选文件中，生成的链接不跟踪。服务器片段与独立 NCCL alternate 的加载顺序见 [dl-server.md](dl-server.md)。
+非敏感机器参数统一存放在 `~/.config/yadm/machines/<hostname>.json`。共享根目录、共享组和组件安装位置在目标机器核对后填写；组件部署和 `machine-status.py` 共用同一份参数。当前已确认的文件为 [nlp4090-8.json](../machines/nlp4090-8.json)，其他机器没有参数文件时，盘点会报告共享根目录尚未配置。
+
+参数文件只保存数据，不执行 shell。组件负责将自己的参数生成到实际配置位置并检查安装副本；HF 的字段和部署命令见 [HF 管理](huggingface.md)。修改参数后运行相应组件的部署入口，再执行检查。
+
+Linux 和 Mac 主 `.zshrc` 管理公共设置，直接自动加载按 hostname 选中的 `~/.zshrc.local`。需要同步且不含敏感信息的稳定主机差异放在 `.zshrc.local##hostname.<主机名>` 普通候选文件中，生成的链接不跟踪。HF 环境变量在本机片段中由组件维护一个标记块；其他主机设置在标记块外手工维护。独立 NCCL alternate 的加载顺序见 [dl-server.md](dl-server.md)。
 
 仅本机设置、私密信息与报告放在 `~/.config/yadm/local/`，该目录不加入 yadm。不参与同步的实际路径和早期初始化依赖的 Conda 根目录、代理变量使用安静的 `local/shell.zsh`，由 `.zshenv` 提前读取；不要将 SSH 地址、端口、私钥、令牌或实验环境复制进公共规则。
 

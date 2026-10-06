@@ -9,7 +9,11 @@ import platform
 import shutil
 import stat
 import subprocess
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from machine_config import config_path, load_machine
 
 try:
     import grp
@@ -178,15 +182,15 @@ def conda_roots(home, diagnostics=None):
     return found
 
 
-def datausers_status():
+def shared_group_status(name):
     if grp is None or pwd is None:
-        return {"exists": None, "current_process_member": None, "account_member": None}
+        return {"name": name, "exists": None, "current_process_member": None, "account_member": None}
     try:
-        group = grp.getgrnam("datausers")
+        group = grp.getgrnam(name)
     except KeyError:
-        return {"exists": False, "current_process_member": False, "account_member": False}
+        return {"name": name, "exists": False, "current_process_member": False, "account_member": False}
     account = pwd.getpwuid(os.geteuid())
-    return {"exists": True, "gid": group.gr_gid,
+    return {"name": name, "exists": True, "gid": group.gr_gid,
             "current_process_member": group.gr_gid in {*os.getgroups(), os.getegid()},
             "account_member": account.pw_gid == group.gr_gid or account.pw_name in group.gr_mem}
 
@@ -258,7 +262,21 @@ def inspect(home, requested):
     if not roots:
         diagnostics.append("No known Conda root was found; other installation paths may exist. "
                            "Inventory absence does not prove Conda is absent.")
-    shared = [Path("/ssd_4t/shared"), Path("/var/cache/pip")]
+    shared = [Path("/var/cache/pip")]
+    machine_data_path = config_path(home, machine['hostname'])
+    machine_data = None
+    if system == 'Linux':
+        if machine_data_path.exists():
+            try:
+                machine_data = load_machine(machine_data_path)
+                if machine_data['hostname'] != machine['hostname']:
+                    raise ValueError('Machine configuration hostname does not match this host')
+                shared.insert(0, Path(machine_data['shared_root']))
+            except ValueError as error:
+                diagnostics.append(str(error))
+                machine_data = None
+        else:
+            diagnostics.append('Machine data is not configured; shared root is unknown.')
     for root in roots:
         shared.extend((root / "envs", root / "pkgs"))
     missing = [name for name, path in paths.items() if path is None]
@@ -266,13 +284,15 @@ def inspect(home, requested):
         "inspection": "bootstrap",
         "training_environment_validated": False,
         "machine": machine,
+        "machine_config": {"path": str(machine_data_path), "loaded": machine_data is not None},
         "profile": profile,
         "essential_tools": paths,
         "missing_essential_tools": missing,
         "credential_files_present": credential_presence(home),
         "conda_roots": [str(root) for root in roots],
         "shared_paths": [path_status(path) for path in shared] if system == "Linux" else [],
-        "datausers": datausers_status() if system == "Linux" else None,
+        "shared_group": (shared_group_status(machine_data['shared_group']) if machine_data
+                         else {"state": "not-configured"}) if system == "Linux" else None,
         "gpu": gpu_status() if system == "Linux" else {"state": "not-applicable"},
         "mac_apps": mac_apps(home) if system == "Darwin" else None,
         "diagnostics": diagnostics,

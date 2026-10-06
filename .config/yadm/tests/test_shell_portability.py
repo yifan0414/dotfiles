@@ -112,18 +112,6 @@ class ShellPortability(unittest.TestCase):
     def test_missing_local_shell_file_is_quiet(self):
         self.run_shell('[[ -z "${TASK_LOCAL_PATH+x}" ]]', source_proxy=False, shells=('zsh',))
 
-    def test_hugging_face_preserves_local_overrides(self):
-        code = LINUX.read_text().split('# Default to the mirror;', 1)[1]
-        code = '# Default to the mirror;' + code.split('#######################', 1)[0]
-        env = dict(self.env, HF_ENDPOINT='https://huggingface.co', NO_PROXY='upper.example',
-                   no_proxy='lower.example', HF_XET_LOG_DIR='/tmp/my-xet-logs')
-        self.run_shell(code + '''
-          [[ "$HF_ENDPOINT" == https://huggingface.co && "$NO_PROXY" == upper.example ]]
-          [[ "$no_proxy" == lower.example && "$HF_XET_LOG_DIR" == /tmp/my-xet-logs ]]
-        ''', env, source_proxy=False)
-        env.update(NO_PROXY='', no_proxy='')
-        self.run_shell(code + '[[ -z "$NO_PROXY$no_proxy" ]]', env, source_proxy=False)
-
     def test_homebrew_paths_are_resolved_from_the_available_brew(self):
         prefix = self.home / 'brew prefix with spaces'
         (prefix / 'bin').mkdir(parents=True)

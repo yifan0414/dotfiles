@@ -1,0 +1,12 @@
+{
+  "hostname": "nlp4090-8",
+  "shared_root": "/ssd_4t/shared",
+  "shared_group": "datausers",
+  "dotfiles_user": "yifan",
+  "huggingface": {
+    "prefix": "/usr/local",
+    "tools_root": "/opt/huggingface-tools",
+    "python": "/opt/miniforge3/bin/python",
+    "endpoint": "https://hf-mirror.com"
+  }
+}

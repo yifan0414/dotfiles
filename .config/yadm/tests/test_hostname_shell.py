@@ -109,7 +109,8 @@ printf 'export FIXTURE_DIRENV=loaded\n'
         self.assertEqual((self.home / ".zshrc").resolve(), self.home / (".zshrc##os." + system))
 
     def shell(self, extra=""):
-        names = ["MODEL_NAME", "UV_CACHE_DIR", "UV_LINK_MODE", "CUDA_HOME", "LD_LIBRARY_PATH",
+        names = ["MODEL_NAME", "UV_CACHE_DIR", "UV_LINK_MODE", "CUDA_HOME", "LD_LIBRARY_PATH", "HF_ENDPOINT",
+                 "HF_HUB_CACHE", "HF_DATASETS_CACHE", "NO_PROXY", "no_proxy", "HF_XET_LOG_DIR",
                  "FIXTURE_DIRENV", "FIXTURE_SHARED_PATHS", "FIXTURE_CONDA", *NCCL_VALUES]
         report = """
 for fixture_name in %s; do
@@ -181,6 +182,26 @@ print -r -- "CUDA_PATH_COUNT=$fixture_cuda_count"
         for name in NCCL_VALUES:
             self.assertEqual(state[name], "")
         self.assert_runtime(state)
+
+    def test_host_hf_endpoint_precedes_the_unconfigured_host_default(self):
+        self.select('nlp4090-8')
+        candidate = self.home / '.zshrc.local##hostname.nlp4090-8'
+        candidate.write_text(candidate.read_text().replace('https://hf-mirror.com', 'https://host-mirror.example'))
+        self.assertEqual(self.shell()['HF_ENDPOINT'], 'https://host-mirror.example')
+
+    def test_full_shell_preserves_hf_project_and_network_overrides(self):
+        self.select('nlp4090-8')
+        expected = dict(HF_ENDPOINT='https://huggingface.co', HF_HUB_CACHE='/project/cache',
+                        HF_DATASETS_CACHE='/project/processed', NO_PROXY='upper.example',
+                        no_proxy='lower.example', HF_XET_LOG_DIR='/project/logs')
+        self.env.update(expected)
+        state = self.shell()
+        for key, value in expected.items():
+            self.assertEqual(state[key], value)
+        self.env.update(NO_PROXY='', no_proxy='')
+        state = self.shell()
+        self.assertEqual(state['NO_PROXY'], '')
+        self.assertEqual(state['no_proxy'], '')
 
     def test_mac_without_matching_hostname_applies_no_server_profile(self):
         self.select("my-mac", "Darwin")

@@ -36,8 +36,8 @@ class MachineStatusTests(unittest.TestCase):
                                        side_effect=AssertionError("Unexpected subprocess"))
         self.run = self.subprocess.start()
         self.addCleanup(self.subprocess.stop)
-        self.groups = patch.object(status, "datausers_status", return_value={"exists": False})
-        self.groups.start()
+        self.groups = patch.object(status, "shared_group_status", return_value={"exists": False})
+        self.group_query = self.groups.start()
         self.addCleanup(self.groups.stop)
         self.available = {variants[0] for variants in status.ESSENTIAL_TOOLS.values()}
 
@@ -206,6 +206,36 @@ class MachineStatusTests(unittest.TestCase):
         self.assertTrue(packages["setgid"])
         self.assertTrue(packages["group_writable"])
 
+    def test_shared_root_comes_from_this_machine_data(self):
+        config = self.home / '.config/yadm/machines/test-host.json'
+        config.parent.mkdir(parents=True)
+        shared = self.home / 'custom shared root'
+        shared.mkdir()
+        config.write_text(json.dumps({'hostname': 'test-host', 'shared_root': str(shared),
+                                      'shared_group': 'fixture-team', 'dotfiles_user': 'fixture'}))
+        code, report = self.inspect()
+        self.assertEqual(code, 0)
+        self.assertTrue(report['machine_config']['loaded'])
+        self.group_query.assert_called_once_with('fixture-team')
+        self.assertIn(str(shared), [p['path'] for p in report['shared_paths']])
+        self.assertNotIn('/ssd_4t/shared', [p['path'] for p in report['shared_paths']])
+
+    def test_unknown_machine_has_no_guessed_shared_disk(self):
+        code, report = self.inspect()
+        self.assertEqual(code, 0)
+        self.assertFalse(report['machine_config']['loaded'])
+        self.assertTrue(any('shared root is unknown' in d for d in report['diagnostics']))
+        self.assertNotIn('/ssd_4t/shared', [p['path'] for p in report['shared_paths']])
+
+    def test_invalid_machine_data_is_reported_without_creating_paths(self):
+        config = self.home / '.config/yadm/machines/test-host.json'
+        config.parent.mkdir(parents=True)
+        config.write_text(json.dumps({'hostname': 'test-host', 'shared_root': 'relative/root',
+                                      'shared_group': 'datausers', 'dotfiles_user': 'fixture'}))
+        _, report = self.inspect()
+        self.assertFalse(report['machine_config']['loaded'])
+        self.assertTrue(any('shared_root' in d for d in report['diagnostics']))
+
     def test_conda_executable_symlink_identifies_actual_root(self):
         root = self.home / "actual conda root"
         (root / "bin").mkdir(parents=True)
@@ -358,7 +388,7 @@ class MachineStatusTests(unittest.TestCase):
                 patch.object(status.pwd, "getpwuid", return_value=account), \
                 patch.object(status.os, "getgroups", return_value=[1000]), \
                 patch.object(status.os, "getegid", return_value=1000):
-            report = status.datausers_status()
+            report = status.shared_group_status('fixture-team')
         self.assertTrue(report["account_member"])
         self.assertFalse(report["current_process_member"])
 
