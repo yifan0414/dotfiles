@@ -37,7 +37,7 @@ NCCL 继续使用独立的 hostname alternate；Linux `.zshrc` 在主机片段�
 
 公共模型和数据集的 Hub 原始下载缓存由 `datausers` 共用；凭据、Datasets 的 Arrow/索引、Xet 和 assets 缓存留在各自的 `HF_HOME`。个人 `HF_HOME` 及私有下载目录使用 `700`，令牌文件使用 `600`。共享缓存目录使用 `root:datausers`、`2775`、SGID 和默认 ACL，保证新建子目录及下载锁可供组内协作。
 
-`nlp4090-8` 的非敏感配置源是 `.config/huggingface/environment.sh##hostname.nlp4090-8`，安装到 `/etc/profile.d/huggingface.sh`。默认值如下；其他服务器先核对磁盘和账户，不直接套用这些路径。
+`nlp4090-8` 的 yifan 配置直接写在 `~/.zshrc.local` 对应的 `.zshrc.local##hostname.nlp4090-8` 候选文件中；其他 `datausers` 成员直接写在各自的 `~/.zshrc` 中。保留已有配置，使用独立标记块，保留显式项目覆盖。默认值如下；其他服务器先核对磁盘和账户，不直接套用这些路径。
 
 | 变量 | 本机默认值 |
 |---|---|
@@ -48,7 +48,7 @@ NCCL 继续使用独立的 hostname alternate；Linux `.zshrc` 在主机片段�
 | `HF_ASSETS_CACHE` | `$HF_HOME/assets` |
 | `HF_ENDPOINT` | `https://hf-mirror.com` |
 
-系统 Bash/Zsh 初始化和用户 systemd 环境生成器加载这份配置；非交互 Bash 子进程通过继承的 `BASH_ENV` 加载。配置只对 `datausers` 成员应用默认值，保留显式项目覆盖。已经运行的进程不会自动更换环境；新终端、新任务生效，当前终端可执行 `. /etc/profile.d/huggingface.sh`。直接启动的 cron、容器或调度作业应显式 source 该文件，或使用下述入口。
+交互式 Zsh 直接从个人配置加载，新终端自动生效；yifan 当前终端执行 `source ~/.zshrc.local`，其他用户执行 `source ~/.zshrc`。从这些终端启动的 Bash/Python 子进程会继承导出的变量。独立的 cron、systemd、容器或调度作业使用下述任务入口取得相同默认值。系统 `/etc/profile.d`、全局 Bash/Zsh 初始化及 systemd 环境生成器均不承载本机 HF 配置。
 
 `.config/huggingface/bin/` 中的入口安装到 `/usr/local/bin/`：
 

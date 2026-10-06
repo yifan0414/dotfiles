@@ -6,3 +6,17 @@ if [[ -x "/usr/local/cuda-12.8/bin/nvcc" ]]; then
     *) export PATH="$CUDA_HOME/bin:$PATH" ;;
   esac
 fi
+
+# BEGIN managed Hugging Face settings
+# 公共下载缓存共享；凭据和处理缓存保留在个人目录。
+export HF_HOME="${HF_HOME:-$HOME/.cache/huggingface}"
+export HF_HUB_CACHE="${HF_HUB_CACHE:-${HUGGINGFACE_HUB_CACHE:-/ssd_4t/shared/huggingface/hub}}"
+export HUGGINGFACE_HUB_CACHE="${HUGGINGFACE_HUB_CACHE:-$HF_HUB_CACHE}"
+export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-$HF_HOME/datasets}"
+export HF_XET_CACHE="${HF_XET_CACHE:-$HF_HOME/xet}"
+export HF_ASSETS_CACHE="${HF_ASSETS_CACHE:-$HF_HOME/assets}"
+export HF_TOKEN_PATH="${HF_TOKEN_PATH:-$HF_HOME/token}"
+export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"
+export HF_HUB_DISABLE_IMPLICIT_TOKEN="${HF_HUB_DISABLE_IMPLICIT_TOKEN:-1}"
+[[ "${BASH_ENV:-}" != /etc/profile.d/huggingface.sh ]] || unset BASH_ENV
+# END managed Hugging Face settings

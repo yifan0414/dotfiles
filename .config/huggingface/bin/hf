@@ -1,7 +1,6 @@
 #!/bin/sh
 # CLI tooling is independent of project environments; auth always uses the Hub.
 set -eu
-. /etc/profile.d/huggingface.sh
 if [ "${1:-}" = auth ]; then
     if [ "${HF_CACHE_SCOPE:-}" = public ]; then
         printf '%s\n' 'Use hf-private hf auth ... for personal authentication.' >&2
