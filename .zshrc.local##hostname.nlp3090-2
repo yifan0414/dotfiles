@@ -1,3 +1,29 @@
+# 团队共享文件默认允许组内写入。
+umask 0002
+
+##########################################
+### Development environment variables. ###
+##########################################
+[[ -d "$HOME/ics2020/abstract-machine" ]] && export AM_HOME="$HOME/ics2020/abstract-machine"
+[[ -d "$HOME/ics2020/nemu" ]] && export NEMU_HOME="$HOME/ics2020/nemu"
+[[ -d "$HOME/ics2020/navy-apps" ]] && export NAVY_HOME="$HOME/ics2020/navy-apps"
+[[ -d "$HOME/ysyx-workbench/npc" ]] && export NPC_HOME="$HOME/ysyx-workbench/npc"
+
+# 补充本机工具路径，保留已激活环境的优先级。
+for local_tool_bin in /usr/local/go/bin "$HOME/miniforge3/bin"; do
+  if [[ -d "$local_tool_bin" ]]; then
+    case ":$PATH:" in
+      *":$local_tool_bin:"*) ;;
+      *) export PATH="$PATH:$local_tool_bin" ;;
+    esac
+  fi
+done
+unset local_tool_bin
+
+# 镜像及其 hf.co 下载重定向默认直连；保留调用方的网络设置。
+export NO_PROXY="${NO_PROXY-${no_proxy-hf-mirror.com,.hf-mirror.com,hf.co,.hf.co,localhost,127.0.0.1}}"
+export no_proxy="${no_proxy-$NO_PROXY}"
+
 # nlp3090-2：保留这台 3090×2 服务器的缓存、模型和 CUDA 设置。
 if [[ -d "/hdd1_4t/yifan/shared" ]]; then
   export UV_CACHE_DIR="/hdd1_4t/yifan/shared/uv-cache"
@@ -23,3 +49,5 @@ fi
 if [[ -f "/hdd1_4t/yifan/shared/env/shared_paths.sh" ]]; then
   source "/hdd1_4t/yifan/shared/env/shared_paths.sh"
 fi
+
+export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"

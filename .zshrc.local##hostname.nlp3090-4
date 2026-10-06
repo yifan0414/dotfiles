@@ -1,3 +1,29 @@
+# 团队共享文件默认允许组内写入。
+umask 0002
+
+##########################################
+### Development environment variables. ###
+##########################################
+[[ -d "$HOME/ics2020/abstract-machine" ]] && export AM_HOME="$HOME/ics2020/abstract-machine"
+[[ -d "$HOME/ics2020/nemu" ]] && export NEMU_HOME="$HOME/ics2020/nemu"
+[[ -d "$HOME/ics2020/navy-apps" ]] && export NAVY_HOME="$HOME/ics2020/navy-apps"
+[[ -d "$HOME/ysyx-workbench/npc" ]] && export NPC_HOME="$HOME/ysyx-workbench/npc"
+
+# 补充本机工具路径，保留已激活环境的优先级。
+for local_tool_bin in /usr/local/go/bin "$HOME/miniforge3/bin"; do
+  if [[ -d "$local_tool_bin" ]]; then
+    case ":$PATH:" in
+      *":$local_tool_bin:"*) ;;
+      *) export PATH="$PATH:$local_tool_bin" ;;
+    esac
+  fi
+done
+unset local_tool_bin
+
+# 镜像及其 hf.co 下载重定向默认直连；保留调用方的网络设置。
+export NO_PROXY="${NO_PROXY-${no_proxy-hf-mirror.com,.hf-mirror.com,hf.co,.hf.co,localhost,127.0.0.1}}"
+export no_proxy="${no_proxy-$NO_PROXY}"
+
 # nlp3090-4：保留这台 3090×4 服务器的模型和 CUDA 设置。
 if [[ -d "/ssd_2t/yifan/" ]]; then
   export CUDA_HOME="/usr/local/cuda-12.8"
@@ -12,17 +38,8 @@ if [[ -d "/ssd_2t/yifan/" ]]; then
   export MODEL_NAME="/ssd_2t/shared/models/Qwen2.5-VL-7B-Instruct"
 fi
 
-# BEGIN managed Hugging Face settings
-# Hugging Face: shared downloads and personal caches.
+# Hugging Face：共享下载缓存，个人配置和访问策略。
 export HF_HOME="${HF_HOME:-$HOME/.cache/huggingface}"
-export HF_PUBLIC_HUB_CACHE=/ssd_2t/shared/huggingface/hub
-export HF_PUBLIC_ENDPOINT=https://hf-mirror.com
-export HF_HUB_CACHE="${HF_HUB_CACHE:-${HUGGINGFACE_HUB_CACHE:-$HF_PUBLIC_HUB_CACHE}}"
-export HUGGINGFACE_HUB_CACHE="${HUGGINGFACE_HUB_CACHE:-$HF_HUB_CACHE}"
-export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-$HF_HOME/datasets}"
-export HF_XET_CACHE="${HF_XET_CACHE:-$HF_HOME/xet}"
-export HF_ASSETS_CACHE="${HF_ASSETS_CACHE:-$HF_HOME/assets}"
-export HF_TOKEN_PATH="${HF_TOKEN_PATH:-$HF_HOME/token}"
-export HF_ENDPOINT="${HF_ENDPOINT:-$HF_PUBLIC_ENDPOINT}"
+export HF_HUB_CACHE="${HF_HUB_CACHE:-${HUGGINGFACE_HUB_CACHE:-/ssd_2t/shared/huggingface/hub}}"
+export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"
 export HF_HUB_DISABLE_IMPLICIT_TOKEN="${HF_HUB_DISABLE_IMPLICIT_TOKEN:-1}"
-# END managed Hugging Face settings

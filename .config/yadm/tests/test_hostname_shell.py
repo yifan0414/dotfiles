@@ -12,7 +12,6 @@ YADM = shutil.which("yadm")
 GIT = shutil.which("git")
 ZSH = shutil.which("zsh")
 HOSTS = ("nlp3090-2", "nlp3090-4", "nlp4090-8")
-NCCL = ROOT / ".config/nvidia-p2p/env.sh##hostname.nlp4090-8"
 NCCL_VALUES = {
     "NCCL_CUMEM_ENABLE": "1", "NCCL_P2P_LEVEL": "SYS", "NCCL_P2P_DISABLE": "0",
     "NCCL_LOCAL_REGISTER": "0", "NCCL_GRAPH_REGISTER": "0",
@@ -63,20 +62,15 @@ printf 'export FIXTURE_DIRENV=loaded\n'
         replacements = {"/hdd1_4t": str(self.hdd), "/ssd_2t": str(self.ssd),
                         "/usr/local/cuda-12.8": str(self.cuda)}
         candidates = [".zshrc##os.Linux", ".zshrc##os.Darwin",
-                      *(".zshrc.local##hostname." + host for host in HOSTS),
-                      ".config/nvidia-p2p/env.sh##hostname.nlp4090-8"]
-        self.nccl_original = NCCL.read_bytes()
+                      *(".zshrc.local##hostname." + host for host in HOSTS)]
         for name in candidates:
             destination = self.home / name
             destination.parent.mkdir(parents=True, exist_ok=True)
             source = ROOT / name
-            if source == NCCL:
-                destination.write_bytes(self.nccl_original)
-            else:
-                contents = source.read_text()
-                for fixed, fixture in replacements.items():
-                    contents = contents.replace(fixed, fixture)
-                destination.write_text(contents)
+            contents = source.read_text()
+            for fixed, fixture in replacements.items():
+                contents = contents.replace(fixed, fixture)
+            destination.write_text(contents)
         shutil.copyfile(ROOT / ".zshenv", self.home / ".zshenv")
         # yadm also selects alternates from encrypt's include list. This gives
         # its real selector the fixture candidates without staging anything.
@@ -111,11 +105,13 @@ printf 'export FIXTURE_DIRENV=loaded\n'
     def shell(self, extra=""):
         names = ["MODEL_NAME", "UV_CACHE_DIR", "UV_LINK_MODE", "CUDA_HOME", "LD_LIBRARY_PATH", "HF_ENDPOINT",
                  "HF_HUB_CACHE", "HF_DATASETS_CACHE", "NO_PROXY", "no_proxy", "HF_XET_LOG_DIR",
-                 "FIXTURE_DIRENV", "FIXTURE_SHARED_PATHS", "FIXTURE_CONDA", *NCCL_VALUES]
+                 "FIXTURE_DIRENV", "FIXTURE_SHARED_PATHS", "FIXTURE_CONDA",
+                 "AM_HOME", "NEMU_HOME", "NAVY_HOME", "NPC_HOME", *NCCL_VALUES]
         report = """
 for fixture_name in %s; do
   print -r -- "$fixture_name=${(P)fixture_name}"
 done
+print -r -- "SHELL_UMASK=$(umask)"
 print -r -- "NODE_PATH=$(command -v node)"
 print -r -- "CODEX_PATH=$(command -v codex)"
 print -r -- "NODE_VALUE=$(node)"
@@ -156,6 +152,11 @@ print -r -- "CUDA_PATH_COUNT=$fixture_cuda_count"
                 self.assert_runtime(state)
                 self.assertEqual(state["CUDA_HOME"], str(self.cuda))
                 self.assertEqual(state["NVCC_PATH"], str(self.cuda / "bin/nvcc"))
+                self.assertEqual(int(state["SHELL_UMASK"], 8), 0o002)
+                self.assertEqual(state["HF_ENDPOINT"], "https://hf-mirror.com")
+                self.assertIn(".hf.co", state["NO_PROXY"])
+                for name, value in NCCL_VALUES.items():
+                    self.assertEqual(state[name], value if host == "nlp4090-8" else "")
                 if host == "nlp3090-2":
                     self.assertEqual(state["MODEL_NAME"], str(self.hdd / "yifan/shared/models/Qwen2.5-VL-7B-Instruct"))
                     self.assertEqual(state["UV_CACHE_DIR"], str(self.hdd / "yifan/shared/uv-cache"))
@@ -171,10 +172,9 @@ print -r -- "CUDA_PATH_COUNT=$fixture_cuda_count"
 
     def test_unknown_linux_host_removes_previous_host_selection(self):
         self.select("nlp4090-8")
-        self.assertTrue((self.home / ".config/nvidia-p2p/env.sh").is_symlink())
+        self.assertEqual(self.shell()["NCCL_CUMEM_ENABLE"], "1")
         self.select("unconfigured-linux")
         self.assertFalse((self.home / ".zshrc.local").is_symlink())
-        self.assertFalse((self.home / ".config/nvidia-p2p/env.sh").is_symlink())
         state = self.shell()
         self.assert_no_server_model_cache(state)
         self.assertEqual(state["CUDA_HOME"], "")
@@ -183,7 +183,41 @@ print -r -- "CUDA_PATH_COUNT=$fixture_cuda_count"
             self.assertEqual(state[name], "")
         self.assert_runtime(state)
 
-    def test_host_hf_endpoint_precedes_the_unconfigured_host_default(self):
+    def test_project_variables_are_host_local_and_conditional(self):
+        projects = {"AM_HOME": "ics2020/abstract-machine", "NEMU_HOME": "ics2020/nemu",
+                    "NAVY_HOME": "ics2020/navy-apps", "NPC_HOME": "ysyx-workbench/npc"}
+        for relative in projects.values():
+            (self.home / relative).mkdir(parents=True)
+        for host in (*HOSTS, "unconfigured-linux"):
+            self.select(host)
+            state = self.shell()
+            for name, relative in projects.items():
+                self.assertEqual(state[name], str(self.home / relative) if host in HOSTS else "")
+            if host not in HOSTS:
+                for name in ("HF_ENDPOINT", "NO_PROXY", "no_proxy", "HF_XET_LOG_DIR"):
+                    self.assertEqual(state[name], "")
+        shutil.rmtree(self.home / "ics2020")
+        shutil.rmtree(self.home / "ysyx-workbench")
+        self.select("nlp4090-8")
+        state = self.shell()
+        for name in projects:
+            self.assertEqual(state[name], "")
+
+    def test_local_tool_paths_preserve_active_runtime_and_deduplicate(self):
+        local_bin = self.home / "miniforge3/bin"
+        local_bin.mkdir(parents=True)
+        self.executable(local_bin / "node", "printf 'base-node\\n'\n")
+        for host in HOSTS:
+            self.select(host)
+            state = self.shell('source "$HOME/.zshrc.local"\n'
+                               'fixture_count=0\n'
+                               'for fixture_path in "$path[@]"; do\n'
+                               '  [[ "$fixture_path" == "$HOME/miniforge3/bin" ]] && (( fixture_count += 1 ))\n'
+                               'done\nprint -r -- "LOCAL_BIN_COUNT=$fixture_count"')
+            self.assert_runtime(state)
+            self.assertEqual(state["LOCAL_BIN_COUNT"], "1")
+
+    def test_host_hf_endpoint_is_applied(self):
         self.select('nlp4090-8')
         candidate = self.home / '.zshrc.local##hostname.nlp4090-8'
         candidate.write_text(candidate.read_text().replace('https://hf-mirror.com', 'https://host-mirror.example'))
@@ -248,7 +282,7 @@ print -r -- "CUDA_PATH_COUNT=$fixture_cuda_count"
         self.assertTrue(state["MODEL_NAME"].startswith(str(self.hdd)))
         self.assert_runtime(state)
 
-    def test_4090_skips_cuda_without_executable_nvcc_but_loads_independent_nccl(self):
+    def test_4090_skips_cuda_without_executable_nvcc_but_loads_host_nccl(self):
         (self.cuda / "bin/nvcc").chmod(0o644)
         self.select("nlp4090-8")
         state = self.shell()
@@ -259,14 +293,12 @@ print -r -- "CUDA_PATH_COUNT=$fixture_cuda_count"
             self.assertEqual(state[name], value)
         self.assert_runtime(state)
 
-    def test_4090_cuda_path_deduplicates_and_nccl_file_bytes_are_preserved(self):
+    def test_4090_cuda_path_deduplicates_and_nccl_values_survive_reload(self):
         self.select("nlp4090-8")
         state = self.shell('source "$HOME/.zshrc.local"')
         self.assertEqual(state["CUDA_PATH_COUNT"], "1")
         for name, value in NCCL_VALUES.items():
             self.assertEqual(state[name], value)
-        self.assertEqual((self.home / ".config/nvidia-p2p/env.sh").read_bytes(), self.nccl_original)
-        self.assertEqual(NCCL.read_bytes(), self.nccl_original)
         self.assert_runtime(state)
 
     def test_all_hostname_profiles_preserve_existing_libraries_when_reloaded_twice(self):

@@ -37,36 +37,15 @@ export RANGER_LOAD_DEFAULT_RC="false"
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 export GOPATH="$HOME/go"
 
-##########################################
-### Development environment variables. ###
-##########################################
-[[ -d "$HOME/ics2020/abstract-machine" ]] && export AM_HOME="$HOME/ics2020/abstract-machine"
-[[ -d "$HOME/ics2020/nemu" ]] && export NEMU_HOME="$HOME/ics2020/nemu"
-[[ -d "$HOME/ics2020/navy-apps" ]] && export NAVY_HOME="$HOME/ics2020/navy-apps"
-[[ -d "$HOME/ysyx-workbench/npc" ]] && export NPC_HOME="$HOME/ysyx-workbench/npc"
-
 ################################################
 ### Linux toolchain and runtime environment. ###
 ################################################
 prepend_path "$HOME/.local/bin"
-prepend_path "/usr/local/go/bin"
-prepend_path "$HOME/miniforge3/bin"
 
 ###########################################
 ### Proxy defaults for network tooling. ###
 ###########################################
 [[ -r "$HOME/.config/yadm/shell/proxy.zsh" ]] && source "$HOME/.config/yadm/shell/proxy.zsh"
-
-######################################################
-### Hugging Face: 走国内镜像, 且明确绕开代理.      ###
-######################################################
-# 注意: hf-mirror 的 resolve 会 302 到 cas-bridge.xethub.hf.co, 真正搬数据的域名是 hf.co.
-# 只放行 hf-mirror.com 会导致数据面仍然走代理, 所以 hf.co 必须一起放行.
-export NO_PROXY="${NO_PROXY-${no_proxy-hf-mirror.com,.hf-mirror.com,hf.co,.hf.co,localhost,127.0.0.1}}"
-export no_proxy="${no_proxy-$NO_PROXY}"
-
-# Xet 日志使用个人目录。
-export HF_XET_LOG_DIR="${HF_XET_LOG_DIR:-$HOME/.cache/xet/logs}"
 
 # 兜底: 需要彻底剥离代理变量时用 hfnp <cmd>
 hfnp() {
@@ -184,16 +163,7 @@ zstyle ':fzf-tab:*' fzf-bindings-default \
 #############################
 export GPG_TTY=$(tty)
 
-# Shared files created for the datausers group.
-umask 0002
-
 # 公共配置保留在 .zshrc##os.*；基础工具初始化后再应用本机差异。
 # yadm 按 hostname 选择 .zshrc.local；跟踪 ##hostname.* 候选，不跟踪生成的链接。
 # 私有设置及需提前读取的值仍放 ~/.config/yadm/local/shell.zsh，由 .zshenv 加载。
 [[ -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
-
-# Unconfigured hosts retain the mirror default; host/project settings take priority.
-export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"
-
-# NCCL runtime settings for NVIDIA P2P.
-[[ -f "$HOME/.config/nvidia-p2p/env.sh" ]] && source "$HOME/.config/nvidia-p2p/env.sh"

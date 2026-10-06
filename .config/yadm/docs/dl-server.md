@@ -23,11 +23,7 @@
 
 ## 主机专属 NCCL 配置
 
-用户已授权同步的非敏感主机参数使用 yadm hostname alternate。例如 `nlp4090-8` 的参数保存在 `.config/nvidia-p2p/env.sh##hostname.nlp4090-8`；yadm 匹配本机 hostname 后，将其应用到 `.config/nvidia-p2p/env.sh`。版本管理保存普通配置文件，不保存指向本机历史目录的绝对路径链接。
-
-迁移每台服务器前，先保存原 `env.sh` 内容及软链接指向，再建立该主机的候选文件。yadm 选择一个匹配版本，不会合并旧配置；无匹配时也不应把其他主机的参数当作本机默认值。
-
-NCCL 继续使用独立的 hostname alternate；Linux `.zshrc` 在主机片段之后直接自动 source `~/.config/nvidia-p2p/env.sh`，保留已获授权的参数与加载方式。其他服务器先核对硬件、库路径和版本，再为各自 hostname 准备参数文件；不直接把这台机器的参数复制到公共 Linux 配置。私密设置和检查报告仍留在忽略的 `~/.config/yadm/local/`。
+NCCL 参数按 [shell 配置组织](machine-setup.md) 放入对应主机的 `.zshrc.local`，由交互式 zsh 自动加载；脚本启动训练时需显式加载所需环境。`nlp4090-8` 的五个参数保留在其 hostname 候选文件中。其他服务器先核对硬件和库版本，再决定各自参数，不沿用这台机器的默认值。
 
 ## Hugging Face
 

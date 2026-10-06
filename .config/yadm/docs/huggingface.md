@@ -12,19 +12,16 @@
 
 yifan 的 HF 环境变量直接合并到 `.zshrc.local##hostname.<主机名>`，由 `~/.zshrc.local` 加载；其他共享组用户沿用当前 Shell：Zsh 合并到各自的 `~/.zshrc`，Fish 使用个人 `~/.config/fish/conf.d/huggingface.fish`。修改前备份，保留原有内容和项目显式覆盖。
 
+Shell 只显式设置个人根目录、共享缓存路径、镜像端点和访问策略，保留项目已有覆盖：
+
 | 变量 | 默认值 |
 |---|---|
 | `HF_HOME` | `$HOME/.cache/huggingface` |
-| `HF_PUBLIC_HUB_CACHE` | `<本机 shared_root>/huggingface/hub` |
-| `HF_PUBLIC_ENDPOINT` | 本机约定的公共端点 |
-| `HF_HUB_CACHE` | `$HF_PUBLIC_HUB_CACHE` |
-| `HUGGINGFACE_HUB_CACHE` | 与 `HF_HUB_CACHE` 一致，兼容旧 SDK |
-| `HF_DATASETS_CACHE` | `$HF_HOME/datasets` |
-| `HF_XET_CACHE` | `$HF_HOME/xet` |
-| `HF_ASSETS_CACHE` | `$HF_HOME/assets` |
-| `HF_TOKEN_PATH` | `$HF_HOME/token` |
-| `HF_ENDPOINT` | `$HF_PUBLIC_ENDPOINT` |
+| `HF_HUB_CACHE` | `<本机 shared_root>/huggingface/hub`；已有旧名称 `HUGGINGFACE_HUB_CACHE` 可作回退 |
+| `HF_ENDPOINT` | 本机约定的公共端点 |
 | `HF_HUB_DISABLE_IMPLICIT_TOKEN` | `1` |
+
+处理缓存、Xet 缓存、辅助缓存和令牌路径沿用 HF 基于 `HF_HOME` 的默认值，不重复导出；无需指定 Xet 日志路径。公共任务入口从下面的 `site.json` 取得公共缓存和端点，不在 shell 中重复定义 `HF_PUBLIC_*`。旧工具确需兼容变量时按实际依赖补充。
 
 公共缓存使用 `root:<shared_group>`、`2775`、SGID 和默认 ACL，让子目录及下载锁继承组内读写权限。每人的 `HF_HOME`、处理缓存和 `$HF_HOME/private-hub` 使用本人所有、`700`；令牌文件使用 `600`。使用 `stat` / `getfacl` 核对模式、所有者和 ACL，沿用已有内容，仅调整必要的权限。
 
