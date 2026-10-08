@@ -51,6 +51,13 @@ if [[ -d "$HOME/.bun/bin" ]]; then
   append_path "$BUN_INSTALL/bin"
 fi
 
+###########################################
+### Proxy defaults for network tooling. ###
+###########################################
+# Enable the shared proxy by default; allow an explicit mode override.
+DOTFILES_PROXY_MODE="${DOTFILES_PROXY_MODE:-on}"
+[[ -r "$HOME/.config/yadm/shell/proxy.zsh" ]] && source "$HOME/.config/yadm/shell/proxy.zsh"
+
 #######################
 ### Common aliases. ###
 #######################

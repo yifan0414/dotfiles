@@ -81,14 +81,14 @@ python3 ~/.config/yadm/scripts/machine-status.py --profile auto --strict
 | 本机持久角色 | `yadm config local.class mac-client` 或 `dl-server` |
 | 本次角色覆盖 | `DOTFILES_MACHINE_PROFILE=mac-client yadm bootstrap` |
 | Mac GUI 软件 | `mac-client` 默认安装现有清单；显式 `DOTFILES_INSTALL_GUI_APPS=0` 跳过本次安装 |
-| 网络 | `DOTFILES_PROXY_MODE=inherit` 为默认；`on` 使用本机指定代理，`off` 关闭本次代理 |
+| 网络 | `.zshrc` 默认使用 `DOTFILES_PROXY_MODE=on`；独立运行 bootstrap 默认 `inherit`；`off` 关闭本次代理 |
 | 跳过系统包安装 | `DOTFILES_SKIP_SYSTEM_PACKAGES=1 yadm bootstrap`；仍需自行准备缺失工具 |
 | 使用发行版 tmux | `DOTFILES_SKIP_TMUX_SOURCE_BUILD=1 yadm bootstrap` 跳过 apt 平台的源码构建 |
 | 指定 tmux 源码版本 | `DOTFILES_TMUX_VERSION` 设置发行标签 |
 | 更新 agent | 默认复用已完整安装的 Codex/Pi；需要刷新时显式 `DOTFILES_UPDATE_AGENTS=1 yadm bootstrap` |
 | 输出控制 | `NO_COLOR=1` 关闭颜色；`DOTFILES_SELF_CHECK=0` 关闭末尾汇总 |
 
-代理端点使用已有的 `DOTFILES_PROXY_URL` 或相关代理变量。新 shell 不应假设所有机器都有 `127.0.0.1:7897` 上的代理服务。
+Linux、macOS 和 WSL 的 `.zshrc` 统一默认开启代理，默认端点为 `http://127.0.0.1:7897`，不检测端口是否监听。可用 `DOTFILES_PROXY_URL` 或相关 `DOTFILES_PROXY_*` 变量指定端点，也可显式设置 `DOTFILES_PROXY_MODE=inherit` 或 `off` 覆盖默认行为；主机 `.zshrc.local` 不重复开启代理。
 
 非敏感机器参数统一存放在 `~/.config/yadm/machines/<hostname>.json`。共享根目录、共享组和组件安装位置在目标机器核对后填写；agent 配置机器时参考这份记录，`machine-status.py` 用它定位检查对象。已核对的记录见 [machines 目录](../machines)，其他机器没有参数文件时，盘点会报告共享根目录尚未配置。
 
