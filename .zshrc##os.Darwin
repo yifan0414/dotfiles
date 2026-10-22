@@ -96,6 +96,8 @@ export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bot
 ################################################
 ### macOS toolchain and runtime environment. ###
 ################################################
+# MacTeX keeps this stable path across TeX Live upgrades.
+prepend_path "/Library/TeX/texbin"
 prepend_path "$HOME/.local/bin"
 
 # Homebrew may use either the Apple Silicon or Intel prefix.
@@ -209,4 +211,6 @@ export GPG_TTY=$(tty)
 # 公共配置保留在 .zshrc##os.*；基础工具初始化后再应用本机差异。
 # yadm 按 hostname 选择 .zshrc.local；跟踪 ##hostname.* 候选，不跟踪生成的链接。
 # 私有设置及需提前读取的值仍放 ~/.config/yadm/local/shell.zsh，由 .zshenv 加载。
-[[ -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+if [[ -r "$HOME/.zshrc.local" ]]; then
+  source "$HOME/.zshrc.local"
+fi
