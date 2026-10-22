@@ -1,0 +1,2 @@
+# Install only Kitty and its font on this Mac.
+export DOTFILES_GUI_APPS="${DOTFILES_GUI_APPS-kitty}"

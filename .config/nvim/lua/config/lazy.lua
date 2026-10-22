@@ -7,6 +7,8 @@ end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 require("lazy").setup({
+  -- Bootstrap uses a scratch copy so installing plugins does not rewrite the lockfile.
+  lockfile = vim.env.DOTFILES_NVIM_LOCKFILE,
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },

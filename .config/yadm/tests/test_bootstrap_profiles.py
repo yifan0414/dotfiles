@@ -64,7 +64,7 @@ class BootstrapProfileTests(unittest.TestCase):
           for fn in require_dotfiles_checkout configure_proxy bootstrap_gh_auth \
               bootstrap_tmux_from_source_on_apt verify_base_tooling require_cmd \
               apply_yadm_alternates verify_alternates bootstrap_vim bootstrap_nvm \
-              bootstrap_codex bootstrap_pi bootstrap_zsh_runtime bootstrap_tmux \
+              bootstrap_codex bootstrap_pi bootstrap_neovim bootstrap_zsh_runtime bootstrap_tmux \
               reload_kitty_if_possible verify_setup_skill; do
             eval "$fn() { :; }"
           done

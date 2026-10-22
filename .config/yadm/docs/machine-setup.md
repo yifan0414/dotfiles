@@ -35,6 +35,8 @@ DOTFILES_MACHINE_PROFILE=dl-server yadm bootstrap
 
 bootstrap 保留既有安装流程：基础包、加密的 GitHub 凭据、shell 和编辑器、nvm/Node、Codex 与 Pi。遇到归档解密时在终端输入已有密码；agent 的模型服务登录按该工具的实际提示单独完成。脚本结束后阅读汇总，失败项先修复再重试。凭据归档的维护与日常同步见 [同步与凭据](sync.md)。
 
+Neovim 会补齐缺失插件，并等待配置要求的 Mason 工具和语法解析器安装完成；日志保存在 `local/neovim-bootstrap.log`。安装使用锁文件的临时副本，插件升级另行执行。
+
 bootstrap 不自动安装 Conda。Linux 服务器由 agent 先盘点已有安装，确实缺少时按 [Conda/pip 管理约定](conda-management.md) 使用可选模块，再完成共享配置；Mac SSH 客户端不默认安装 Conda。
 
 基础软件清单集中在 [packages](../packages)：Mac 使用 Homebrew，Linux 使用可用的 apt、dnf 或 pacman。apt 平台默认将 tmux 从发行源码编译到 `~/.local`；pacman 使用 `-Syu` 完成整体升级。可通过下表中的环境变量调整对应步骤。
@@ -81,6 +83,7 @@ python3 ~/.config/yadm/scripts/machine-status.py --profile auto --strict
 | 本机持久角色 | `yadm config local.class mac-client` 或 `dl-server` |
 | 本次角色覆盖 | `DOTFILES_MACHINE_PROFILE=mac-client yadm bootstrap` |
 | Mac GUI 软件 | `mac-client` 默认安装现有清单；显式 `DOTFILES_INSTALL_GUI_APPS=0` 跳过本次安装 |
+| 选择 Mac GUI 软件 | `DOTFILES_GUI_APPS=kitty yadm bootstrap`；多个名称用空格分隔，可选 `ghostty kitty squirrel`，Kitty 自动带上字体 |
 | 网络 | `.zshrc` 默认使用 `DOTFILES_PROXY_MODE=on`；独立运行 bootstrap 默认 `inherit`；`off` 关闭本次代理 |
 | 跳过系统包安装 | `DOTFILES_SKIP_SYSTEM_PACKAGES=1 yadm bootstrap`；仍需自行准备缺失工具 |
 | 使用发行版 tmux | `DOTFILES_SKIP_TMUX_SOURCE_BUILD=1 yadm bootstrap` 跳过 apt 平台的源码构建 |
@@ -95,6 +98,8 @@ Linux、macOS 和 WSL 的 `.zshrc` 统一默认开启代理，默认端点为 `h
 参数文件记录本机约定，实际配置由 agent 按主题文档合并并验证。变更路径时同步更新记录和相关实际配置；HF 的目标状态与验收方法见 [HF 管理](huggingface.md)。
 
 Linux 和 Mac 主 `.zshrc` 管理公共设置，直接自动加载按 hostname 选中的 `~/.zshrc.local`。需要同步且不含敏感信息的稳定主机差异放在 `.zshrc.local##hostname.<主机名>` 普通候选文件中，生成的链接不跟踪。项目环境变量、本机工具路径、共享 umask、HF 和 NCCL 参数集中在该主机片段；公共配置保留通用初始化、别名和加载入口。项目变量直接合并，不另建 `.envrc`。本机补充路径不得覆盖已激活环境的优先级。
+
+持久的 GUI 选择也放在该主机片段，例如 `export DOTFILES_GUI_APPS="${DOTFILES_GUI_APPS-kitty}"`；新开的交互式 zsh 会将它传给 bootstrap。首次安装或从其他 shell 运行时，按上表显式传入。
 
 仅本机设置、私密信息与报告放在 `~/.config/yadm/local/`，该目录不加入 yadm。不参与同步的实际路径和早期初始化依赖的 Conda 根目录、代理变量使用安静的 `local/shell.zsh`，由 `.zshenv` 提前读取；不要将 SSH 地址、端口、私钥、令牌或实验环境复制进公共规则。
 

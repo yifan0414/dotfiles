@@ -60,7 +60,7 @@ class Checks(unittest.TestCase):
           for fn in require_supported_os require_dotfiles_checkout configure_proxy \
             bootstrap_gh_auth bootstrap_tmux_from_source_on_apt verify_base_tooling require_cmd \
             apply_yadm_alternates verify_alternates bootstrap_vim bootstrap_nvm \
-            bootstrap_codex bootstrap_pi bootstrap_zsh_runtime bootstrap_tmux \
+            bootstrap_codex bootstrap_pi bootstrap_neovim bootstrap_zsh_runtime bootstrap_tmux \
             reload_kitty_if_possible verify_setup_skill; do
             eval "$fn() { :; }"
           done
@@ -217,6 +217,92 @@ class Checks(unittest.TestCase):
           bootstrap_vim
           [[ "$(cat "$HOME/.vim/autoload/plug.vim")" == complete ]]
         ''')
+
+    def test_neovim_reports_failure_and_keeps_original_lockfile(self):
+        for exit_code in (0, 1):
+            with self.subTest(exit_code=exit_code):
+                self.env['FIXTURE_NVIM_EXIT'] = str(exit_code)
+                self.shell('''
+                  mkdir -p "$HOME/.config/nvim"
+                  touch "$HOME/.config/nvim/init.lua"
+                  printf 'original lock' > "$HOME/.config/nvim/lazy-lock.json"
+                  nvim() {
+                    [[ "$DOTFILES_NVIM_LOCKFILE" != "$HOME/.config/nvim/lazy-lock.json" ]]
+                    [[ "$(cat "$DOTFILES_NVIM_LOCKFILE")" == 'original lock' ]]
+                    printf '%s' "$DOTFILES_NVIM_LOCKFILE" > "$HOME/scratch-path"
+                    printf 'changed lock' > "$DOTFILES_NVIM_LOCKFILE"
+                    printf 'fixture editor log\n'
+                    return "$FIXTURE_NVIM_EXIT"
+                  }
+                  bootstrap_neovim
+                  [[ "$BOOTSTRAP_FAILURES" == "$FIXTURE_NVIM_EXIT" ]]
+                  [[ "$(cat "$HOME/.config/nvim/lazy-lock.json")" == 'original lock' ]]
+                  [[ ! -e "$(cat "$HOME/scratch-path")" ]]
+                  [[ "$(cat "$HOME/.config/yadm/local/neovim-bootstrap.log")" == 'fixture editor log' ]]
+                ''')
+
+    @unittest.skipUnless(shutil.which('ruby'), 'Ruby required to evaluate Brewfile')
+    def test_gui_selection_includes_kitty_font_and_rejects_unknown_apps(self):
+        brewfile = ROOT / '.config/yadm/packages/homebrew/gui.Brewfile'
+        for selection, expected in ((None, ['ghostty', 'kitty', 'squirrel', 'font-maple-mono-cn']),
+                                    ('kitty', ['kitty', 'font-maple-mono-cn']),
+                                    ('ghostty squirrel', ['ghostty', 'squirrel']), ('', []), ('typo', None)):
+            with self.subTest(selection=selection):
+                env = dict(self.env)
+                if selection is not None:
+                    env['HOMEBREW_DOTFILES_GUI_APPS'] = selection
+                result = subprocess.run(['ruby', '-e', 'def cask(name); puts name; end; load ARGV[0]',
+                                         str(brewfile)], env=env, text=True, capture_output=True)
+                self.assertEqual(result.returncode, 1 if expected is None else 0)
+                if expected is not None:
+                    self.assertEqual(result.stdout.splitlines(), expected)
+
+    def test_gui_selection_reaches_brew_and_skip_still_takes_precedence(self):
+        self.shell('''
+          mkdir -p "$HOME/.config/yadm/packages/homebrew"
+          touch "$HOME/.config/yadm/packages/homebrew/gui.Brewfile"
+          brew() {
+            [[ "$HOMEBREW_DOTFILES_GUI_APPS" == kitty ]]
+            touch "$HOME/gui-installed"
+          }
+          DOTFILES_GUI_APPS=kitty DOTFILES_INSTALL_GUI_APPS=1 install_homebrew_packages
+          [[ -f "$HOME/gui-installed" && "$BOOTSTRAP_FAILURES" == 0 ]]
+          rm "$HOME/gui-installed"
+          DOTFILES_GUI_APPS=kitty DOTFILES_INSTALL_GUI_APPS=0 install_homebrew_packages
+          [[ ! -e "$HOME/gui-installed" ]]
+        ''')
+
+    @unittest.skipUnless(shutil.which('nvim'), 'Neovim required for asynchronous tool checks')
+    def test_neovim_waits_for_tools_and_returns_nonzero_for_incomplete_install(self):
+        helper = ROOT / '.config/yadm/scripts/bootstrap-neovim.lua'
+        for failure in (False, True):
+            with self.subTest(failure=failure):
+                fixture = self.root / 'neovim.lua'
+                fixture.write_text('''
+local ready = false
+package.loaded['lazy'] = { load = function() end }
+package.loaded['lazy.core.config'] = { plugins = { example = { _ = { installed = true } } } }
+package.loaded['lazy.core.plugin'] = { has_errors = function() return false end }
+local tool = {
+  is_installed = function() return ready end,
+  is_installing = function() return not ready end,
+}
+package.loaded['mason-registry'] = {
+  has_package = function() return true end,
+  get_package = function() return tool end,
+  get_all_packages = function() return { tool } end,
+}
+package.loaded['nvim-treesitter'] = { get_installed = function() return ready and { 'fixture' } or {} end }
+LazyVim = { opts = function() return { ensure_installed = { 'fixture' } } end }
+local wait = vim.wait
+vim.wait = function(_, condition, interval) return wait(1000, condition, 10) end
+'''
+                    + ('' if failure else 'vim.defer_fn(function() ready = true end, 20)\n')
+                    + 'dofile(' + repr(str(helper)) + ')\n')
+                result = subprocess.run([shutil.which('nvim'), '--headless', '-u', 'NONE', '-l', str(fixture)],
+                                        env=self.env, text=True, capture_output=True, timeout=5)
+                self.assertEqual(result.returncode, 1 if failure else 0, result.stdout + result.stderr)
+                self.assertIn('incomplete' if failure else 'tools ready', result.stdout + result.stderr)
 
     def git(self, repo, *args):
         return subprocess.run(['git', '-C', str(repo), *args], env=self.env,

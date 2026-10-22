@@ -450,7 +450,8 @@ install_homebrew_packages() {
 
   if [[ "${DOTFILES_INSTALL_GUI_APPS:-0}" == "1" && -f "$gui_brewfile" ]]; then
     log "installing macOS GUI apps via Homebrew"
-    if brew bundle --file="$gui_brewfile"; then
+    # Homebrew filters out environment variables without its own prefix.
+    if HOMEBREW_DOTFILES_GUI_APPS="${DOTFILES_GUI_APPS:-ghostty kitty squirrel}" brew bundle --file="$gui_brewfile"; then
       record_status "GUI packages" "installed" "brew gui"
     else
       warn "Homebrew GUI package installation reported errors"
@@ -1177,6 +1178,33 @@ bootstrap_vim() {
   record_status "vim plugins" "skipped" "vim/nvim unavailable"
 }
 
+bootstrap_neovim() {
+  local config_dir="$HOME/.config/nvim"
+  local log_file="$HOME/.config/yadm/local/neovim-bootstrap.log"
+  local lockfile
+  local rc=0
+
+  if ! need_cmd nvim || [[ ! -f "$config_dir/init.lua" ]]; then
+    record_status "Neovim" "skipped" "nvim or configuration unavailable"
+    return 0
+  fi
+
+  mkdir -p "$(dirname "$log_file")"
+  lockfile="$(mktemp)"
+  cp "$config_dir/lazy-lock.json" "$lockfile"
+  log "initializing Neovim plugins and tools; log: $log_file"
+  DOTFILES_NVIM_LOCKFILE="$lockfile" nvim --headless \
+    -c 'lua dofile(vim.env.HOME .. "/.config/yadm/scripts/bootstrap-neovim.lua")' \
+    >"$log_file" 2>&1 || rc=$?
+  rm -f "$lockfile"
+  if [[ "$rc" -eq 0 ]]; then
+    record_status "Neovim" "installed" "plugins, Mason tools and parsers"
+  else
+    warn "Neovim initialization failed; see $log_file"
+    record_status "Neovim" "failed" "$log_file"
+  fi
+}
+
 bootstrap_zsh_runtime() {
   local zsh_custom="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
   local clone_failed=0
@@ -1275,6 +1303,7 @@ main() {
   bootstrap_nvm
   bootstrap_codex
   bootstrap_pi
+  bootstrap_neovim
   bootstrap_zsh_runtime
   bootstrap_tmux
   reload_kitty_if_possible
