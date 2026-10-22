@@ -23,7 +23,7 @@ class HostnameShellTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix="yadm-hostname-")
         self.addCleanup(temporary.cleanup)
-        self.base = Path(temporary.name)
+        self.base = Path(temporary.name).resolve()
         self.home = self.base / "home with spaces"
         self.home.mkdir()
         self.hdd = self.base / "hdd1_4t"

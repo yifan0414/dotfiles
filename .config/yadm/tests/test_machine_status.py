@@ -24,7 +24,7 @@ class MachineStatusTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="yadm-inspect-")
         self.addCleanup(self.temp.cleanup)
-        self.home = Path(self.temp.name) / "home with spaces"
+        self.home = Path(self.temp.name).resolve() / "home with spaces"
         self.home.mkdir()
         self.env = patch.dict(os.environ, {}, clear=True)
         self.env.start()
@@ -377,14 +377,31 @@ class MachineStatusTests(unittest.TestCase):
                             for message in report["diagnostics"]))
 
     def test_mac_gui_apps_are_detected_without_homebrew(self):
-        (self.home / "Applications/Ghostty.app").mkdir(parents=True)
         (self.home / "Applications/kitty.app").mkdir(parents=True)
-        (self.home / "Library/Input Methods/Squirrel.app").mkdir(parents=True)
+        (self.home / "Library/Input Methods/Fcitx5.app").mkdir(parents=True)
         self.available.add("brew")
         code, report = self.inspect("Darwin")
         self.assertEqual(code, 0)
         self.assertTrue(all(app["state"] == "present" for app in report["mac_apps"].values()))
         self.run.assert_not_called()
+
+    def test_fcitx5_plugin_and_enabled_pinyin_are_checked_separately(self):
+        resources = self.home / 'Library/fcitx5'
+        (resources / 'plugin').mkdir(parents=True)
+        (resources / 'plugin/chinese-addons.json').touch()
+        profile = self.home / '.config/fcitx5/profile'
+        profile.parent.mkdir(parents=True)
+        profile.write_text('[Groups/0/Items/0]\nName=pinyin\n')
+        _, report = self.inspect('Darwin')
+        state = report['fcitx5_configuration']
+        self.assertTrue(state['chinese_addons_installed'])
+        self.assertTrue(state['pinyin_enabled'])
+        self.assertFalse(state['pinyin_engine_present'])
+        (resources / 'lib/fcitx5').mkdir(parents=True)
+        (resources / 'lib/fcitx5/libpinyin.so').touch()
+        self.assertTrue(self.inspect('Darwin')[1]['fcitx5_configuration']['pinyin_engine_present'])
+        profile.write_text('[Groups/0/Items/0]\nName=keyboard-us\n')
+        self.assertFalse(self.inspect('Darwin')[1]['fcitx5_configuration']['pinyin_enabled'])
 
     def test_optional_gpu_query_never_changes_strict_success(self):
         self.available.add("nvidia-smi")

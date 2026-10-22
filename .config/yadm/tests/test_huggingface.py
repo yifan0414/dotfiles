@@ -18,7 +18,7 @@ class HuggingFaceTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='hf runtime ')
         self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name)
+        self.root = Path(self.temp.name).resolve()
         self.home = self.root / 'personal home'
         self.home.mkdir()
         self.prefix = self.root / 'installation prefix'

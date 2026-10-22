@@ -28,3 +28,6 @@ __pycache__/
 /.config/fcitx5/conf/cached_layouts
 /.local/share/fcitx5/
 /Library/fcitx5/
+
+# Local fingerprints verify encrypted backups; never synchronize these receipts.
+/.local/state/yadm-sync/

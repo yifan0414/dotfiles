@@ -9,7 +9,10 @@ fi
 ### Helper functions for PATH management. ###
 #############################################
 prepend_path() {
-  [[ -d "$1" ]] && export PATH="$1:$PATH"
+  [[ -d "$1" ]] || return 0
+  typeset -gU path
+  path=("$1" "${path[@]}")
+  export PATH
 }
 
 gcpush() {
@@ -117,14 +120,17 @@ if [[ -n "$__dotfiles_brew_prefix" ]]; then
   prepend_path "$__dotfiles_brew_prefix/opt/llvm/bin"
   prepend_path "$__dotfiles_brew_prefix/bin"
   if [[ -d "$__dotfiles_brew_prefix/opt/llvm" ]]; then
-    export LDFLAGS="${LDFLAGS:+$LDFLAGS }-L$__dotfiles_brew_prefix/opt/llvm/lib"
-    export CPPFLAGS="${CPPFLAGS:+$CPPFLAGS }-I$__dotfiles_brew_prefix/opt/llvm/include"
+    if [[ " ${LDFLAGS:-} " != *" -L$__dotfiles_brew_prefix/opt/llvm/lib "* ]]; then
+      export LDFLAGS="${LDFLAGS:+$LDFLAGS }-L$__dotfiles_brew_prefix/opt/llvm/lib"
+    fi
+    if [[ " ${CPPFLAGS:-} " != *" -I$__dotfiles_brew_prefix/opt/llvm/include "* ]]; then
+      export CPPFLAGS="${CPPFLAGS:+$CPPFLAGS }-I$__dotfiles_brew_prefix/opt/llvm/include"
+    fi
   fi
 fi
 unset __dotfiles_brew_prefix __dotfiles_brew_bin
 
 prepend_path "$HOME/.luaver/lua/5.1/bin"
-prepend_path "$HOME/miniforge3/bin"
 
 if [[ -d "/Applications/Xcode.app" ]]; then
   export MANPATH="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/share/man"
@@ -160,23 +166,6 @@ alias codex-duckcode-exec='CODEX_HOME="$HOME/.codex-duckcode" codex exec'
 yb() {
   "$HOME/.local/bin/yadm-daily-backup" "$@"
 }
-
-#################################################
-### Conda integration for interactive shells. ###
-#################################################
-if [[ -x "$HOME/miniconda3/bin/conda" ]]; then
-  if __conda_setup="$("$HOME/miniconda3/bin/conda" 'shell.zsh' 'hook' 2>/dev/null)"; then
-    eval "$__conda_setup"
-  elif [[ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]]; then
-    source "$HOME/miniconda3/etc/profile.d/conda.sh"
-  else
-    prepend_path "$HOME/miniconda3/bin"
-  fi
-  unset __conda_setup
-
-  # Use base Python by default without activating the base environment.
-  prepend_path "$HOME/miniconda3/bin"
-fi
 
 #################################################
 ###         NVM                               ###

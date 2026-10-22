@@ -20,7 +20,7 @@ class BootstrapProfileTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="yadm-policy-")
         self.addCleanup(self.temp.cleanup)
-        self.home = Path(self.temp.name) / "home with spaces"
+        self.home = Path(self.temp.name).resolve() / "home with spaces"
         self.home.mkdir()
         self.env = {key: value for key, value in os.environ.items()
                     if not key.startswith(("GIT_", "DOTFILES_", "XDG_", "NVM_", "PI_", "BASH_FUNC_"))
@@ -62,7 +62,7 @@ class BootstrapProfileTests(unittest.TestCase):
         # Keep role resolution, failure accumulation and handoff behavior real.
         return """
           for fn in require_dotfiles_checkout configure_proxy bootstrap_gh_auth \
-              bootstrap_tmux_from_source_on_apt verify_base_tooling require_cmd \
+              bootstrap_tmux_from_source_on_apt verify_base_tooling verify_git_identity require_cmd \
               apply_yadm_alternates verify_alternates bootstrap_vim bootstrap_nvm \
               bootstrap_codex bootstrap_pi bootstrap_neovim bootstrap_zsh_runtime bootstrap_tmux \
               reload_kitty_if_possible verify_setup_skill; do

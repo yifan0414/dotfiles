@@ -2,6 +2,7 @@
 """Read-only bootstrap inspection; this does not validate a training environment."""
 
 import argparse
+import configparser
 import csv
 import json
 import os
@@ -144,6 +145,11 @@ def conda_roots(home, diagnostics=None):
             diagnostics.append("DOTFILES_CONDA_ROOT must be an absolute path; ignoring that override.")
         else:
             try:
+                # Python 3.13+ non-strict resolve can leave symlink loops unresolved.
+                try:
+                    root.stat()
+                except FileNotFoundError:
+                    pass
                 configured_root = root.resolve()
                 candidates.append(configured_root)
             except (OSError, RuntimeError, ValueError):
@@ -239,14 +245,35 @@ def gpu_status():
 
 def mac_apps(home):
     locations = {
-        "ghostty": (Path("/Applications/Ghostty.app"), home / "Applications/Ghostty.app"),
         "kitty": (Path("/Applications/kitty.app"), home / "Applications/kitty.app"),
-        "squirrel": (Path("/Library/Input Methods/Squirrel.app"),
-                     home / "Library/Input Methods/Squirrel.app"),
+        "fcitx5": (Path("/Library/Input Methods/Fcitx5.app"),
+                   home / "Library/Input Methods/Fcitx5.app"),
     }
     return {name: {"state": "present" if any(path.is_dir() for path in paths) else "not-found",
                    "checked_paths": [str(path) for path in paths]}
             for name, paths in locations.items()}
+
+
+def fcitx5_configuration(home):
+    resources = home / "Library/fcitx5"
+    result = {
+        "chinese_addons_installed": (resources / "plugin/chinese-addons.json").is_file(),
+        "pinyin_engine_present": (resources / "lib/fcitx5/libpinyin.so").is_file(),
+        "pinyin_enabled": False,
+        "system_input_source_enabled": "not-checked",
+    }
+    profile = home / ".config/fcitx5/profile"
+    if profile.is_file():
+        parser = configparser.ConfigParser(interpolation=None)
+        try:
+            parser.read_string(profile.read_text())
+            result["pinyin_enabled"] = any(
+                section.startswith("Groups/") and "/Items/" in section
+                and parser.get(section, "Name", fallback="") == "pinyin"
+                for section in parser.sections())
+        except (OSError, configparser.Error):
+            result["profile_state"] = "unreadable"
+    return result
 
 
 def inspect(home, requested):
@@ -308,6 +335,7 @@ def inspect(home, requested):
                          else {"state": "not-configured"}) if system == "Linux" else None,
         "gpu": gpu_status() if system == "Linux" else {"state": "not-applicable"},
         "mac_apps": mac_apps(home) if system == "Darwin" else None,
+        "fcitx5_configuration": fcitx5_configuration(home) if system == "Darwin" else None,
         "diagnostics": diagnostics,
     }
     return report, 0

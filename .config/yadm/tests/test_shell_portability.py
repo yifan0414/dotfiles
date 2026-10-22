@@ -16,7 +16,7 @@ class ShellPortability(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix='yadm-shell-')
         self.addCleanup(temporary.cleanup)
-        self.home = Path(temporary.name) / 'home with spaces'
+        self.home = Path(temporary.name).resolve() / 'home with spaces'
         self.home.mkdir()
         self.env = {key: value for key, value in os.environ.items()
                     if not key.startswith(('GIT_', 'DOTFILES_', 'HOMEBREW_', 'ZDOTDIR'))
@@ -128,6 +128,22 @@ class ShellPortability(unittest.TestCase):
           [[ "$PATH" == "$TEST_BREW_PREFIX/bin:"* ]]
           [[ "$LDFLAGS" == "existing-linker-flag -L$TEST_BREW_PREFIX/opt/llvm/lib" ]]
         ''', env, source_proxy=False)
+
+    def test_mac_toolchain_paths_and_flags_do_not_accumulate_on_reload(self):
+        prefix = self.home / 'brew'
+        (prefix / 'bin').mkdir(parents=True)
+        (prefix / 'opt/llvm/bin').mkdir(parents=True)
+        source = MAC.read_text()
+        helper = source.split('prepend_path() {', 1)[1].split('\n}')[0]
+        helper = 'prepend_path() {' + helper + '\n}\n'
+        block = source.split('# MacTeX keeps this stable path', 1)[1]
+        block = '# MacTeX keeps this stable path' + block.split('if [[ -d "/Applications/Xcode.app" ]]', 1)[0]
+        env = dict(self.env, HOMEBREW_PREFIX=str(prefix), LDFLAGS='existing', CPPFLAGS='existing')
+        self.run_shell(helper + block + '\nfixture_path="$PATH"\n' + block + '''
+          [[ "$PATH" == "$fixture_path" ]]
+          [[ "$LDFLAGS" == "existing -L$HOMEBREW_PREFIX/opt/llvm/lib" ]]
+          [[ "$CPPFLAGS" == "existing -I$HOMEBREW_PREFIX/opt/llvm/include" ]]
+        ''', env, source_proxy=False, shells=('zsh',))
 
     def conda_initialization(self):
         code = LINUX.read_text().split('### Conda integration for interactive shells. ###', 1)[1]

@@ -1,2 +1,1 @@
-[credential]
-	helper = store
+# Git credentials are configured by gh auth setup-git / the OS credential helper.

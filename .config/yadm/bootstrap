@@ -415,6 +415,35 @@ configure_proxy() {
   record_status "proxy" "configured" "$mode (bootstrap process only)"
 }
 
+install_fcitx5() {
+  local app_dir installer_dir archive
+  for app_dir in "/Library/Input Methods/Fcitx5.app" "$HOME/Library/Input Methods/Fcitx5.app"; do
+    if [[ -d "$app_dir" ]]; then
+      record_status "Fcitx5" "present" "$app_dir; existing installation retained"
+      return 0
+    fi
+  done
+
+  if ! mkdir -p "$HOME/.cache/yadm"; then
+    record_status "Fcitx5" "failed" "cannot create installer cache"
+    return 0
+  fi
+  if ! installer_dir="$(mktemp -d "$HOME/.cache/yadm/fcitx5-installer.XXXXXX")"; then
+    record_status "Fcitx5" "failed" "cannot create installer directory"
+    return 0
+  fi
+  archive="$installer_dir/Fcitx5-Pinyin.zip"
+  if curl -fL --retry 3 -o "$archive" \
+      "https://github.com/fcitx-contrib/fcitx5-macos-installer/releases/download/latest/Fcitx5-Pinyin.zip" \
+      && ditto -x -k "$archive" "$installer_dir" \
+      && open "$installer_dir/Fcitx5Installer.app"; then
+    record_status "Fcitx5" "pending" "complete the Pinyin installer, then log out/in and enable Fcitx5 in Keyboard settings"
+  else
+    warn "Fcitx5 installer could not be downloaded or opened; retained files: $installer_dir"
+    record_status "Fcitx5" "failed" "upstream Pinyin installer"
+  fi
+}
+
 install_homebrew_packages() {
   local core_brewfile="$HOME/.config/yadm/packages/homebrew/core.Brewfile"
   local gui_brewfile="$HOME/.config/yadm/packages/homebrew/gui.Brewfile"
@@ -451,12 +480,15 @@ install_homebrew_packages() {
   if [[ "${DOTFILES_INSTALL_GUI_APPS:-0}" == "1" && -f "$gui_brewfile" ]]; then
     log "installing macOS GUI apps via Homebrew"
     # Homebrew filters out environment variables without its own prefix.
-    if HOMEBREW_DOTFILES_GUI_APPS="${DOTFILES_GUI_APPS:-ghostty kitty squirrel}" brew bundle --file="$gui_brewfile"; then
+    if HOMEBREW_DOTFILES_GUI_APPS="${DOTFILES_GUI_APPS:-kitty fcitx5}" brew bundle --file="$gui_brewfile"; then
       record_status "GUI packages" "installed" "brew gui"
     else
       warn "Homebrew GUI package installation reported errors"
       record_status "GUI packages" "failed" "brew gui"
     fi
+    case " ${DOTFILES_GUI_APPS:-kitty fcitx5} " in
+      *" fcitx5 "*) install_fcitx5 ;;
+    esac
   elif [[ "${DOTFILES_INSTALL_GUI_APPS:-0}" == "1" ]]; then
     record_status "GUI packages" "skipped" "missing gui.Brewfile"
   else
@@ -757,6 +789,17 @@ bootstrap_gh_auth() {
   else
     warn "shared GitHub token could not be imported or verified; check network access and token validity"
     record_status "gh authentication" "failed" "login, API verification, or Git setup"
+  fi
+}
+
+verify_git_identity() {
+  local name email
+  name="$(yadm gitconfig --get user.name 2>/dev/null || true)"
+  email="$(yadm gitconfig --get user.email 2>/dev/null || true)"
+  if [[ -n "$name" && -n "$email" ]]; then
+    record_status "Git identity" "configured" "explicit user.name and user.email"
+  else
+    record_status "Git identity" "pending" "set yadm gitconfig user.name and user.email on this machine before committing"
   fi
 }
 
@@ -1297,6 +1340,7 @@ main() {
   bootstrap_tmux_from_source_on_apt
   verify_base_tooling
   require_cmd git "git is required after system package installation. Install git, then rerun this script."
+  verify_git_identity
   apply_yadm_alternates
   verify_alternates
   bootstrap_vim

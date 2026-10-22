@@ -1,0 +1,2 @@
+#!/bin/sh
+exec python3 "$YADM_HOOK_DIR/scripts/sync-guard.py" before-encrypt

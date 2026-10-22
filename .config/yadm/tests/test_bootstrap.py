@@ -16,7 +16,7 @@ class Checks(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='yadm-check-')
         self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name)
+        self.root = Path(self.temp.name).resolve()
         self.home = self.root / 'home with spaces'
         self.home.mkdir()
         self.env = {k: v for k, v in os.environ.items()
@@ -58,7 +58,7 @@ class Checks(unittest.TestCase):
     def test_main_exits_nonzero_after_recorded_failure(self):
         result = self.shell('''
           for fn in require_supported_os require_dotfiles_checkout configure_proxy \
-            bootstrap_gh_auth bootstrap_tmux_from_source_on_apt verify_base_tooling require_cmd \
+            bootstrap_gh_auth bootstrap_tmux_from_source_on_apt verify_base_tooling verify_git_identity require_cmd \
             apply_yadm_alternates verify_alternates bootstrap_vim bootstrap_nvm \
             bootstrap_codex bootstrap_pi bootstrap_neovim bootstrap_zsh_runtime bootstrap_tmux \
             reload_kitty_if_possible verify_setup_skill; do
@@ -70,6 +70,16 @@ class Checks(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('1 failed checks', result.stderr)
         self.assertIn('setup-machine', result.stdout)
+
+    def test_git_identity_reports_missing_fields_without_guessing(self):
+        self.shell('''
+          yadm() { return 1; }
+          verify_git_identity
+          [[ "${REPORT_STATUSES[0]}" == pending ]]
+          yadm() { printf 'fixture\\n'; }
+          verify_git_identity
+          [[ "${REPORT_STATUSES[1]}" == configured ]]
+        ''')
 
     def test_pi_installs_core_before_both_plugins(self):
         self.shell('''
@@ -244,9 +254,10 @@ class Checks(unittest.TestCase):
     @unittest.skipUnless(shutil.which('ruby'), 'Ruby required to evaluate Brewfile')
     def test_gui_selection_includes_kitty_font_and_rejects_unknown_apps(self):
         brewfile = ROOT / '.config/yadm/packages/homebrew/gui.Brewfile'
-        for selection, expected in ((None, ['ghostty', 'kitty', 'squirrel', 'font-maple-mono-cn']),
+        for selection, expected in ((None, ['kitty', 'font-maple-mono-cn']),
                                     ('kitty', ['kitty', 'font-maple-mono-cn']),
-                                    ('ghostty squirrel', ['ghostty', 'squirrel']), ('', []), ('typo', None)):
+                                    ('fcitx5', []), ('kitty fcitx5', ['kitty', 'font-maple-mono-cn']),
+                                    ('', []), ('ghostty', None), ('squirrel', None), ('typo', None)):
             with self.subTest(selection=selection):
                 env = dict(self.env)
                 if selection is not None:
@@ -270,6 +281,39 @@ class Checks(unittest.TestCase):
           rm "$HOME/gui-installed"
           DOTFILES_GUI_APPS=kitty DOTFILES_INSTALL_GUI_APPS=0 install_homebrew_packages
           [[ ! -e "$HOME/gui-installed" ]]
+        ''')
+
+    def test_fcitx5_installer_reports_pending_and_download_failure(self):
+        self.shell('''
+          curl() { touch "$HOME/downloaded"; }
+          ditto() { mkdir -p "$4/Fcitx5Installer.app"; }
+          open() { [[ "$1" == "$HOME/.cache/yadm/"*/Fcitx5Installer.app ]]; touch "$HOME/opened"; }
+          # Isolate installed-app detection from the real Mac.
+          eval "$(declare -f install_fcitx5 | sed 's|/Library/Input Methods/Fcitx5.app|/nonexistent-test-fcitx5.app|g')"
+          install_fcitx5
+          [[ -f "$HOME/downloaded" && -f "$HOME/opened" && "$BOOTSTRAP_FAILURES" == 0 ]]
+          rm "$HOME/opened"
+          curl() { return 1; }
+          install_fcitx5
+          [[ ! -e "$HOME/opened" && "$BOOTSTRAP_FAILURES" == 1 ]]
+          mkdir -p "$HOME/nonexistent-test-fcitx5.app"
+          install_fcitx5
+          [[ ! -e "$HOME/opened" && "$BOOTSTRAP_FAILURES" == 1 ]]
+        ''')
+
+    def test_fcitx5_selection_and_skip(self):
+        self.shell('''
+          mkdir -p "$HOME/.config/yadm/packages/homebrew"
+          touch "$HOME/.config/yadm/packages/homebrew/gui.Brewfile"
+          brew() { :; }
+          install_fcitx5() { touch "$HOME/fcitx-selected"; }
+          DOTFILES_GUI_APPS="kitty fcitx5" DOTFILES_INSTALL_GUI_APPS=1 install_homebrew_packages
+          [[ -f "$HOME/fcitx-selected" ]]
+          rm "$HOME/fcitx-selected"
+          DOTFILES_GUI_APPS=kitty DOTFILES_INSTALL_GUI_APPS=1 install_homebrew_packages
+          [[ ! -e "$HOME/fcitx-selected" ]]
+          DOTFILES_GUI_APPS=fcitx5 DOTFILES_INSTALL_GUI_APPS=0 install_homebrew_packages
+          [[ ! -e "$HOME/fcitx-selected" ]]
         ''')
 
     @unittest.skipUnless(shutil.which('nvim'), 'Neovim required for asynchronous tool checks')
@@ -331,6 +375,9 @@ vim.wait = function(_, condition, interval) return wait(1000, condition, 10) end
         for repo in self.repos[1:]:
             self.git(repo, 'fetch', 'origin')
             self.git(repo, 'checkout', '-b', 'local-name', '--track', 'origin/shared')
+        scripts = self.home / '.config/yadm/scripts'
+        scripts.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / '.config/yadm/scripts/sync-guard.py', scripts / 'sync-guard.py')
         bash_env = self.root / 'env.sh'
         bash_env.write_text('yadm() { command ' + shlex.quote(shutil.which('yadm')) +
                             ' --yadm-repo "$TEST_REPO/.git" --yadm-config "$TEST_REPO/.git/yadm-config" "$@"; }\n')

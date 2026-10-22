@@ -89,7 +89,20 @@ sync_from_remote() {
   fi
 }
 
+check_sync_state() {
+  local guard="$HOME/.config/yadm/scripts/sync-guard.py"
+  if [[ ! -f "$guard" ]]; then
+    echo "Missing sync-guard.py; sync the complete yadm checkout before backing up." >&2
+    return 1
+  fi
+  python3 "$guard" backup --repo "$(yadm introspect repo)" --home "$(yadm rev-parse --show-toplevel)"
+}
+
+# Check before pulling: autostash must not hide an accidental plaintext token.
+check_sync_state
 sync_from_remote
+# A pulled archive may need decrypting before local credentials can be backed up.
+check_sync_state
 
 # Stage tracked dotfiles without traversing protected macOS directories.
 yadm add -u

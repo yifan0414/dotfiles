@@ -55,7 +55,7 @@ class MiniforgeInstallTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix="miniforge-module-")
         self.addCleanup(temporary.cleanup)
-        self.home = Path(temporary.name) / "home with spaces"
+        self.home = Path(temporary.name).resolve() / "home with spaces"
         self.home.mkdir()
         scripts = self.home / ".config/yadm/scripts"
         scripts.mkdir(parents=True)
