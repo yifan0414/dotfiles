@@ -139,10 +139,10 @@ DOTFILES_PROXY_MODE="${DOTFILES_PROXY_MODE:-on}"
 ### Common aliases. ###
 #######################
 if command -v eza >/dev/null 2>&1; then
-  alias ls="eza --icons"
-  alias ll="eza --icons --long --all"
-  alias la="eza --icons --all"
-  alias l="eza --icons --long"
+  alias ls="eza --icons=auto"
+  alias ll="eza --icons=auto --long --all"
+  alias la="eza --icons=auto --all"
+  alias l="eza --icons=auto --long"
 else
   alias ll="ls -all"
 fi
