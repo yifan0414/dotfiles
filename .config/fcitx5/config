@@ -53,7 +53,7 @@ ActiveByDefault=True
 # 重新聚焦时重置状态
 # resetStateWhenFocusIn=No
 # 共享输入状态
-# ShareInputState=No
+ShareInputState=Program
 # 在程序中显示预编辑文本
 # PreeditEnabledByDefault=True
 # 切换输入法时显示输入法信息
