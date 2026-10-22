@@ -9,6 +9,7 @@
 - 保留现有 SSH 配置、已知主机记录和密钥，使用已有别名与认证方式；不生成共享私钥，不把服务器地址、个人密钥或认证输出提交到 yadm。
 - 检查新 shell 的终端工具、Node 和 agent 路径；继承当前网络设置，按本机需要显式启用代理。不要假设 Mac 一定运行某个固定端口的代理。
 - 用被忽略的 `~/.config/yadm/local/` 保存本机设置和检查记录。SSH 配置继续使用本机已有的组织方式，无需建立公共服务器地址表。
+- 小企鹅 Fcitx5 的 `~/.config/fcitx5/config`、`profile` 和 `conf/*.conf` 纳入 yadm，保留拼音、快捷键和外观设置。键盘布局缓存、`~/.local/share/fcitx5/` 用户词库及 `~/Library/fcitx5/` 插件资源留在本机；新机器需另行安装 Fcitx5 和 chinese-addons 插件，并在系统设置中启用输入法。
 
 Mac 不采用服务器的多用户 Conda/pip 共享缓存约定。用户没有提出本机深度学习任务时，不为 SSH 客户端用途安装 CUDA 或创建实验环境。
 
