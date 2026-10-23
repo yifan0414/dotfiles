@@ -12,10 +12,11 @@
 # 触发修饰键快捷键的时限 (毫秒)
 # ModifierOnlyKeyTimeout=250
 
-# [Hotkey/TriggerKeys]
-# 0=Control+Shift_L
-# 1=Zenkaku_Hankaku
-# 2=Hangul
+[Hotkey/TriggerKeys]
+0=Control+Shift_L
+1=Zenkaku_Hankaku
+2=Hangul
+3=Shift_L
 
 # [Hotkey/ActivateKeys]
 # 0=Hangul_Hanja
@@ -23,8 +24,7 @@
 # [Hotkey/DeactivateKeys]
 # 0=Hangul_Romaja
 
-# [Hotkey/AltTriggerKeys]
-# 0=Shift_L
+[Hotkey/AltTriggerKeys]
 
 # [Hotkey/EnumerateGroupForwardKeys]
 # 0=Super+space
