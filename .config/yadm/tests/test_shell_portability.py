@@ -126,7 +126,7 @@ class ShellPortability(unittest.TestCase):
         self.run_shell('prepend_path() { [[ ! -d "$1" ]] || export PATH="$1:$PATH"; }\n' +
                        code + '''
           [[ "$PATH" == "$TEST_BREW_PREFIX/bin:"* ]]
-          [[ "$LDFLAGS" == "existing-linker-flag -L$TEST_BREW_PREFIX/opt/llvm/lib" ]]
+          [[ "$LDFLAGS" == "existing-linker-flag" ]]
         ''', env, source_proxy=False)
 
     def test_mac_toolchain_paths_and_flags_do_not_accumulate_on_reload(self):
@@ -141,8 +141,48 @@ class ShellPortability(unittest.TestCase):
         env = dict(self.env, HOMEBREW_PREFIX=str(prefix), LDFLAGS='existing', CPPFLAGS='existing')
         self.run_shell(helper + block + '\nfixture_path="$PATH"\n' + block + '''
           [[ "$PATH" == "$fixture_path" ]]
-          [[ "$LDFLAGS" == "existing -L$HOMEBREW_PREFIX/opt/llvm/lib" ]]
-          [[ "$CPPFLAGS" == "existing -I$HOMEBREW_PREFIX/opt/llvm/include" ]]
+          [[ "$LDFLAGS" == existing ]]
+          [[ "$CPPFLAGS" == existing ]]
+        ''', env, source_proxy=False, shells=('zsh',))
+
+    def test_llvm_flags_are_scoped_to_command_and_preserve_failure_status(self):
+        prefix = self.home / 'brew'
+        (prefix / 'opt/llvm/lib').mkdir(parents=True)
+        (prefix / 'opt/llvm/include').mkdir()
+        source = MAC.read_text()
+        function = 'with_llvm() (' + source.split('with_llvm() (', 1)[1].split('\n)\n', 1)[0] + '\n)\n'
+        env = dict(self.env, HOMEBREW_PREFIX=str(prefix), LDFLAGS='existing', CPPFLAGS='existing')
+        self.run_shell(function + r'''
+          with_llvm zsh -dfc '
+            [[ "$LDFLAGS" == "existing -L$HOMEBREW_PREFIX/opt/llvm/lib" ]]
+            [[ "$CPPFLAGS" == "existing -I$HOMEBREW_PREFIX/opt/llvm/include" ]]
+            [[ "$1" == "argument with spaces" ]]
+          ' fixture 'argument with spaces'
+          [[ "$LDFLAGS" == existing && "$CPPFLAGS" == existing ]]
+          if with_llvm zsh -dfc 'exit 7'; then
+            exit 99
+          else
+            [[ "$?" == 7 ]]
+          fi
+          unset LDFLAGS CPPFLAGS
+          with_llvm true
+          [[ -z "${LDFLAGS+x}${CPPFLAGS+x}" ]]
+        ''', env, source_proxy=False, shells=('zsh',))
+
+    def test_mac_manpath_preserves_custom_and_default_paths_without_duplicates(self):
+        app = self.home / 'Xcode.app'
+        manuals = app / 'Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/share/man'
+        manuals.mkdir(parents=True)
+        source = MAC.read_text()
+        block = 'if [[ -d "/Applications/Xcode.app" ]]' + source.split('if [[ -d "/Applications/Xcode.app" ]]', 1)[1].split('###########################################', 1)[0]
+        block = block.replace('/Applications/Xcode.app', str(app))
+        env = dict(self.env, TASK_MANUALS=str(manuals))
+        self.run_shell('unset MANPATH\n' + block + r'''
+          [[ "$MANPATH" == ":$TASK_MANUALS:" ]]
+          export MANPATH="/custom/manuals"
+        ''' + block + '\nfixture_manpath="$MANPATH"\n' + block + r'''
+          [[ "$MANPATH" == "/custom/manuals:$TASK_MANUALS:" ]]
+          [[ "$MANPATH" == "$fixture_manpath" ]]
         ''', env, source_proxy=False, shells=('zsh',))
 
     def conda_initialization(self):

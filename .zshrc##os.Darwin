@@ -15,42 +15,6 @@ prepend_path() {
   export PATH
 }
 
-gcpush() {
-  local git_status msg
-
-  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
-    echo "❌ 当前目录不是 Git 仓库"
-    return 1
-  }
-
-  git_status="$(git status --short --untracked-files=no)"
-
-  if [[ -z "$git_status" ]]; then
-    echo "✅ 没有已追踪文件改动"
-    return 0
-  fi
-
-  msg="$(printf '%s\n' "$git_status" | codex exec --sandbox read-only \
-'根据下面的 git status --short 输出，生成一个简短英文 git commit message。
-只输出 commit message，不要解释，不要使用 Markdown。')"
-
-  if [[ -z "$msg" ]]; then
-    msg="Update tracked files"
-  fi
-
-  echo "📝 Commit message: $msg"
-
-  git add .
-
-  if git diff --cached --quiet; then
-    echo "✅ 没有 staged 改动"
-    return 0
-  fi
-
-  git commit -m "$msg"
-  git push
-}
-
 ################################
 ### Oh My Zsh core settings. ###
 ################################
@@ -119,21 +83,48 @@ fi
 if [[ -n "$__dotfiles_brew_prefix" ]]; then
   prepend_path "$__dotfiles_brew_prefix/opt/llvm/bin"
   prepend_path "$__dotfiles_brew_prefix/bin"
-  if [[ -d "$__dotfiles_brew_prefix/opt/llvm" ]]; then
-    if [[ " ${LDFLAGS:-} " != *" -L$__dotfiles_brew_prefix/opt/llvm/lib "* ]]; then
-      export LDFLAGS="${LDFLAGS:+$LDFLAGS }-L$__dotfiles_brew_prefix/opt/llvm/lib"
-    fi
-    if [[ " ${CPPFLAGS:-} " != *" -I$__dotfiles_brew_prefix/opt/llvm/include "* ]]; then
-      export CPPFLAGS="${CPPFLAGS:+$CPPFLAGS }-I$__dotfiles_brew_prefix/opt/llvm/include"
-    fi
-  fi
 fi
 unset __dotfiles_brew_prefix __dotfiles_brew_bin
 
 prepend_path "$HOME/.luaver/lua/5.1/bin"
 
+# Apply LLVM build flags only to the requested command, e.g. with_llvm cmake -S . -B build.
+with_llvm() (
+  if (( $# == 0 )); then
+    printf 'usage: with_llvm <command> [args...]\n' >&2
+    return 2
+  fi
+  local llvm_prefix brew_bin
+  if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
+    llvm_prefix="$HOMEBREW_PREFIX/opt/llvm"
+  else
+    brew_bin="$(command -v brew)" || brew_bin=""
+    if [[ -z "$brew_bin" ]]; then
+      for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+        [[ -x "$brew_bin" ]] && break
+      done
+    fi
+    if [[ ! -x "$brew_bin" ]] || ! llvm_prefix="$("$brew_bin" --prefix llvm 2>/dev/null)"; then
+      printf 'with_llvm: cannot locate Homebrew LLVM\n' >&2
+      return 1
+    fi
+  fi
+  if [[ ! -d "$llvm_prefix/lib" || ! -d "$llvm_prefix/include" ]]; then
+    printf 'with_llvm: LLVM headers or libraries are missing\n' >&2
+    return 1
+  fi
+  export LDFLAGS="${LDFLAGS:+$LDFLAGS }-L$llvm_prefix/lib"
+  export CPPFLAGS="${CPPFLAGS:+$CPPFLAGS }-I$llvm_prefix/include"
+  "$@"
+)
+
 if [[ -d "/Applications/Xcode.app" ]]; then
-  export MANPATH="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/share/man"
+  __dotfiles_xcode_man="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/share/man"
+  if [[ -d "$__dotfiles_xcode_man" && ":${MANPATH:-}:" != *":$__dotfiles_xcode_man:"* ]]; then
+    # An empty component preserves the system's default manual search paths.
+    export MANPATH="${MANPATH:-}:$__dotfiles_xcode_man:"
+  fi
+  unset __dotfiles_xcode_man
 fi
 
 ###########################################
