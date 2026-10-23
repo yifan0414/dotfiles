@@ -11,13 +11,34 @@ return {
   opts = function()
     local kinds = require("blink.cmp.types").CompletionItemKind
 
+    local identifier_cache = {}
+    vim.api.nvim_create_autocmd("BufWipeout", {
+      group = vim.api.nvim_create_augroup("DotfilesBlinkIdentifiers", { clear = true }),
+      callback = function(event)
+        identifier_cache[event.buf] = nil
+      end,
+    })
+
     local function get_buffer_identifiers(bufnr)
+      if not vim.api.nvim_buf_is_valid(bufnr) or not vim.api.nvim_buf_is_loaded(bufnr) then
+        return {}
+      end
+      local tick = vim.api.nvim_buf_get_changedtick(bufnr)
+      -- Bound scanning on large files and reuse results until the text or range changes.
+      local cursor = vim.api.nvim_get_current_buf() == bufnr and vim.api.nvim_win_get_cursor(0)[1] or 1
+      local first = math.max(0, cursor - 201)
+      local last = math.min(vim.api.nvim_buf_line_count(bufnr), cursor + 200)
+      local cached = identifier_cache[bufnr]
+      if cached and cached.tick == tick and cached.first == first and cached.last == last then
+        return cached.words
+      end
       local words = {}
-      for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)) do
+      for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, first, last, false)) do
         for word in line:gmatch("[%a_][%w_]*") do
           words[word] = true
         end
       end
+      identifier_cache[bufnr] = { tick = tick, first = first, last = last, words = words }
       return words
     end
 
@@ -243,19 +264,14 @@ return {
                   if buffer_words[item.label] then
                     offset = offset + 5
                   end
-                elseif
-                  item.kind == kinds.Function
-                  or item.kind == kinds.Method
-                  or item.kind == kinds.Constructor
-                then
+                elseif item.kind == kinds.Function or item.kind == kinds.Method then
                   offset = offset - 4
                 end
 
                 item.score_offset = offset
                 return item
               end, vim.tbl_filter(function(item)
-                return item.kind ~= require("blink.cmp.types").CompletionItemKind.Snippet
-                  and item.kind ~= require("blink.cmp.types").CompletionItemKind.Constructor
+                return item.kind ~= kinds.Snippet and item.kind ~= kinds.Constructor
               end, items))
             end,
             -- should_show_items = function(ctx)

@@ -59,31 +59,25 @@ vim.keymap.set(
 -- vim.keymap.set("i", "<C-j>", "<C-o>gj", { noremap = true, silent = true })
 -- vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
 
--- 在 Visual 模式下绑定 <leader>y 到复制到剪贴板(wsl2)命令
-vim.keymap.set("v", "<leader>y", [["+y <cmd>call system('clip.exe', @+)<cr>]], { noremap = true, silent = true })
+-- WSL can use the Windows clipboard; other platforms use Neovim's provider.
+local clipboard_yank = '"+y'
+if vim.fn.has("wsl") == 1 and vim.fn.executable("clip.exe") == 1 then
+  clipboard_yank = [["+y<cmd>call system('clip.exe', @+)<cr>]]
+end
+vim.keymap.set("v", "<leader>y", clipboard_yank, { silent = true, desc = "Copy to clipboard" })
 
 vim.keymap.set("n", "<leader>td", function()
-  local os_date = os.date
-  local diary_path = vim.env.HOME .. "/Library/CloudStorage/OneDrive-st.gxu.edu.cn/CSNote/Diary/"
-
-  -- 获取当前日期
-  local year = os_date("%Y")
-  local month = os_date("%m")
-  local day = os_date("%Y-%m-%d")
-
-  -- 构建文件路径
-  local file_path = diary_path .. year .. "/" .. month .. "/" .. day .. ".md"
-
-  -- 检查文件是否存在
-  -- local file = io.open(file_path, "r")
-  -- if file then
-  --   file:close()
-  --   vim.cmd("edit " .. file_path)
-  -- else
-  --   vim.cmd("edit " .. file_path)
-  -- end
-  vim.cmd("10sp " .. file_path)
-end, { noremap = true, silent = true, desc = "dayliy note" })
+  local diary_path = vim.env.DOTFILES_DIARY_DIR
+  if not diary_path or diary_path == "" then
+    local mac_diary = vim.env.HOME .. "/Library/CloudStorage/OneDrive-st.gxu.edu.cn/CSNote/Diary"
+    diary_path = vim.fn.isdirectory(mac_diary) == 1 and mac_diary or (vim.fn.stdpath("data") .. "/diary")
+  end
+  diary_path = vim.fn.expand(diary_path)
+  local directory = diary_path .. os.date("/%Y/%m")
+  vim.fn.mkdir(directory, "p")
+  local file_path = directory .. os.date("/%Y-%m-%d.md")
+  vim.cmd("10split " .. vim.fn.fnameescape(file_path))
+end, { silent = true, desc = "Open daily note" })
 
 vim.keymap.set("n", "x", '"_x', { noremap = true, silent = true })
 
