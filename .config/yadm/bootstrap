@@ -480,13 +480,13 @@ install_homebrew_packages() {
   if [[ "${DOTFILES_INSTALL_GUI_APPS:-0}" == "1" && -f "$gui_brewfile" ]]; then
     log "installing macOS GUI apps via Homebrew"
     # Homebrew filters out environment variables without its own prefix.
-    if HOMEBREW_DOTFILES_GUI_APPS="${DOTFILES_GUI_APPS:-kitty fcitx5}" brew bundle --file="$gui_brewfile"; then
+    if HOMEBREW_DOTFILES_GUI_APPS="${DOTFILES_GUI_APPS:-kitty fcitx5 zotero}" brew bundle --file="$gui_brewfile"; then
       record_status "GUI packages" "installed" "brew gui"
     else
       warn "Homebrew GUI package installation reported errors"
       record_status "GUI packages" "failed" "brew gui"
     fi
-    case " ${DOTFILES_GUI_APPS:-kitty fcitx5} " in
+    case " ${DOTFILES_GUI_APPS:-kitty fcitx5 zotero} " in
       *" fcitx5 "*) install_fcitx5 ;;
     esac
   elif [[ "${DOTFILES_INSTALL_GUI_APPS:-0}" == "1" ]]; then

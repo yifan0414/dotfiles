@@ -31,3 +31,10 @@ __pycache__/
 
 # Local fingerprints verify encrypted backups; never synchronize these receipts.
 /.local/state/yadm-sync/
+
+# Zotero source rules are portable; test results and library backups remain local.
+/.config/zotero/*
+!/.config/zotero/conference-tags.js
+!/.config/zotero/import-arxiv-update.js
+!/.config/zotero/install-conference-tags.js
+!/.config/zotero/activate-plugins.js

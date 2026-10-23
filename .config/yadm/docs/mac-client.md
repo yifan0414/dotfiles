@@ -5,7 +5,8 @@
 ## 配置要求
 
 - 使用本机实际可用的 Homebrew，读取 `brew --prefix`；兼容 Apple Silicon 和 Intel，不将另一台机器的安装前缀写死到配置中。
-- GUI 默认安装 **kitty、fcitx5**；`DOTFILES_GUI_APPS` 选择其中的应用，`DOTFILES_INSTALL_GUI_APPS=0` 跳过整个步骤。Kitty 同时安装配置所需的 Maple Mono CN 字体。Fcitx5 使用[官方安装器](https://github.com/fcitx-contrib/fcitx5-macos-installer)的拼音版，下载到 `~/.cache/yadm/` 后打开；需手动完成安装，首次安装后注销登录并在键盘设置中启用。已安装 Fcitx5 时跳过，不重装或替换插件。
+- GUI 默认安装 **kitty、fcitx5、Zotero**；`DOTFILES_GUI_APPS` 选择其中的应用，`DOTFILES_INSTALL_GUI_APPS=0` 跳过整个步骤。Kitty 同时安装配置所需的 Maple Mono CN 字体。Fcitx5 使用[官方安装器](https://github.com/fcitx-contrib/fcitx5-macos-installer)的拼音版，下载到 `~/.cache/yadm/` 后打开；需手动完成安装，首次安装后注销登录并在键盘设置中启用。已安装 Fcitx5 时跳过，不重装或替换插件。
+- 选择 Zotero 后，agent 按 [Zotero 安装与科研工作流](zotero.md) 执行插件准备、原生激活与验收；Homebrew 安装成功本身不代表插件和会议 badge 已配置。已有 Zotero 时保留数据目录、账户与文库。
 - 保留现有 SSH 配置、已知主机记录和密钥，使用已有别名与认证方式；不生成共享私钥，不把服务器地址、个人密钥或认证输出提交到 yadm。
 - 检查新 shell 的终端工具、Node 和 agent 路径；继承当前网络设置，按本机需要显式启用代理。不要假设 Mac 一定运行某个固定端口的代理。
 - 用被忽略的 `~/.config/yadm/local/` 保存本机设置和检查记录。SSH 配置继续使用本机已有的组织方式，无需建立公共服务器地址表。

@@ -85,7 +85,7 @@ python3 ~/.config/yadm/scripts/machine-status.py --profile auto --strict
 | 本机持久角色 | `yadm config local.class mac-client` 或 `dl-server` |
 | 本次角色覆盖 | `DOTFILES_MACHINE_PROFILE=mac-client yadm bootstrap` |
 | Mac GUI 软件 | `mac-client` 默认安装现有清单；显式 `DOTFILES_INSTALL_GUI_APPS=0` 跳过本次安装 |
-| 选择 Mac GUI 软件 | `DOTFILES_GUI_APPS=kitty yadm bootstrap`；多个名称用空格分隔，可选 `kitty fcitx5`，Kitty 自动带上字体 |
+| 选择 Mac GUI 软件 | `DOTFILES_GUI_APPS=kitty yadm bootstrap`；多个名称用空格分隔，可选 `kitty fcitx5 zotero`，Kitty 自动带上字体；Zotero 插件由 agent 按 [专门流程](zotero.md) 激活 |
 | 网络 | `.zshrc` 默认使用 `DOTFILES_PROXY_MODE=on`；独立运行 bootstrap 默认 `inherit`；`off` 关闭本次代理 |
 | 跳过系统包安装 | `DOTFILES_SKIP_SYSTEM_PACKAGES=1 yadm bootstrap`；仍需自行准备缺失工具 |
 | 使用发行版 tmux | `DOTFILES_SKIP_TMUX_SOURCE_BUILD=1 yadm bootstrap` 跳过 apt 平台的源码构建 |
@@ -101,7 +101,7 @@ Linux、macOS 和 WSL 的 `.zshrc` 统一默认开启代理，默认端点为 `h
 
 Linux 和 Mac 主 `.zshrc` 管理公共设置，直接自动加载按 hostname 选中的 `~/.zshrc.local`。需要同步且不含敏感信息的稳定主机差异放在 `.zshrc.local##hostname.<主机名>` 普通候选文件中，生成的链接不跟踪。项目环境变量、本机工具路径、共享 umask、HF 和 NCCL 参数集中在该主机片段；公共配置保留通用初始化、别名和加载入口。项目变量直接合并，不另建 `.envrc`。本机补充路径不得覆盖已激活环境的优先级。
 
-持久的 GUI 选择也放在该主机片段，例如 `export DOTFILES_GUI_APPS="${DOTFILES_GUI_APPS-kitty fcitx5}"`；新开的交互式 zsh 会将它传给 bootstrap。首次安装或从其他 shell 运行时，按上表显式传入。
+持久的 GUI 选择也放在该主机片段，例如 `export DOTFILES_GUI_APPS="${DOTFILES_GUI_APPS-kitty fcitx5 zotero}"`；新开的交互式 zsh 会将它传给 bootstrap。首次安装或从其他 shell 运行时，按上表显式传入。已有主机片段中的显式选择保持有效，需要 Zotero 时将其加入列表。
 
 仅本机设置、私密信息与报告放在 `~/.config/yadm/local/`，该目录不加入 yadm。不参与同步的实际路径和早期初始化依赖的 Conda 根目录、代理变量使用安静的 `local/shell.zsh`，由 `.zshenv` 提前读取；不要将 SSH 地址、端口、私钥、令牌或实验环境复制进公共规则。
 

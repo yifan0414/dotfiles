@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "zotero_major": 10,
+  "plugins": [
+    {
+      "id": "arxiv@allanchain.github.com",
+      "name": "arXiv Workflow",
+      "version": "0.4.1",
+      "url": "https://github.com/AllanChain/zotero-arxiv-workflow/releases/download/v0.4.1/zotero-arxiv-workflow.xpi",
+      "filename": "zotero-arxiv-workflow-0.4.1.xpi",
+      "sha256": "b8f1d354ee1da782a970c96eddb567ca0f0c638d30c159c0ac98eb1737f93fb3"
+    },
+    {
+      "id": "zoterotag@euclpts.com",
+      "name": "Actions & Tags",
+      "version": "2.6.2",
+      "url": "https://github.com/windingwind/zotero-actions-tags/releases/download/v2.6.2/actions-and-tags-for-zotero.xpi",
+      "filename": "actions-and-tags-for-zotero-2.6.2.xpi",
+      "sha256": "05e0bacc60ec5f937f3a99db491eb723b98bb15d2dabe887d1eca9158b1fa495"
+    }
+  ]
+}

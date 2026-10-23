@@ -254,9 +254,10 @@ class Checks(unittest.TestCase):
     @unittest.skipUnless(shutil.which('ruby'), 'Ruby required to evaluate Brewfile')
     def test_gui_selection_includes_kitty_font_and_rejects_unknown_apps(self):
         brewfile = ROOT / '.config/yadm/packages/homebrew/gui.Brewfile'
-        for selection, expected in ((None, ['kitty', 'font-maple-mono-cn']),
+        for selection, expected in ((None, ['kitty', 'font-maple-mono-cn', 'zotero']),
                                     ('kitty', ['kitty', 'font-maple-mono-cn']),
                                     ('fcitx5', []), ('kitty fcitx5', ['kitty', 'font-maple-mono-cn']),
+                                    ('zotero', ['zotero']),
                                     ('', []), ('ghostty', None), ('squirrel', None), ('typo', None)):
             with self.subTest(selection=selection):
                 env = dict(self.env)
