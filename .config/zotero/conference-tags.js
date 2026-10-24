@@ -139,7 +139,10 @@ try { managed = JSON.parse(Z.Prefs.get(prefKey, true) || "{}"); }
 catch (error) { Z.logError(error); throw new Error("Conference tag ownership data is invalid; stopping to preserve tags."); }
 let disposed = false, timer = null;
 const pending = new Set();
-let queue = Promise.resolve();
+let queue = Promise.resolve(), managedDirty = false;
+function flushManaged() {
+  if (managedDirty) { Z.Prefs.set(prefKey,JSON.stringify(managed),true); managedDirty = false; }
+}
 const field = (item, name) => { try { return item.getField(name) || ""; } catch { return ""; } };
 function resolveMetadataItem(item) {
   const venue = [...new Set(["proceedingsTitle", "conferenceName", "publicationTitle"]
@@ -150,14 +153,34 @@ function resolveMetadataItem(item) {
 }
 function resolveItem(item) {
   const manual = selectManualTag(item.getTags());
-  return manual.present ? manual.details : resolveMetadataItem(item);
+  return manual.present ? manual.details : resolveMetadataItem(item) || resolveAIItem(item);
+}
+function resolveAIItem(item) {
+  // Existing venue metadata that failed local resolution may be conflicting or a workshop.
+  // Keep that case blank rather than silently overriding it with a fallback.
+  if (item.itemType !== "preprint" && ["proceedingsTitle","conferenceName","publicationTitle"].some(name => field(item,name))) return null;
+  const line = field(item,"extra").split(/\r?\n/).find(line => line.startsWith("Conference AI: "));
+  if (!line) return null;
+  try {
+    const data = JSON.parse(line.slice("Conference AI: ".length));
+    const source = new URL(data.source_url);
+    const allowed = ["arxiv.org","openaccess.thecvf.com","openreview.net","ecva.net","www.ecva.net",
+      "proceedings.neurips.cc","papers.nips.cc","proceedings.iclr.cc","proceedings.mlr.press",
+      "aclanthology.org","ojs.aaai.org","www.ijcai.org","ijcai.org","dl.acm.org"];
+    if (source.protocol !== "https:" || !allowed.includes(source.hostname) ||
+        normalize(data.title) !== normalize(field(item,"title")) || !data.evidence_quote) return null;
+    const parsed = parseConferenceTag(`${data.conference}${data.year}`);
+    if (!parsed || parsed.status || +parsed.year > new Date().getFullYear()+1) return null;
+    // A verified fallback controls the badge; it does not rewrite publication dates or item types.
+    return {...parsed,manual:false,authoritative:false};
+  } catch { return null; }
 }
 async function update(item) {
   if (disposed || !item || !item.isRegularItem() || item.deleted ||
       item.libraryID !== Z.Libraries.userLibraryID) return;
   const key = `${item.libraryID}/${item.key}`;
   const manual = selectManualTag(item.getTags());
-  const resolved = manual.present ? manual.details : resolveMetadataItem(item);
+  const resolved = manual.present ? manual.details : resolveMetadataItem(item) || resolveAIItem(item);
   // Manual labels control display; never create duplicate auto tags or change metadata for them.
   const desired = manual.present ? null : resolved?.tag || null;
   const owned = managed[key];
@@ -185,12 +208,24 @@ async function update(item) {
     item.addTag(desired, 1); changed = true; newOwner = desired;
   }
   if (changed) await item.saveTx();
-  if (newOwner) managed[key] = newOwner; else delete managed[key];
-  Z.Prefs.set(prefKey, JSON.stringify(managed), true);
+  if ((managed[key] || null) !== (newOwner || null)) {
+    if (newOwner) managed[key] = newOwner; else delete managed[key];
+    managedDirty = true;
+  }
 }
 function run(items) {
   queue = queue.catch(error => Z.logError(error)).then(async () => {
-    for (const item of items) await update(item);
+    try {
+      let count = 0;
+      for (const item of items) {
+        if (disposed) break;
+        await update(item);
+        if (++count % 100 === 0) {
+          flushManaged();
+          await new Promise(resolve => win.setTimeout(resolve,0));
+        }
+      }
+    } finally { flushManaged(); }
   });
   return queue;
 }
@@ -212,6 +247,7 @@ Z.ConferenceYearTags = {
     disposed = true;
     Z.Notifier.unregisterObserver(observerID);
     if (timer !== null) win.clearTimeout(timer);
+    pending.clear(); flushManaged();
   }
 };
 // Backfill the personal library once at startup; subsequently process changed items only.

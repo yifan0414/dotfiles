@@ -1,8 +1,9 @@
 // Run in Zotero Tools > Developer > Run JavaScript with "Run as async function".
 const at = Zotero.ActionsTags;
 if (!at) throw new Error("Enable Actions & Tags first.");
-const root = PathUtils.join(PathUtils.homeDir,".config","zotero");
-const backups = PathUtils.join(PathUtils.homeDir,".config","yadm","local","zotero","backups");
+const homeDir = Services.dirsvc.get("Home",Components.interfaces.nsIFile).path;
+const root = PathUtils.join(homeDir,".config","zotero");
+const backups = PathUtils.join(homeDir,".config","yadm","local","zotero","backups");
 const source = await Zotero.File.getContentsAsync(PathUtils.join(root,"conference-tags.js"));
 const backup = {
   savedAt: new Date().toISOString(),
@@ -33,4 +34,29 @@ at.api.actionManager.updateAction({
   shortcut:"", enabled:true, menu:"",
   showInMenu:{item:false,collection:false,tools:false,reader:false,readerAnnotation:false}
 }, "arxiv-auto-update-on-import-v1");
+const aiEnabled = Zotero.Prefs?.get("extensions.actionsTags.conferenceAI.enabled",true) === true;
+at.api.actionManager.updateAction({
+  name:"AI 会议查询：启动监听", event:9, operation:4,
+  data:await Zotero.File.getContentsAsync(PathUtils.join(root,"conference-ai.js")),
+  shortcut:"",enabled:aiEnabled,menu:"",
+  showInMenu:{item:false,collection:false,tools:false,reader:false,readerAnnotation:false}
+}, "conference-ai-startup-v1");
+at.api.actionManager.updateAction({
+  name:"AI 查询会议信息",event:0,operation:4,
+  data:'if (!items?.length) return; const Z=require("Zotero"); if (!Z.ConferenceAI?.runSelected) throw new Error("Restart Zotero to activate AI lookup."); return await Z.ConferenceAI.runSelected(items);',
+  shortcut:"",enabled:aiEnabled,menu:"AI 查询会议信息",
+  showInMenu:{item:true,collection:false,tools:false,reader:false,readerAnnotation:false}
+}, "conference-ai-selected-v1");
+at.api.actionManager.updateAction({
+  name:"复制 PDF：阅读器按钮与快捷键",event:9,operation:4,
+  data:await Zotero.File.getContentsAsync(PathUtils.join(root,"copy-pdf.js")),
+  shortcut:"",enabled:true,menu:"",
+  showInMenu:{item:false,collection:false,tools:false,reader:false,readerAnnotation:false}
+}, "copy-pdf-startup-v1");
+at.api.actionManager.updateAction({
+  name:"复制 PDF 文件",event:0,operation:4,
+  data:'if (!items?.length) return; const Z=require("Zotero"); if (!Z.CopyPDF) throw new Error("Restart Zotero to activate PDF copy."); return await Z.CopyPDF.copySelected(items);',
+  shortcut:"",enabled:true,menu:"复制 PDF 文件",
+  showInMenu:{item:true,collection:false,tools:false,reader:true,readerAnnotation:false}
+}, "copy-pdf-selected-v1");
 return await new AsyncFunction("Zotero",source)(Zotero);

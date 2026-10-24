@@ -20,6 +20,9 @@ SCRIPTS = ROOT / ".config/zotero"
 spec = importlib.util.spec_from_file_location("zotero_setup", ROOT / ".config/yadm/scripts/setup-zotero.py")
 setup = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(setup)
+ai_spec = importlib.util.spec_from_file_location("zotero_ai_setup", ROOT / ".config/yadm/scripts/configure-zotero-ai.py")
+ai_setup = importlib.util.module_from_spec(ai_spec)
+ai_spec.loader.exec_module(ai_setup)
 
 
 class ZoteroSetupTests(unittest.TestCase):
@@ -40,8 +43,9 @@ class ZoteroSetupTests(unittest.TestCase):
         self.sources = self.home / ".config/zotero"
         self.sources.mkdir(parents=True)
         for path in SCRIPTS.glob("*.js"):
-            if path.name in {*setup.RULE_SOURCES.values(), "install-conference-tags.js", "activate-plugins.js"}:
+            if path.name in {*setup.RULE_SOURCES.values(), "install-conference-tags.js", "activate-plugins.js", "conference-ai.js"}:
                 shutil.copyfile(path, self.sources / path.name)
+        shutil.copyfile(SCRIPTS / "copy-pdf-macos.swift", self.sources / "copy-pdf-macos.swift")
         self.archive = self.home / "fixture.xpi"
         with zipfile.ZipFile(self.archive, "w") as archive:
             archive.writestr("manifest.json", json.dumps({"version": "1.2.3", "applications": {"zotero": {"id": "test@example.com"}}}))
@@ -77,6 +81,32 @@ class ZoteroSetupTests(unittest.TestCase):
         self.assertEqual((self.profile / "prefs.js").read_bytes(), before)
         self.assertFalse((self.home / ".cache").exists())
 
+    def test_ai_install_refuses_a_live_profile(self):
+        before = (self.profile / "prefs.js").read_bytes()
+        with mock.patch.object(ai_setup.subprocess, "run", return_value=mock.Mock(stdout="/Applications/Zotero.app/Contents/MacOS/zotero\n")):
+            with self.assertRaisesRegex(ValueError, "Quit Zotero"):
+                ai_setup.configure(self.home, self.profile)
+        self.assertEqual((self.profile / "prefs.js").read_bytes(), before)
+
+    def test_ai_install_preserves_unrelated_state_and_never_copies_key(self):
+        (self.home / ".pi/agent").mkdir(parents=True)
+        (self.home / ".pi/agent/auth.json").write_text(json.dumps({"deepseek": {"type": "api_key", "key": "fake-test-credential"}}))
+        values = {"unrelated.setting": "keep", "extensions.actionsTags.rules": json.dumps(["unrelated", "conference-year-tags-startup-v1"]),
+                  "extensions.actionsTags.rules.unrelated": json.dumps({"data": "keep me", "enabled": True}),
+                  "extensions.actionsTags.rules.conference-year-tags-startup-v1": json.dumps({"data": "old", "enabled": True, "operation": 4})}
+        (self.profile / "prefs.js").write_text("\n".join("user_pref(" + json.dumps(k) + ", " + json.dumps(v) + ");" for k, v in values.items()) + "\n")
+        with mock.patch.object(ai_setup.subprocess, "run", return_value=mock.Mock(stdout="")):
+            first = ai_setup.configure(self.home, self.profile, probe_keys=["ABCDEFGH"])
+            ai_setup.configure(self.home, self.profile)
+        prefs = setup.read_preferences(self.profile)
+        self.assertEqual(prefs["unrelated.setting"], "keep")
+        self.assertEqual(prefs["extensions.actionsTags.rules.unrelated"], values["extensions.actionsTags.rules.unrelated"])
+        self.assertEqual(len(json.loads(prefs["extensions.actionsTags.rules"])), 4)
+        self.assertTrue(prefs["extensions.actionsTags.conferenceAI.enabled"])
+        self.assertNotIn("fake-test-credential", (self.profile / "prefs.js").read_text())
+        self.assertEqual(Path(first["backup"]).stat().st_mode & 0o777, 0o600)
+        self.assertEqual(json.loads(prefs["extensions.actionsTags.conferenceAI.probeKeys"]), ["ABCDEFGH"])
+
     def test_verified_cache_is_reused_and_tampered_cache_rejected(self):
         cache = self.home / "cache"
         cache.mkdir()
@@ -96,7 +126,7 @@ class ZoteroSetupTests(unittest.TestCase):
         cache.mkdir(parents=True)
         shutil.copyfile(self.archive, cache / self.plugin["filename"])
         before = (self.profile / "prefs.js").read_bytes()
-        with contextlib.redirect_stdout(io.StringIO()):
+        with contextlib.redirect_stdout(io.StringIO()), mock.patch.object(setup.subprocess, "run"):
             setup.prepare(self.home, self.manifest, self.app)
             first = (self.home / ".config/yadm/local/zotero/activate.js").read_text()
             setup.prepare(self.home, self.manifest, self.app)
@@ -126,15 +156,24 @@ const rules=new Map([['unrelated',{data:'keep me',enabled:true}],['default0',{da
 const writes=[];
 global.PathUtils={homeDir:'/Users/another Mac user',join:(...parts)=>parts.join('/')};
 global.IOUtils={makeDirectory:async()=>{}};
+global.Services={dirsvc:{get:()=>({path:'/Users/another Mac user'})}};
+global.Components={interfaces:{nsIFile:{}}};
 const Z={ActionsTags:{data:{actions:{map:rules}},api:{actionManager:{updateAction:(rule,key)=>rules.set(key,rule)}}},
  File:{getContentsAsync:async path=>path.endsWith('conference-tags.js')?"return 'fixture ready';":"return;",
  putContentsAsync:async(path,data)=>writes.push({path,data})}};
 const F=Object.getPrototypeOf(async function(){}).constructor;
 for(let i=0;i<2;i++)assert.equal(await new F('Zotero',source)(Z),'fixture ready');
-assert.equal(rules.size,5);
+assert.equal(rules.size,9);
+assert.equal(rules.get('conference-ai-startup-v1').enabled,false);
 assert.equal(rules.get('unrelated').data,'keep me');assert.equal(rules.get('default0').enabled,false);
 assert.ok(writes.every(entry=>entry.path.startsWith('/Users/another Mac user/.config/yadm/local/zotero/backups/')));
 assert.equal(rules.get('arxiv-auto-update-on-import-v1').event,1);
+let calls=0;
+Z.ConferenceAI={runSelected:async selected=>{calls++;assert.equal(selected.length,1);return 'batch result'}};
+const action=new F('items','item','require',rules.get('conference-ai-selected-v1').data);
+assert.equal(await action([{id:1}],null,()=>Z),'batch result');
+assert.equal(await action([],{id:1},()=>Z),undefined);
+assert.equal(calls,1);
 console.log('portable native action install passed');
 })().catch(error=>{console.error(error);process.exit(1)});
 '''

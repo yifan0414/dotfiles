@@ -40,14 +40,15 @@ for (let attempt=0;!Zotero.ActionsTags?.api?.actionManager || !Zotero.arXivWorkf
   if (attempt >= 100) throw new Error("Plugin startup incomplete; restart Zotero and rerun activation.");
   await Zotero.Promise.delay(100);
 }
-const sourceRoot = PathUtils.join(PathUtils.homeDir,".config","zotero");
+const homeDir = Services.dirsvc.get("Home",Ci.nsIFile).path;
+const sourceRoot = PathUtils.join(homeDir,".config","zotero");
 const code = await Zotero.File.getContentsAsync(PathUtils.join(sourceRoot,"install-conference-tags.js"));
 const F = Object.getPrototypeOf(async function(){}).constructor;
 const message = await new F("Zotero",code)(Zotero);
 // Metadata enrichment is the intended workflow; don't fetch another PDF on every import.
 Zotero.Prefs.set("extensions.zotero.arxiv-workflow.downloadJournalPDF",false,true);
 const receipt = {activatedAt:new Date().toISOString(),zotero:Zotero.version,plugins:installed,message};
-const local = PathUtils.join(PathUtils.homeDir,".config","yadm","local","zotero");
+const local = PathUtils.join(homeDir,".config","yadm","local","zotero");
 await IOUtils.makeDirectory(local,{ignoreExisting:true,createAncestors:true});
 await Zotero.File.putContentsAsync(PathUtils.join(local,"activation-result.json"),JSON.stringify(receipt,null,2));
 return receipt;

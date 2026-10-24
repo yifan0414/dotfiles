@@ -22,6 +22,7 @@ MAX_XPI_BYTES = 8 * 1024 * 1024
 RULE_SOURCES = {
     "conference-year-tags-startup-v1": "conference-tags.js",
     "arxiv-auto-update-on-import-v1": "import-arxiv-update.js",
+    "copy-pdf-startup-v1": "copy-pdf.js",
 }
 
 
@@ -115,6 +116,13 @@ def inspect(home, profile, manifest, app):
             rules[key] = False
     selected = json.loads(prefs.get("extensions.actionsTags.rules.conference-year-tags-selected-v1", "{}"))
     rules["conference-year-tags-selected-v1"] = bool(selected.get("enabled") and selected.get("operation") == 4)
+    if prefs.get("extensions.actionsTags.conferenceAI.enabled") is True:
+        ai_source = home / ".config/zotero/conference-ai.js"
+        ai_rule = json.loads(prefs.get("extensions.actionsTags.rules.conference-ai-startup-v1", "{}"))
+        rules["conference-ai-startup-v1"] = bool(ai_rule.get("enabled") and ai_source.is_file()
+                                                and ai_rule.get("data") == ai_source.read_text())
+        ai_manual = json.loads(prefs.get("extensions.actionsTags.rules.conference-ai-selected-v1", "{}"))
+        rules["conference-ai-selected-v1"] = bool(ai_manual.get("enabled") and ai_manual.get("operation") == 4)
     version = app_version(app)
     ready = bool(version and int(version.split(".")[0]) == manifest["zotero_major"] and profile
                  and all(entry["enabled"] and entry["version_sufficient"] for entry in plugins) and all(rules.values()))
@@ -179,9 +187,10 @@ def prepare(home, manifest, app):
     if not version or int(version.split(".")[0]) != manifest["zotero_major"]:
         raise ValueError("This plugin set targets Zotero 10; review compatibility before updating the manifest")
     source_dir = home / ".config/zotero"
-    for filename in (*RULE_SOURCES.values(), "install-conference-tags.js", "activate-plugins.js"):
+    for filename in (*RULE_SOURCES.values(), "install-conference-tags.js", "activate-plugins.js", "conference-ai.js", "copy-pdf-macos.swift"):
         if not (source_dir / filename).is_file():
             raise ValueError("Missing tracked source: " + str(source_dir / filename))
+    subprocess.run([sys.executable, str(Path(__file__).with_name("configure-zotero-copy.py")), "--build-helper"], check=True, capture_output=True)
     cache = home / ".cache/yadm/zotero"
     cache.mkdir(parents=True, exist_ok=True)
     plugins = [dict(plugin, path=str(download_plugin(plugin, cache))) for plugin in manifest["plugins"]]

@@ -24,22 +24,27 @@ queue.timer = win.setTimeout(async () => {
       !target.deleted && target.itemType === "preprint" && arxivRecord(target));
     if (!candidates.length) return;
     for (const target of candidates) queue.seen.add(target.id);
+    while (queue.seen.size > 2000) queue.seen.delete(queue.seen.values().next().value);
+    Z.arXivWorkflow.data?.arXivUpdate?.manager?.filterInactive?.();
     // Supported by Workflow 0.4.1: update without opening its progress window.
     await Z.arXivWorkflow.api.arXivUpdate(candidates, {openWindow:false});
     // Surface paused fuzzy matches so hiding progress never hides a required decision.
     const manager = Z.arXivWorkflow.data?.arXivUpdate?.manager;
     if (manager?.getRows) {
-      const watched = new Set(candidates.map(target => target.id));
+      if (queue.reviewTimer != null) win.clearTimeout(queue.reviewTimer);
       const started = Date.now();
       const checkReview = () => {
-        const rows = manager.getRows().filter(row => watched.has(row.id));
+        queue.reviewTimer = null;
+        const rows = manager.getRows();
         if (rows.some(row => row.status === "needs-confirmation")) {
           Z.arXivWorkflow.api.arXivUpdate([], {openWindow:true});
           return;
         }
         if (Date.now() - started < 15 * 60 * 1000 &&
-            rows.some(row => ["pending", "processing"].includes(row.status))) {
-          win.setTimeout(checkReview, 1500);
+            rows.some(row => ["pending", "processing", "finding-update", "downloading-metadata", "downloading-pdf"].includes(row.status))) {
+          queue.reviewTimer = win.setTimeout(checkReview, 3000);
+        } else {
+          manager.filterInactive?.();
         }
       };
       checkReview();

@@ -38,3 +38,6 @@ __pycache__/
 !/.config/zotero/import-arxiv-update.js
 !/.config/zotero/install-conference-tags.js
 !/.config/zotero/activate-plugins.js
+!/.config/zotero/conference-ai.js
+!/.config/zotero/copy-pdf.js
+!/.config/zotero/copy-pdf-macos.swift
