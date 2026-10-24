@@ -5,14 +5,13 @@
       "api": "openai-completions",
       "models": [
         {
-          "id": "deepseek-v4.1-flash-expires-on-0910",
-          "name": "DeepSeek V4.1 Flash",
           "api": "openai-completions",
-          "reasoning": true,
-          "input": ["text", "image"],
-          "contextWindow": 1000000,
-          "maxTokens": 384000,
-          "cost": { "input": 0.14, "output": 0.28, "cacheRead": 0.0028, "cacheWrite": 0 },
+          "cost": {
+            "input": 0.14,
+            "output": 0.28,
+            "cacheRead": 0.0028,
+            "cacheWrite": 0
+          },
           "compat": {
             "supportsStore": false,
             "supportsDeveloperRole": false,
@@ -20,6 +19,15 @@
             "requiresReasoningContentOnAssistantMessages": true,
             "thinkingFormat": "deepseek"
           },
+          "id": "deepseek-v4.1-flash-expires-on-0910",
+          "name": "DeepSeek V4.1 Flash",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 1000000,
+          "maxTokens": 384000,
           "thinkingLevelMap": {
             "minimal": null,
             "low": "low",
