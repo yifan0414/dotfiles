@@ -5,4 +5,4 @@ abort "Unknown DOTFILES_GUI_APPS: #{unknown.join(' ')}" unless unknown.empty?
 cask "kitty" if apps.include?("kitty")
 cask "font-maple-mono-cn" if apps.include?("kitty")
 cask "zotero" if apps.include?("zotero")
-# Fcitx5 uses its upstream installer, launched separately by bootstrap.
+# Bootstrap installs Fcitx5 with the upstream Rime installer and the Frost scheme.

@@ -284,22 +284,47 @@ class Checks(unittest.TestCase):
           [[ ! -e "$HOME/gui-installed" ]]
         ''')
 
-    def test_fcitx5_installer_reports_pending_and_download_failure(self):
+    def test_fcitx5_installs_frost_and_uses_rime_installer_until_plugin_is_present(self):
         self.shell('''
-          curl() { touch "$HOME/downloaded"; }
+          python3() {
+            [[ "$1" == "$HOME/.config/yadm/scripts/setup_fcitx5.py" && "$2" == --apply ]] || return 1
+            printf 'apply\\n' >> "$HOME/frost-calls"
+          }
+          curl() {
+            [[ "$5" == */Fcitx5-Rime.zip ]] || return 1
+            [[ "$6" == https://github.com/fcitx-contrib/fcitx5-macos-installer/releases/download/latest/Fcitx5-Rime.zip ]] || return 1
+            touch "$HOME/downloaded"
+          }
           ditto() { mkdir -p "$4/Fcitx5Installer.app"; }
           open() { [[ "$1" == "$HOME/.cache/yadm/"*/Fcitx5Installer.app ]]; touch "$HOME/opened"; }
           # Isolate installed-app detection from the real Mac.
           eval "$(declare -f install_fcitx5 | sed 's|/Library/Input Methods/Fcitx5.app|/nonexistent-test-fcitx5.app|g')"
           install_fcitx5
           [[ -f "$HOME/downloaded" && -f "$HOME/opened" && "$BOOTSTRAP_FAILURES" == 0 ]]
+          [[ "${REPORT_STATUSES[1]}" == pending ]]
+          rm "$HOME/opened"
+          mkdir -p "$HOME/nonexistent-test-fcitx5.app"
+          install_fcitx5
+          [[ -f "$HOME/opened" && "$BOOTSTRAP_FAILURES" == 0 ]]
           rm "$HOME/opened"
           curl() { return 1; }
           install_fcitx5
           [[ ! -e "$HOME/opened" && "$BOOTSTRAP_FAILURES" == 1 ]]
-          mkdir -p "$HOME/nonexistent-test-fcitx5.app"
+          mkdir -p "$HOME/Library/fcitx5/plugin" "$HOME/Library/fcitx5/lib/fcitx5"
+          touch "$HOME/Library/fcitx5/plugin/rime.json" "$HOME/Library/fcitx5/lib/fcitx5/librime.so"
           install_fcitx5
           [[ ! -e "$HOME/opened" && "$BOOTSTRAP_FAILURES" == 1 ]]
+          [[ "$(wc -l < "$HOME/frost-calls" | tr -d ' ')" == 4 ]]
+        ''')
+
+    def test_fcitx5_reports_frost_download_failure(self):
+        self.shell('''
+          python3() { return 1; }
+          curl() { return 1; }
+          eval "$(declare -f install_fcitx5 | sed 's|/Library/Input Methods/Fcitx5.app|/nonexistent-test-fcitx5.app|g')"
+          install_fcitx5
+          [[ "$BOOTSTRAP_FAILURES" == 2 ]]
+          [[ "${REPORT_NAMES[0]}" == 'Frost Pinyin' && "${REPORT_STATUSES[0]}" == failed ]]
         ''')
 
     def test_fcitx5_selection_and_skip(self):

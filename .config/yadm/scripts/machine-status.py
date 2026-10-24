@@ -2,7 +2,6 @@
 """Read-only bootstrap inspection; this does not validate a training environment."""
 
 import argparse
-import configparser
 import csv
 import json
 import os
@@ -15,6 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from machine_config import config_path, load_machine
+from setup_fcitx5 import configuration as fcitx5_configuration
 
 try:
     import grp
@@ -252,28 +252,6 @@ def mac_apps(home):
     return {name: {"state": "present" if any(path.is_dir() for path in paths) else "not-found",
                    "checked_paths": [str(path) for path in paths]}
             for name, paths in locations.items()}
-
-
-def fcitx5_configuration(home):
-    resources = home / "Library/fcitx5"
-    result = {
-        "chinese_addons_installed": (resources / "plugin/chinese-addons.json").is_file(),
-        "pinyin_engine_present": (resources / "lib/fcitx5/libpinyin.so").is_file(),
-        "pinyin_enabled": False,
-        "system_input_source_enabled": "not-checked",
-    }
-    profile = home / ".config/fcitx5/profile"
-    if profile.is_file():
-        parser = configparser.ConfigParser(interpolation=None)
-        try:
-            parser.read_string(profile.read_text())
-            result["pinyin_enabled"] = any(
-                section.startswith("Groups/") and "/Items/" in section
-                and parser.get(section, "Name", fallback="") == "pinyin"
-                for section in parser.sections())
-        except (OSError, configparser.Error):
-            result["profile_state"] = "unreadable"
-    return result
 
 
 def inspect(home, requested):

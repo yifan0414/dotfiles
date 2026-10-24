@@ -417,9 +417,15 @@ configure_proxy() {
 
 install_fcitx5() {
   local app_dir installer_dir archive
+  if python3 "$HOME/.config/yadm/scripts/setup_fcitx5.py" --apply; then
+    record_status "Frost Pinyin" "configured" "$HOME/.local/share/fcitx5/rime"
+  else
+    record_status "Frost Pinyin" "failed" "scheme installation"
+  fi
   for app_dir in "/Library/Input Methods/Fcitx5.app" "$HOME/Library/Input Methods/Fcitx5.app"; do
-    if [[ -d "$app_dir" ]]; then
-      record_status "Fcitx5" "present" "$app_dir; existing installation retained"
+    if [[ -d "$app_dir" && -f "$HOME/Library/fcitx5/plugin/rime.json" \
+        && -f "$HOME/Library/fcitx5/lib/fcitx5/librime.so" ]]; then
+      record_status "Fcitx5" "present" "$app_dir; Rime installed"
       return 0
     fi
   done
@@ -432,15 +438,15 @@ install_fcitx5() {
     record_status "Fcitx5" "failed" "cannot create installer directory"
     return 0
   fi
-  archive="$installer_dir/Fcitx5-Pinyin.zip"
+  archive="$installer_dir/Fcitx5-Rime.zip"
   if curl -fL --retry 3 -o "$archive" \
-      "https://github.com/fcitx-contrib/fcitx5-macos-installer/releases/download/latest/Fcitx5-Pinyin.zip" \
+      "https://github.com/fcitx-contrib/fcitx5-macos-installer/releases/download/latest/Fcitx5-Rime.zip" \
       && ditto -x -k "$archive" "$installer_dir" \
       && open "$installer_dir/Fcitx5Installer.app"; then
-    record_status "Fcitx5" "pending" "complete the Pinyin installer, then log out/in and enable Fcitx5 in Keyboard settings"
+    record_status "Fcitx5" "pending" "complete the Rime installer, then log out/in and enable Fcitx5 in Keyboard settings"
   else
     warn "Fcitx5 installer could not be downloaded or opened; retained files: $installer_dir"
-    record_status "Fcitx5" "failed" "upstream Pinyin installer"
+    record_status "Fcitx5" "failed" "upstream Rime installer"
   fi
 }
 

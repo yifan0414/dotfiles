@@ -385,23 +385,42 @@ class MachineStatusTests(unittest.TestCase):
         self.assertTrue(all(app["state"] == "present" for app in report["mac_apps"].values()))
         self.run.assert_not_called()
 
-    def test_fcitx5_plugin_and_enabled_pinyin_are_checked_separately(self):
+    def test_fcitx5_rime_plugin_and_frost_deployment_are_checked_separately(self):
         resources = self.home / 'Library/fcitx5'
         (resources / 'plugin').mkdir(parents=True)
-        (resources / 'plugin/chinese-addons.json').touch()
+        (resources / 'plugin/rime.json').touch()
         profile = self.home / '.config/fcitx5/profile'
         profile.parent.mkdir(parents=True)
-        profile.write_text('[Groups/0/Items/0]\nName=pinyin\n')
+        profile.write_text('[Groups/0]\nDefaultIM=rime\n[Groups/0/Items/0]\nName=rime\n')
         _, report = self.inspect('Darwin')
         state = report['fcitx5_configuration']
-        self.assertTrue(state['chinese_addons_installed'])
-        self.assertTrue(state['pinyin_enabled'])
-        self.assertFalse(state['pinyin_engine_present'])
+        self.assertTrue(state['rime_plugin_installed'])
+        self.assertTrue(state['rime_enabled'])
+        self.assertTrue(state['rime_default'])
+        self.assertFalse(state['rime_engine_present'])
+        self.assertFalse(state['frost_scheme_present'])
+        self.assertFalse(state['frost_compiled'])
         (resources / 'lib/fcitx5').mkdir(parents=True)
-        (resources / 'lib/fcitx5/libpinyin.so').touch()
-        self.assertTrue(self.inspect('Darwin')[1]['fcitx5_configuration']['pinyin_engine_present'])
+        (resources / 'lib/fcitx5/librime.so').touch()
+        rime = self.home / '.local/share/fcitx5/rime'
+        (rime / 'build').mkdir(parents=True)
+        for name in ('rime_frost.schema.yaml', 'rime_frost.dict.yaml',
+                     'build/rime_frost.schema.yaml', 'build/rime_frost.table.bin',
+                     'build/rime_frost.prism.bin'):
+            (rime / name).touch()
+        (rime / 'build/default.yaml').write_text('schema_list:\n  - schema: rime_frost\n')
+        state = self.inspect('Darwin')[1]['fcitx5_configuration']
+        self.assertTrue(all(state[key] for key in ('rime_engine_present', 'frost_scheme_present',
+                                                  'frost_dictionary_present', 'frost_compiled',
+                                                  'frost_enabled')))
+        self.assertEqual(state['system_input_source_enabled'], 'not-checked')
         profile.write_text('[Groups/0/Items/0]\nName=keyboard-us\n')
-        self.assertFalse(self.inspect('Darwin')[1]['fcitx5_configuration']['pinyin_enabled'])
+        (rime / 'build/default.yaml').write_text('schema_list:\n  - schema: luna_pinyin\n')
+        state = self.inspect('Darwin')[1]['fcitx5_configuration']
+        self.assertFalse(state['rime_enabled'])
+        self.assertFalse(state['rime_default'])
+        self.assertFalse(state['frost_enabled'])
+        self.run.assert_not_called()
 
     def test_optional_gpu_query_never_changes_strict_success(self):
         self.available.add("nvidia-smi")
