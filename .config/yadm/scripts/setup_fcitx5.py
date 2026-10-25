@@ -13,7 +13,15 @@ import zipfile
 
 
 FROST_URL = "https://codeload.github.com/gaboolic/rime-frost/zip/refs/heads/master"
-DEFAULT_PATCH = "patch:\n  schema_list:\n    - schema: rime_frost\n  menu/page_size: 7\n"
+DEFAULT_PATCH = """patch:
+  schema_list:
+    - schema: rime_frost
+  menu/page_size: 7
+  punctuator/half_shape/+:
+    "/": "/"
+  punctuator/full_shape/+:
+    "/": "／"
+"""
 AI_DICTIONARY = Path(__file__).resolve().parents[1] / "packages/fcitx5/ai_ml.dict.yaml"
 AI_IMPORT = re.compile(r"(?m)^[ \t]*-[ \t]+['\"]?en_dicts/ai_ml['\"]?[ \t]*(?:#.*)?$")
 
