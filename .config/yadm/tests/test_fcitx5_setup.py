@@ -1,5 +1,6 @@
 """Exercise Frost installation with local archives and temporary homes."""
 
+import hashlib
 import shutil
 import subprocess
 import sys
@@ -35,6 +36,17 @@ class Fcitx5SetupTests(unittest.TestCase):
                 "build/stale.bin": "upstream build\n",
             }.items():
                 bundle.writestr("rime-frost-master/" + name, content)
+        self.font_archives = {}
+        for filename, members in setup.FONT_PACKAGES.items():
+            archive = self.root / filename
+            with zipfile.ZipFile(archive, "w") as bundle:
+                for member in members:
+                    bundle.writestr(member, "OTF " + member)
+                bundle.writestr("unused/Other.ttf", "not a requested OTF")
+            self.font_archives[filename] = archive
+        digest = patch.object(setup, "FONT_SHA256", hashlib.sha256(archive.read_bytes()).hexdigest())
+        digest.start()
+        self.addCleanup(digest.stop)
         self.command = patch.object(setup.subprocess, "run", side_effect=self.run_command)
         self.run = self.command.start()
         self.addCleanup(self.command.stop)
@@ -42,8 +54,12 @@ class Fcitx5SetupTests(unittest.TestCase):
     def run_command(self, args, **kwargs):
         if args[0] != "curl":
             raise AssertionError(f"Unexpected command: {args}")
-        self.assertEqual(args[-1], setup.FROST_URL)
-        shutil.copyfile(self.archive, args[args.index("-o") + 1])
+        if args[-1] == setup.FROST_URL:
+            archive = self.archive
+        else:
+            self.assertTrue(args[-1].startswith(setup.FONT_URL))
+            archive = self.font_archives[args[-1].removeprefix(setup.FONT_URL)]
+        shutil.copyfile(archive, args[args.index("-o") + 1])
         return subprocess.CompletedProcess(args, 0)
 
     def compiled(self):
@@ -59,6 +75,7 @@ class Fcitx5SetupTests(unittest.TestCase):
         self.assertTrue(result["changed"])
         self.assertEqual(result["deployment"], "pending")
         self.assertTrue(result["configuration"]["frost_dictionary_present"])
+        self.assertTrue(result["configuration"]["plangothic_fonts_installed"])
         self.assertTrue((self.rime / "lua/example.lua").is_file())
         self.assertTrue(result["configuration"]["ai_ml_dictionary_enabled"])
         self.assertEqual((self.rime / "en_dicts/ai_ml.dict.yaml").read_bytes(),
@@ -66,7 +83,26 @@ class Fcitx5SetupTests(unittest.TestCase):
         self.assertEqual((self.rime / "default.custom.yaml").read_text(), setup.DEFAULT_PATCH)
         self.assertFalse((self.rime / "build/stale.bin").exists())
         self.assertTrue((self.home / ".cache/yadm/fcitx5/rime-frost.zip").is_file())
-        self.assertEqual(self.run.call_count, 1)
+        self.assertEqual(self.run.call_count, 2)
+
+    def test_font_install_reuses_cache_and_preserves_installed_fonts(self):
+        fonts = self.home / "Library/Fonts"
+        fonts.mkdir(parents=True)
+        regular = fonts / "PlangothicP1-Regular.otf"
+        regular.write_bytes(b"existing font")
+        self.assertTrue(setup.install_fonts(self.home))
+        self.assertEqual(regular.read_bytes(), b"existing font")
+        self.assertEqual(len(list(fonts.iterdir())), 2)
+        rare = fonts / "PlangothicP2-Regular.otf"
+        expected = f"OTF Plangothic-OTF-{setup.FONT_VERSION}/PlangothicP2-Regular.otf"
+        self.assertEqual(rare.read_text(), expected)
+        self.run.reset_mock()
+        self.assertFalse(setup.install_fonts(self.home))
+        self.run.assert_not_called()
+        rare.unlink()
+        self.assertTrue(setup.install_fonts(self.home))
+        self.assertEqual(rare.read_text(), expected)
+        self.run.assert_not_called()
 
     def test_repeat_reuses_source_and_keeps_customizations_and_learned_data(self):
         setup.apply(self.home)

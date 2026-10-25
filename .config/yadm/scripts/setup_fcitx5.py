@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Install the Frost Pinyin scheme for Fcitx5 macOS."""
+"""Install Frost Pinyin, research vocabulary and fonts for Fcitx5 macOS."""
 
 import argparse
 import configparser
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -24,6 +25,16 @@ DEFAULT_PATCH = """patch:
 """
 AI_DICTIONARY = Path(__file__).resolve().parents[1] / "packages/fcitx5/ai_ml.dict.yaml"
 AI_IMPORT = re.compile(r"(?m)^[ \t]*-[ \t]+['\"]?en_dicts/ai_ml['\"]?[ \t]*(?:#.*)?$")
+FONT_VERSION = "V2.9.5795"
+FONT_URL = ("https://github.com/Fitzgerald-Porthmouth-Koenigsegg/Plangothic_Project/"
+            f"releases/download/{FONT_VERSION}/")
+FONT_SHA256 = "52ae1a041bee7b680504573da10f2f5eebb9dd0f93022e50223f49df401c6b9a"
+FONT_PACKAGES = {
+    f"Plangothic-OTF-{FONT_VERSION}.zip": tuple(
+        f"Plangothic-OTF-{FONT_VERSION}/PlangothicP{part}-Regular.otf" for part in (1, 2)),
+}
+FONT_OPTIONS = ("TextFontFamily", "LabelFontFamily", "CommentFontFamily", "PreeditFontFamily")
+FONT_FAMILIES = ("system-ui", "Plangothic P1", "Plangothic P2")
 
 
 def configuration(home):
@@ -72,6 +83,20 @@ def configuration(home):
         and (rime / "build/melt_eng.prism.bin").is_file()
         and table.stat().st_mtime_ns >= max(dictionary.stat().st_mtime_ns,
                                             english.stat().st_mtime_ns))
+    result["plangothic_fonts_installed"] = all(
+        (home / "Library/Fonts" / Path(member).name).is_file()
+        for members in FONT_PACKAGES.values() for member in members)
+    result["font_fallback_configured"] = False
+    webpanel = home / ".config/fcitx5/conf/webpanel.conf"
+    if webpanel.is_file():
+        parser = configparser.ConfigParser(interpolation=None)
+        try:
+            parser.read_string(webpanel.read_text())
+            result["font_fallback_configured"] = all(
+                parser.get(f"Font/{option}", str(index), fallback="").strip('"') == family
+                for option in FONT_OPTIONS for index, family in enumerate(FONT_FAMILIES))
+        except (OSError, configparser.Error):
+            result["webpanel_state"] = "unreadable"
     return result
 
 
@@ -138,6 +163,36 @@ def install_ai_dictionary(home):
     return changed
 
 
+def install_fonts(home):
+    fonts = home / "Library/Fonts"
+    cache = home / ".cache/yadm/fcitx5/fonts"
+    changed = False
+    for filename, members in FONT_PACKAGES.items():
+        missing = [member for member in members if not (fonts / Path(member).name).is_file()]
+        if not missing:
+            continue
+        cache.mkdir(parents=True, exist_ok=True)
+        archive = cache / filename
+        partial = cache / (filename + ".part")
+        source = archive
+        if not archive.is_file():
+            subprocess.run(["curl", "-fL", "--retry", "3", "-o", str(partial),
+                            FONT_URL + filename], check=True)
+            source = partial
+        if hashlib.sha256(source.read_bytes()).hexdigest() != FONT_SHA256:
+            raise ValueError(f"{filename} checksum mismatch")
+        with zipfile.ZipFile(source) as bundle:
+            if not set(members).issubset(bundle.namelist()):
+                raise ValueError(f"{filename} is missing expected OTF fonts")
+            fonts.mkdir(parents=True, exist_ok=True)
+            for member in missing:
+                (fonts / Path(member).name).write_bytes(bundle.read(member))
+        if source == partial:
+            partial.replace(archive)
+        changed = True
+    return changed
+
+
 def deploy_scheme(home):
     if not configuration(home)["rime_engine_present"]:
         return "pending"
@@ -154,6 +209,7 @@ def deploy_scheme(home):
 
 
 def apply(home):
+    fonts_changed = install_fonts(home)
     changed = install_scheme(home)
     changed = install_ai_dictionary(home) or changed
     state = configuration(home)
@@ -161,13 +217,14 @@ def apply(home):
     if changed or not (state["frost_compiled"] and state["frost_enabled"]
                        and state["ai_ml_dictionary_compiled"]):
         deployment = deploy_scheme(home)
-    return {"scheme": "rime_frost", "changed": changed,
+    return {"scheme": "rime_frost", "changed": changed or fonts_changed,
+            "fonts_changed": fonts_changed,
             "deployment": deployment, "configuration": configuration(home)}
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--apply", action="store_true", help="Install and deploy Frost Pinyin")
+    parser.add_argument("--apply", action="store_true", help="Install fonts and deploy Frost Pinyin")
     parser.add_argument("--home", type=Path, default=Path.home())
     args = parser.parse_args(argv)
     try:

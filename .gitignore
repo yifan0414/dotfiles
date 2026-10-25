@@ -24,10 +24,12 @@ __pycache__/
 # Generated hostname-selected shell fragment; track its ##hostname.* sources.
 /.zshrc.local
 
-# Fcitx5 generated keyboard cache, learned words and installed plugins.
+# Fcitx5 generated keyboard cache, learned words, plugins and downloaded fonts.
 /.config/fcitx5/conf/cached_layouts
 /.local/share/fcitx5/
 /Library/fcitx5/
+/Library/Fonts/PlangothicP*-Regular.otf
+/.cache/yadm/fcitx5/
 
 # Local fingerprints verify encrypted backups; never synchronize these receipts.
 /.local/state/yadm-sync/
