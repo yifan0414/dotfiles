@@ -14,6 +14,8 @@ import zipfile
 
 FROST_URL = "https://codeload.github.com/gaboolic/rime-frost/zip/refs/heads/master"
 DEFAULT_PATCH = "patch:\n  schema_list:\n    - schema: rime_frost\n  menu/page_size: 7\n"
+AI_DICTIONARY = Path(__file__).resolve().parents[1] / "packages/fcitx5/ai_ml.dict.yaml"
+AI_IMPORT = re.compile(r"(?m)^[ \t]*-[ \t]+['\"]?en_dicts/ai_ml['\"]?[ \t]*(?:#.*)?$")
 
 
 def configuration(home):
@@ -51,6 +53,17 @@ def configuration(home):
         result["frost_enabled"] = bool(re.search(
             r"^\s*-\s+schema:\s*['\"]?rime_frost['\"]?\s*(?:#.*)?$",
             compiled.read_text(), re.MULTILINE))
+    dictionary = rime / "en_dicts/ai_ml.dict.yaml"
+    english = rime / "melt_eng.dict.yaml"
+    table = rime / "build/melt_eng.table.bin"
+    result["ai_ml_dictionary_present"] = dictionary.is_file()
+    result["ai_ml_dictionary_enabled"] = bool(
+        dictionary.is_file() and english.is_file() and AI_IMPORT.search(english.read_text()))
+    result["ai_ml_dictionary_compiled"] = bool(
+        result["ai_ml_dictionary_enabled"] and table.is_file()
+        and (rime / "build/melt_eng.prism.bin").is_file()
+        and table.stat().st_mtime_ns >= max(dictionary.stat().st_mtime_ns,
+                                            english.stat().st_mtime_ns))
     return result
 
 
@@ -92,6 +105,31 @@ def install_scheme(home):
     return changed
 
 
+def install_ai_dictionary(home):
+    rime = home / ".local/share/fcitx5/rime"
+    english = rime / "melt_eng.dict.yaml"
+    original = english.read_text()
+    updated = original
+    if not AI_IMPORT.search(original):
+        header = re.search(r"(?m)^import_tables:[ \t]*(?:#.*)?$", original)
+        if not header:
+            raise ValueError("melt_eng.dict.yaml has no import_tables list")
+        item = re.search(r"(?m)^([ \t]*)-[ \t]+", original[header.end():])
+        indent = item[1] if item else "  "
+        updated = (original[:header.end()] + "\n" + indent
+                   + "- en_dicts/ai_ml # AI/ML research vocabulary" + original[header.end():])
+    target = rime / "en_dicts/ai_ml.dict.yaml"
+    content = AI_DICTIONARY.read_bytes()
+    changed = not target.is_file() or target.read_bytes() != content
+    if changed:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(content)
+    if updated != original:
+        english.write_text(updated)
+        changed = True
+    return changed
+
+
 def deploy_scheme(home):
     if not configuration(home)["rime_engine_present"]:
         return "pending"
@@ -109,9 +147,11 @@ def deploy_scheme(home):
 
 def apply(home):
     changed = install_scheme(home)
+    changed = install_ai_dictionary(home) or changed
     state = configuration(home)
     deployment = "ready"
-    if changed or not (state["frost_compiled"] and state["frost_enabled"]):
+    if changed or not (state["frost_compiled"] and state["frost_enabled"]
+                       and state["ai_ml_dictionary_compiled"]):
         deployment = deploy_scheme(home)
     return {"scheme": "rime_frost", "changed": changed,
             "deployment": deployment, "configuration": configuration(home)}

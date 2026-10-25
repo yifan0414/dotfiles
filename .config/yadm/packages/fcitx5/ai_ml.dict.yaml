@@ -1,0 +1,5463 @@
+# Rime dictionary
+# encoding: utf-8
+# AI/ML research vocabulary, independently curated for this yadm setup.
+# Edit this file, then run: python3 ~/.config/yadm/scripts/setup_fcitx5.py --apply
+# Columns: display text<TAB>lowercase input code<TAB>weight.
+# Multiword names use joined-letter codes; prefixes support English completion.
+# Merge trailing numeric versions; preserve numbers followed by letters in model names.
+---
+name: ai_ml
+version: "2026-10-25"
+sort: by_weight
+columns:
+  - text
+  - code
+  - weight
+...
+
+# 大语言模型与推理模型
+Llama	llama	300
+Code Llama	codellama	180
+CodeLlama	codellama	180
+Alpaca	alpaca	180
+Vicuna	vicuna	180
+Guanaco	guanaco	180
+WizardLM	wizardlm	180
+WizardCoder	wizardcoder	180
+WizardMath	wizardmath	180
+Orca	orca	180
+OpenOrca	openorca	180
+Mistral	mistral	180
+Mixtral	mixtral	180
+Codestral	codestral	180
+Mathstral	mathstral	180
+Ministral	ministral	180
+Magistral	magistral	180
+# Promote the exact lowercase match to the first candidate page.
+Qwen	qwen	130000000
+Qwen2.5-Coder	qwen25coder	180
+Qwen2.5-Math	qwen25math	180
+QwQ	qwq	180
+QwQ-32B	qwq32b	180
+DeepSeek	deepseek	180
+DeepSeek-Coder	deepseekcoder	180
+DeepSeekMath	deepseekmath	180
+DeepSeek-Prover	deepseekprover	180
+Kimi	kimi	180
+Moonlight	moonlight	180
+Gemma	gemma	180
+CodeGemma	codegemma	180
+RecurrentGemma	recurrentgemma	180
+PaliGemma	paligemma	180
+Gemini	gemini	180
+Claude	claude	180
+GPT	gpt	180
+GPT-4o	gpt4o	180
+GPT-5 mini	gpt5mini	180
+GPT-5 nano	gpt5nano	180
+GPT-5 pro	gpt5pro	180
+Claude Sonnet	claudesonnet	180
+Claude Opus	claudeopus	180
+Gemini 2.5 Pro	gemini25pro	180
+Gemini 2.5 Flash	gemini25flash	180
+ChatGPT	chatgpt	180
+o4-mini	o4mini	180
+gpt-oss	gptoss	180
+Phi	phi	180
+Phi-4-mini	phi4mini	180
+Phi-4-reasoning	phi4reasoning	180
+OLMo	olmo	180
+OLMoE	olmoe	180
+OpenELM	openelm	180
+SmolLM	smollm	180
+StableLM	stablelm	180
+StableCode	stablecode	180
+TinyLlama	tinyllama	180
+MobileLLM	mobilellm	180
+MiniCPM	minicpm	180
+ChatGLM	chatglm	180
+GLM	glm	180
+Baichuan	baichuan	180
+Yi	yi	180
+Yi-Coder	yicoder	180
+InternLM	internlm	180
+InternLM-XComposer	internlmxcomposer	180
+BLOOM	bloom	180
+BLOOMZ	bloomz	180
+Falcon	falcon	180
+MPT	mpt	180
+Dolly	dolly	180
+Pythia	pythia	180
+GPT-Neo	gptneo	180
+GPT-NeoX	gptneox	180
+GPT-J	gptj	180
+OPT	opt	180
+Galactica	galactica	180
+Cerebras-GPT	cerebrasgpt	180
+RedPajama	redpajama	180
+OpenLLaMA	openllama	180
+OpenChat	openchat	180
+Zephyr	zephyr	180
+Tulu	tulu	180
+Starling	starling	180
+OpenHermes	openhermes	180
+Nous-Hermes	noushermes	180
+Hermes	hermes	180
+Nemotron	nemotron	180
+Nemotron-H	nemotronh	180
+Granite	granite	180
+Granite Code	granitecode	180
+DBRX	dbrx	180
+Jamba	jamba	180
+Jurassic	jurassic	180
+Command R	commandr	180
+Command R+	commandr	180
+Aya	aya	180
+Aya Expanse	ayaexpanse	180
+EXAONE	exaone	180
+Solar	solar	180
+Smaug	smaug	180
+Reka	reka	180
+Arctic	arctic	180
+Snowflake Arctic	snowflakearctic	180
+DCLM	dclm	180
+Hunyuan	hunyuan	180
+Hunyuan-Large	hunyuanlarge	180
+Hunyuan-A13B	hunyuana13b	180
+ERNIE	ernie	180
+TeleChat	telechat	180
+XVERSE	xverse	180
+Aquila	aquila	180
+Skywork	skywork	180
+DeepSeek-R1-Distill-Qwen	deepseekr1distillqwen	180
+DeepSeek-R1-Distill-Llama	deepseekr1distillllama	180
+
+# 语言编码器、序列模型与检索模型
+BERT	bert	180
+RoBERTa	roberta	180
+ALBERT	albert	180
+DistilBERT	distilbert	180
+TinyBERT	tinybert	180
+MobileBERT	mobilebert	180
+DeBERTa	deberta	180
+ELECTRA	electra	180
+XLNet	xlnet	180
+Transformer-XL	transformerxl	180
+Longformer	longformer	180
+BigBird	bigbird	180
+Reformer	reformer	180
+Linformer	linformer	180
+Performer	performer	180
+Nyströmformer	nystromformer	180
+FNet	fnet	180
+gMLP	gmlp	180
+SGU	sgu	180
+Mamba	mamba	180
+MambaByte	mambabyte	180
+MambaVision	mambavision	180
+RWKV	rwkv	180
+RetNet	retnet	180
+HGRN	hgrn	180
+Griffin	griffin	180
+Hawk	hawk	180
+Hyena	hyena	180
+StripedHyena	stripedhyena	180
+HyenaDNA	hyenadna	180
+Evo	evo	180
+Jellyfish	jellyfish	180
+Jamba-Instruct	jambainstruct	180
+T5	t5	180
+mT5	mt5	180
+Flan-T5	flant5	180
+UL2	ul2	180
+Flan-UL2	flanul2	180
+ByT5	byt5	180
+LongT5	longt5	180
+BART	bart	180
+mBART	mbart	180
+MarianMT	marianmt	180
+M2M100	m2m100	180
+NLLB	nllb	180
+Pegasus	pegasus	180
+ProphetNet	prophetnet	180
+UniLM	unilm	180
+MASS	mass	180
+ERNIE-Gram	erniegram	180
+MPNet	mpnet	180
+Sentence-BERT	sentencebert	180
+Sentence-T5	sentencet5	180
+SimCSE	simcse	180
+E5	e5	180
+multilingual-E5	multilinguale5	180
+E5-Mistral	e5mistral	180
+BGE	bge	180
+BGE-M3	bgem3	180
+BGE-Reranker	bgereranker	180
+GTE	gte	180
+GTE-Qwen	gteqwen	180
+Jina Embeddings	jinaembeddings	180
+Jina Reranker	jinareranker	180
+Nomic Embed	nomicembed	180
+NV-Embed	nvembed	180
+NV-Retriever	nvretriever	180
+Arctic Embed	arcticembed	180
+ColBERT	colbert	180
+DPR	dpr	180
+Contriever	contriever	180
+ANCE	ance	180
+SPLADE	splade	180
+DRAGON	dragon	180
+RetroMAE	retromae	180
+Retro	retro	180
+REALM	realm	180
+RAG-Token	ragtoken	180
+RAG-Sequence	ragsequence	180
+FiD	fid	180
+Atlas	atlas	180
+FiLM	film	180
+S4	s4	180
+S4D	s4d	180
+S5	s5	180
+H3	h3	180
+MEGA	mega	180
+Samba	samba	180
+Zamba	zamba	180
+
+# 视觉语言与多模态模型
+LLaVA	llava	300
+LLaVA-NeXT	llavanext	180
+LLaVA-OneVision	llavaonevision	180
+LLaVA-Video	llavavideo	180
+LLaVA-Med	llavamed	180
+LLaVA-RLHF	llavarlhf	180
+LLaVA-Phi	llavaphi	180
+LLaVA-Mini	llavamini	180
+Video-LLaVA	videollava	180
+LLaVA-UHD	llavauhd	180
+LLaVA-Plus	llavaplus	180
+LLaVA-Grounding	llavagrounding	180
+InternVL	internvl	300
+InternVideo	internvideo	180
+InternVideo2.5-Chat	internvideo25chat	180
+Qwen-VL	qwenvl	180
+Qwen-VL-Chat	qwenvlchat	180
+Qwen2-VL	qwen2vl	180
+Qwen2.5-VL	qwen25vl	180
+Qwen2.5-Omni	qwen25omni	180
+Qwen3-VL	qwen3vl	180
+Qwen3-Omni	qwen3omni	180
+MiniCPM-V	minicpmv	180
+MiniCPM-o	minicpmo	180
+MiniGPT	minigpt	180
+InstructBLIP	instructblip	180
+BLIP	blip	180
+BLIP-Diffusion	blipdiffusion	180
+InstructBLIPVideo	instructblipvideo	180
+Flamingo	flamingo	180
+OpenFlamingo	openflamingo	180
+IDEFICS	idefics	180
+SmolVLM	smolvlm	180
+PaLI	pali	180
+PaLI-X	palix	180
+PaLM-E	palme	180
+Kosmos	kosmos	180
+Kosmos-G	kosmosg	180
+Florence	florence	180
+Florence-VL	florencevl	180
+Pix2Struct	pix2struct	180
+Pixtral	pixtral	180
+Pixtral-Large	pixtrallarge	180
+Mllama	mllama	180
+Llama 3.2 Vision	llama32vision	180
+Llama 4 Scout	llama4scout	180
+Llama 4 Maverick	llama4maverick	180
+Phi-3-Vision	phi3vision	180
+Phi-3.5-Vision	phi35vision	180
+Phi-4-multimodal	phi4multimodal	180
+DeepSeek-VL	deepseekvl	180
+DeepSeek-OCR	deepseekocr	180
+Janus	janus	180
+Janus-Pro	januspro	180
+JanusFlow	janusflow	180
+Emu	emu	180
+Chameleon	chameleon	180
+Show-o	showo	180
+SEED	seed	180
+SEED-X	seedx	180
+SEED-LLaMA	seedllama	180
+Unified-IO	unifiedio	180
+OFA	ofa	180
+GIT	git	180
+CoCa	coca	180
+SimVLM	simvlm	180
+ViLT	vilt	180
+ViLBERT	vilbert	180
+VisualBERT	visualbert	180
+UNITER	uniter	180
+LXMERT	lxmert	180
+Oscar	oscar	180
+VinVL	vinvl	180
+ALBEF	albef	180
+VLMo	vlmo	180
+BEiT	beit	180
+FLAVA	flava	180
+X-VLM	xvlm	180
+mPLUG	mplug	180
+mPLUG-Owl	mplugowl	180
+mPLUG-DocOwl	mplugdocowl	180
+CogVLM	cogvlm	180
+CogAgent	cogagent	180
+CogAgent-9B	cogagent9b	180
+GLM-4V	glm4v	180
+GLM-4.1V-Thinking	glm41vthinking	180
+GLM-4.5V	glm45v	180
+Hunyuan-Vision	hunyuanvision	180
+Step-1V	step1v	180
+Step-1.5V	step15v	180
+Step	step	180
+Molmo	molmo	180
+MolmoE	molmoe	180
+Moondream	moondream	180
+Bunny	bunny	180
+Cambrian	cambrian	180
+Cambrian-S	cambrians	180
+Cambrian-8B	cambrian8b	180
+SPHINX	sphinx	180
+SPHINX-X	sphinxx	180
+Ferret	ferret	180
+Shikra	shikra	180
+GLaMM	glamm	180
+LISA	lisa	180
+PixelLM	pixellm	180
+OMG-LLaVA	omgllava	180
+VILA	vila	180
+VILA-U	vilau	180
+NVILA	nvila	180
+NVILA-Lite	nvilalite	180
+VideoChat	videochat	180
+VideoChat-Flash	videochatflash	180
+VideoLLaMA	videollama	180
+Video-ChatGPT	videochatgpt	180
+Chat-UniVi	chatunivi	180
+PLLaVA	pllava	180
+LongVA	longva	180
+LongVU	longvu	180
+VideoLLM	videollm	180
+VideoGPT+	videogpt	180
+VideoSALMONN	videosalmonn	180
+MovieChat	moviechat	180
+LLaMA-VID	llamavid	180
+LLaMA-Adapter	llamaadapter	180
+ImageBind-LLM	imagebindllm	180
+PandaGPT	pandagpt	180
+NExT-GPT	nextgpt	180
+OneLLM	onellm	180
+AnyGPT	anygpt	180
+MIO	mio	180
+Baichuan-Omni	baichuanomni	180
+Ovis	ovis	180
+POINTS	points	180
+RoboBrain	robobrain	180
+SpatialVLM	spatialvlm	180
+SpaceLLaVA	spacellava	180
+SpatialBot	spatialbot	180
+SpatialRGPT	spatialrgpt	180
+VSI-Bench	vsibench	180
+VisionLLM	visionllm	180
+CogCoM	cogcom	180
+ChartGemma	chartgemma	180
+ChartInstruct	chartinstruct	180
+ChartLlama	chartllama	180
+DocPedia	docpedia	180
+DocOwl	docowl	180
+TextMonkey	textmonkey	180
+Monkey	monkey	180
+UReader	ureader	180
+UForm	uform	180
+ScreenAI	screenai	180
+ScreenSpot	screenspot	180
+SeeClick	seeclick	180
+UI-TARS	uitars	180
+OS-Atlas	osatlas	180
+UGround	uground	180
+Aguvis	aguvis	180
+ShowUI	showui	180
+Aria	aria	180
+
+# 视觉编码器与自监督模型
+ViT	vit	180
+DeiT	deit	180
+DeiT III	deitiii	180
+MAE	mae	180
+VideoMAE	videomae	180
+Swin Transformer	swintransformer	180
+ConvNeXt	convnext	180
+ResNet	resnet	180
+ResNeXt	resnext	180
+ResNeSt	resnest	180
+Wide ResNet	wideresnet	180
+DenseNet	densenet	180
+EfficientNet	efficientnet	180
+MobileNet	mobilenet	180
+MobileViT	mobilevit	180
+EfficientFormer	efficientformer	180
+FastViT	fastvit	180
+RepViT	repvit	180
+TinyViT	tinyvit	180
+EdgeViT	edgevit	180
+LeViT	levit	180
+PVT	pvt	180
+Twins	twins	180
+CSWin	cswin	180
+MaxViT	maxvit	180
+CoAtNet	coatnet	180
+CrossViT	crossvit	180
+CaiT	cait	180
+TNT	tnt	180
+ConViT	convit	180
+DaViT	davit	180
+FocalNet	focalnet	180
+InternImage	internimage	180
+InternViT	internvit	180
+EVA	eva	180
+EVA-CLIP	evaclip	180
+EVA-CLIP-18B	evaclip18b	180
+CLIP	clip	180
+OpenCLIP	openclip	180
+MetaCLIP	metaclip	180
+SigLIP	siglip	300
+DFN	dfn	180
+DINO	dino	300
+iBOT	ibot	180
+MoCo	moco	180
+SimCLR	simclr	180
+BYOL	byol	180
+SimSiam	simsiam	180
+SwAV	swav	180
+Barlow Twins	barlowtwins	180
+VICReg	vicreg	180
+VICRegL	vicregl	180
+I-JEPA	ijepa	180
+V-JEPA	vjepa	180
+JEPA	jepa	180
+AIM	aim	180
+ImageBind	imagebind	180
+LanguageBind	languagebind	180
+UniBind	unibind	180
+Point-Bind	pointbind	180
+ULIP	ulip	180
+SLIP	slip	180
+LiT	lit	180
+ALIGN	align	180
+DeCLIP	declip	180
+FILIP	filip	180
+BLIP-ITM	blipitm	180
+CLIPSeg	clipseg	180
+DenseCLIP	denseclip	180
+MaskCLIP	maskclip	180
+GroupViT	groupvit	180
+SegCLIP	segclip	180
+SAM	sam	180
+Segment Anything	segmentanything	180
+Segment Anything Model	segmentanythingmodel	180
+SAM-HQ	samhq	180
+MobileSAM	mobilesam	180
+FastSAM	fastsam	180
+EfficientSAM	efficientsam	180
+TinySAM	tinysam	180
+EdgeSAM	edgesam	180
+Semantic-SAM	semanticsam	180
+SEEM	seem	180
+SA-1B	sa1b	180
+DINO-X	dinox	180
+
+# 目标检测、分割、深度与视频模型
+R-CNN	rcnn	180
+Fast R-CNN	fastrcnn	180
+Faster R-CNN	fasterrcnn	180
+Mask R-CNN	maskrcnn	180
+Cascade R-CNN	cascadercnn	180
+HTC	htc	180
+RetinaNet	retinanet	180
+FCOS	fcos	180
+CenterNet	centernet	180
+CornerNet	cornernet	180
+DETR	detr	180
+Deformable DETR	deformabledetr	180
+DAB-DETR	dabdetr	180
+DN-DETR	dndetr	180
+DINO-DETR	dinodetr	180
+RT-DETR	rtdetr	180
+Grounding DINO	groundingdino	180
+GroundingDINO	groundingdino	180
+GLIP	glip	180
+OWL-ViT	owlvit	180
+YOLO	yolo	180
+YOLOX	yolox	180
+YOLO-World	yoloworld	180
+YOLOE	yoloe	180
+YOLO-NAS	yolonas	180
+PP-YOLOE	ppyoloe	180
+SSD	ssd	180
+SSDLite	ssdlite	180
+EfficientDet	efficientdet	180
+DetectoRS	detectors	180
+ViTDet	vitdet	180
+Detic	detic	180
+RegionCLIP	regionclip	180
+RegionGPT	regiongpt	180
+UNet	unet	180
+U-Net	unet	180
+U-Net++	unet	180
+U2-Net	u2net	180
+DeepLab	deeplab	180
+DeepLabv3+	deeplabv3	180
+PSPNet	pspnet	180
+HRNet	hrnet	180
+SegFormer	segformer	180
+SETR	setr	180
+Segmenter	segmenter	180
+MaskFormer	maskformer	180
+Mask2Former	mask2former	180
+OneFormer	oneformer	180
+MaskDINO	maskdino	180
+SegNeXt	segnext	180
+SegGPT	seggpt	180
+SegMAN	segman	180
+BiSeNet	bisenet	180
+PIDNet	pidnet	180
+DDRNet	ddrnet	180
+PointRend	pointrend	180
+OCRNet	ocrnet	180
+UPerNet	upernet	180
+FCN	fcn	180
+Depth Anything	depthanything	180
+Depth Pro	depthpro	180
+DepthCrafter	depthcrafter	180
+MiDaS	midas	180
+DPT	dpt	180
+ZoeDepth	zoedepth	180
+Metric3D	metric3d	180
+Marigold	marigold	180
+UniDepth	unidepth	180
+GeoWizard	geowizard	180
+RAFT	raft	180
+RAFT-Stereo	raftstereo	180
+FlowFormer	flowformer	180
+FlowFormer++	flowformer	180
+GMFlow	gmflow	180
+UniMatch	unimatch	180
+PWC-Net	pwcnet	180
+SpyNet	spynet	180
+CoTracker	cotracker	180
+TAPIR	tapir	180
+TAP-Net	tapnet	180
+TAPNext	tapnext	180
+BootsTAP	bootstap	180
+PIPs	pips	180
+PIPs++	pips	180
+PIPSUS	pipsus	180
+Track-Anything	trackanything	180
+XMem	xmem	180
+Cutie	cutie	180
+STCN	stcn	180
+AOT	aot	180
+DeAOT	deaot	180
+SAM-Track	samtrack	180
+TrackFormer	trackformer	180
+MOTR	motr	180
+MeMOT	memot	180
+ByteTrack	bytetrack	180
+BoT-SORT	botsort	180
+DeepSORT	deepsort	180
+OC-SORT	ocsort	180
+StrongSORT	strongsort	180
+FairMOT	fairmot	180
+CenterTrack	centertrack	180
+QDTrack	qdtrack	180
+TubeDETR	tubedetr	180
+ActionFormer	actionformer	180
+TriDet	tridet	180
+TemporalMaxer	temporalmaxer	180
+SlowFast	slowfast	180
+I3D	i3d	180
+R(2+1)D	r21d	180
+TSM	tsm	180
+TSN	tsn	180
+TimeSformer	timesformer	180
+ViViT	vivit	180
+MViT	mvit	180
+UniFormer	uniformer	180
+VideoSwin	videoswin	180
+X-CLIP	xclip	180
+CLIP4Clip	clip4clip	180
+ActionCLIP	actionclip	180
+VideoPrism	videoprism	180
+OmniMAE	omnimae	180
+Omni-Video	omnivideo	180
+VATT	vatt	180
+
+# 图像生成、视频生成与编辑模型
+GAN	gan	180
+DCGAN	dcgan	180
+WGAN	wgan	180
+WGAN-GP	wgangp	180
+LSGAN	lsgan	180
+SNGAN	sngan	180
+BigGAN	biggan	180
+StyleGAN	stylegan	180
+StyleGAN-XL	styleganxl	180
+StyleGAN-T	stylegant	180
+CycleGAN	cyclegan	180
+Pix2Pix	pix2pix	180
+Pix2PixHD	pix2pixhd	180
+SPADE	spade	180
+GauGAN	gaugan	180
+StarGAN	stargan	180
+ProGAN	progan	180
+VQ-VAE	vqvae	180
+VQGAN	vqgan	180
+VAE	vae	180
+CVAE	cvae	180
+NVAE	nvae	180
+VampPrior	vampprior	180
+PixelCNN	pixelcnn	180
+PixelCNN++	pixelcnn	180
+PixelRNN	pixelrnn	180
+Glow	glow	180
+RealNVP	realnvp	180
+NICE	nice	180
+FFJORD	ffjord	180
+DDPM	ddpm	180
+DDIM	ddim	180
+ADM	adm	180
+IDDPM	iddpm	180
+EDM	edm	180
+DPM-Solver	dpmsolver	180
+DPM-Solver++	dpmsolver	180
+UniPC	unipc	180
+DEIS	deis	180
+PNDM	pndm	180
+PLMS	plms	180
+LCM	lcm	180
+Latent Consistency Model	latentconsistencymodel	180
+Consistency Model	consistencymodel	180
+Consistency Distillation	consistencydistillation	180
+Latent Diffusion	latentdiffusion	180
+Stable Diffusion	stablediffusion	180
+Stable Diffusion XL	stablediffusionxl	180
+SDXL	sdxl	180
+SDXL Turbo	sdxlturbo	180
+SDXL Lightning	sdxllightning	180
+DiT	dit	180
+SiT	sit	180
+U-ViT	uvit	180
+MMDiT	mmdit	180
+PixArt-alpha	pixartalpha	180
+PixArt-Sigma	pixartsigma	180
+Sana	sana	180
+Sana-Sprint	sanasprint	180
+FLUX	flux	180
+FLUX.1-dev	flux1dev	180
+FLUX.1-schnell	flux1schnell	180
+FLUX.1-Kontext	flux1kontext	180
+AuraFlow	auraflow	180
+Lumina-T2I	luminat2i	180
+Lumina-Next	luminanext	180
+Lumina-Image	luminaimage	180
+HunyuanDiT	hunyuandit	180
+HunyuanImage	hunyuanimage	180
+Kolors	kolors	180
+Playground	playground	180
+DeepFloyd IF	deepfloydif	180
+DALL-E	dalle	180
+Imagen	imagen	180
+Parti	parti	180
+Muse	muse	180
+MaskGIT	maskgit	180
+VAR	var	180
+Infinity	infinity	180
+TiTok	titok	180
+RAR	rar	180
+MAR	mar	180
+LDM	ldm	180
+Kandinsky	kandinsky	180
+CogView	cogview	180
+Emu Edit	emuedit	180
+Emu Video	emuvideo	180
+ControlNet	controlnet	180
+ControlNet++	controlnet	180
+T2I-Adapter	t2iadapter	180
+IP-Adapter	ipadapter	180
+IP-Adapter-FaceID	ipadapterfaceid	180
+PhotoMaker	photomaker	180
+InstantID	instantid	180
+PuLID	pulid	180
+DreamBooth	dreambooth	180
+Textual Inversion	textualinversion	180
+Custom Diffusion	customdiffusion	180
+LoRA	lora	300
+LoCon	locon	180
+LoHa	loha	180
+LyCORIS	lycoris	180
+InstructPix2Pix	instructpix2pix	180
+MagicBrush	magicbrush	180
+Prompt-to-Prompt	prompttoprompt	180
+Null-text Inversion	nulltextinversion	180
+MasaCtrl	masactrl	180
+Plug-and-Play Diffusion	plugandplaydiffusion	180
+SDEdit	sdedit	180
+DragGAN	draggan	180
+DragDiffusion	dragdiffusion	180
+DragNUWA	dragnuwa	180
+AnyDoor	anydoor	180
+BrushNet	brushnet	180
+PowerPaint	powerpaint	180
+LaMa	lama	180
+MAT	mat	180
+RePaint	repaint	180
+DiffEdit	diffedit	180
+UniEdit	uniedit	180
+OmniGen	omnigen	180
+DreamO	dreamo	180
+FLUX-Fill	fluxfill	180
+FLUX-Depth	fluxdepth	180
+FLUX-Canny	fluxcanny	180
+Sora	sora	180
+Veo	veo	180
+Lumiere	lumiere	180
+Make-A-Video	makeavideo	180
+Imagen Video	imagenvideo	180
+Phenaki	phenaki	180
+VideoPoet	videopoet	180
+NUWA	nuwa	180
+NUWA-XL	nuwaxl	180
+CogVideo	cogvideo	180
+CogVideoX	cogvideox	180
+HunyuanVideo	hunyuanvideo	180
+HunyuanVideo-I2V	hunyuanvideoi2v	180
+Wan	wan	180
+Open-Sora	opensora	180
+Open-Sora-Plan	opensoraplan	180
+Mochi	mochi	180
+LTX-Video	ltxvideo	180
+LTXV	ltxv	180
+Pyramid Flow	pyramidflow	180
+VideoCrafter	videocrafter	180
+DynamiCrafter	dynamicrafter	180
+I2VGen-XL	i2vgenxl	180
+AnimateDiff	animatediff	180
+AnimateAnyone	animateanyone	180
+MagicAnimate	magicanimate	180
+MimicMotion	mimicmotion	180
+LivePortrait	liveportrait	180
+Hallo	hallo	180
+SadTalker	sadtalker	180
+Wav2Lip	wav2lip	180
+EMO	emo	180
+EchoMimic	echomimic	180
+Latte	latte	180
+ModelScopeT2V	modelscopet2v	180
+Text2Video-Zero	text2videozero	180
+Tune-A-Video	tuneavideo	180
+Video-P2P	videop2p	180
+VideoBooth	videobooth	180
+TokenFlow	tokenflow	180
+FateZero	fatezero	180
+Rerender-A-Video	rerenderavideo	180
+VACE	vace	180
+SkyReels	skyreels	180
+FramePack	framepack	180
+MAGI	magi	180
+Pika	pika	180
+Runway	runway	180
+Gen-3 Alpha	gen3alpha	180
+Kling	kling	180
+Seedance	seedance	180
+Seaweed	seaweed	180
+Step-Video	stepvideo	180
+Step-Video-T2V	stepvideot2v	180
+Movie Gen	moviegen	180
+Stable Video Diffusion	stablevideodiffusion	180
+SVD	svd	180
+SVD-XT	svdxt	180
+SV3D	sv3d	180
+SV4D	sv4d	180
+
+# 语音、音频与音乐模型
+Whisper	whisper	180
+WhisperX	whisperx	180
+Whisper Turbo	whisperturbo	180
+Distil-Whisper	distilwhisper	180
+wav2vec	wav2vec	180
+HuBERT	hubert	180
+WavLM	wavlm	180
+Data2Vec	data2vec	180
+UniSpeech	unispeech	180
+UniSpeech-SAT	unispeechsat	180
+Wav2Vec2-BERT	wav2vec2bert	180
+MMS	mms	180
+Conformer	conformer	180
+FastConformer	fastconformer	180
+Paraformer	paraformer	180
+SenseVoice	sensevoice	180
+SenseVoiceSmall	sensevoicesmall	180
+FunASR	funasr	180
+FireRedASR	fireredasr	180
+Dolphin	dolphin	180
+Moonshine	moonshine	180
+Parakeet	parakeet	180
+Canary	canary	180
+SeamlessM4T	seamlessm4t	180
+SeamlessExpressive	seamlessexpressive	180
+SeamlessStreaming	seamlessstreaming	180
+SpeechT5	speecht5	180
+SpeechGPT	speechgpt	180
+SpeechGPT-Gen	speechgptgen	180
+Qwen-Audio	qwenaudio	180
+Qwen2-Audio	qwen2audio	180
+Mini-Omni	miniomni	180
+SALMONN	salmonn	180
+LTU	ltu	180
+Pengi	pengi	180
+Audio Flamingo	audioflamingo	180
+AudioCLIP	audioclip	180
+CLAP	clap	180
+LAION-CLAP	laionclap	180
+WavCaps	wavcaps	180
+BEATs	beats	180
+AST	ast	180
+PaSST	passt	180
+PANNs	panns	180
+HTS-AT	htsat	180
+VGGish	vggish	180
+YAMNet	yamnet	180
+OpenL3	openl3	180
+EnCodec	encodec	180
+DAC	dac	180
+SoundStream	soundstream	180
+SpeechTokenizer	speechtokenizer	180
+Mimi	mimi	180
+SNAC	snac	180
+BigVGAN	bigvgan	180
+HiFi-GAN	hifigan	180
+WaveGlow	waveglow	180
+WaveNet	wavenet	180
+WaveRNN	wavernn	180
+MelGAN	melgan	180
+Parallel WaveGAN	parallelwavegan	180
+Vocos	vocos	180
+Tacotron	tacotron	180
+FastSpeech	fastspeech	180
+FastPitch	fastpitch	180
+Glow-TTS	glowtts	180
+VITS	vits	180
+YourTTS	yourtts	180
+XTTS	xtts	180
+Tortoise	tortoise	180
+Bark	bark	180
+VALL-E	valle	180
+VALL-E X	vallex	180
+VoiceCraft	voicecraft	180
+Voicebox	voicebox	180
+NaturalSpeech	naturalspeech	180
+StyleTTS	styletts	180
+F5-TTS	f5tts	180
+E2-TTS	e2tts	180
+CosyVoice	cosyvoice	180
+Fish Speech	fishspeech	180
+OpenVoice	openvoice	180
+GPT-SoVITS	gptsovits	180
+ChatTTS	chattts	180
+IndexTTS	indextts	180
+Spark-TTS	sparktts	180
+Kokoro	kokoro	180
+Chatterbox	chatterbox	180
+Dia	dia	180
+Orpheus	orpheus	180
+Sesame CSM	sesamecsm	180
+CSM-1B	csm1b	180
+Moshi	moshi	180
+Freeze-Omni	freezeomni	180
+GLM-4-Voice	glm4voice	180
+Step-Audio	stepaudio	180
+Kimi-Audio	kimiaudio	180
+MusicGen	musicgen	180
+AudioGen	audiogen	180
+MusicLM	musiclm	180
+MusicFX	musicfx	180
+Stable Audio	stableaudio	180
+Stable Audio Open	stableaudioopen	180
+AudioLDM	audioldm	180
+MusicLDM	musicldm	180
+Make-An-Audio	makeanaudio	180
+Tango	tango	180
+AudioCraft	audiocraft	180
+JASCO	jasco	180
+Riffusion	riffusion	180
+DiffRhythm	diffrhythm	180
+ACE-Step	acestep	180
+YuE	yue	180
+DiffSinger	diffsinger	180
+VISinger	visinger	180
+So-VITS-SVC	sovitssvc	180
+DiffSVC	diffsvc	180
+RVC	rvc	180
+Demucs	demucs	180
+HTDemucs	htdemucs	180
+Spleeter	spleeter	180
+SepFormer	sepformer	180
+Conv-TasNet	convtasnet	180
+DPRNN	dprnn	180
+DPTNet	dptnet	180
+
+# 三维、空间与具身模型
+NeRF	nerf	180
+Mip-NeRF	mipnerf	180
+Instant-NGP	instantngp	180
+TensoRF	tensorf	180
+Plenoxels	plenoxels	180
+DVGO	dvgo	180
+PlenOctrees	plenoctrees	180
+Zip-NeRF	zipnerf	180
+Ref-NeRF	refnerf	180
+RegNeRF	regnerf	180
+PixelNeRF	pixelnerf	180
+IBRNet	ibrnet	180
+MVSNeRF	mvsnerf	180
+NeuS	neus	180
+VolSDF	volsdf	180
+UNISURF	unisurf	180
+IDR	idr	180
+MonoSDF	monosdf	180
+Neuralangelo	neuralangelo	180
+SparseNeuS	sparseneus	180
+Point-NeRF	pointnerf	180
+GeoNeRF	geonerf	180
+Block-NeRF	blocknerf	180
+Mega-NeRF	meganerf	180
+Nerfacto	nerfacto	180
+SeaThru-NeRF	seathrunerf	180
+LERF	lerf	180
+LangSplat	langsplat	180
+3D Gaussian Splatting	threedgaussiansplatting	180
+3DGS	threedgs	180
+2DGS	twodgs	180
+4D Gaussian Splatting	fourdgaussiansplatting	180
+4DGS	fourdgs	180
+Scaffold-GS	scaffoldgs	180
+Mip-Splatting	mipsplatting	180
+SuGaR	sugar	180
+GaussianEditor	gaussianeditor	180
+GaussianDreamer	gaussiandreamer	180
+DreamGaussian	dreamgaussian	180
+DreamFusion	dreamfusion	180
+Magic3D	magic3d	180
+ProlificDreamer	prolificdreamer	180
+Fantasia3D	fantasia3d	180
+TextMesh	textmesh	180
+Latent-NeRF	latentnerf	180
+Zero-1-to-3	zero1to3	180
+Zero123	zero123	180
+Zero123++	zero123	180
+Stable Zero123	stablezero123	180
+SyncDreamer	syncdreamer	180
+Wonder3D	wonder3d	180
+Wonder3D++	wonder3d	180
+Unique3D	unique3d	180
+Hunyuan3D	hunyuan3d	180
+TripoSR	triposr	180
+TripoSG	triposg	180
+TRELLIS	trellis	180
+Shap-E	shape	180
+Point-E	pointe	180
+LGM	lgm	180
+LRM	lrm	180
+InstantMesh	instantmesh	180
+OpenLRM	openlrm	180
+MeshAnything	meshanything	180
+Dora	dora	180
+CraftsMan	craftsman	180
+Era3D	era3d	180
+CRM	crm	180
+MV-Adapter	mvadapter	180
+MVDream	mvdream	180
+ImageDream	imagedream	180
+One-2-3-45	one2345	180
+One-2-3-45++	one2345	180
+DUSt3R	dust3r	180
+MASt3R	mast3r	180
+VGGT	vggt	180
+VGGT-X	vggtx	180
+Fast3R	fast3r	180
+MonST3R	monst3r	180
+CUT3R	cut3r	180
+Spann3R	spann3r	180
+RaySt3R	rayst3r	180
+PointNet	pointnet	180
+PointNet++	pointnet	180
+PointCNN	pointcnn	180
+DGCNN	dgcnn	180
+Point Transformer	pointtransformer	180
+PointMLP	pointmlp	180
+PointNeXt	pointnext	180
+PointBERT	pointbert	180
+Point-MAE	pointmae	180
+Point-M2AE	pointm2ae	180
+PointLLM	pointllm	180
+ShapeLLM	shapellm	180
+Pointcept	pointcept	180
+MinkowskiNet	minkowskinet	180
+KPConv	kpconv	180
+SparseConvNet	sparseconvnet	180
+PV-RCNN	pvrcnn	180
+VoxelNet	voxelnet	180
+SECOND	second	180
+PointPillars	pointpillars	180
+CenterPoint	centerpoint	180
+VoxelNeXt	voxelnext	180
+BEVFormer	bevformer	180
+BEVDet	bevdet	180
+BEVDepth	bevdepth	180
+BEVFusion	bevfusion	180
+PETR	petr	180
+StreamPETR	streampetr	180
+Sparse4D	sparse4d	180
+SparseDrive	sparsedrive	180
+UniAD	uniad	180
+VAD	vad	180
+TransFuser	transfuser	180
+DriveLM	drivelm	180
+LMDrive	lmdrive	180
+OpenDriveLab	opendrivelab	180
+OpenVLA	openvla	180
+Octo	octo	180
+Robotics Transformer	roboticstransformer	180
+RT-X	rtx	180
+RT-H	rth	180
+RoboCat	robocat	180
+RoboFlamingo	roboflamingo	180
+RoboMamba	robomamba	180
+RoboPoint	robopoint	180
+RoboVLM	robovlm	180
+RoboMM	robomm	180
+SpatialVLA	spatialvla	180
+GR00T	gr00t	180
+pi0	pi0	180
+pi0-FAST	pi0fast	180
+SmolVLA	smolvla	180
+X-VLA	xvla	180
+CogACT	cogact	180
+Diffusion Policy	diffusionpolicy	180
+ACT	act	180
+ALOHA	aloha	180
+Mobile ALOHA	mobilealoha	180
+RDT	rdt	180
+RDT-1B	rdt1b	180
+HPT	hpt	180
+OpenPi	openpi	180
+VIMA	vima	180
+PerAct	peract	180
+CLIPort	cliport	180
+Transporter Networks	transporternetworks	180
+BC-Z	bcz	180
+SayCan	saycan	180
+Inner Monologue	innermonologue	180
+Code as Policies	codeaspolicies	180
+VoxPoser	voxposer	180
+VoxAct-B	voxactb	180
+GenSim	gensim	180
+GR	gr	180
+Seer	seer	180
+SuSIE	susie	180
+UniPi	unipi	180
+UniSim	unisim	180
+Genie	genie	180
+GAIA	gaia	180
+Dreamer	dreamer	180
+TD-MPC	tdmpc	180
+MuZero	muzero	180
+EfficientZero	efficientzero	180
+AlphaZero	alphazero	180
+AlphaGo	alphago	180
+AlphaGo Zero	alphagozero	180
+AlphaStar	alphastar	180
+OpenAI Five	openaifive	180
+
+# 视觉与视频数据集
+ImageNet	imagenet	180
+ImageNet-1K	imagenet1k	180
+ImageNet-21K	imagenet21k	180
+ImageNet-C	imagenetc	180
+ImageNet-A	imageneta	180
+ImageNet-R	imagenetr	180
+ImageNet-Sketch	imagenetsketch	180
+ImageNet-V2	imagenetv2	180
+ImageNet-O	imageneto	180
+ImageNet-D	imagenetd	180
+CIFAR-10	cifar10	180
+CIFAR-100	cifar100	180
+CIFAR-10-C	cifar10c	180
+STL-10	stl10	180
+SVHN	svhn	180
+MNIST	mnist	180
+Fashion-MNIST	fashionmnist	180
+EMNIST	emnist	180
+KMNIST	kmnist	180
+QMNIST	qmnist	180
+Omniglot	omniglot	180
+Tiny ImageNet	tinyimagenet	180
+Places365	places365	180
+SUN397	sun397	180
+Caltech-101	caltech101	180
+Caltech-256	caltech256	180
+Oxford-IIIT Pet	oxfordiiitpet	180
+Oxford Flowers 102	oxfordflowers102	180
+Stanford Cars	stanfordcars	180
+Stanford Dogs	stanforddogs	180
+CUB-200-2011	cub2002011	180
+FGVC-Aircraft	fgvcaircraft	180
+Food-101	food101	180
+DTD	dtd	180
+EuroSAT	eurosat	180
+RESISC45	resisc45	180
+UCF101	ucf101	180
+HMDB51	hmdb51	180
+Kinetics	kinetics	180
+Kinetics-400	kinetics400	180
+Kinetics-600	kinetics600	180
+Kinetics-700	kinetics700	180
+Something-Something	somethingsomething	180
+Something-Something V2	somethingsomethingv2	180
+ActivityNet	activitynet	180
+ActivityNet Captions	activitynetcaptions	180
+THUMOS14	thumos14	180
+HACS	hacs	180
+Charades	charades	180
+Charades-STA	charadessta	180
+AVA	ava	180
+AVA-Kinetics	avakinetics	180
+EPIC-KITCHENS	epickitchens	180
+EPIC-KITCHENS-100	epickitchens100	180
+Ego4D	ego4d	180
+Ego-Exo4D	egoexo4d	180
+EgoSchema	egoschema	180
+EgoClip	egoclip	180
+EgoMCQ	egomcq	180
+EgoHOS	egohos	180
+EgoObjects	egoobjects	180
+COCO	coco	180
+MS COCO	mscoco	180
+COCO Captions	cococaptions	180
+COCO-Stuff	cocostuff	180
+COCO-Panoptic	cocopanoptic	180
+LVIS	lvis	180
+Objects365	objects365	180
+Open Images	openimages	180
+Visual Genome	visualgenome	180
+VG	vg	180
+Flickr30k	flickr30k	180
+Flickr8k	flickr8k	180
+Flickr30k Entities	flickr30kentities	180
+Visual7W	visual7w	180
+RefCOCO	refcoco	180
+RefCOCO+	refcoco	180
+RefCOCOg	refcocog	180
+RefCLEF	refclef	180
+ReferItGame	referitgame	180
+PhraseCut	phrasecut	180
+Pascal VOC	pascalvoc	180
+VOC2007	voc2007	180
+VOC2012	voc2012	180
+ADE20K	ade20k	180
+Cityscapes	cityscapes	180
+BDD100K	bdd100k	180
+Mapillary Vistas	mapillaryvistas	180
+CamVid	camvid	180
+KITTI	kitti	180
+KITTI-360	kitti360	180
+nuScenes	nuscenes	180
+Waymo Open Dataset	waymoopendataset	180
+Argoverse	argoverse	180
+Argoverse 2	argoverse2	180
+Lyft Level 5	lyftlevel5	180
+A2D2	a2d2	180
+DAIR-V2X	dairv2x	180
+ONCE	once	180
+PandaSet	pandaset	180
+SemanticKITTI	semantickitti	180
+SemanticPOSS	semanticposs	180
+ApolloScape	apolloscape	180
+ApolloCar3D	apollocar3d	180
+DOTA	dota	180
+DIOR	dior	180
+xView	xview	180
+VisDrone	visdrone	180
+UAVDT	uavdt	180
+CrowdHuman	crowdhuman	180
+WIDER FACE	widerface	180
+FDDB	fddb	180
+CelebA	celeba	180
+CelebA-HQ	celebahq	180
+FFHQ	ffhq	180
+VGGFace2	vggface2	180
+CASIA-WebFace	casiawebface	180
+LFW	lfw	180
+IJB-B	ijbb	180
+IJB-C	ijbc	180
+MS-Celeb-1M	msceleb1m	180
+RAF-DB	rafdb	180
+AffectNet	affectnet	180
+FER2013	fer2013	180
+FERPlus	ferplus	180
+Celeb-DF	celebdf	180
+FaceForensics++	faceforensics	180
+DFDC	dfdc	180
+DeeperForensics	deeperforensics	180
+DUTS	duts	180
+DUT-OMRON	dutomron	180
+ECSSD	ecssd	180
+HKU-IS	hkuis	180
+SOD	sod	180
+DUTLF-FS	dutlffs	180
+COD10K	cod10k	180
+CAMO	camo	180
+NC4K	nc4k	180
+DAVIS	davis	180
+DAVIS 2017	davis2017	180
+YouTube-VOS	youtubevos	180
+YouTube-VIS	youtubevis	180
+MOSE	mose	180
+BURST	burst	180
+SA-V	sav	180
+LaSOT	lasot	180
+GOT-10k	got10k	180
+TrackingNet	trackingnet	180
+OTB100	otb100	180
+VOT	vot	180
+MOT17	mot17	180
+MOT20	mot20	180
+DanceTrack	dancetrack	180
+SportsMOT	sportsmot	180
+TAO	tao	180
+TAP-Vid	tapvid	180
+TAP-Vid-3D	tapvid3d	180
+Kubric	kubric	180
+MOVi	movi	180
+Sintel	sintel	180
+FlyingChairs	flyingchairs	180
+FlyingThings3D	flyingthings3d	180
+Spring	spring	180
+TartanAir	tartanair	180
+ETH3D	eth3d	180
+Middlebury	middlebury	180
+Scene Flow	sceneflow	180
+NYU Depth V2	nyudepthv2	180
+ScanNet	scannet	180
+ScanNet++	scannet	180
+Matterport3D	matterport3d	180
+Hypersim	hypersim	180
+DIODE	diode	180
+iBims-1	ibims1	180
+Infinigen	infinigen	180
+Objaverse	objaverse	180
+Objaverse-XL	objaversexl	180
+ShapeNet	shapenet	180
+ModelNet	modelnet	180
+ModelNet40	modelnet40	180
+ScanObjectNN	scanobjectnn	180
+ABO	abo	180
+GSO	gso	180
+3D-FUTURE	threedfuture	180
+3D-FRONT	threedfront	180
+Replica	replica	180
+ReplicaCAD	replicacad	180
+HM3D	hm3d	180
+Gibson	gibson	180
+MP3D	mp3d	180
+S3DIS	s3dis	180
+ARKitScenes	arkitscenes	180
+ARKitRooms	arkitrooms	180
+ARKitTrack	arkittrack	180
+CO3D	co3d	180
+MVImgNet	mvimgnet	180
+RealEstate10K	realestate10k	180
+ACID	acid	180
+DTU	dtu	180
+BlendedMVS	blendedmvs	180
+Tanks and Temples	tanksandtemples	180
+LLFF	llff	180
+NeRF Synthetic	nerfsynthetic	180
+Nerfstudio	nerfstudio	180
+PhotoTourism	phototourism	180
+WildRGB-D	wildrgbd	180
+uCO3D	uco3d	180
+
+# 多模态训练语料与视觉语言评测
+LAION	laion	180
+LAION-400M	laion400m	180
+LAION-5B	laion5b	180
+LAION-2B	laion2b	180
+DataComp	datacomp	180
+DataComp-1B	datacomp1b	180
+DataComp-LM	datacomplm	180
+CC3M	cc3m	180
+CC12M	cc12m	180
+Conceptual Captions	conceptualcaptions	180
+Conceptual 12M	conceptual12m	180
+SBU Captions	sbucaptions	180
+WIT	wit	180
+WebLI	webli	180
+YFCC100M	yfcc100m	180
+RedCaps	redcaps	180
+COYO-700M	coyo700m	180
+MMC4	mmc4	180
+OBELICS	obelics	180
+MINT-1T	mint1t	180
+FineVision	finevision	180
+PixelProse	pixelprose	180
+ShareGPT4V	sharegpt4v	180
+ShareGPT4Video	sharegpt4video	180
+ShareGPT4o	sharegpt4o	180
+LLaVA-Instruct-150K	llavainstruct150k	180
+LLaVA-Pretrain	llavapretrain	180
+LLaVA-OneVision-Data	llavaonevisiondata	180
+LLaVA-NeXT-Data	llavanextdata	180
+ALLaVA	allava	180
+LVIS-Instruct4V	lvisinstruct4v	180
+Visual Dialog	visualdialog	180
+VisDial	visdial	180
+VQAv2	vqav2	180
+VQA-CP	vqacp	180
+GQA	gqa	180
+OK-VQA	okvqa	180
+A-OKVQA	aokvqa	180
+VizWiz	vizwiz	180
+TextVQA	textvqa	180
+ST-VQA	stvqa	180
+OCR-VQA	ocrvqa	180
+DocVQA	docvqa	180
+InfoVQA	infovqa	180
+ChartQA	chartqa	180
+PlotQA	plotqa	180
+DVQA	dvqa	180
+AI2D	ai2d	180
+ScienceQA	scienceqa	180
+ScienceQA-IMG	scienceqaimg	180
+IconQA	iconqa	180
+CLEVR	clevr	180
+CLEVR-Hans	clevrhans	180
+NLVR	nlvr	180
+NLVR2	nlvr2	180
+SNLI-VE	snlive	180
+VCR	vcr	180
+Winoground	winoground	180
+SugarCrepe	sugarcrepe	180
+ARO	aro	180
+CREPE	crepe	180
+VL-Checklist	vlchecklist	180
+POPE	pope	180
+CHAIR	chair	180
+MMHal-Bench	mmhalbench	180
+HallusionBench	hallusionbench	180
+AMBER	amber	180
+MME	mme	180
+MME-RealWorld	mmerealworld	180
+MMBench	mmbench	180
+MMBench-CN	mmbenchcn	180
+MMStar	mmstar	180
+MMVet	mmvet	180
+MM-Vet	mmvet	180
+MMMU	mmmu	300
+MMMU-Pro	mmmupro	180
+MathVista	mathvista	180
+MathVision	mathvision	180
+MathVerse	mathverse	180
+OlympiadBench	olympiadbench	180
+We-Math	wemath	180
+DynaMath	dynamath	180
+GeoQA	geoqa	180
+Geometry3K	geometry3k	180
+UniGeo	unigeo	180
+GeoBench	geobench	180
+MATH-Vision	mathvision	180
+SEED-Bench	seedbench	180
+SEED-Bench-2	seedbench2	180
+SEED-Bench-2-Plus	seedbench2plus	180
+LLaVA-Bench	llavabench	180
+LLaVA-Bench-in-the-Wild	llavabenchinthewild	180
+BLINK	blink	180
+RealWorldQA	realworldqa	180
+WildVision-Bench	wildvisionbench	180
+RWQA	rwqa	180
+CV-Bench	cvbench	180
+CVBench	cvbench	180
+MMVP	mmvp	180
+PhysBench	physbench	180
+WorldQA	worldqa	180
+SpatialBench	spatialbench	180
+SpatialEval	spatialeval	180
+SpatialSense	spatialsense	180
+SpatialRGPT-Bench	spatialrgptbench	180
+VSR	vsr	180
+CVRR-ES	cvrres	180
+CRPE	crpe	180
+RoboSpatial	robospatial	180
+EmbSpatial-Bench	embspatialbench	180
+EmbodiedBench	embodiedbench	180
+EgoThink	egothink	180
+SituationalBench	situationalbench	180
+ScreenSpot-Pro	screenspotpro	180
+ScreenSpot-v2	screenspotv2	180
+AndroidControl	androidcontrol	180
+AndroidWorld	androidworld	180
+AITW	aitw	180
+Mind2Web	mind2web	180
+WebArena	webarena	180
+VisualWebArena	visualwebarena	180
+OSWorld	osworld	180
+GUI-Odyssey	guiodyssey	180
+GUI-World	guiworld	180
+OmniAct	omniact	180
+RefExp	refexp	180
+Ferret-Bench	ferretbench	180
+MDER	mder	180
+DeepForm	deepform	180
+Kleister-NDA	kleisternda	180
+Kleister-Charity	kleistercharity	180
+CORD	cord	180
+FUNSD	funsd	180
+SROIE	sroie	180
+RVL-CDIP	rvlcdip	180
+PubLayNet	publaynet	180
+DocLayNet	doclaynet	180
+TableBank	tablebank	180
+PubTabNet	pubtabnet	180
+FinTabNet	fintabnet	180
+SciTSR	scitsr	180
+TableVQA	tablevqa	180
+ChartFC	chartfc	180
+Chart2Text	chart2text	180
+ChartX	chartx	180
+ChartBench	chartbench	180
+ChartMuseum	chartmuseum	180
+CharXiv	charxiv	180
+OCRBench	ocrbench	180
+OCRBench v2	ocrbenchv2	180
+CC-OCR	ccocr	180
+OmniDocBench	omnidocbench	180
+DocBench	docbench	180
+DUDE	dude	180
+MP-DocVQA	mpdocvqa	180
+SlideVQA	slidevqa	180
+SlideBench	slidebench	180
+MMLongBench-Doc	mmlongbenchdoc	180
+LongDocURL	longdocurl	180
+M3DocVQA	m3docvqa	180
+WildDoc	wilddoc	180
+MIRB	mirb	180
+MileBench	milebench	180
+MuirBench	muirbench	180
+Video-MME	videomme	300
+Video-MMMU	videommmu	180
+MVBench	mvbench	180
+MLVU	mlvu	180
+MLVU-Long	mlvulong	180
+LongVideoBench	longvideobench	180
+LVBench	lvbench	180
+TempCompass	tempcompass	180
+TemporalBench	temporalbench	180
+VideoVista	videovista	180
+Video-Holmes	videoholmes	180
+MotionBench	motionbench	180
+PerceptionTest	perceptiontest	180
+NExT-QA	nextqa	180
+NextQA	nextqa	180
+TGIF-QA	tgifqa	180
+MSVD-QA	msvdqa	180
+MSRVTT-QA	msrvttqa	180
+ActivityNet-QA	activitynetqa	180
+TVQA	tvqa	180
+TVQA+	tvqa	180
+STAR	star	180
+How2QA	how2qa	180
+HowTo100M	howto100m	180
+WebVid	webvid	180
+WebVid-2M	webvid2m	180
+WebVid-10M	webvid10m	180
+HD-VILA-100M	hdvila100m	180
+InternVid	internvid	180
+InternVid2	internvid2	180
+Panda-70M	panda70m	180
+OpenVid-1M	openvid1m	180
+OpenVidHD	openvidhd	180
+Koala-36M	koala36m	180
+VidGen	vidgen	180
+YouCook2	youcook2	180
+VATEX	vatex	180
+DiDeMo	didemo	180
+MSR-VTT	msrvtt	180
+LSMDC	lsmdc	180
+QuerYD	queryd	180
+QVHighlights	qvhighlights	180
+Moment-DETR	momentdetr	180
+TACoS	tacos	180
+MAD	mad	180
+MovieNet	movienet	180
+MovieChat-1K	moviechat1k	180
+MovieBench	moviebench	180
+Movie101	movie101	180
+MovieQA	movieqa	180
+FineDiving	finediving	180
+FineGym	finegym	180
+Diving48	diving48	180
+SSv2	ssv2	180
+UVO	uvo	180
+VBench	vbench	180
+VBench-2.0	vbench20	180
+EvalCrafter	evalcrafter	180
+FETV	fetv	180
+T2V-CompBench	t2vcompbench	180
+T2I-CompBench	t2icompbench	180
+GenEval	geneval	180
+DPG-Bench	dpgbench	180
+DrawBench	drawbench	180
+PartiPrompts	partiprompts	180
+Pick-a-Pic	pickapic	180
+HPDv2	hpdv2	180
+ImageReward	imagereward	180
+HPSv2	hpsv2	180
+DreamBench	dreambench	180
+DreamBench++	dreambench	180
+DreamBench-v2	dreambenchv2	180
+PIE-Bench	piebench	180
+EditBench	editbench	180
+GIER	gier	180
+Emu Edit Benchmark	emueditbenchmark	180
+
+# 自然语言训练语料与通用评测
+The Pile	thepile	180
+The Stack	thestack	180
+The Stack v2	thestackv2	180
+RedPajama-Data	redpajamadata	180
+SlimPajama	slimpajama	180
+FineWeb	fineweb	180
+FineWeb-Edu	finewebedu	180
+FineWeb2	fineweb2	180
+RefinedWeb	refinedweb	180
+Dolma	dolma	180
+DCLM-Baseline	dclmbaseline	180
+C4	c4	180
+mC4	mc4	180
+ROOTS	roots	180
+CCNet	ccnet	180
+Common Crawl	commoncrawl	180
+WET	wet	180
+OpenWebText	openwebtext	180
+OpenWebText2	openwebtext2	180
+BookCorpus	bookcorpus	180
+WikiText	wikitext	180
+WikiText-2	wikitext2	180
+WikiText-103	wikitext103	180
+Wikipedia	wikipedia	180
+arXiv	arxiv	180
+PubMed	pubmed	180
+PubMed Central	pubmedcentral	180
+S2ORC	s2orc	180
+PeS2o	pes2o	180
+Proof-Pile	proofpile	180
+Proof-Pile-2	proofpile2	180
+OpenAlex	openalex	180
+FinePDFs	finepdfs	180
+Cosmopedia	cosmopedia	180
+Cosmopedia v2	cosmopediav2	180
+TinyStories	tinystories	180
+SmolTalk	smoltalk	180
+OpenHermes-2.5	openhermes25	180
+UltraChat	ultrachat	180
+UltraFeedback	ultrafeedback	180
+ShareGPT	sharegpt	180
+WildChat	wildchat	180
+WildChat-1M	wildchat1m	180
+LMSYS-Chat-1M	lmsyschat1m	180
+OASST1	oasst1	180
+OASST2	oasst2	180
+OpenAssistant	openassistant	180
+Dolly-15k	dolly15k	180
+Alpaca-52k	alpaca52k	180
+Alpaca-GPT4	alpacagpt4	180
+Stanford Alpaca	stanfordalpaca	180
+FLAN	flan	180
+Flan Collection	flancollection	180
+FLAN-v2	flanv2	180
+Natural Instructions	naturalinstructions	180
+Super-NaturalInstructions	supernaturalinstructions	180
+P3	p3	180
+PromptSource	promptsource	180
+Self-Instruct	selfinstruct	180
+Evol-Instruct	evolinstruct	180
+WizardLM Evol-Instruct	wizardlmevolinstruct	180
+Magpie	magpie	180
+Magpie-Pro	magpiepro	180
+OpenThoughts	openthoughts	180
+OpenThoughts2	openthoughts2	180
+OpenThoughts3	openthoughts3	180
+OpenR1	openr1	180
+Open-R1	openr1	180
+NuminaMath	numinamath	180
+NuminaMath-CoT	numinamathcot	180
+NuminaMath-TIR	numinamathtir	180
+OpenMathInstruct	openmathinstruct	180
+OpenMathInstruct-2	openmathinstruct2	180
+OpenCodeInstruct	opencodeinstruct	180
+OpenCodeReasoning	opencodereasoning	180
+Tulu 3 SFT	tulu3sft	180
+Tulu 3 Preference	tulu3preference	180
+HelpSteer	helpsteer	180
+HelpSteer2	helpsteer2	180
+HelpSteer3	helpsteer3	180
+Nectar	nectar	180
+Anthropic HH	anthropichh	180
+HH-RLHF	hhrlhf	180
+PKU-SafeRLHF	pkusaferlhf	180
+BeaverTails	beavertails	180
+SafeRLHF	saferlhf	180
+SafetyBench	safetybench	180
+ToxicChat	toxicchat	180
+ToxiGen	toxigen	180
+RealToxicityPrompts	realtoxicityprompts	180
+Do-Not-Answer	donotanswer	180
+AdvBench	advbench	180
+HarmBench	harmbench	180
+JailbreakBench	jailbreakbench	180
+StrongREJECT	strongreject	180
+WildGuardMix	wildguardmix	180
+XSTest	xstest	180
+HEx-PHI	hexphi	180
+DecodingTrust	decodingtrust	180
+TruthfulQA	truthfulqa	180
+SimpleQA	simpleqa	180
+FACTS Grounding	factsgrounding	180
+FActScore	factscore	180
+HaluEval	halueval	180
+FaithBench	faithbench	180
+LongFact	longfact	180
+FEVER	fever	180
+VitaminC	vitaminc	180
+SciFact	scifact	180
+FoolMeTwice	foolmetwice	180
+LIAR	liar	180
+GLUE	glue	180
+SuperGLUE	superglue	180
+BLiMP	blimp	180
+CoLA	cola	180
+SST-2	sst2	180
+MRPC	mrpc	180
+QQP	qqp	180
+MNLI	mnli	180
+QNLI	qnli	180
+RTE	rte	180
+WNLI	wnli	180
+STS-B	stsb	180
+BoolQ	boolq	180
+CB	cb	180
+COPA	copa	180
+MultiRC	multirc	180
+ReCoRD	record	180
+WiC	wic	180
+WSC	wsc	180
+Winograd	winograd	180
+WinoGrande	winogrande	180
+HellaSwag	hellaswag	180
+PIQA	piqa	180
+SIQA	siqa	180
+Social IQa	socialiqa	180
+CommonsenseQA	commonsenseqa	180
+OpenBookQA	openbookqa	180
+ARC	arc	180
+ARC-Easy	arceasy	180
+ARC-Challenge	arcchallenge	180
+MMLU	mmlu	180
+MMLU-Pro	mmlupro	180
+MMLU-Redux	mmluredux	180
+MMLU-CF	mmlucf	180
+CMMLU	cmmlu	180
+C-Eval	ceval	180
+AGIEval	agieval	180
+BIG-Bench	bigbench	180
+BIG-Bench Hard	bigbenchhard	180
+BBH	bbh	180
+BIG-Bench Extra Hard	bigbenchextrahard	180
+BBEH	bbeh	180
+GPQA	gpqa	180
+GPQA Diamond	gpqadiamond	180
+Humanity's Last Exam	humanityslastexam	180
+HLE	hle	180
+LiveBench	livebench	180
+LiveCodeBench	livecodebench	180
+LiveMathBench	livemathbench	180
+Chatbot Arena	chatbotarena	180
+LMArena	lmarena	180
+Arena-Hard	arenahard	180
+Arena-Hard-Auto	arenahardauto	180
+MT-Bench	mtbench	180
+AlpacaEval	alpacaeval	180
+AlpacaEval 2.0	alpacaeval20	180
+IFEval	ifeval	180
+IFBench	ifbench	180
+FollowBench	followbench	180
+FoFo	fofo	180
+Multi-IF	multiif	180
+WildBench	wildbench	180
+MixEval	mixeval	180
+MixEval-Hard	mixevalhard	180
+EQ-Bench	eqbench	180
+EQ-Bench 3	eqbench3	180
+RewardBench	rewardbench	180
+RewardBench 2	rewardbench2	180
+RM-Bench	rmbench	180
+RMB	rmb	180
+JudgeBench	judgebench	180
+JUDGE-BENCH	judgebench	180
+Prometheus	prometheus	180
+Prometheus 2	prometheus2	180
+PandaLM	pandalm	180
+PPE	ppe	180
+RULER	ruler	180
+LongBench	longbench	180
+LongBench v2	longbenchv2	180
+L-Eval	leval	180
+LEval	leval	180
+InfiniteBench	infinitebench	180
+BABILong	babilong	180
+BABILong-1M	babilong1m	180
+NoLiMa	nolima	180
+LongMemEval	longmemeval	180
+LoCoMo	locomo	180
+Needle In A Haystack	needleinahaystack	180
+NIAH	niah	180
+SQuAD	squad	180
+SQuAD2	squad2	180
+Natural Questions	naturalquestions	180
+TriviaQA	triviaqa	180
+HotpotQA	hotpotqa	180
+2WikiMultiHopQA	twowikimultihopqa	180
+MuSiQue	musique	180
+StrategyQA	strategyqa	180
+IIRC	iirc	180
+DROP	drop	180
+QuAC	quac	180
+CoQA	coqa	180
+TyDi QA	tydiqa	180
+MLQA	mlqa	180
+XQuAD	xquad	180
+MKQA	mkqa	180
+PopQA	popqa	180
+WebQuestions	webquestions	180
+QASC	qasc	180
+QuALITY	quality	180
+NarrativeQA	narrativeqa	180
+NarrativeQA-QA	narrativeqaqa	180
+ELI5	eli5	180
+ASQA	asqa	180
+Qasper	qasper	180
+Bamboogle	bamboogle	180
+FreshQA	freshqa	180
+FreshLLMs	freshllms	180
+FRAMES	frames	180
+BrowseComp	browsecomp	180
+AssistantBench	assistantbench	180
+AgentBench	agentbench	180
+AgentBoard	agentboard	180
+AgentDojo	agentdojo	180
+ToolBench	toolbench	180
+ToolLLM	toolllm	180
+ToolAlpaca	toolalpaca	180
+ToolHop	toolhop	180
+BFCL	bfcl	180
+Berkeley Function Calling Leaderboard	berkeleyfunctioncallingleaderboard	180
+API-Bank	apibank	180
+API-Bench	apibench	180
+TravelPlanner	travelplanner	180
+tau-bench	taubench	180
+tau2-bench	tau2bench	180
+WebShop	webshop	180
+ALFWorld	alfworld	180
+ScienceWorld	scienceworld	180
+MiniWoB++	miniwob	180
+BabyAI	babyai	180
+Jericho	jericho	180
+TextWorld	textworld	180
+SWE-agent	sweagent	180
+SWE-bench	swebench	180
+SWE-bench Verified	swebenchverified	180
+SWE-bench Lite	swebenchlite	180
+SWE-bench Multimodal	swebenchmultimodal	180
+SWE-bench Pro	swebenchpro	180
+SWE-Lancer	swelancer	180
+Terminal-Bench	terminalbench	180
+Terminal-Bench 2.0	terminalbench20	180
+MLE-bench	mlebench	180
+MLAgentBench	mlagentbench	180
+CORE-Bench	corebench	180
+PaperBench	paperbench	180
+ResearchBench	researchbench	180
+ScienceAgentBench	scienceagentbench	180
+SciAgentBench	sciagentbench	180
+
+# 数学、代码、科学与专业领域评测
+GSM8K	gsm8k	180
+GSM-Hard	gsmhard	180
+GSM-Symbolic	gsmsymbolic	180
+GSM-Plus	gsmplus	180
+MATH	math	180
+MATH-500	math500	180
+AIME	aime	180
+AIME 2024	aime2024	180
+AIME 2025	aime2025	180
+AMC	amc	180
+AMC 2023	amc2023	180
+AMC 2024	amc2024	180
+OlympiadBench-Math	olympiadbenchmath	180
+Omni-MATH	omnimath	180
+Minerva Math	minervamath	180
+OCW	ocw	180
+MATH-OAI	mathoai	180
+MathQA	mathqa	180
+Math23K	math23k	180
+AQuA-RAT	aquarat	180
+SVAMP	svamp	180
+ASDiv	asdiv	180
+MAWPS	mawps	180
+TabMWP	tabmwp	180
+FinQA	finqa	180
+TAT-QA	tatqa	180
+ConvFinQA	convfinqa	180
+MathOdyssey	mathodyssey	180
+FrontierMath	frontiermath	180
+FrontierScience	frontierscience	180
+UGPhysics	ugphysics	180
+SciBench	scibench	180
+SciEval	scieval	180
+SciQ	sciq	180
+ARC-AGI	arcagi	180
+ARC-AGI-2	arcagi2	180
+ConceptARC	conceptarc	180
+Abstraction and Reasoning Corpus	abstractionandreasoningcorpus	180
+HumanEval	humaneval	180
+HumanEval+	humaneval	180
+HumanEvalPack	humanevalpack	180
+MBPP	mbpp	180
+MBPP+	mbpp	180
+EvalPlus	evalplus	180
+APPS	apps	180
+CodeContests	codecontests	180
+Codeforces	codeforces	180
+AtCoder	atcoder	180
+LeetCode	leetcode	180
+LeetCode Contest	leetcodecontest	180
+BigCodeBench	bigcodebench	180
+BigCodeBench-Hard	bigcodebenchhard	180
+MultiPL-E	multiple	180
+DS-1000	ds1000	180
+DSBench	dsbench	180
+DS-Bench	dsbench	180
+CRUXEval	cruxeval	180
+CodeXGLUE	codexglue	180
+CodeSearchNet	codesearchnet	180
+CodeNet	codenet	180
+Project CodeNet	projectcodenet	180
+RepoBench	repobench	180
+RepoQA	repoqa	180
+CrossCodeEval	crosscodeeval	180
+Repoformer	repoformer	180
+RepoExec	repoexec	180
+RepoCoder	repocoder	180
+SWE-bench-Java	swebenchjava	180
+SWE-bench-JS	swebenchjs	180
+SWE-smith	swesmith	180
+CodeBenchGen	codebenchgen	180
+LiveSWEBench	liveswebench	180
+Commit0	commit0	180
+DevEval	deveval	180
+ProBench	probench	180
+Aider Polyglot	aiderpolyglot	180
+CanItEdit	canitedit	180
+EditEval	editeval	180
+CodeEditorBench	codeeditorbench	180
+Spider	spider	180
+Spider 2.0	spider20	180
+Spider 2.0-lite	spider20lite	180
+Spider 2.0-snow	spider20snow	180
+BIRD	bird	180
+BIRD-SQL	birdsql	180
+BIRD-Interact	birdinteract	180
+WikiSQL	wikisql	180
+CoSQL	cosql	180
+SParC	sparc	180
+SQLBench	sqlbench	180
+DBBench	dbbench	180
+DSQL	dsql	180
+CHESS	chess	180
+ChartQAPro	chartqapro	180
+TableBench	tablebench	180
+FinBen	finben	180
+FinanceBench	financebench	180
+FinEval	fineval	180
+PIXIU	pixiu	180
+MedQA	medqa	180
+MedMCQA	medmcqa	180
+PubMedQA	pubmedqa	180
+MMLU-Medical	mmlumedical	180
+MedBench	medbench	180
+MultiMedQA	multimedqa	180
+HealthBench	healthbench	180
+HealthBench-Hard	healthbenchhard	180
+MedFuzz	medfuzz	180
+MedXpertQA	medxpertqa	180
+MedS-Bench	medsbench	180
+ChemBench	chembench	180
+ChemLLMBench	chemllmbench	180
+Mol-Instructions	molinstructions	180
+MoleculeNet	moleculenet	180
+QM9	qm9	180
+PCQM4M	pcqm4m	180
+TDC	tdc	180
+Therapeutics Data Commons	therapeuticsdatacommons	180
+ProteinGym	proteingym	180
+ProteinNet	proteinnet	180
+TAPE	tape	180
+FLIP	flip	180
+PEER	peer	180
+CASP	casp	180
+CAMEO	cameo	180
+RNA-Puzzles	rnapuzzles	180
+LegalBench	legalbench	180
+LexGLUE	lexglue	180
+LawBench	lawbench	180
+JEC-QA	jecqa	180
+CAIL	cail	180
+CUAD	cuad	180
+CaseHOLD	casehold	180
+ContractNLI	contractnli	180
+LEDGAR	ledgar	180
+MultiEURLEX	multieurlex	180
+MediQ	mediq	180
+BioASQ	bioasq	180
+BioNLI	bionli	180
+SciNLI	scinli	180
+SciDocs	scidocs	180
+SciRepEval	scirepeval	180
+MTEB	mteb	180
+MMTEB	mmteb	180
+BEIR	beir	180
+C-MTEB	cmteb	180
+MS MARCO	msmarco	180
+TREC-DL	trecdl	180
+TREC-COVID	treccovid	180
+NFCorpus	nfcorpus	180
+ArguAna	arguana	180
+Touche-2020	touche2020	180
+DBPedia	dbpedia	180
+FiQA	fiqa	180
+CQADupStack	cqadupstack	180
+Quora	quora	180
+Climate-FEVER	climatefever	180
+NQ	nq	180
+NQ-Open	nqopen	180
+LoTTE	lotte	180
+Mr. TyDi	mrtydi	180
+MIRACL	miracl	180
+mMARCO	mmarco	180
+BRIGHT	bright	180
+FollowIR	followir	180
+RARe	rare	180
+STaRK	stark	180
+UltraDomain	ultradomain	180
+RGB	rgb	180
+RAGBench	ragbench	180
+RAGTruth	ragtruth	180
+RAGChecker	ragchecker	180
+ARES	ares	180
+CRUD-RAG	crudrag	180
+RAGAS	ragas	180
+FaithEval	faitheval	180
+
+# 语音、音频、机器人与空间数据集
+LibriSpeech	librispeech	180
+LibriLight	librilight	180
+LibriTTS	libritts	180
+LibriTTS-R	librittsr	180
+VCTK	vctk	180
+LJSpeech	ljspeech	180
+Common Voice	commonvoice	180
+VoxPopuli	voxpopuli	180
+VoxCeleb	voxceleb	180
+VoxCeleb2	voxceleb2	180
+VoxLingua107	voxlingua107	180
+VoxForge	voxforge	180
+VoxConverse	voxconverse	180
+VoxSRC	voxsrc	180
+TED-LIUM	tedlium	180
+TED-LIUM 3	tedlium3	180
+GigaSpeech	gigaspeech	180
+GigaSpeech 2	gigaspeech2	180
+GigaST	gigast	180
+WenetSpeech	wenetspeech	180
+WenetSpeech4TTS	wenetspeech4tts	180
+AISHELL-1	aishell1	180
+AISHELL-2	aishell2	180
+AISHELL-3	aishell3	180
+AISHELL-4	aishell4	180
+KeSpeech	kespeech	180
+MagicData	magicdata	180
+THCHS-30	thchs30	180
+CN-Celeb	cnceleb	180
+CN-Celeb2	cnceleb2	180
+Fisher	fisher	180
+Switchboard	switchboard	180
+CHiME	chime	180
+CHiME-6	chime6	180
+CHiME-7	chime7	180
+AMI	ami	180
+DIHARD	dihard	180
+Alimeeting	alimeeting	180
+AudioSet	audioset	180
+AudioCaps	audiocaps	180
+Clotho	clotho	180
+Clotho-AQA	clothoaqa	180
+ESC-50	esc50	180
+UrbanSound8K	urbansound8k	180
+FSD50K	fsd50k	180
+DCASE	dcase	180
+VGGSound	vggsound	180
+WavText5K	wavtext5k	180
+MUSIC	music	180
+MUSIC-AVQA	musicavqa	180
+AVQA	avqa	180
+AVSD	avsd	180
+AVSD-QA	avsdqa	180
+AVSBench	avsbench	180
+AVE	ave	180
+AVVP	avvp	180
+AVVP-LLP	avvpllp	180
+LLP	llp	180
+CREMA-D	cremad	180
+RAVDESS	ravdess	180
+IEMOCAP	iemocap	180
+MELD	meld	180
+CMU-MOSI	cmumosi	180
+CMU-MOSEI	cmumosei	180
+MSP-Podcast	msppodcast	180
+EMO-DB	emodb	180
+EMOVO	emovo	180
+EmoV-DB	emovdb	180
+Expresso	expresso	180
+Emilia	emilia	180
+Emilia-Large	emilialarge	180
+LibriMix	librimix	180
+WHAM!	wham	180
+WHAMR!	whamr	180
+WSJ0-2mix	wsj02mix	180
+WSJ0-3mix	wsj03mix	180
+VoiceBank-DEMAND	voicebankdemand	180
+DNS Challenge	dnschallenge	180
+Valentini	valentini	180
+MUSDB18	musdb18	180
+MUSDB18-HQ	musdb18hq	180
+MoisesDB	moisesdb	180
+Slakh2100	slakh2100	180
+NSynth	nsynth	180
+MAESTRO	maestro	180
+MusicCaps	musiccaps	180
+MusicBench	musicbench	180
+MusicQA	musicqa	180
+MusicAVQA	musicavqa	180
+MTG-Jamendo	mtgjamendo	180
+FMA	fma	180
+Free Music Archive	freemusicarchive	180
+GTZAN	gtzan	180
+MagnaTagATune	magnatagatune	180
+Million Song Dataset	millionsongdataset	180
+MedleyDB	medleydb	180
+RoboNet	robonet	180
+RoboSet	roboset	180
+BridgeData	bridgedata	180
+BridgeData V2	bridgedatav2	180
+DROID	droid	180
+Open X-Embodiment	openxembodiment	180
+OXE	oxe	180
+RT-1 Dataset	rt1dataset	180
+Fractal20220817Data	fractal20220817data	180
+Language Table	languagetable	180
+CALVIN	calvin	180
+LIBERO	libero	180
+LIBERO-Spatial	liberospatial	180
+LIBERO-Object	liberoobject	180
+LIBERO-Goal	liberogoal	180
+LIBERO-Long	liberolong	180
+RoboMimic	robomimic	180
+RoboSuite	robosuite	180
+RoboCasa	robocasa	180
+RoboCasa365	robocasa365	180
+ManiSkill	maniskill	180
+ManiSkill2	maniskill2	180
+ManiSkill3	maniskill3	180
+RLBench	rlbench	180
+Meta-World	metaworld	180
+FurnitureBench	furniturebench	180
+FurnitureSim	furnituresim	180
+SimplerEnv	simplerenv	180
+Simpler	simpler	180
+Behavior-1K	behavior1k	180
+BEHAVIOR	behavior	180
+Habitat	habitat	180
+Habitat 2.0	habitat20	180
+Habitat 3.0	habitat30	180
+Habitat-Matterport 3D	habitatmatterport3d	180
+Habitat-Lab	habitatlab	180
+Habitat-Sim	habitatsim	180
+iGibson	igibson	180
+AI2-THOR	ai2thor	180
+ProcTHOR	procthor	180
+RoboTHOR	robothor	180
+ALFRED	alfred	180
+TEACh	teach	180
+DialFRED	dialfred	180
+REVERIE	reverie	180
+RxR	rxr	180
+R2R	r2r	180
+Room-to-Room	roomtoroom	180
+CVDN	cvdn	180
+VLN-CE	vlnce	180
+VLN-DUET	vlnduet	180
+Touchdown	touchdown	180
+SOON	soon	180
+ObjectNav	objectnav	180
+PointNav	pointnav	180
+InstanceImageNav	instanceimagenav	180
+ImageNav	imagenav	180
+MultiON	multion	180
+HM3D-Semantics	hm3dsemantics	180
+ScanRefer	scanrefer	180
+ReferIt3D	referit3d	180
+Nr3D	nr3d	180
+Sr3D	sr3d	180
+ScanQA	scanqa	180
+SQA3D	sqa3d	180
+3D-VQA	threedvqa	180
+3D-LLM	threedllm	180
+EmbodiedScan	embodiedscan	180
+EmbodiedQA	embodiedqa	180
+EQA	eqa	180
+Matterport3DSimulator	matterport3dsimulator	180
+MultiScan	multiscan	180
+Scan2CAD	scan2cad	180
+Scan2Cap	scan2cap	180
+ScanEnts3D	scanents3d	180
+SceneVerse	sceneverse	180
+SceneGraphFusion	scenegraphfusion	180
+nuPlan	nuplan	180
+NAVSIM	navsim	180
+CARLA	carla	180
+CARLA Leaderboard	carlaleaderboard	180
+Bench2Drive	bench2drive	180
+DriveBench	drivebench	180
+DriveArena	drivearena	180
+DriveE2E	drivee2e	180
+DriveCoT	drivecot	180
+DriveGPT4	drivegpt4	180
+nuScenes-QA	nuscenesqa	180
+NuScenes-Mini	nuscenesmini	180
+OmniDrive	omnidrive	180
+OpenLane	openlane	180
+OpenLane-V2	openlanev2	180
+OpenOccupancy	openoccupancy	180
+Occ3D	occ3d	180
+SemanticSceneCompletion	semanticscenecompletion	180
+KITTI-360-3D	kitti3603d	180
+Semantic3D	semantic3d	180
+DALES	dales	180
+Toronto-3D	toronto3d	180
+Paris-Lille-3D	parislille3d	180
+Human3.6M	human36m	180
+HumanEva	humaneva	180
+AMASS	amass	180
+HUMAN4D	human4d	180
+3DPW	threedpw	180
+MPI-INF-3DHP	mpiinf3dhp	180
+MPII	mpii	180
+COCO-WholeBody	cocowholebody	180
+COCO-Keypoints	cocokeypoints	180
+PoseTrack	posetrack	180
+InterHand2.6M	interhand26m	180
+FreiHAND	freihand	180
+HO3D	ho3d	180
+DexYCB	dexycb	180
+OakInk	oakink	180
+GRAB	grab	180
+BEHAVE	behave	180
+InterCap	intercap	180
+PROX	prox	180
+EgoBody	egobody	180
+EgoHumans	egohumans	180
+EMDB	emdb	180
+BEDLAM	bedlam	180
+AGORA	agora	180
+RICH	rich	180
+Hi4D	hi4d	180
+HumanML3D	humanml3d	180
+KIT Motion-Language	kitmotionlanguage	180
+BABEL	babel	180
+Motion-X	motionx	180
+MotionGPT	motiongpt	180
+MotionDiffuse	motiondiffuse	180
+MDM	mdm	180
+T2M-GPT	t2mgpt	180
+MoMask	momask	180
+
+# 生物医药、时间序列与其他研究模型
+AlphaFold	alphafold	180
+AlphaFold-Multimer	alphafoldmultimer	180
+AlphaMissense	alphamissense	180
+AlphaGenome	alphagenome	180
+AlphaProteo	alphaproteo	180
+AlphaTensor	alphatensor	180
+AlphaDev	alphadev	180
+AlphaEvolve	alphaevolve	180
+ESM	esm	180
+ESM-1b	esm1b	180
+ESM-1v	esm1v	180
+ESMFold	esmfold	180
+ProtBERT	protbert	180
+ProtT5	prott5	180
+ProGen	progen	180
+ProteinMPNN	proteinmpnn	180
+LigandMPNN	ligandmpnn	180
+RFdiffusion	rfdiffusion	180
+RoseTTAFold	rosettafold	180
+RoseTTAFold All-Atom	rosettafoldallatom	180
+Chai	chai	180
+Boltz	boltz	180
+OpenFold	openfold	180
+OmegaFold	omegafold	180
+UniFold	unifold	180
+HelixFold	helixfold	180
+Nucleotide Transformer	nucleotidetransformer	180
+DNABERT	dnabert	180
+DNABERT-S	dnaberts	180
+Caduceus	caduceus	180
+Enformer	enformer	180
+Basenji	basenji	180
+Borzoi	borzoi	180
+scGPT	scgpt	180
+Geneformer	geneformer	180
+scBERT	scbert	180
+scFoundation	scfoundation	180
+CellPLM	cellplm	180
+UCE	uce	180
+ChemBERTa	chemberta	180
+MolBERT	molbert	180
+MolFormer	molformer	180
+Uni-Mol	unimol	180
+GROVER	grover	180
+GraphMVP	graphmvp	180
+GraphCL	graphcl	180
+InfoGraph	infograph	180
+DimeNet	dimenet	180
+DimeNet++	dimenet	180
+SchNet	schnet	180
+PaiNN	painn	180
+GemNet	gemnet	180
+SphereNet	spherenet	180
+NequIP	nequip	180
+Allegro	allegro	180
+MACE	mace	180
+CHGNet	chgnet	180
+M3GNet	m3gnet	180
+MatterSim	mattersim	180
+Equiformer	equiformer	180
+GraphCast	graphcast	180
+Pangu-Weather	panguweather	180
+FourCastNet	fourcastnet	180
+GenCast	gencast	180
+Aurora	aurora	180
+FuXi	fuxi	180
+ClimaX	climax	180
+Prithvi	prithvi	180
+SatMAE	satmae	180
+RingMo	ringmo	180
+DOFA	dofa	180
+CROMA	croma	180
+RemoteCLIP	remoteclip	180
+Chronos	chronos	180
+Chronos-Bolt	chronosbolt	180
+TimesFM	timesfm	180
+Moirai	moirai	180
+Moirai-MoE	moiraimoe	180
+TimeGPT	timegpt	180
+Time-LLM	timellm	180
+TimeMixer	timemixer	180
+TimeMixer++	timemixer	180
+TimesNet	timesnet	180
+PatchTST	patchtst	180
+iTransformer	itransformer	180
+Autoformer	autoformer	180
+FEDformer	fedformer	180
+Informer	informer	180
+DLinear	dlinear	180
+NLinear	nlinear	180
+N-BEATS	nbeats	180
+N-HiTS	nhits	180
+Temporal Fusion Transformer	temporalfusiontransformer	180
+TFT	tft	180
+DeepAR	deepar	180
+DeepState	deepstate	180
+DeepVAR	deepvar	180
+Lag-Llama	lagllama	180
+Timer	timer	180
+Timer-XL	timerxl	180
+Sundial	sundial	180
+TTM	ttm	180
+Tiny Time Mixers	tinytimemixers	180
+GNN	gnn	180
+GCN	gcn	180
+GAT	gat	180
+GraphSAGE	graphsage	180
+GIN	gin	180
+PNA	pna	180
+Graphormer	graphormer	180
+GraphGPS	graphgps	180
+GPS++	gps	180
+Graph Transformer	graphtransformer	180
+GraphMAE	graphmae	180
+GRACE	grace	180
+BGRL	bgrl	180
+DGI	dgi	180
+MVGRL	mvgrl	180
+VGAE	vgae	180
+ARGA	arga	180
+SEAL	seal	180
+R-GCN	rgcn	180
+HAN	han	180
+HGT	hgt	180
+Heterogeneous Graph Transformer	heterogeneousgraphtransformer	180
+RotatE	rotate	180
+TransE	transe	180
+TransH	transh	180
+TransR	transr	180
+DistMult	distmult	180
+ComplEx	complex	180
+ConvE	conve	180
+TuckER	tucker	180
+RESCAL	rescal	180
+
+# 手写 AI/ML 科研方法与技术概念；通用术语小写，专名和缩写保留规范大小写。
+
+# 数学、线性代数与数值方法
+linear algebra	linearalgebra	80
+matrix multiplication	matrixmultiplication	80
+matrix decomposition	matrixdecomposition	80
+eigendecomposition	eigendecomposition	140
+eigenvalue	eigenvalue	140
+eigenvector	eigenvector	140
+singular value decomposition	singularvaluedecomposition	80
+QR decomposition	qrdecomposition	80
+Cholesky decomposition	choleskydecomposition	80
+LU decomposition	ludecomposition	80
+pseudoinverse	pseudoinverse	140
+Moore-Penrose inverse	moorepenroseinverse	80
+matrix inverse	matrixinverse	80
+matrix rank	matrixrank	80
+low-rank approximation	lowrankapproximation	80
+rank deficiency	rankdeficiency	80
+condition number	conditionnumber	80
+positive definite matrix	positivedefinitematrix	80
+positive semidefinite matrix	positivesemidefinitematrix	80
+orthogonal matrix	orthogonalmatrix	80
+orthonormal basis	orthonormalbasis	80
+null space	nullspace	80
+column space	columnspace	80
+row space	rowspace	80
+inner product	innerproduct	80
+outer product	outerproduct	80
+dot product	dotproduct	80
+cross product	crossproduct	80
+tensor product	tensorproduct	80
+Kronecker product	kroneckerproduct	80
+Hadamard product	hadamardproduct	80
+Frobenius norm	frobeniusnorm	80
+spectral norm	spectralnorm	80
+nuclear norm	nuclearnorm	80
+Euclidean distance	euclideandistance	80
+cosine similarity	cosinesimilarity	80
+Manhattan distance	manhattandistance	80
+Mahalanobis distance	mahalanobisdistance	80
+Wasserstein distance	wassersteindistance	80
+Earth mover's distance	earthmoversdistance	80
+geodesic distance	geodesicdistance	80
+bilinear form	bilinearform	80
+quadratic form	quadraticform	80
+Rayleigh quotient	rayleighquotient	80
+trace	trace	140
+determinant	determinant	140
+Jacobian	jacobian	140
+Hessian	hessian	140
+gradient	gradient	140
+subgradient	subgradient	140
+directional derivative	directionalderivative	80
+partial derivative	partialderivative	80
+chain rule	chainrule	80
+Taylor expansion	taylorexpansion	80
+finite difference	finitedifference	80
+automatic differentiation	automaticdifferentiation	80
+forward-mode differentiation	forwardmodedifferentiation	80
+reverse-mode differentiation	reversemodedifferentiation	80
+vector-Jacobian product	vectorjacobianproduct	80
+Jacobian-vector product	jacobianvectorproduct	80
+JVP	jvp	140
+VJP	vjp	140
+implicit differentiation	implicitdifferentiation	80
+numerical stability	numericalstability	80
+floating-point arithmetic	floatingpointarithmetic	80
+catastrophic cancellation	catastrophiccancellation	80
+rounding error	roundingerror	80
+underflow	underflow	140
+overflow	overflow	140
+log-sum-exp	logsumexp	140
+matrix-free method	matrixfreemethod	80
+power iteration	poweriteration	80
+Lanczos algorithm	lanczosalgorithm	80
+conjugate gradient	conjugategradient	80
+fixed-point iteration	fixedpointiteration	80
+numerical integration	numericalintegration	80
+Monte Carlo integration	montecarlointegration	80
+ordinary differential equation	ordinarydifferentialequation	80
+ODE	ode	140
+stochastic differential equation	stochasticdifferentialequation	80
+SDE	sde	140
+partial differential equation	partialdifferentialequation	80
+PDE	pde	140
+discretization	discretization	140
+boundary condition	boundarycondition	80
+initial condition	initialcondition	80
+Fourier transform	fouriertransform	80
+fast Fourier transform	fastfouriertransform	80
+FFT	fft	140
+discrete cosine transform	discretecosinetransform	80
+wavelet transform	wavelettransform	80
+Laplace transform	laplacetransform	80
+spectral decomposition	spectraldecomposition	80
+manifold	manifold	140
+tangent space	tangentspace	80
+Riemannian geometry	riemanniangeometry	80
+hyperbolic geometry	hyperbolicgeometry	80
+
+# 概率、统计与信息论
+probability distribution	probabilitydistribution	80
+probability density	probabilitydensity	80
+probability mass function	probabilitymassfunction	80
+cumulative distribution function	cumulativedistributionfunction	80
+conditional probability	conditionalprobability	80
+joint probability	jointprobability	80
+marginal probability	marginalprobability	80
+Bayes' theorem	bayestheorem	80
+Bayesian inference	bayesianinference	80
+Bayesian posterior	bayesianposterior	80
+prior distribution	priordistribution	80
+posterior distribution	posteriordistribution	80
+likelihood	likelihood	140
+log-likelihood	loglikelihood	140
+maximum likelihood estimation	maximumlikelihoodestimation	80
+MLE	mle	140
+maximum a posteriori estimation	maximumaposterioriestimation	80
+MAP	map	140
+expectation	expectation	140
+variance	variance	140
+covariance	covariance	140
+correlation	correlation	140
+covariance matrix	covariancematrix	80
+sample complexity	samplecomplexity	80
+statistical efficiency	statisticalefficiency	80
+bias-variance tradeoff	biasvariancetradeoff	80
+confidence interval	confidenceinterval	80
+credible interval	credibleinterval	80
+hypothesis testing	hypothesistesting	80
+null hypothesis	nullhypothesis	80
+alternative hypothesis	alternativehypothesis	80
+p-value	pvalue	140
+statistical significance	statisticalsignificance	80
+effect size	effectsize	80
+statistical power	statisticalpower	80
+multiple testing	multipletesting	80
+false discovery rate	falsediscoveryrate	80
+bootstrap sampling	bootstrapsampling	80
+permutation test	permutationtest	80
+central limit theorem	centrallimittheorem	80
+law of large numbers	lawoflargenumbers	80
+Gaussian distribution	gaussiandistribution	80
+normal distribution	normaldistribution	80
+Bernoulli distribution	bernoullidistribution	80
+binomial distribution	binomialdistribution	80
+Poisson distribution	poissondistribution	80
+categorical distribution	categoricaldistribution	80
+multinomial distribution	multinomialdistribution	80
+Dirichlet distribution	dirichletdistribution	80
+Beta distribution	betadistribution	80
+Gamma distribution	gammadistribution	80
+exponential distribution	exponentialdistribution	80
+uniform distribution	uniformdistribution	80
+mixture distribution	mixturedistribution	80
+Gaussian mixture model	gaussianmixturemodel	80
+GMM	gmm	140
+latent variable	latentvariable	80
+Markov chain	markovchain	80
+Markov blanket	markovblanket	80
+Markov random field	markovrandomfield	80
+conditional independence	conditionalindependence	80
+graphical model	graphicalmodel	80
+variational inference	variationalinference	80
+mean-field approximation	meanfieldapproximation	80
+evidence lower bound	evidencelowerbound	80
+ELBO	elbo	140
+importance sampling	importancesampling	80
+rejection sampling	rejectionsampling	80
+Gibbs sampling	gibbssampling	80
+Hamiltonian Monte Carlo	hamiltonianmontecarlo	80
+HMC	hmc	140
+Markov chain Monte Carlo	markovchainmontecarlo	80
+MCMC	mcmc	140
+Metropolis-Hastings	metropolishastings	140
+reparameterization trick	reparameterizationtrick	80
+score function estimator	scorefunctionestimator	80
+entropy	entropy	140
+cross-entropy	crossentropy	140
+conditional entropy	conditionalentropy	80
+differential entropy	differentialentropy	80
+mutual information	mutualinformation	80
+pointwise mutual information	pointwisemutualinformation	80
+PMI	pmi	140
+Kullback-Leibler divergence	kullbackleiblerdivergence	80
+KL divergence	kldivergence	80
+Jensen-Shannon divergence	jensenshannondivergence	80
+JS divergence	jsdivergence	80
+cross-covariance	crosscovariance	140
+Fisher information	fisherinformation	80
+sufficient statistic	sufficientstatistic	80
+exponential family	exponentialfamily	80
+maximum entropy	maximumentropy	80
+information bottleneck	informationbottleneck	80
+minimum description length	minimumdescriptionlength	80
+MDL	mdl	140
+causal inference	causalinference	80
+causal graph	causalgraph	80
+confounder	confounder	140
+intervention	intervention	140
+counterfactual	counterfactual	140
+average treatment effect	averagetreatmenteffect	80
+instrumental variable	instrumentalvariable	80
+propensity score	propensityscore	80
+
+# 传统机器学习与学习范式
+supervised learning	supervisedlearning	80
+unsupervised learning	unsupervisedlearning	80
+semi-supervised learning	semisupervisedlearning	80
+self-supervised learning	selfsupervisedlearning	80
+weakly supervised learning	weaklysupervisedlearning	80
+fully supervised learning	fullysupervisedlearning	80
+active learning	activelearning	80
+online learning	onlinelearning	80
+incremental learning	incrementallearning	80
+continual learning	continuallearning	80
+lifelong learning	lifelonglearning	80
+transfer learning	transferlearning	80
+domain adaptation	domainadaptation	80
+domain generalization	domaingeneralization	80
+multi-task learning	multitasklearning	80
+meta-learning	metalearning	140
+few-shot learning	fewshotlearning	80
+one-shot learning	oneshotlearning	80
+zero-shot learning	zeroshotlearning	80
+open-set recognition	opensetrecognition	80
+open-world learning	openworldlearning	80
+federated learning	federatedlearning	80
+distributed learning	distributedlearning	80
+privacy-preserving learning	privacypreservinglearning	80
+curriculum learning	curriculumlearning	80
+self-paced learning	selfpacedlearning	80
+imitation learning	imitationlearning	80
+inverse reinforcement learning	inversereinforcementlearning	80
+representation learning	representationlearning	80
+metric learning	metriclearning	80
+contrastive learning	contrastivelearning	80
+predictive learning	predictivelearning	80
+generative modeling	generativemodeling	80
+discriminative modeling	discriminativemodeling	80
+multi-view learning	multiviewlearning	80
+co-training	cotraining	140
+positive-unlabeled learning	positiveunlabeledlearning	80
+PU learning	pulearning	80
+label propagation	labelpropagation	80
+label spreading	labelspreading	80
+pseudo-labeling	pseudolabeling	140
+self-training	selftraining	140
+transductive learning	transductivelearning	80
+inductive learning	inductivelearning	80
+support vector machine	supportvectormachine	80
+SVM	svm	140
+support vector regression	supportvectorregression	80
+SVR	svr	140
+kernel method	kernelmethod	80
+kernel trick	kerneltrick	80
+radial basis function	radialbasisfunction	80
+RBF	rbf	140
+Gaussian process	gaussianprocess	80
+Gaussian process regression	gaussianprocessregression	80
+GPR	gpr	140
+kernel ridge regression	kernelridgeregression	80
+k-nearest neighbors	knearestneighbors	80
+kNN	knn	140
+decision tree	decisiontree	80
+random forest	randomforest	80
+gradient boosting	gradientboosting	80
+boosting	boosting	140
+bagging	bagging	140
+AdaBoost	adaboost	140
+logistic regression	logisticregression	80
+linear regression	linearregression	80
+ridge regression	ridgeregression	80
+lasso regression	lassoregression	80
+elastic net	elasticnet	80
+naive Bayes	naivebayes	80
+linear discriminant analysis	lineardiscriminantanalysis	80
+LDA	lda	140
+quadratic discriminant analysis	quadraticdiscriminantanalysis	80
+principal component analysis	principalcomponentanalysis	80
+PCA	pca	140
+independent component analysis	independentcomponentanalysis	80
+ICA	ica	140
+non-negative matrix factorization	nonnegativematrixfactorization	80
+NMF	nmf	140
+canonical correlation analysis	canonicalcorrelationanalysis	80
+CCA	cca	140
+t-SNE	tsne	140
+UMAP	umap	140
+k-means clustering	kmeansclustering	80
+spectral clustering	spectralclustering	80
+hierarchical clustering	hierarchicalclustering	80
+density-based clustering	densitybasedclustering	80
+DBSCAN	dbscan	140
+HDBSCAN	hdbscan	140
+mean shift	meanshift	80
+expectation-maximization	expectationmaximization	140
+EM algorithm	emalgorithm	80
+hidden Markov model	hiddenmarkovmodel	80
+HMM	hmm	140
+conditional random field	conditionalrandomfield	80
+CRF	crf	140
+topic modeling	topicmodeling	80
+latent Dirichlet allocation	latentdirichletallocation	80
+matrix factorization	matrixfactorization	80
+collaborative filtering	collaborativefiltering	80
+content-based filtering	contentbasedfiltering	80
+learning to rank	learningtorank	80
+
+# 神经网络、层与架构
+neural network	neuralnetwork	80
+deep neural network	deepneuralnetwork	80
+feedforward network	feedforwardnetwork	80
+multilayer perceptron	multilayerperceptron	80
+MLP	mlp	140
+convolutional neural network	convolutionalneuralnetwork	80
+CNN	cnn	140
+recurrent neural network	recurrentneuralnetwork	80
+RNN	rnn	140
+long short-term memory	longshorttermmemory	80
+LSTM	lstm	140
+gated recurrent unit	gatedrecurrentunit	80
+GRU	gru	140
+bidirectional recurrent network	bidirectionalrecurrentnetwork	80
+encoder-decoder	encoderdecoder	140
+autoencoder	autoencoder	140
+denoising autoencoder	denoisingautoencoder	80
+sparse autoencoder	sparseautoencoder	80
+SAE	sae	140
+variational autoencoder	variationalautoencoder	80
+vector-quantized autoencoder	vectorquantizedautoencoder	80
+generative adversarial network	generativeadversarialnetwork	80
+graph neural network	graphneuralnetwork	80
+graph convolutional network	graphconvolutionalnetwork	80
+graph attention network	graphattentionnetwork	80
+message passing neural network	messagepassingneuralnetwork	80
+MPNN	mpnn	140
+equivariant neural network	equivariantneuralnetwork	80
+neural operator	neuraloperator	80
+Fourier neural operator	fourierneuraloperator	80
+FNO	fno	140
+deep equilibrium model	deepequilibriummodel	80
+DEQ	deq	140
+state space model	statespacemodel	80
+SSM	ssm	140
+selective state space model	selectivestatespacemodel	80
+mixture of experts	mixtureofexperts	80
+MoE	moe	140
+sparse mixture of experts	sparsemixtureofexperts	80
+dense model	densemodel	80
+sparse model	sparsemodel	80
+residual connection	residualconnection	80
+skip connection	skipconnection	80
+residual block	residualblock	80
+bottleneck block	bottleneckblock	80
+convolution	convolution	140
+depthwise convolution	depthwiseconvolution	80
+pointwise convolution	pointwiseconvolution	80
+separable convolution	separableconvolution	80
+dilated convolution	dilatedconvolution	80
+transposed convolution	transposedconvolution	80
+deformable convolution	deformableconvolution	80
+grouped convolution	groupedconvolution	80
+causal convolution	causalconvolution	80
+pooling	pooling	140
+max pooling	maxpooling	80
+average pooling	averagepooling	80
+global average pooling	globalaveragepooling	80
+adaptive pooling	adaptivepooling	80
+upsampling	upsampling	140
+downsampling	downsampling	140
+interpolation	interpolation	140
+bilinear interpolation	bilinearinterpolation	80
+nearest-neighbor interpolation	nearestneighborinterpolation	80
+activation function	activationfunction	80
+ReLU	relu	140
+LeakyReLU	leakyrelu	140
+PReLU	prelu	140
+ELU	elu	140
+SELU	selu	140
+GELU	gelu	140
+SiLU	silu	140
+Swish	swish	140
+SwiGLU	swiglu	140
+GeGLU	geglu	140
+GLU	glu	140
+Mish	mish	140
+sigmoid	sigmoid	140
+tanh	tanh	140
+softmax	softmax	140
+log-softmax	logsoftmax	140
+softplus	softplus	140
+softsign	softsign	140
+batch normalization	batchnormalization	80
+BatchNorm	batchnorm	140
+layer normalization	layernormalization	80
+LayerNorm	layernorm	140
+instance normalization	instancenormalization	80
+InstanceNorm	instancenorm	140
+group normalization	groupnormalization	80
+GroupNorm	groupnorm	140
+RMSNorm	rmsnorm	140
+weight normalization	weightnormalization	80
+spectral normalization	spectralnormalization	80
+pre-norm	prenorm	140
+post-norm	postnorm	140
+dropout	dropout	140
+DropPath	droppath	140
+stochastic depth	stochasticdepth	80
+embedding layer	embeddinglayer	80
+linear layer	linearlayer	80
+fully connected layer	fullyconnectedlayer	80
+parameter sharing	parametersharing	80
+weight tying	weighttying	80
+weight initialization	weightinitialization	80
+Xavier initialization	xavierinitialization	80
+Kaiming initialization	kaiminginitialization	80
+orthogonal initialization	orthogonalinitialization	80
+receptive field	receptivefield	80
+inductive bias	inductivebias	80
+universal approximation	universalapproximation	80
+
+# 优化、损失函数与正则化
+gradient descent	gradientdescent	80
+stochastic gradient descent	stochasticgradientdescent	80
+SGD	sgd	140
+mini-batch gradient descent	minibatchgradientdescent	80
+momentum	momentum	140
+Nesterov momentum	nesterovmomentum	80
+Adam	adam	140
+AdamW	adamw	140
+Adagrad	adagrad	140
+Adadelta	adadelta	140
+RMSProp	rmsprop	140
+LAMB	lamb	140
+LARS	lars	140
+Lion	lion	140
+Adafactor	adafactor	140
+Shampoo	shampoo	140
+Muon	muon	140
+Sophia	sophia	140
+LBFGS	lbfgs	140
+Newton's method	newtonsmethod	80
+quasi-Newton method	quasinewtonmethod	80
+natural gradient	naturalgradient	80
+Fisher preconditioning	fisherpreconditioning	80
+second-order optimization	secondorderoptimization	80
+gradient clipping	gradientclipping	80
+gradient accumulation	gradientaccumulation	80
+gradient scaling	gradientscaling	80
+gradient checkpointing	gradientcheckpointing	80
+activation checkpointing	activationcheckpointing	80
+learning rate	learningrate	80
+learning rate schedule	learningrateschedule	80
+learning rate warmup	learningratewarmup	80
+cosine annealing	cosineannealing	80
+linear warmup	linearwarmup	80
+polynomial decay	polynomialdecay	80
+step decay	stepdecay	80
+one-cycle policy	onecyclepolicy	80
+cyclical learning rate	cyclicallearningrate	80
+weight decay	weightdecay	80
+decoupled weight decay	decoupledweightdecay	80
+L1 regularization	l1regularization	80
+L2 regularization	l2regularization	80
+early stopping	earlystopping	80
+label smoothing	labelsmoothing	80
+entropy regularization	entropyregularization	80
+orthogonality regularization	orthogonalityregularization	80
+sparsity regularization	sparsityregularization	80
+Jacobian regularization	jacobianregularization	80
+Hessian regularization	hessianregularization	80
+sharpness-aware minimization	sharpnessawareminimization	80
+loss function	lossfunction	80
+objective function	objectivefunction	80
+surrogate loss	surrogateloss	80
+cross-entropy loss	crossentropyloss	80
+binary cross-entropy	binarycrossentropy	80
+BCE	bce	140
+mean squared error	meansquarederror	80
+MSE	mse	140
+mean absolute error	meanabsoluteerror	80
+Huber loss	huberloss	80
+smooth L1 loss	smoothl1loss	80
+hinge loss	hingeloss	80
+triplet loss	tripletloss	80
+contrastive loss	contrastiveloss	80
+InfoNCE	infonce	140
+focal loss	focalloss	80
+Dice loss	diceloss	80
+IoU loss	iouloss	80
+GIoU loss	giouloss	80
+DIoU loss	diouloss	80
+CIoU loss	ciouloss	80
+CTC loss	ctcloss	80
+KL loss	klloss	80
+reconstruction loss	reconstructionloss	80
+perceptual loss	perceptualloss	80
+adversarial loss	adversarialloss	80
+distillation loss	distillationloss	80
+ranking loss	rankingloss	80
+margin loss	marginloss	80
+center loss	centerloss	80
+angular margin	angularmargin	80
+additive margin	additivemargin	80
+temperature scaling	temperaturescaling	80
+loss landscape	losslandscape	80
+local minimum	localminimum	80
+global minimum	globalminimum	80
+saddle point	saddlepoint	80
+flat minimum	flatminimum	80
+sharp minimum	sharpminimum	80
+gradient noise	gradientnoise	80
+gradient variance	gradientvariance	80
+vanishing gradient	vanishinggradient	80
+exploding gradient	explodinggradient	80
+gradient conflict	gradientconflict	80
+gradient surgery	gradientsurgery	80
+PCGrad	pcgrad	140
+convergence rate	convergencerate	80
+convex optimization	convexoptimization	80
+non-convex optimization	nonconvexoptimization	80
+constrained optimization	constrainedoptimization	80
+Lagrange multiplier	lagrangemultiplier	80
+dual problem	dualproblem	80
+proximal operator	proximaloperator	80
+proximal gradient	proximalgradient	80
+coordinate descent	coordinatedescent	80
+alternating optimization	alternatingoptimization	80
+hyperparameter optimization	hyperparameteroptimization	80
+Bayesian optimization	bayesianoptimization	80
+grid search	gridsearch	80
+random search	randomsearch	80
+successive halving	successivehalving	80
+Hyperband	hyperband	140
+
+# 训练、泛化、压缩与数据
+pretraining	pretraining	140
+fine-tuning	finetuning	140
+full fine-tuning	fullfinetuning	80
+parameter-efficient fine-tuning	parameterefficientfinetuning	80
+PEFT	peft	140
+supervised fine-tuning	supervisedfinetuning	80
+SFT	sft	140
+instruction tuning	instructiontuning	80
+instruction fine-tuning	instructionfinetuning	80
+continued pretraining	continuedpretraining	80
+domain-adaptive pretraining	domainadaptivepretraining	80
+task-adaptive pretraining	taskadaptivepretraining	80
+DAPT	dapt	140
+TAPT	tapt	140
+adapter tuning	adaptertuning	80
+prompt tuning	prompttuning	80
+prefix tuning	prefixtuning	80
+P-tuning	ptuning	140
+QLoRA	qlora	300
+DoRA	dora	140
+AdaLoRA	adalora	140
+LoRA+	lora	140
+rsLoRA	rslora	140
+VeRA	vera	140
+PiSSA	pissa	140
+IA3	ia3	140
+BitFit	bitfit	140
+low-rank adaptation	lowrankadaptation	80
+knowledge distillation	knowledgedistillation	80
+teacher-student learning	teacherstudentlearning	80
+self-distillation	selfdistillation	140
+online distillation	onlinedistillation	80
+feature distillation	featuredistillation	80
+response distillation	responsedistillation	80
+model compression	modelcompression	80
+model pruning	modelpruning	80
+structured pruning	structuredpruning	80
+unstructured pruning	unstructuredpruning	80
+magnitude pruning	magnitudepruning	80
+channel pruning	channelpruning	80
+head pruning	headpruning	80
+token pruning	tokenpruning	80
+layer pruning	layerpruning	80
+weight sparsity	weightsparsity	80
+activation sparsity	activationsparsity	80
+N:M sparsity	nmsparsity	80
+quantization	quantization	140
+post-training quantization	posttrainingquantization	80
+PTQ	ptq	140
+quantization-aware training	quantizationawaretraining	80
+QAT	qat	140
+weight-only quantization	weightonlyquantization	80
+activation quantization	activationquantization	80
+per-channel quantization	perchannelquantization	80
+per-tensor quantization	pertensorquantization	80
+group-wise quantization	groupwisequantization	80
+symmetric quantization	symmetricquantization	80
+asymmetric quantization	asymmetricquantization	80
+mixed-precision quantization	mixedprecisionquantization	80
+outlier-aware quantization	outlierawarequantization	80
+INT8	int8	140
+INT4	int4	140
+FP8	fp8	140
+FP16	fp16	140
+BF16	bf16	140
+FP32	fp32	140
+NF4	nf4	140
+FP4	fp4	140
+bfloat16	bfloat16	140
+mixed precision	mixedprecision	80
+automatic mixed precision	automaticmixedprecision	80
+AMP	amp	140
+loss scaling	lossscaling	80
+dynamic loss scaling	dynamiclossscaling	80
+gradient overflow	gradientoverflow	80
+generalization	generalization	140
+overfitting	overfitting	140
+underfitting	underfitting	140
+double descent	doubledescent	80
+grokking	grokking	140
+memorization	memorization	140
+catastrophic forgetting	catastrophicforgetting	80
+catastrophic interference	catastrophicinterference	80
+elastic weight consolidation	elasticweightconsolidation	80
+EWC	ewc	140
+replay buffer	replaybuffer	80
+experience replay	experiencereplay	80
+knowledge transfer	knowledgetransfer	80
+negative transfer	negativetransfer	80
+data augmentation	dataaugmentation	80
+Mixup	mixup	140
+CutMix	cutmix	140
+Cutout	cutout	140
+RandAugment	randaugment	140
+AutoAugment	autoaugment	140
+AugMix	augmix	140
+random erasing	randomerasing	80
+random cropping	randomcropping	80
+color jitter	colorjitter	80
+data curation	datacuration	80
+data filtering	datafiltering	80
+data deduplication	datadeduplication	80
+near-duplicate detection	nearduplicatedetection	80
+synthetic data	syntheticdata	80
+data contamination	datacontamination	80
+data leakage	dataleakage	80
+label noise	labelnoise	80
+noisy labels	noisylabels	80
+class imbalance	classimbalance	80
+long-tailed distribution	longtaileddistribution	80
+distribution shift	distributionshift	80
+covariate shift	covariateshift	80
+label shift	labelshift	80
+concept drift	conceptdrift	80
+out-of-distribution generalization	outofdistributiongeneralization	80
+OOD	ood	140
+in-distribution	indistribution	140
+IID	iid	140
+non-IID	noniid	140
+train-validation split	trainvalidationsplit	80
+cross-validation	crossvalidation	140
+k-fold cross-validation	kfoldcrossvalidation	80
+stratified sampling	stratifiedsampling	80
+resampling	resampling	140
+oversampling	oversampling	140
+undersampling	undersampling	140
+hard negative mining	hardnegativemining	80
+curriculum sampling	curriculumsampling	80
+importance weighting	importanceweighting	80
+dataset distillation	datasetdistillation	80
+coreset selection	coresetselection	80
+
+# Transformer、大语言模型与推理
+Transformer	transformer	140
+self-attention	selfattention	140
+cross-attention	crossattention	140
+multi-head attention	multiheadattention	80
+MHA	mha	140
+multi-query attention	multiqueryattention	80
+MQA	mqa	140
+grouped-query attention	groupedqueryattention	80
+multi-head latent attention	multiheadlatentattention	80
+MLA	mla	140
+sliding-window attention	slidingwindowattention	80
+local attention	localattention	80
+global attention	globalattention	80
+sparse attention	sparseattention	80
+linear attention	linearattention	80
+causal attention	causalattention	80
+bidirectional attention	bidirectionalattention	80
+flash attention	flashattention	80
+FlashAttention	flashattention	300
+FlashInfer	flashinfer	140
+FlexAttention	flexattention	140
+PagedAttention	pagedattention	140
+Ring Attention	ringattention	80
+attention sink	attentionsink	80
+attention map	attentionmap	80
+attention mask	attentionmask	80
+key padding mask	keypaddingmask	80
+causal mask	causalmask	80
+query projection	queryprojection	80
+key projection	keyprojection	80
+value projection	valueprojection	80
+attention head	attentionhead	80
+attention score	attentionscore	80
+attention entropy	attentionentropy	80
+positional encoding	positionalencoding	80
+position embedding	positionembedding	80
+absolute position embedding	absolutepositionembedding	80
+relative position embedding	relativepositionembedding	80
+rotary position embedding	rotarypositionembedding	80
+RoPE	rope	140
+ALiBi	alibi	140
+YaRN	yarn	140
+NTK scaling	ntkscaling	80
+RoPE scaling	ropescaling	80
+context window	contextwindow	80
+context length	contextlength	80
+context extension	contextextension	80
+long-context modeling	longcontextmodeling	80
+lost in the middle	lostinthemiddle	80
+needle in a haystack	needleinahaystack	80
+length extrapolation	lengthextrapolation	80
+sequence length	sequencelength	80
+tokenization	tokenization	140
+tokenizer	tokenizer	140
+subword tokenization	subwordtokenization	80
+byte-pair encoding	bytepairencoding	80
+BPE	bpe	140
+WordPiece	wordpiece	140
+SentencePiece	sentencepiece	140
+unigram tokenizer	unigramtokenizer	80
+byte-level tokenization	byteleveltokenization	80
+special token	specialtoken	80
+padding token	paddingtoken	80
+end-of-sequence token	endofsequencetoken	80
+EOS	eos	140
+beginning-of-sequence token	beginningofsequencetoken	80
+BOS	bos	140
+out-of-vocabulary	outofvocabulary	140
+OOV	oov	140
+vocabulary size	vocabularysize	80
+token embedding	tokenembedding	80
+embedding dimension	embeddingdimension	80
+hidden dimension	hiddendimension	80
+intermediate size	intermediatesize	80
+feed-forward network	feedforwardnetwork	80
+FFN	ffn	140
+gated feed-forward network	gatedfeedforwardnetwork	80
+residual stream	residualstream	80
+language modeling	languagemodeling	80
+causal language modeling	causallanguagemodeling	80
+masked language modeling	maskedlanguagemodeling	80
+MLM	mlm	140
+next-token prediction	nexttokenprediction	80
+next-sentence prediction	nextsentenceprediction	80
+NSP	nsp	140
+span corruption	spancorruption	80
+denoising objective	denoisingobjective	80
+autoregressive decoding	autoregressivedecoding	80
+non-autoregressive decoding	nonautoregressivedecoding	80
+parallel decoding	paralleldecoding	80
+greedy decoding	greedydecoding	80
+beam search	beamsearch	80
+diverse beam search	diversebeamsearch	80
+top-k sampling	topksampling	80
+top-p sampling	toppsampling	80
+nucleus sampling	nucleussampling	80
+min-p sampling	minpsampling	80
+typical sampling	typicalsampling	80
+repetition penalty	repetitionpenalty	80
+frequency penalty	frequencypenalty	80
+presence penalty	presencepenalty	80
+length penalty	lengthpenalty	80
+temperature	temperature	140
+logits	logits	140
+logprobs	logprobs	140
+perplexity	perplexity	140
+PPL	ppl	140
+speculative decoding	speculativedecoding	80
+draft model	draftmodel	80
+target model	targetmodel	80
+speculative sampling	speculativesampling	80
+multi-token prediction	multitokenprediction	80
+MTP	mtp	140
+early-exit decoding	earlyexitdecoding	80
+assisted generation	assistedgeneration	80
+KV cache	kvcache	80
+KV cache quantization	kvcachequantization	80
+KV cache eviction	kvcacheeviction	80
+prefix caching	prefixcaching	80
+prompt caching	promptcaching	80
+continuous batching	continuousbatching	80
+dynamic batching	dynamicbatching	80
+prefill	prefill	140
+decode	decode	140
+prefill-decode disaggregation	prefilldecodedisaggregation	80
+chunked prefill	chunkedprefill	80
+time to first token	timetofirsttoken	80
+TTFT	ttft	140
+time per output token	timeperoutputtoken	80
+TPOT	tpot	140
+inter-token latency	intertokenlatency	80
+ITL	itl	140
+tokens per second	tokenspersecond	80
+TPS	tps	140
+throughput	throughput	140
+latency	latency	140
+batch size	batchsize	80
+micro-batch	microbatch	140
+sequence packing	sequencepacking	80
+padding-free training	paddingfreetraining	80
+sample packing	samplepacking	80
+expert routing	expertrouting	80
+router logits	routerlogits	80
+load balancing loss	loadbalancingloss	80
+expert capacity	expertcapacity	80
+top-k routing	topkrouting	80
+shared expert	sharedexpert	80
+routed expert	routedexpert	80
+expert parallelism	expertparallelism	80
+expert collapse	expertcollapse	80
+router z-loss	routerzloss	80
+token dropping	tokendropping	80
+
+# 强化学习、对齐与偏好优化
+reinforcement learning	reinforcementlearning	80
+RL	rl	140
+reinforcement learning from human feedback	reinforcementlearningfromhumanfeedback	80
+RLHF	rlhf	140
+reinforcement learning from AI feedback	reinforcementlearningfromaifeedback	80
+RLAIF	rlaif	140
+reinforcement learning with verifiable rewards	reinforcementlearningwithverifiablerewards	80
+RLVR	rlvr	140
+reward model	rewardmodel	80
+reward modeling	rewardmodeling	80
+process reward model	processrewardmodel	80
+PRM	prm	140
+outcome reward model	outcomerewardmodel	80
+ORM	orm	140
+reward shaping	rewardshaping	80
+reward hacking	rewardhacking	80
+reward overoptimization	rewardoveroptimization	80
+reward normalization	rewardnormalization	80
+reward clipping	rewardclipping	80
+preference optimization	preferenceoptimization	80
+direct preference optimization	directpreferenceoptimization	80
+DPO	dpo	140
+implicit preference optimization	implicitpreferenceoptimization	80
+IPO	ipo	140
+Kahneman-Tversky optimization	kahnemantverskyoptimization	80
+KTO	kto	140
+odds ratio preference optimization	oddsratiopreferenceoptimization	80
+ORPO	orpo	140
+simple preference optimization	simplepreferenceoptimization	80
+SimPO	simpo	140
+proximal policy optimization	proximalpolicyoptimization	80
+PPO	ppo	140
+group relative policy optimization	grouprelativepolicyoptimization	80
+GRPO	grpo	140
+reinforce leave-one-out	reinforceleaveoneout	80
+RLOO	rloo	140
+REINFORCE	reinforce	140
+generalized advantage estimation	generalizedadvantageestimation	80
+GAE	gae	140
+advantage function	advantagefunction	80
+advantage estimation	advantageestimation	80
+advantage normalization	advantagenormalization	80
+value function	valuefunction	80
+Q-function	qfunction	140
+policy gradient	policygradient	80
+actor-critic	actorcritic	140
+actor model	actormodel	80
+critic model	criticmodel	80
+reference model	referencemodel	80
+reference policy	referencepolicy	80
+behavior policy	behaviorpolicy	80
+target policy	targetpolicy	80
+on-policy learning	onpolicylearning	80
+off-policy learning	offpolicylearning	80
+importance ratio	importanceratio	80
+clipped objective	clippedobjective	80
+KL penalty	klpenalty	80
+KL controller	klcontroller	80
+entropy bonus	entropybonus	80
+exploration	exploration	140
+exploitation	exploitation	140
+exploration-exploitation tradeoff	explorationexploitationtradeoff	80
+epsilon-greedy	epsilongreedy	140
+upper confidence bound	upperconfidencebound	80
+UCB	ucb	140
+Thompson sampling	thompsonsampling	80
+multi-armed bandit	multiarmedbandit	80
+contextual bandit	contextualbandit	80
+Markov decision process	markovdecisionprocess	80
+MDP	mdp	140
+partially observable Markov decision process	partiallyobservablemarkovdecisionprocess	80
+POMDP	pomdp	140
+Bellman equation	bellmanequation	80
+Bellman backup	bellmanbackup	80
+temporal difference learning	temporaldifferencelearning	80
+TD learning	tdlearning	80
+Q-learning	qlearning	140
+SARSA	sarsa	140
+deep Q-network	deepqnetwork	80
+DQN	dqn	140
+double DQN	doubledqn	80
+dueling DQN	duelingdqn	80
+distributional reinforcement learning	distributionalreinforcementlearning	80
+deterministic policy gradient	deterministicpolicygradient	80
+DDPG	ddpg	140
+TD3	td3	140
+soft actor-critic	softactorcritic	80
+SAC	sac	140
+trust region policy optimization	trustregionpolicyoptimization	80
+TRPO	trpo	140
+model-based reinforcement learning	modelbasedreinforcementlearning	80
+model-free reinforcement learning	modelfreereinforcementlearning	80
+offline reinforcement learning	offlinereinforcementlearning	80
+conservative Q-learning	conservativeqlearning	80
+CQL	cql	140
+implicit Q-learning	implicitqlearning	80
+IQL	iql	140
+behavior cloning	behaviorcloning	80
+BC	bc	140
+DAgger	dagger	140
+inverse dynamics	inversedynamics	80
+forward dynamics	forwarddynamics	80
+dynamics model	dynamicsmodel	80
+world model	worldmodel	80
+model predictive control	modelpredictivecontrol	80
+MPC	mpc	140
+Monte Carlo tree search	montecarlotreesearch	80
+MCTS	mcts	140
+tree search	treesearch	80
+rollout	rollout	140
+trajectory	trajectory	140
+return	return	140
+discount factor	discountfactor	80
+discounted return	discountedreturn	80
+credit assignment	creditassignment	80
+delayed reward	delayedreward	80
+sparse reward	sparsereward	80
+dense reward	densereward	80
+success rate	successrate	80
+episodic memory	episodicmemory	80
+intrinsic motivation	intrinsicmotivation	80
+curiosity-driven exploration	curiositydrivenexploration	80
+hindsight experience replay	hindsightexperiencereplay	80
+HER	her	140
+multi-agent reinforcement learning	multiagentreinforcementlearning	80
+MARL	marl	140
+centralized training decentralized execution	centralizedtrainingdecentralizedexecution	80
+CTDE	ctde	140
+self-play	selfplay	140
+league training	leaguetraining	80
+constitutional AI	constitutionalai	80
+alignment tax	alignmenttax	80
+sycophancy	sycophancy	140
+helpfulness	helpfulness	140
+harmlessness	harmlessness	140
+honesty	honesty	140
+human preference	humanpreference	80
+pairwise preference	pairwisepreference	80
+preference dataset	preferencedataset	80
+rejection sampling fine-tuning	rejectionsamplingfinetuning	80
+best-of-N sampling	bestofnsampling	80
+test-time scaling	testtimescaling	80
+inference-time scaling	inferencetimescaling	80
+reasoning budget	reasoningbudget	80
+length bias	lengthbias	80
+verifiable reward	verifiablereward	80
+
+# NLP、检索增强与智能体
+natural language processing	naturallanguageprocessing	80
+NLP	nlp	140
+natural language understanding	naturallanguageunderstanding	80
+NLU	nlu	140
+natural language generation	naturallanguagegeneration	80
+NLG	nlg	140
+named entity recognition	namedentityrecognition	80
+NER	ner	140
+part-of-speech tagging	partofspeechtagging	80
+POS tagging	postagging	80
+dependency parsing	dependencyparsing	80
+constituency parsing	constituencyparsing	80
+coreference resolution	coreferenceresolution	80
+entity linking	entitylinking	80
+relation extraction	relationextraction	80
+event extraction	eventextraction	80
+information extraction	informationextraction	80
+sentiment analysis	sentimentanalysis	80
+text classification	textclassification	80
+sequence labeling	sequencelabeling	80
+machine translation	machinetranslation	80
+neural machine translation	neuralmachinetranslation	80
+NMT	nmt	140
+question answering	questionanswering	80
+QA	qa	140
+extractive question answering	extractivequestionanswering	80
+abstractive summarization	abstractivesummarization	80
+extractive summarization	extractivesummarization	80
+text entailment	textentailment	80
+natural language inference	naturallanguageinference	80
+NLI	nli	140
+semantic similarity	semanticsimilarity	80
+semantic search	semanticsearch	80
+dense retrieval	denseretrieval	80
+sparse retrieval	sparseretrieval	80
+hybrid retrieval	hybridretrieval	80
+BM25	bm25	140
+TF-IDF	tfidf	140
+inverted index	invertedindex	80
+vector search	vectorsearch	80
+vector database	vectordatabase	80
+approximate nearest neighbor	approximatenearestneighbor	80
+ANN	ann	140
+HNSW	hnsw	140
+IVF	ivf	140
+product quantization	productquantization	80
+PQ	pq	140
+document embedding	documentembedding	80
+sentence embedding	sentenceembedding	80
+query embedding	queryembedding	80
+bi-encoder	biencoder	140
+cross-encoder	crossencoder	140
+late interaction	lateinteraction	80
+multi-vector retrieval	multivectorretrieval	80
+reranking	reranking	140
+reranker	reranker	140
+recall at k	recallatk	80
+retrieval-augmented generation	retrievalaugmentedgeneration	80
+RAG	rag	140
+GraphRAG	graphrag	140
+Self-RAG	selfrag	140
+Corrective RAG	correctiverag	80
+CRAG	crag	140
+Agentic RAG	agenticrag	80
+query rewriting	queryrewriting	80
+query expansion	queryexpansion	80
+query decomposition	querydecomposition	80
+multi-query retrieval	multiqueryretrieval	80
+hypothetical document embeddings	hypotheticaldocumentembeddings	80
+HyDE	hyde	140
+document chunking	documentchunking	80
+semantic chunking	semanticchunking	80
+sliding-window chunking	slidingwindowchunking	80
+chunk overlap	chunkoverlap	80
+parent document retrieval	parentdocumentretrieval	80
+contextual retrieval	contextualretrieval	80
+contextual compression	contextualcompression	80
+knowledge graph	knowledgegraph	80
+graph retrieval	graphretrieval	80
+citation grounding	citationgrounding	80
+faithfulness	faithfulness	140
+answer relevance	answerrelevance	80
+context relevance	contextrelevance	80
+hallucination	hallucination	140
+factuality	factuality	140
+attribution	attribution	140
+abstention	abstention	140
+uncertainty estimation	uncertaintyestimation	80
+calibration	calibration	140
+conformal prediction	conformalprediction	80
+prompt engineering	promptengineering	80
+system prompt	systemprompt	80
+user prompt	userprompt	80
+few-shot prompting	fewshotprompting	80
+zero-shot prompting	zeroshotprompting	80
+chain of thought	chainofthought	80
+CoT	cot	140
+tree of thoughts	treeofthoughts	80
+ToT	tot	140
+graph of thoughts	graphofthoughts	80
+GoT	got	140
+self-consistency	selfconsistency	140
+least-to-most prompting	leasttomostprompting	80
+step-back prompting	stepbackprompting	80
+prompt chaining	promptchaining	80
+prompt optimization	promptoptimization	80
+automatic prompt engineering	automaticpromptengineering	80
+in-context learning	incontextlearning	80
+ICL	icl	140
+demonstration selection	demonstrationselection	80
+instruction following	instructionfollowing	80
+structured output	structuredoutput	80
+constrained decoding	constraineddecoding	80
+grammar-constrained decoding	grammarconstraineddecoding	80
+JSON schema	jsonschema	80
+function calling	functioncalling	80
+tool calling	toolcalling	80
+tool use	tooluse	80
+parallel tool calling	paralleltoolcalling	80
+tool selection	toolselection	80
+tool augmentation	toolaugmentation	80
+agent planning	agentplanning	80
+agent memory	agentmemory	80
+agent orchestration	agentorchestration	80
+multi-agent system	multiagentsystem	80
+single-agent system	singleagentsystem	80
+agentic workflow	agenticworkflow	80
+reflection	reflection	140
+self-reflection	selfreflection	140
+self-correction	selfcorrection	140
+self-refinement	selfrefinement	140
+ReAct	react	140
+Reflexion	reflexion	140
+plan-and-execute	planandexecute	140
+task decomposition	taskdecomposition	80
+task planning	taskplanning	80
+hierarchical planning	hierarchicalplanning	80
+workflow graph	workflowgraph	80
+state machine	statemachine	80
+finite-state machine	finitestatemachine	80
+FSM	fsm	140
+human in the loop	humanintheloop	80
+HITL	hitl	140
+computer use	computeruse	80
+browser use	browseruse	80
+web navigation	webnavigation	80
+GUI grounding	guigrounding	80
+GUI agent	guiagent	80
+web agent	webagent	80
+coding agent	codingagent	80
+software engineering agent	softwareengineeringagent	80
+embodied agent	embodiedagent	80
+Model Context Protocol	modelcontextprotocol	80
+MCP	mcp	140
+Agent2Agent	agent2agent	140
+A2A	a2a	140
+prompt injection	promptinjection	80
+indirect prompt injection	indirectpromptinjection	80
+jailbreak	jailbreak	140
+jailbreak defense	jailbreakdefense	80
+adversarial prompt	adversarialprompt	80
+red teaming	redteaming	80
+safety alignment	safetyalignment	80
+guardrail	guardrail	140
+content moderation	contentmoderation	80
+tool poisoning	toolpoisoning	80
+data poisoning	datapoisoning	80
+backdoor attack	backdoorattack	80
+model extraction	modelextraction	80
+membership inference	membershipinference	80
+model inversion	modelinversion	80
+differential privacy	differentialprivacy	80
+DP-SGD	dpsgd	140
+
+# 多模态、视觉语言与视频理解
+multimodal learning	multimodallearning	80
+multimodal representation	multimodalrepresentation	80
+multimodal alignment	multimodalalignment	80
+multimodal fusion	multimodalfusion	80
+multimodal reasoning	multimodalreasoning	80
+multimodal generation	multimodalgeneration	80
+multimodal retrieval	multimodalretrieval	80
+multimodal instruction tuning	multimodalinstructiontuning	80
+multimodal chain of thought	multimodalchainofthought	80
+cross-modal learning	crossmodallearning	80
+cross-modal retrieval	crossmodalretrieval	80
+cross-modal alignment	crossmodalalignment	80
+cross-modal attention	crossmodalattention	80
+cross-modal interaction	crossmodalinteraction	80
+modality gap	modalitygap	80
+modality imbalance	modalityimbalance	80
+modality collapse	modalitycollapse	80
+modality dropout	modalitydropout	80
+missing modality	missingmodality	80
+early fusion	earlyfusion	80
+late fusion	latefusion	80
+intermediate fusion	intermediatefusion	80
+feature fusion	featurefusion	80
+decision fusion	decisionfusion	80
+token fusion	tokenfusion	80
+visual grounding	visualgrounding	80
+phrase grounding	phrasegrounding	80
+referring expression comprehension	referringexpressioncomprehension	80
+referring expression segmentation	referringexpressionsegmentation	80
+image-text matching	imagetextmatching	80
+ITM	itm	140
+image-text contrastive learning	imagetextcontrastivelearning	80
+ITC	itc	140
+image captioning	imagecaptioning	80
+dense captioning	densecaptioning	80
+visual question answering	visualquestionanswering	80
+VQA	vqa	140
+visual entailment	visualentailment	80
+visual commonsense reasoning	visualcommonsensereasoning	80
+visual dialogue	visualdialogue	80
+visual relationship detection	visualrelationshipdetection	80
+scene graph generation	scenegraphgeneration	80
+SGG	sgg	140
+scene graph	scenegraph	80
+visual token	visualtoken	80
+image token	imagetoken	80
+video token	videotoken	80
+audio token	audiotoken	80
+patch embedding	patchembedding	80
+patch token	patchtoken	80
+patchification	patchification	140
+visual encoder	visualencoder	80
+vision tower	visiontower	80
+vision projector	visionprojector	80
+multimodal projector	multimodalprojector	80
+linear projector	linearprojector	80
+MLP projector	mlpprojector	80
+Q-Former	qformer	140
+resampler	resampler	140
+perceiver resampler	perceiverresampler	80
+learnable query	learnablequery	80
+query token	querytoken	80
+query bottleneck	querybottleneck	80
+visual tokenizer	visualtokenizer	80
+image tokenizer	imagetokenizer	80
+semantic tokenizer	semantictokenizer	80
+token merging	tokenmerging	80
+token compression	tokencompression	80
+token selection	tokenselection	80
+token reduction	tokenreduction	80
+adaptive tokenization	adaptivetokenization	80
+dynamic resolution	dynamicresolution	80
+high-resolution input	highresolutioninput	80
+any-resolution input	anyresolutioninput	80
+AnyRes	anyres	140
+image tiling	imagetiling	80
+dynamic tiling	dynamictiling	80
+multi-crop	multicrop	140
+thumbnail token	thumbnailtoken	80
+image-to-text	imagetotext	140
+text-to-image	texttoimage	140
+text-to-video	texttovideo	140
+image-to-video	imagetovideo	140
+video-to-text	videototext	140
+image-to-image	imagetoimage	140
+video-to-video	videotovideo	140
+text-to-audio	texttoaudio	140
+audio-to-text	audiototext	140
+audio-visual learning	audiovisuallearning	80
+audio-visual correspondence	audiovisualcorrespondence	80
+audio-visual synchronization	audiovisualsynchronization	80
+spatial reasoning	spatialreasoning	80
+spatial grounding	spatialgrounding	80
+temporal reasoning	temporalreasoning	80
+temporal grounding	temporalgrounding	80
+temporal localization	temporallocalization	80
+temporal segmentation	temporalsegmentation	80
+temporal ordering	temporalordering	80
+temporal consistency	temporalconsistency	80
+temporal causality	temporalcausality	80
+temporal interpolation	temporalinterpolation	80
+temporal attention	temporalattention	80
+spatial attention	spatialattention	80
+spatiotemporal attention	spatiotemporalattention	80
+spatiotemporal modeling	spatiotemporalmodeling	80
+frame sampling	framesampling	80
+uniform sampling	uniformsampling	80
+adaptive frame sampling	adaptiveframesampling	80
+keyframe selection	keyframeselection	80
+frame selection	frameselection	80
+frame interpolation	frameinterpolation	80
+frame aggregation	frameaggregation	80
+frame-level representation	framelevelrepresentation	80
+clip-level representation	cliplevelrepresentation	80
+video-level representation	videolevelrepresentation	80
+long video understanding	longvideounderstanding	80
+long-form video understanding	longformvideounderstanding	80
+video summarization	videosummarization	80
+video captioning	videocaptioning	80
+dense video captioning	densevideocaptioning	80
+video question answering	videoquestionanswering	80
+video retrieval	videoretrieval	80
+video moment retrieval	videomomentretrieval	80
+video temporal grounding	videotemporalgrounding	80
+video object grounding	videoobjectgrounding	80
+video object segmentation	videoobjectsegmentation	80
+video instance segmentation	videoinstancesegmentation	80
+action recognition	actionrecognition	80
+action detection	actiondetection	80
+action localization	actionlocalization	80
+action anticipation	actionanticipation	80
+human-object interaction	humanobjectinteraction	80
+HOI	hoi	140
+interaction recognition	interactionrecognition	80
+egocentric vision	egocentricvision	80
+first-person video	firstpersonvideo	80
+third-person video	thirdpersonvideo	80
+instructional video	instructionalvideo	80
+procedural understanding	proceduralunderstanding	80
+step localization	steplocalization	80
+event boundary detection	eventboundarydetection	80
+event segmentation	eventsegmentation	80
+event understanding	eventunderstanding	80
+motion representation	motionrepresentation	80
+motion encoding	motionencoding	80
+motion token	motiontoken	80
+optical flow	opticalflow	80
+scene flow	sceneflow	80
+camera motion	cameramotion	80
+object motion	objectmotion	80
+motion compensation	motioncompensation	80
+temporal pooling	temporalpooling	80
+tubelet embedding	tubeletembedding	80
+tubelet token	tubelettoken	80
+tube masking	tubemasking	80
+cross-frame attention	crossframeattention	80
+memory token	memorytoken	80
+streaming video understanding	streamingvideounderstanding	80
+online video understanding	onlinevideounderstanding	80
+streaming perception	streamingperception	80
+interleaved image-text	interleavedimagetext	80
+interleaved multimodal data	interleavedmultimodaldata	80
+
+# 计算机视觉、图像生成与扩散
+computer vision	computervision	80
+image classification	imageclassification	80
+object detection	objectdetection	80
+semantic segmentation	semanticsegmentation	80
+instance segmentation	instancesegmentation	80
+panoptic segmentation	panopticsegmentation	80
+image segmentation	imagesegmentation	80
+open-vocabulary detection	openvocabularydetection	80
+open-vocabulary segmentation	openvocabularysegmentation	80
+zero-shot detection	zeroshotdetection	80
+zero-shot segmentation	zeroshotsegmentation	80
+few-shot segmentation	fewshotsegmentation	80
+salient object detection	salientobjectdetection	80
+camouflaged object detection	camouflagedobjectdetection	80
+anomaly detection	anomalydetection	80
+industrial anomaly detection	industrialanomalydetection	80
+outlier detection	outlierdetection	80
+pose estimation	poseestimation	80
+human pose estimation	humanposeestimation	80
+hand pose estimation	handposeestimation	80
+face recognition	facerecognition	80
+face detection	facedetection	80
+facial expression recognition	facialexpressionrecognition	80
+person re-identification	personreidentification	80
+ReID	reid	140
+multi-object tracking	multiobjecttracking	80
+MOT	mot	140
+single-object tracking	singleobjecttracking	80
+SOT	sot	140
+tracking by detection	trackingbydetection	80
+tracking by segmentation	trackingbysegmentation	80
+multiple hypothesis tracking	multiplehypothesistracking	80
+appearance model	appearancemodel	80
+motion model	motionmodel	80
+data association	dataassociation	80
+non-maximum suppression	nonmaximumsuppression	80
+NMS	nms	140
+soft-NMS	softnms	140
+intersection over union	intersectionoverunion	80
+IoU	iou	140
+bounding box	boundingbox	80
+anchor box	anchorbox	80
+anchor-free detection	anchorfreedetection	80
+region proposal	regionproposal	80
+region of interest	regionofinterest	80
+RoI	roi	140
+RoIAlign	roialign	140
+feature pyramid	featurepyramid	80
+FPN	fpn	140
+path aggregation network	pathaggregationnetwork	80
+PAN	pan	140
+image restoration	imagerestoration	80
+image denoising	imagedenoising	80
+image deblurring	imagedeblurring	80
+image dehazing	imagedehazing	80
+image deraining	imagederaining	80
+image inpainting	imageinpainting	80
+image outpainting	imageoutpainting	80
+image super-resolution	imagesuperresolution	80
+SR	sr	140
+single-image super-resolution	singleimagesuperresolution	80
+SISR	sisr	140
+video super-resolution	videosuperresolution	80
+blind super-resolution	blindsuperresolution	80
+real-world super-resolution	realworldsuperresolution	80
+image enhancement	imageenhancement	80
+low-light enhancement	lowlightenhancement	80
+high dynamic range	highdynamicrange	80
+HDR	hdr	140
+tone mapping	tonemapping	80
+image matting	imagematting	80
+alpha matting	alphamatting	80
+image harmonization	imageharmonization	80
+image colorization	imagecolorization	80
+style transfer	styletransfer	80
+neural style transfer	neuralstyletransfer	80
+domain translation	domaintranslation	80
+image editing	imageediting	80
+instruction-based editing	instructionbasedediting	80
+subject-driven generation	subjectdrivengeneration	80
+personalized generation	personalizedgeneration	80
+identity preservation	identitypreservation	80
+subject consistency	subjectconsistency	80
+controllable generation	controllablegeneration	80
+layout-to-image	layouttoimage	140
+sketch-to-image	sketchtoimage	140
+depth-conditioned generation	depthconditionedgeneration	80
+pose-conditioned generation	poseconditionedgeneration	80
+diffusion model	diffusionmodel	80
+denoising diffusion probabilistic model	denoisingdiffusionprobabilisticmodel	80
+denoising diffusion implicit model	denoisingdiffusionimplicitmodel	80
+score-based generative model	scorebasedgenerativemodel	80
+score matching	scorematching	80
+denoising score matching	denoisingscorematching	80
+sliced score matching	slicedscorematching	80
+stochastic interpolant	stochasticinterpolant	80
+flow matching	flowmatching	80
+rectified flow	rectifiedflow	80
+conditional flow matching	conditionalflowmatching	80
+optimal transport flow matching	optimaltransportflowmatching	80
+probability flow ODE	probabilityflowode	80
+normalizing flow	normalizingflow	80
+continuous normalizing flow	continuousnormalizingflow	80
+CNF	cnf	140
+coupling layer	couplinglayer	80
+change of variables	changeofvariables	80
+latent diffusion	latentdiffusion	80
+pixel-space diffusion	pixelspacediffusion	80
+diffusion Transformer	diffusiontransformer	80
+multimodal diffusion Transformer	multimodaldiffusiontransformer	80
+denoiser	denoiser	140
+noise schedule	noiseschedule	80
+variance schedule	varianceschedule	80
+beta schedule	betaschedule	80
+cosine noise schedule	cosinenoiseschedule	80
+signal-to-noise ratio	signaltonoiseratio	80
+SNR	snr	140
+v-prediction	vprediction	140
+epsilon prediction	epsilonprediction	80
+velocity prediction	velocityprediction	80
+noise prediction	noiseprediction	80
+x0 prediction	x0prediction	80
+classifier guidance	classifierguidance	80
+classifier-free guidance	classifierfreeguidance	80
+CFG	cfg	140
+guidance scale	guidancescale	80
+guidance rescale	guidancerescale	80
+negative prompt	negativeprompt	80
+dynamic thresholding	dynamicthresholding	80
+self-attention guidance	selfattentionguidance	80
+attention guidance	attentionguidance	80
+score distillation sampling	scoredistillationsampling	80
+SDS	sds	140
+variational score distillation	variationalscoredistillation	80
+VSD	vsd	140
+consistency model	consistencymodel	80
+consistency distillation	consistencydistillation	80
+latent consistency model	latentconsistencymodel	80
+progressive distillation	progressivedistillation	80
+distribution matching distillation	distributionmatchingdistillation	80
+DMD	dmd	140
+diffusion distillation	diffusiondistillation	80
+trajectory distillation	trajectorydistillation	80
+one-step generation	onestepgeneration	80
+few-step generation	fewstepgeneration	80
+Euler sampler	eulersampler	80
+Heun sampler	heunsampler	80
+ancestral sampling	ancestralsampling	80
+Karras schedule	karrasschedule	80
+DDIM inversion	ddiminversion	80
+null-text inversion	nulltextinversion	80
+textual inversion	textualinversion	80
+LoRA merging	loramerging	80
+model merging	modelmerging	80
+task arithmetic	taskarithmetic	80
+model soup	modelsoup	80
+weight averaging	weightaveraging	80
+spherical linear interpolation	sphericallinearinterpolation	80
+SLERP	slerp	140
+DARE	dare	140
+TIES-Merging	tiesmerging	140
+
+# 三维、几何、机器人与具身
+3D vision	threedvision	80
+3D reconstruction	threedreconstruction	80
+3D perception	threedperception	80
+3D detection	threeddetection	80
+3D segmentation	threedsegmentation	80
+3D generation	threedgeneration	80
+3D object detection	threedobjectdetection	80
+3D semantic segmentation	threedsemanticsegmentation	80
+3D instance segmentation	threedinstancesegmentation	80
+point cloud	pointcloud	80
+point cloud registration	pointcloudregistration	80
+point cloud completion	pointcloudcompletion	80
+point cloud upsampling	pointcloudupsampling	80
+point cloud segmentation	pointcloudsegmentation	80
+point cloud classification	pointcloudclassification	80
+point sampling	pointsampling	80
+farthest point sampling	farthestpointsampling	80
+FPS	fps	140
+voxelization	voxelization	140
+voxel grid	voxelgrid	80
+voxel feature	voxelfeature	80
+sparse convolution	sparseconvolution	80
+sparse voxel	sparsevoxel	80
+octree	octree	140
+tri-plane representation	triplanerepresentation	80
+signed distance function	signeddistancefunction	80
+SDF	sdf	140
+truncated signed distance function	truncatedsigneddistancefunction	80
+TSDF	tsdf	140
+occupancy field	occupancyfield	80
+occupancy network	occupancynetwork	80
+neural implicit representation	neuralimplicitrepresentation	80
+implicit neural representation	implicitneuralrepresentation	80
+INR	inr	140
+neural radiance field	neuralradiancefield	80
+3D Gaussian splatting	threedgaussiansplatting	80
+Gaussian splatting	gaussiansplatting	80
+4D Gaussian splatting	fourdgaussiansplatting	80
+differentiable rendering	differentiablerendering	80
+volume rendering	volumerendering	80
+ray tracing	raytracing	80
+ray marching	raymarching	80
+rasterization	rasterization	140
+inverse rendering	inverserendering	80
+inverse graphics	inversegraphics	80
+neural rendering	neuralrendering	80
+neural surface reconstruction	neuralsurfacereconstruction	80
+surface normal	surfacenormal	80
+depth estimation	depthestimation	80
+monocular depth estimation	monoculardepthestimation	80
+stereo matching	stereomatching	80
+multi-view stereo	multiviewstereo	80
+MVS	mvs	140
+structure from motion	structurefrommotion	80
+SfM	sfm	140
+visual odometry	visualodometry	80
+VO	vo	140
+visual SLAM	visualslam	80
+VSLAM	vslam	140
+simultaneous localization and mapping	simultaneouslocalizationandmapping	80
+SLAM	slam	140
+bundle adjustment	bundleadjustment	80
+BA	ba	140
+camera calibration	cameracalibration	80
+camera intrinsic	cameraintrinsic	80
+camera extrinsic	cameraextrinsic	80
+camera pose	camerapose	80
+camera trajectory	cameratrajectory	80
+epipolar geometry	epipolargeometry	80
+epipolar constraint	epipolarconstraint	80
+fundamental matrix	fundamentalmatrix	80
+essential matrix	essentialmatrix	80
+homography	homography	140
+triangulation	triangulation	140
+perspective projection	perspectiveprojection	80
+pinhole camera	pinholecamera	80
+fisheye camera	fisheyecamera	80
+lens distortion	lensdistortion	80
+rolling shutter	rollingshutter	80
+global shutter	globalshutter	80
+six degrees of freedom	sixdegreesoffreedom	80
+6DoF	sixdof	140
+rigid transformation	rigidtransformation	80
+SE3	se3	140
+SO3	so3	140
+Lie group	liegroup	80
+Lie algebra	liealgebra	80
+quaternion	quaternion	140
+axis-angle representation	axisanglerepresentation	80
+rotation matrix	rotationmatrix	80
+Euler angles	eulerangles	80
+Procrustes alignment	procrustesalignment	80
+ICP	icp	140
+iterative closest point	iterativeclosestpoint	80
+Chamfer distance	chamferdistance	80
+point-to-plane distance	pointtoplanedistance	80
+bird's-eye view	birdseyeview	80
+BEV	bev	140
+BEV perception	bevperception	80
+sensor fusion	sensorfusion	80
+LiDAR	lidar	140
+radar	radar	140
+RGB-D	rgbd	140
+event camera	eventcamera	80
+robot learning	robotlearning	80
+embodied intelligence	embodiedintelligence	80
+embodied AI	embodiedai	80
+embodied cognition	embodiedcognition	80
+vision-language-action model	visionlanguageactionmodel	80
+VLA	vla	140
+vision-language navigation	visionlanguagenavigation	80
+VLN	vln	140
+visual navigation	visualnavigation	80
+object navigation	objectnavigation	80
+image-goal navigation	imagegoalnavigation	80
+point-goal navigation	pointgoalnavigation	80
+robot manipulation	robotmanipulation	80
+dexterous manipulation	dexterousmanipulation	80
+bimanual manipulation	bimanualmanipulation	80
+grasp planning	graspplanning	80
+grasp pose	grasppose	80
+grasp detection	graspdetection	80
+end effector	endeffector	80
+robot kinematics	robotkinematics	80
+forward kinematics	forwardkinematics	80
+inverse kinematics	inversekinematics	80
+IK	ik	140
+joint space	jointspace	80
+task space	taskspace	80
+operational space	operationalspace	80
+motion planning	motionplanning	80
+trajectory optimization	trajectoryoptimization	80
+collision avoidance	collisionavoidance	80
+path planning	pathplanning	80
+rapidly-exploring random tree	rapidlyexploringrandomtree	80
+RRT	rrt	140
+RRT*	rrt	140
+probabilistic roadmap	probabilisticroadmap	80
+PRM planner	prmplanner	80
+behavior tree	behaviortree	80
+finite-horizon control	finitehorizoncontrol	80
+receding-horizon control	recedinghorizoncontrol	80
+impedance control	impedancecontrol	80
+admittance control	admittancecontrol	80
+force control	forcecontrol	80
+torque control	torquecontrol	80
+position control	positioncontrol	80
+visual servoing	visualservoing	80
+tactile sensing	tactilesensing	80
+tactile feedback	tactilefeedback	80
+proprioception	proprioception	140
+contact-rich manipulation	contactrichmanipulation	80
+sim-to-real transfer	simtorealtransfer	80
+domain randomization	domainrandomization	80
+system identification	systemidentification	80
+residual policy	residualpolicy	80
+action chunking	actionchunking	80
+action tokenization	actiontokenization	80
+action diffusion	actiondiffusion	80
+diffusion policy	diffusionpolicy	80
+flow policy	flowpolicy	80
+action horizon	actionhorizon	80
+observation horizon	observationhorizon	80
+teleoperation	teleoperation	140
+demonstration data	demonstrationdata	80
+robot foundation model	robotfoundationmodel	80
+generalist robot policy	generalistrobotpolicy	80
+whole-body control	wholebodycontrol	80
+locomotion	locomotion	140
+quadrupedal locomotion	quadrupedallocomotion	80
+humanoid control	humanoidcontrol	80
+
+# 评估、可解释性与可靠性
+evaluation protocol	evaluationprotocol	80
+benchmark evaluation	benchmarkevaluation	80
+held-out test set	heldouttestset	80
+validation set	validationset	80
+test set	testset	80
+training set	trainingset	80
+ablation study	ablationstudy	80
+controlled experiment	controlledexperiment	80
+sensitivity analysis	sensitivityanalysis	80
+robustness evaluation	robustnessevaluation	80
+stress testing	stresstesting	80
+adversarial evaluation	adversarialevaluation	80
+human evaluation	humanevaluation	80
+automatic evaluation	automaticevaluation	80
+LLM-as-a-judge	llmasajudge	140
+pairwise evaluation	pairwiseevaluation	80
+blind evaluation	blindevaluation	80
+win rate	winrate	80
+tie rate	tierate	80
+inter-annotator agreement	interannotatoragreement	80
+Cohen's kappa	cohenskappa	80
+Krippendorff's alpha	krippendorffsalpha	80
+accuracy	accuracy	140
+precision	precision	140
+recall	recall	140
+F1 score	f1score	80
+micro-F1	microf1	140
+macro-F1	macrof1	140
+weighted F1	weightedf1	80
+balanced accuracy	balancedaccuracy	80
+top-1 accuracy	top1accuracy	80
+top-5 accuracy	top5accuracy	80
+mean average precision	meanaverageprecision	80
+mAP	map	140
+average precision	averageprecision	80
+AP	ap	140
+area under the curve	areaunderthecurve	80
+AUC	auc	140
+AUROC	auroc	140
+AUPRC	auprc	140
+ROC curve	roccurve	80
+precision-recall curve	precisionrecallcurve	80
+confusion matrix	confusionmatrix	80
+true positive	truepositive	80
+true negative	truenegative	80
+false positive	falsepositive	80
+false negative	falsenegative	80
+false positive rate	falsepositiverate	80
+FPR	fpr	140
+false negative rate	falsenegativerate	80
+FNR	fnr	140
+true positive rate	truepositiverate	80
+TPR	tpr	140
+specificity	specificity	140
+sensitivity	sensitivity	140
+mean reciprocal rank	meanreciprocalrank	80
+MRR	mrr	140
+normalized discounted cumulative gain	normalizeddiscountedcumulativegain	80
+NDCG	ndcg	140
+mean IoU	meaniou	80
+mIoU	miou	140
+pixel accuracy	pixelaccuracy	80
+panoptic quality	panopticquality	80
+PQ metric	pqmetric	80
+tracking accuracy	trackingaccuracy	80
+MOTA	mota	140
+MOTP	motp	140
+IDF1	idf1	140
+HOTA	hota	140
+ID switch	idswitch	80
+BLEU	bleu	140
+ROUGE	rouge	140
+METEOR	meteor	140
+CIDEr	cider	140
+SPICE	spice	140
+BERTScore	bertscore	140
+COMET	comet	140
+chrF	chrf	140
+exact match	exactmatch	80
+EM score	emscore	80
+token-level F1	tokenlevelf1	80
+pass@k	passk	140
+pass@1	pass1	140
+edit distance	editdistance	80
+Levenshtein distance	levenshteindistance	80
+word error rate	worderrorrate	80
+WER	wer	140
+character error rate	charactererrorrate	80
+CER	cer	140
+peak signal-to-noise ratio	peaksignaltonoiseratio	80
+PSNR	psnr	140
+structural similarity index	structuralsimilarityindex	80
+SSIM	ssim	140
+multi-scale SSIM	multiscalessim	80
+MS-SSIM	msssim	140
+LPIPS	lpips	140
+FID	fid	140
+KID	kid	140
+Inception Score	inceptionscore	80
+IS metric	ismetric	80
+CLIPScore	clipscore	140
+VBench score	vbenchscore	80
+Fréchet video distance	frechetvideodistance	80
+FVD	fvd	140
+expected calibration error	expectedcalibrationerror	80
+ECE	ece	140
+Brier score	brierscore	80
+negative log-likelihood	negativeloglikelihood	80
+NLL	nll	140
+selective prediction	selectiveprediction	80
+risk-coverage curve	riskcoveragecurve	80
+out-of-distribution detection	outofdistributiondetection	80
+OOD detection	ooddetection	80
+adversarial robustness	adversarialrobustness	80
+certified robustness	certifiedrobustness	80
+adversarial example	adversarialexample	80
+adversarial perturbation	adversarialperturbation	80
+FGSM	fgsm	140
+PGD attack	pgdattack	80
+Carlini-Wagner attack	carliniwagnerattack	80
+AutoAttack	autoattack	140
+universal adversarial perturbation	universaladversarialperturbation	80
+interpretability	interpretability	140
+explainability	explainability	140
+feature attribution	featureattribution	80
+saliency map	saliencymap	80
+attention visualization	attentionvisualization	80
+integrated gradients	integratedgradients	80
+SmoothGrad	smoothgrad	140
+Grad-CAM	gradcam	140
+SHAP	shap	140
+LIME	lime	140
+concept activation vector	conceptactivationvector	80
+TCAV	tcav	140
+mechanistic interpretability	mechanisticinterpretability	80
+activation patching	activationpatching	80
+causal tracing	causaltracing	80
+causal mediation analysis	causalmediationanalysis	80
+logit lens	logitlens	80
+tuned lens	tunedlens	80
+linear probe	linearprobe	80
+probing classifier	probingclassifier	80
+representation similarity	representationsimilarity	80
+CKA	cka	140
+SVCCA	svcca	140
+RSA	rsa	140
+neuron activation	neuronactivation	80
+feature superposition	featuresuperposition	80
+polysemantic neuron	polysemanticneuron	80
+monosemantic feature	monosemanticfeature	80
+sparse feature	sparsefeature	80
+circuit discovery	circuitdiscovery	80
+induction head	inductionhead	80
+copying head	copyinghead	80
+knowledge neuron	knowledgeneuron	80
+factual recall	factualrecall	80
+model editing	modelediting	80
+knowledge editing	knowledgeediting	80
+ROME	rome	140
+MEMIT	memit	140
+machine unlearning	machineunlearning	80
+data deletion	datadeletion	80
+forgetting score	forgettingscore	80
+membership privacy	membershipprivacy	80
+reproducibility	reproducibility	140
+replicability	replicability	140
+random seed	randomseed	80
+deterministic training	deterministictraining	80
+statistical test	statisticaltest	80
+confidence band	confidenceband	80
+error bar	errorbar	80
+
+# 分布式训练、算子与系统概念
+data parallelism	dataparallelism	80
+DP	dp	140
+distributed data parallel	distributeddataparallel	80
+DDP	ddp	140
+fully sharded data parallel	fullyshardeddataparallel	80
+FSDP	fsdp	140
+tensor parallelism	tensorparallelism	80
+TP	tp	140
+pipeline parallelism	pipelineparallelism	80
+PP	pp	140
+sequence parallelism	sequenceparallelism	80
+SP	sp	140
+context parallelism	contextparallelism	80
+CP	cp	140
+3D parallelism	threedparallelism	80
+hybrid parallelism	hybridparallelism	80
+model parallelism	modelparallelism	80
+parameter sharding	parametersharding	80
+optimizer sharding	optimizersharding	80
+gradient sharding	gradientsharding	80
+ZeRO	zero	140
+ZeRO-1	zero1	140
+ZeRO-2	zero2	140
+ZeRO-3	zero3	140
+ZeRO-Offload	zerooffload	140
+ZeRO-Infinity	zeroinfinity	140
+CPU offloading	cpuoffloading	80
+NVMe offloading	nvmeoffloading	80
+activation offloading	activationoffloading	80
+parameter offloading	parameteroffloading	80
+all-reduce	allreduce	140
+all-gather	allgather	140
+reduce-scatter	reducescatter	140
+all-to-all	alltoall	140
+broadcast	broadcast	140
+collective communication	collectivecommunication	80
+communication overlap	communicationoverlap	80
+computation overlap	computationoverlap	80
+gradient synchronization	gradientsynchronization	80
+gradient bucketing	gradientbucketing	80
+ring all-reduce	ringallreduce	80
+hierarchical all-reduce	hierarchicalallreduce	80
+pipeline bubble	pipelinebubble	80
+pipeline schedule	pipelineschedule	80
+1F1B	onef1b	140
+interleaved pipeline	interleavedpipeline	80
+zero-bubble pipeline	zerobubblepipeline	80
+checkpoint saving	checkpointsaving	80
+checkpoint loading	checkpointloading	80
+distributed checkpoint	distributedcheckpoint	80
+elastic training	elastictraining	80
+fault tolerance	faulttolerance	80
+straggler mitigation	stragglermitigation	80
+load balancing	loadbalancing	80
+memory fragmentation	memoryfragmentation	80
+memory bandwidth	memorybandwidth	80
+compute bound	computebound	80
+memory bound	memorybound	80
+arithmetic intensity	arithmeticintensity	80
+roofline model	rooflinemodel	80
+model FLOPs utilization	modelflopsutilization	80
+MFU	mfu	140
+hardware FLOPs utilization	hardwareflopsutilization	80
+HFU	hfu	140
+FLOPs	flops	140
+FLOPS	flops	140
+TFLOPS	tflops	140
+PFLOPS	pflops	140
+HBM	hbm	140
+GDDR	gddr	140
+SRAM	sram	140
+DRAM	dram	140
+shared memory	sharedmemory	80
+register pressure	registerpressure	80
+occupancy	occupancy	140
+warp	warp	140
+thread block	threadblock	80
+CUDA kernel	cudakernel	80
+kernel fusion	kernelfusion	80
+operator fusion	operatorfusion	80
+fused attention	fusedattention	80
+fused optimizer	fusedoptimizer	80
+persistent kernel	persistentkernel	80
+tensor core	tensorcore	80
+tensor memory accelerator	tensormemoryaccelerator	80
+TMA	tma	140
+CUDA graph	cudagraph	80
+graph capture	graphcapture	80
+graph compilation	graphcompilation	80
+just-in-time compilation	justintimecompilation	80
+JIT	jit	140
+ahead-of-time compilation	aheadoftimecompilation	80
+operator lowering	operatorlowering	80
+intermediate representation	intermediaterepresentation	80
+IR	ir	140
+automatic kernel tuning	automatickerneltuning	80
+autotuning	autotuning	140
+vectorization	vectorization	140
+tiling	tiling	140
+loop unrolling	loopunrolling	80
+memory coalescing	memorycoalescing	80
+asynchronous copy	asynchronouscopy	80
+double buffering	doublebuffering	80
+activation recomputation	activationrecomputation	80
+memory-efficient attention	memoryefficientattention	80
+checkpoint averaging	checkpointaveraging	80
+exponential moving average	exponentialmovingaverage	80
+EMA	ema	140
+stochastic weight averaging	stochasticweightaveraging	80
+SWA	swa	140
+training throughput	trainingthroughput	80
+inference throughput	inferencethroughput	80
+serving throughput	servingthroughput	80
+request scheduling	requestscheduling	80
+admission control	admissioncontrol	80
+request batching	requestbatching	80
+rate limiting	ratelimiting	80
+backpressure	backpressure	140
+multi-tenant serving	multitenantserving	80
+prefix sharing	prefixsharing	80
+disaggregated serving	disaggregatedserving	80
+cache-aware scheduling	cacheawarescheduling	80
+speculative execution	speculativeexecution	80
+model residency	modelresidency	80
+model loading	modelloading	80
+weight streaming	weightstreaming	80
+expert offloading	expertoffloading	80
+
+# 深度学习、机器学习与数值计算框架
+PyTorch	pytorch	300
+TensorFlow	tensorflow	140
+JAX	jax	140
+Keras	keras	140
+Flax	flax	140
+Haiku	haiku	140
+Equinox	equinox	140
+Optax	optax	140
+NumPy	numpy	140
+SciPy	scipy	140
+scikit-learn	scikitlearn	140
+XGBoost	xgboost	140
+LightGBM	lightgbm	140
+CatBoost	catboost	140
+Statsmodels	statsmodels	140
+PyMC	pymc	140
+Stan	stan	140
+NumPyro	numpyro	140
+Pyro	pyro	140
+GPyTorch	gpytorch	140
+BoTorch	botorch	140
+CVXPY	cvxpy	140
+SymPy	sympy	140
+Numba	numba	140
+CuPy	cupy	140
+Dask	dask	140
+Polars	polars	140
+pandas	pandas	140
+Apache Arrow	apachearrow	80
+PyArrow	pyarrow	140
+HDF5	hdf5	140
+h5py	h5py	140
+Zarr	zarr	140
+xarray	xarray	140
+einops	einops	140
+einx	einx	140
+torchvision	torchvision	140
+torchaudio	torchaudio	140
+torchtext	torchtext	140
+torchdata	torchdata	140
+torchrec	torchrec	140
+TorchRL	torchrl	140
+TorchMetrics	torchmetrics	140
+torcheval	torcheval	140
+torchtune	torchtune	140
+torchao	torchao	140
+TorchOpt	torchopt	140
+TorchOptics	torchoptics	140
+TorchGeo	torchgeo	140
+TorchIO	torchio	140
+MONAI	monai	140
+SimpleITK	simpleitk	140
+ITK	itk	140
+ANTs	ants	140
+NiBabel	nibabel	140
+Nilearn	nilearn	140
+Lightning	lightning	140
+PyTorch Lightning	pytorchlightning	80
+Lightning Fabric	lightningfabric	80
+Ignite	ignite	140
+fastai	fastai	140
+Skorch	skorch	140
+Sklearn	sklearn	140
+OpenMMLab	openmmlab	140
+MMEngine	mmengine	140
+MMCV	mmcv	140
+MMDetection	mmdetection	140
+MMSegmentation	mmsegmentation	140
+MMPreTrain	mmpretrain	140
+MMAction2	mmaction2	140
+MMPose	mmpose	140
+MMRotate	mmrotate	140
+MMOCR	mmocr	140
+MMTracking	mmtracking	140
+MMDetection3D	mmdetection3d	140
+Detectron2	detectron2	140
+Detectron	detectron	140
+Ultralytics	ultralytics	140
+SuperGradients	supergradients	140
+Kornia	kornia	140
+Albumentations	albumentations	140
+imgaug	imgaug	140
+AugLy	augly	140
+timm	timm	140
+OpenCV	opencv	140
+Pillow	pillow	140
+scikit-image	scikitimage	140
+ImageIO	imageio	140
+PyAV	pyav	140
+Decord	decord	140
+FFmpeg	ffmpeg	140
+MoviePy	moviepy	140
+Open3D	open3d	140
+PyTorch3D	pytorch3d	140
+Kaolin	kaolin	140
+MinkowskiEngine	minkowskiengine	140
+TorchSparse	torchsparse	140
+spconv	spconv	140
+PyTorch Geometric	pytorchgeometric	80
+DGL	dgl	140
+GraphLearn	graphlearn	140
+PyG	pyg	140
+Spektral	spektral	140
+NetworkX	networkx	140
+DeepChem	deepchem	140
+RDKit	rdkit	140
+ASE	ase	140
+DeepXDE	deepxde	140
+Modulus	modulus	140
+NeuralPDE	neuralpde	140
+Diffrax	diffrax	140
+torchdiffeq	torchdiffeq	140
+GeomLoss	geomloss	140
+POT	pot	140
+PyKeOps	pykeops	140
+
+# 大模型、对齐与分布式训练工具
+Hugging Face	huggingface	80
+Transformers	transformers	140
+Diffusers	diffusers	140
+Tokenizers	tokenizers	140
+Datasets	datasets	140
+Accelerate	accelerate	140
+TRL	trl	140
+Evaluate	evaluate	140
+Safetensors	safetensors	140
+tiktoken	tiktoken	140
+Sentence Transformers	sentencetransformers	80
+FlagEmbedding	flagembedding	140
+FastEmbed	fastembed	140
+BERTopic	bertopic	140
+Gensim	gensim	140
+spaCy	spacy	140
+NLTK	nltk	140
+Stanza	stanza	140
+Flair	flair	140
+AllenNLP	allennlp	140
+NVIDIA NeMo	nvidianemo	80
+NeMo-Aligner	nemoaligner	140
+Megatron-LM	megatronlm	140
+Megatron-Core	megatroncore	140
+DeepSpeed	deepspeed	140
+DeepSpeed-Chat	deepspeedchat	140
+DeepSpeed-Inference	deepspeedinference	140
+DeepSpeed-MII	deepspeedmii	140
+Colossal-AI	colossalai	140
+FairScale	fairscale	140
+Fairseq	fairseq	140
+torchtitan	torchtitan	140
+TorchElastic	torchelastic	140
+torchrun	torchrun	140
+DTensor	dtensor	140
+DeviceMesh	devicemesh	140
+PipelineModule	pipelinemodule	140
+DeepSpeed ZeRO	deepspeedzero	80
+Ulysses	ulysses	140
+Alpa	alpa	140
+GShard	gshard	140
+Mesh TensorFlow	meshtensorflow	80
+Pax	pax	140
+Praxis	praxis	140
+MaxText	maxtext	140
+Levanter	levanter	140
+LitGPT	litgpt	140
+LitServe	litserve	140
+Axolotl	axolotl	140
+LLaMA-Factory	llamafactory	140
+Unsloth	unsloth	140
+XTuner	xtuner	140
+ms-swift	msswift	140
+OpenRLHF	openrlhf	140
+verl	verl	140
+RL4LMs	rl4lms	140
+RLlib	rllib	140
+Stable-Baselines3	stablebaselines3	140
+CleanRL	cleanrl	140
+Tianshou	tianshou	140
+Sample Factory	samplefactory	80
+RSL-RL	rslrl	140
+rl-games	rlgames	140
+Acme	acme	140
+Dopamine	dopamine	140
+skrl	skrl	140
+Hydra	hydra	140
+OmegaConf	omegaconf	140
+Gin Config	ginconfig	80
+YACS	yacs	140
+ConfigArgParse	configargparse	140
+Optuna	optuna	140
+Ray Tune	raytune	80
+Hyperopt	hyperopt	140
+Nevergrad	nevergrad	140
+SMAC	smac	140
+Weights & Biases	weightsbiases	80
+wandb	wandb	140
+TensorBoard	tensorboard	140
+MLflow	mlflow	140
+Aim	aim	140
+Comet	comet	140
+ClearML	clearml	140
+Neptune	neptune	140
+DVC	dvc	140
+DVCLive	dvclive	140
+Sacred	sacred	140
+Guild AI	guildai	80
+SwanLab	swanlab	140
+Trackio	trackio	140
+
+# 推理、检索与智能体工程
+vLLM	vllm	300
+SGLang	sglang	140
+TensorRT	tensorrt	140
+TensorRT-LLM	tensorrtllm	140
+Triton Inference Server	tritoninferenceserver	80
+Triton	triton	140
+FlashMLA	flashmla	140
+FlashDecoding	flashdecoding	140
+SageAttention	sageattention	140
+xFormers	xformers	140
+FlexDecoding	flexdecoding	140
+FlashLinearAttention	flashlinearattention	140
+Liger Kernel	ligerkernel	80
+Liger-Kernel	ligerkernel	140
+liger-kernel	ligerkernel	140
+Cutlass	cutlass	140
+CUTLASS	cutlass	140
+CuTe	cute	140
+TileLang	tilelang	140
+TVM	tvm	140
+Apache TVM	apachetvm	80
+MLC-LLM	mlcllm	140
+llama.cpp	llamacpp	140
+llama-cpp-python	llamacpppython	140
+Ollama	ollama	140
+LM Studio	lmstudio	80
+llamafile	llamafile	140
+GPT4All	gpt4all	140
+Jan	jan	140
+LocalAI	localai	140
+FastChat	fastchat	140
+Open WebUI	openwebui	80
+Text Generation Inference	textgenerationinference	80
+TGI	tgi	140
+LMDeploy	lmdeploy	140
+LightLLM	lightllm	140
+TensorRT Model Optimizer	tensorrtmodeloptimizer	80
+ONNX	onnx	140
+ONNX Runtime	onnxruntime	80
+OpenVINO	openvino	140
+Core ML	coreml	80
+MLX	mlx	140
+mlx-lm	mlxlm	140
+ExecuTorch	executorch	140
+LiteRT	litert	140
+TensorFlow Lite	tensorflowlite	80
+NCNN	ncnn	140
+MNN	mnn	140
+TNN	tnn	140
+Paddle Lite	paddlelite	80
+PaddlePaddle	paddlepaddle	140
+PaddleNLP	paddlenlp	140
+PaddleOCR	paddleocr	140
+PaddleDetection	paddledetection	140
+PaddleSeg	paddleseg	140
+PaddleSpeech	paddlespeech	140
+PaddleSlim	paddleslim	140
+OpenLLM	openllm	140
+BentoML	bentoml	140
+KServe	kserve	140
+Seldon Core	seldoncore	80
+Ray Serve	rayserve	80
+Modal	modal	140
+Baseten	baseten	140
+Runpod	runpod	140
+SkyPilot	skypilot	140
+LangChain	langchain	140
+LangGraph	langgraph	140
+LlamaIndex	llamaindex	140
+Haystack	haystack	140
+DSPy	dspy	140
+Semantic Kernel	semantickernel	80
+AutoGen	autogen	140
+AG2	ag2	140
+CrewAI	crewai	140
+smolagents	smolagents	140
+PydanticAI	pydanticai	140
+CAMEL	camel	140
+MetaGPT	metagpt	140
+OpenHands	openhands	140
+BrowserGym	browsergym	140
+AgentScope	agentscope	140
+AgentOps	agentops	140
+Langfuse	langfuse	140
+LangSmith	langsmith	140
+Phoenix	phoenix	140
+Arize	arize	140
+TruLens	trulens	140
+Ragas	ragas	140
+DeepEval	deepeval	140
+Promptfoo	promptfoo	140
+Guardrails	guardrails	140
+NeMo Guardrails	nemoguardrails	80
+Outlines	outlines	140
+Guidance	guidance	140
+XGrammar	xgrammar	140
+LM Format Enforcer	lmformatenforcer	80
+Instructor	instructor	140
+LiteLLM	litellm	140
+OpenRouter	openrouter	140
+Faiss	faiss	140
+FAISS	faiss	140
+Milvus	milvus	140
+Zilliz	zilliz	140
+Qdrant	qdrant	140
+Weaviate	weaviate	140
+Chroma	chroma	140
+LanceDB	lancedb	140
+Pinecone	pinecone	140
+Vespa	vespa	140
+Elasticsearch	elasticsearch	140
+OpenSearch	opensearch	140
+pgvector	pgvector	140
+ScaNN	scann	140
+HNSWlib	hnswlib	140
+Annoy	annoy	140
+USearch	usearch	140
+Jina	jina	140
+Docling	docling	140
+MinerU	mineru	140
+Marker	marker	140
+Unstructured	unstructured	140
+GROBID	grobid	140
+Nougat	nougat	140
+Surya	surya	140
+
+# GPU、编译器、硬件与集群系统
+CUDA	cuda	140
+cuDNN	cudnn	140
+cuBLAS	cublas	140
+cuBLASLt	cublaslt	140
+cuFFT	cufft	140
+cuRAND	curand	140
+cuSOLVER	cusolver	140
+cuSPARSE	cusparse	140
+cuSPARSELt	cusparselt	140
+cuTENSOR	cutensor	140
+cuTensorNet	cutensornet	140
+NCCL	nccl	140
+NVSHMEM	nvshmem	140
+NVLink	nvlink	140
+NVSwitch	nvswitch	140
+NVMe	nvme	140
+GPUDirect	gpudirect	140
+GPUDirect RDMA	gpudirectrdma	80
+GPUDirect Storage	gpudirectstorage	80
+GDS	gds	140
+RDMA	rdma	140
+InfiniBand	infiniband	140
+RoCE	roce	140
+UCX	ucx	140
+UCC	ucc	140
+Gloo	gloo	140
+MPI	mpi	140
+OpenMPI	openmpi	140
+MPICH	mpich	140
+Horovod	horovod	140
+Slurm	slurm	140
+Kubernetes	kubernetes	140
+KubeRay	kuberay	140
+Volcano	volcano	140
+Kubeflow	kubeflow	140
+Docker	docker	140
+Podman	podman	140
+Apptainer	apptainer	140
+Singularity	singularity	140
+Enroot	enroot	140
+Pyxis	pyxis	140
+containerd	containerd	140
+NVIDIA Container Toolkit	nvidiacontainertoolkit	80
+NVIDIA GPU Operator	nvidiagpuoperator	80
+DCGM	dcgm	140
+NVML	nvml	140
+nvidia-smi	nvidiasmi	140
+Nsight Systems	nsightsystems	80
+Nsight Compute	nsightcompute	80
+CUPTI	cupti	140
+NVTX	nvtx	140
+NVCC	nvcc	140
+NVRTC	nvrtc	140
+PTX	ptx	140
+SASS	sass	140
+LLVM	llvm	140
+MLIR	mlir	140
+IREE	iree	140
+StableHLO	stablehlo	140
+XLA	xla	140
+TorchDynamo	torchdynamo	140
+TorchInductor	torchinductor	140
+TorchScript	torchscript	140
+Torch FX	torchfx	80
+torch.compile	torchcompile	140
+torch.export	torchexport	140
+Torch-TensorRT	torchtensorrt	140
+AITemplate	aitemplate	140
+Tensor Comprehensions	tensorcomprehensions	80
+Halide	halide	140
+Taichi	taichi	140
+Warp	warp	140
+ROCm	rocm	140
+HIP	hip	140
+hipBLAS	hipblas	140
+MIOpen	miopen	140
+RCCL	rccl	140
+SYCL	sycl	140
+oneAPI	oneapi	140
+oneDNN	onednn	140
+OpenCL	opencl	140
+Metal	metal	140
+Metal Performance Shaders	metalperformanceshaders	80
+MPS	mps	140
+Tensor Core	tensorcore	80
+Streaming Multiprocessor	streamingmultiprocessor	80
+SM	sm	140
+HBM2e	hbm2e	140
+HBM3e	hbm3e	140
+L2 cache	l2cache	80
+PCIe	pcie	140
+NVLink-C2C	nvlinkc2c	140
+NUMA	numa	140
+MIG	mig	140
+MPS server	mpsserver	80
+Ampere	ampere	140
+Hopper	hopper	140
+Blackwell	blackwell	140
+Grace Hopper	gracehopper	80
+GH200	gh200	140
+GB200	gb200	140
+DGX	dgx	140
+HGX	hgx	140
+Jetson	jetson	140
+Orin	orin	140
+TPU	tpu	140
+Trainium	trainium	140
+Inferentia	inferentia	140
+Gaudi	gaudi	140
+Groq	groq	140
+Cerebras	cerebras	140
+Graphcore	graphcore	140
+FPGA	fpga	140
+ASIC	asic	140
+SIMD	simd	140
+SIMT	simt	140
+TF32	tf32	140
+NVFP4	nvfp4	140
+MXFP4	mxfp4	140
+E4M3	e4m3	140
+E5M2	e5m2	140
+
+# 可视化、实验与论文工具
+Matplotlib	matplotlib	140
+Seaborn	seaborn	140
+Plotly	plotly	140
+Bokeh	bokeh	140
+Altair	altair	140
+Vega-Lite	vegalite	140
+ggplot2	ggplot2	140
+Plotnine	plotnine	140
+Graphviz	graphviz	140
+Mermaid	mermaid	140
+TikZ	tikz	140
+PGFPlots	pgfplots	140
+Manim	manim	140
+ParaView	paraview	140
+MeshLab	meshlab	140
+Blender	blender	140
+MeshCat	meshcat	140
+Rerun	rerun	140
+Visdom	visdom	140
+napari	napari	140
+FiftyOne	fiftyone	140
+Gradio	gradio	140
+Streamlit	streamlit	140
+Dash	dash	140
+Panel	panel	140
+Jupyter	jupyter	140
+JupyterLab	jupyterlab	140
+IPython	ipython	140
+Marimo	marimo	140
+Quarto	quarto	140
+R Markdown	rmarkdown	80
+LaTeX	latex	140
+BibTeX	bibtex	140
+BibLaTeX	biblatex	140
+Biber	biber	140
+Overleaf	overleaf	140
+TeX Live	texlive	80
+MiKTeX	miktex	140
+latexmk	latexmk	140
+ChkTeX	chktex	140
+Pandoc	pandoc	140
+Zotero	zotero	140
+JabRef	jabref	140
+Mendeley	mendeley	140
+EndNote	endnote	140
+Paperpile	paperpile	140
+Better BibTeX	betterbibtex	80
+Semantic Scholar	semanticscholar	80
+Google Scholar	googlescholar	80
+Crossref	crossref	140
+DBLP	dblp	140
+ORCID	orcid	140
+OpenReview	openreview	140
+OpenReview.net	openreviewnet	140
+HAL	hal	140
+Zenodo	zenodo	140
+Figshare	figshare	140
+OSF	osf	140
+Papers with Code	paperswithcode	80
+Hugging Face Hub	huggingfacehub	80
+ModelScope	modelscope	140
+OpenXLab	openxlab	140
+Kaggle	kaggle	140
+CodaLab	codalab	140
+EvalAI	evalai	140
+AIcrowd	aicrowd	140
+DrivenData	drivendata	140
+Git LFS	gitlfs	80
+GitHub Actions	githubactions	80
+pre-commit	precommit	140
+Ruff	ruff	140
+Mypy	mypy	140
+Pyright	pyright	140
+pytest	pytest	140
+Hypothesis	hypothesis	140
+Sphinx	sphinx	140
+MkDocs	mkdocs	140
+Read the Docs	readthedocs	80
+
+# 人工智能、机器学习与数据科学会议
+NeurIPS	neurips	300
+NIPS	nips	180
+ICML	icml	300
+ICLR	iclr	300
+AAAI	aaai	180
+IJCAI	ijcai	180
+AISTATS	aistats	180
+UAI	uai	180
+COLT	colt	180
+ALT	alt	180
+ACML	acml	180
+ECML PKDD	ecmlpkdd	180
+ECML	ecml	180
+PKDD	pkdd	180
+KDD	kdd	180
+SIGKDD	sigkdd	180
+ICDM	icdm	180
+SDM	sdm	180
+PAKDD	pakdd	180
+CIKM	cikm	180
+WSDM	wsdm	180
+WWW	www	180
+The Web Conference	thewebconference	180
+SIGIR	sigir	180
+RecSys	recsys	180
+FAccT	facct	180
+AIES	aies	180
+SaTML	satml	180
+CPAL	cpal	180
+CoLLAs	collas	180
+AutoML	automl	180
+CoRL	corl	180
+MLSys	mlsys	180
+ML4H	ml4h	180
+CHIL	chil	180
+ICLR Workshop	iclrworkshop	180
+NeurIPS Workshop	neuripsworkshop	180
+ICML Workshop	icmlworkshop	180
+International Conference on Machine Learning	internationalconferenceonmachinelearning	180
+International Conference on Learning Representations	internationalconferenceonlearningrepresentations	180
+Neural Information Processing Systems	neuralinformationprocessingsystems	180
+Conference on Uncertainty in Artificial Intelligence	conferenceonuncertaintyinartificialintelligence	180
+International Conference on Artificial Intelligence and Statistics	internationalconferenceonartificialintelligenceandstatistics	180
+Conference on Learning Theory	conferenceonlearningtheory	180
+Conference on Robot Learning	conferenceonrobotlearning	180
+Conference on Lifelong Learning Agents	conferenceonlifelonglearningagents	180
+Conference on Parsimony and Learning	conferenceonparsimonyandlearning	180
+Conference on Health, Inference, and Learning	conferenceonhealthinferenceandlearning	180
+
+# 视觉、多媒体、图形学与机器人会议
+CVPR	cvpr	300
+ICCV	iccv	300
+ECCV	eccv	300
+WACV	wacv	180
+ACCV	accv	180
+BMVC	bmvc	180
+ICPR	icpr	180
+ICIP	icip	180
+ICME	icme	180
+ACM MM	acmmm	180
+ACM Multimedia	acmmultimedia	180
+ICMR	icmr	180
+MMSys	mmsys	180
+SIGGRAPH	siggraph	180
+SIGGRAPH Asia	siggraphasia	180
+Eurographics	eurographics	180
+3DV	threedv	180
+ISMAR	ismar	180
+ISBI	isbi	180
+MICCAI	miccai	180
+MIDL	midl	180
+IPMI	ipmi	180
+SCA	sca	180
+SPM	spm	180
+SGP	sgp	180
+PG	pg	180
+Pacific Graphics	pacificgraphics	180
+ICRA	icra	180
+IROS	iros	180
+RSS	rss	180
+HRI	hri	180
+ISRR	isrr	180
+ICAR	icar	180
+RO-MAN	roman	180
+IAV	iav	180
+IV	iv	180
+ITSC	itsc	180
+IJCNN	ijcnn	180
+ICANN	icann	180
+ICONIP	iconip	180
+CVPR Workshop	cvprworkshop	180
+ICCV Workshop	iccvworkshop	180
+ECCV Workshop	eccvworkshop	180
+Conference on Computer Vision and Pattern Recognition	conferenceoncomputervisionandpatternrecognition	180
+International Conference on Computer Vision	internationalconferenceoncomputervision	180
+European Conference on Computer Vision	europeanconferenceoncomputervision	180
+Winter Conference on Applications of Computer Vision	winterconferenceonapplicationsofcomputervision	180
+British Machine Vision Conference	britishmachinevisionconference	180
+Asian Conference on Computer Vision	asianconferenceoncomputervision	180
+International Conference on 3D Vision	internationalconferenceon3dvision	180
+International Conference on Medical Image Computing and Computer Assisted Intervention	internationalconferenceonmedicalimagecomputingandcomputerassistedintervention	180
+Medical Imaging with Deep Learning	medicalimagingwithdeeplearning	180
+International Conference on Robotics and Automation	internationalconferenceonroboticsandautomation	180
+International Conference on Intelligent Robots and Systems	internationalconferenceonintelligentrobotsandsystems	180
+Robotics: Science and Systems	roboticsscienceandsystems	180
+
+# 自然语言、语音、系统与交叉学科会议
+ACL	acl	300
+EMNLP	emnlp	300
+NAACL	naacl	180
+EACL	eacl	180
+AACL	aacl	180
+COLING	coling	180
+LREC	lrec	180
+LREC-COLING	lreccoling	180
+CoNLL	conll	180
+INLG	inlg	180
+SemEval	semeval	180
+WMT	wmt	180
+BioNLP	bionlp	180
+BlackboxNLP	blackboxnlp	180
+BEA	bea	180
+SIGDIAL	sigdial	180
+SIGMORPHON	sigmorphon	180
+SIGTYP	sigtyp	180
+SIGUL	sigul	180
+IWSLT	iwslt	180
+CLiC-it	clicit	180
+CCL	ccl	180
+NLPCC	nlpcc	180
+ROCLING	rocling	180
+Findings of ACL	findingsofacl	180
+Findings of EMNLP	findingsofemnlp	180
+Findings of NAACL	findingsofnaacl	180
+Annual Meeting of the Association for Computational Linguistics	annualmeetingoftheassociationforcomputationallinguistics	180
+Conference on Empirical Methods in Natural Language Processing	conferenceonempiricalmethodsinnaturallanguageprocessing	180
+Conference on Computational Natural Language Learning	conferenceoncomputationalnaturallanguagelearning	180
+International Conference on Computational Linguistics	internationalconferenceoncomputationallinguistics	180
+Language Resources and Evaluation Conference	languageresourcesandevaluationconference	180
+Interspeech	interspeech	180
+ICASSP	icassp	180
+ASRU	asru	180
+SLT	slt	180
+ISMIR	ismir	180
+WASPAA	waspaa	180
+IEEE Spoken Language Technology Workshop	ieeespokenlanguagetechnologyworkshop	180
+International Conference on Acoustics, Speech and Signal Processing	internationalconferenceonacousticsspeechandsignalprocessing	180
+International Society for Music Information Retrieval Conference	internationalsocietyformusicinformationretrievalconference	180
+OSDI	osdi	180
+SOSP	sosp	180
+NSDI	nsdi	180
+EuroSys	eurosys	180
+USENIX ATC	usenixatc	180
+ASPLOS	asplos	180
+ISCA	isca	180
+MICRO	micro	180
+HPCA	hpca	180
+SC	sc	180
+PPoPP	ppopp	180
+IPDPS	ipdps	180
+HPDC	hpdc	180
+ICDCS	icdcs	180
+FAST	fast	180
+SIGMOD	sigmod	180
+VLDB	vldb	180
+ICDE	icde	180
+PODS	pods	180
+ICSE	icse	180
+FSE	fse	180
+ISSTA	issta	180
+PLDI	pldi	180
+POPL	popl	180
+OOPSLA	oopsla	180
+ICFP	icfp	180
+CSCW	cscw	180
+CHI	chi	180
+UIST	uist	180
+IUI	iui	180
+KSEM	ksem	180
+KR	kr	180
+ICAPS	icaps	180
+AAMAS	aamas	180
+SAT	sat	180
+CAV	cav	180
+TACAS	tacas	180
+TMLR	tmlr	180
+
+# 期刊与论文系列
+JMLR	jmlr	180
+Journal of Machine Learning Research	journalofmachinelearningresearch	180
+Transactions on Machine Learning Research	transactionsonmachinelearningresearch	180
+PMLR	pmlr	180
+Proceedings of Machine Learning Research	proceedingsofmachinelearningresearch	180
+TPAMI	tpami	180
+IEEE Transactions on Pattern Analysis and Machine Intelligence	ieeetransactionsonpatternanalysisandmachineintelligence	180
+IJCV	ijcv	180
+International Journal of Computer Vision	internationaljournalofcomputervision	180
+TNNLS	tnnls	180
+IEEE Transactions on Neural Networks and Learning Systems	ieeetransactionsonneuralnetworksandlearningsystems	180
+TIP	tip	180
+IEEE Transactions on Image Processing	ieeetransactionsonimageprocessing	180
+TMM	tmm	180
+IEEE Transactions on Multimedia	ieeetransactionsonmultimedia	180
+TCSVT	tcsvt	180
+IEEE Transactions on Circuits and Systems for Video Technology	ieeetransactionsoncircuitsandsystemsforvideotechnology	180
+TVCG	tvcg	180
+IEEE Transactions on Visualization and Computer Graphics	ieeetransactionsonvisualizationandcomputergraphics	180
+TOG	tog	180
+ACM Transactions on Graphics	acmtransactionsongraphics	180
+TACL	tacl	180
+Transactions of the Association for Computational Linguistics	transactionsoftheassociationforcomputationallinguistics	180
+Computational Linguistics	computationallinguistics	180
+JAIR	jair	180
+Journal of Artificial Intelligence Research	journalofartificialintelligenceresearch	180
+Machine Learning	machinelearning	180
+Neural Computation	neuralcomputation	180
+Neural Networks	neuralnetworks	180
+Artificial Intelligence	artificialintelligence	180
+Pattern Recognition	patternrecognition	180
+Pattern Recognition Letters	patternrecognitionletters	180
+Computer Vision and Image Understanding	computervisionandimageunderstanding	180
+Medical Image Analysis	medicalimageanalysis	180
+IEEE Transactions on Medical Imaging	ieeetransactionsonmedicalimaging	180
+TMI	tmi	180
+IEEE Transactions on Robotics	ieeetransactionsonrobotics	180
+TRO	tro	180
+IEEE Robotics and Automation Letters	ieeeroboticsandautomationletters	180
+RA-L	ral	180
+IJRR	ijrr	180
+International Journal of Robotics Research	internationaljournalofroboticsresearch	180
+Science Robotics	sciencerobotics	180
+Nature Machine Intelligence	naturemachineintelligence	180
+Nature Methods	naturemethods	180
+Nature Communications	naturecommunications	180
+Nature Computational Science	naturecomputationalscience	180
+Nature Biomedical Engineering	naturebiomedicalengineering	180
+Science Advances	scienceadvances	180
+PNAS	pnas	180
+Proceedings of the National Academy of Sciences	proceedingsofthenationalacademyofsciences	180
+Communications of the ACM	communicationsoftheacm	180
+ACM Computing Surveys	acmcomputingsurveys	180
+CSUR	csur	180
+Data Mining and Knowledge Discovery	dataminingandknowledgediscovery	180
+Information Retrieval Journal	informationretrievaljournal	180
+Language Resources and Evaluation	languageresourcesandevaluation	180
+Speech Communication	speechcommunication	180
+Computer Speech & Language	computerspeechlanguage	180
+IEEE Journal of Selected Topics in Signal Processing	ieeejournalofselectedtopicsinsignalprocessing	180
+JSTSP	jstsp	180
+IEEE Signal Processing Letters	ieeesignalprocessingletters	180
+SPL	spl	180
+IEEE Transactions on Signal Processing	ieeetransactionsonsignalprocessing	180
+TSP	tsp	180
+
+# 研究组织、标准组织与开放平台
+IEEE	ieee	140
+ACM	acm	140
+AAAI Press	aaaipress	80
+CVF	cvf	140
+Computer Vision Foundation	computervisionfoundation	80
+ACL Anthology	aclanthology	80
+ISCA Speech	iscaspeech	80
+ELLIS	ellis	140
+EurAI	eurai	140
+IAPR	iapr	140
+SIAM	siam	140
+INFORMS	informs	140
+AAAS	aaas	140
+NVIDIA Research	nvidiaresearch	80
+Google Research	googleresearch	80
+Google DeepMind	googledeepmind	80
+DeepMind	deepmind	140
+Google Brain	googlebrain	80
+Microsoft Research	microsoftresearch	80
+MSR	msr	140
+Meta AI	metaai	80
+FAIR	fair	140
+AI at Meta	aiatmeta	80
+OpenAI	openai	140
+Anthropic	anthropic	140
+Allen Institute for AI	alleninstituteforai	80
+Ai2	ai2	140
+AI2	ai2	140
+Mila	mila	140
+Vector Institute	vectorinstitute	80
+Amii	amii	140
+CIFAR	cifar	140
+EleutherAI	eleutherai	140
+BigScience	bigscience	140
+BigCode	bigcode	140
+Together AI	togetherai	80
+Databricks	databricks	140
+Snowflake	snowflake	140
+Cohere	cohere	140
+Mistral AI	mistralai	80
+Stability AI	stabilityai	80
+Luma AI	lumaai	80
+Midjourney	midjourney	140
+Qwen Team	qwenteam	80
+BAAI	baai	140
+Beijing Academy of Artificial Intelligence	beijingacademyofartificialintelligence	80
+Shanghai AI Laboratory	shanghaiailaboratory	80
+OpenGVLab	opengvlab	140
+OpenBMB	openbmb	140
+THUDM	thudm	140
+THUNLP	thunlp	140
+Tsinghua NLP	tsinghuanlp	80
+FudanNLP	fudannlp	140
+Shanghai Jiao Tong University	shanghaijiaotonguniversity	80
+SenseTime Research	sensetimeresearch	80
+ByteDance Seed	bytedanceseed	80
+Tencent AI Lab	tencentailab	80
+Alibaba DAMO Academy	alibabadamoacademy	80
+DAMO Academy	damoacademy	80
+Baidu Research	baiduresearch	80
+Huawei Noah's Ark Lab	huaweinoahsarklab	80
+Noah's Ark Lab	noahsarklab	80
+NII	nii	140
+RIKEN AIP	rikenaip	80
+Inria	inria	140
+CNRS	cnrs	140
+DFKI	dfki	140
+Max Planck Institute	maxplanckinstitute	80
+MPI-IS	mpiis	140
+MPI-INF	mpiinf	140
+ETH AI Center	ethaicenter	80
+EPFL AI Center	epflaicenter	80
+Stanford HAI	stanfordhai	80
+Stanford AI Lab	stanfordailab	80
+SAIL	sail	140
+Stanford CRFM	stanfordcrfm	80
+Berkeley AI Research	berkeleyairesearch	80
+BAIR	bair	140
+Berkeley RAIL	berkeleyrail	80
+CMU Robotics Institute	cmuroboticsinstitute	80
+CMU LTI	cmulti	80
+MIT CSAIL	mitcsail	80
+CSAIL	csail	140
+MIT-IBM Watson AI Lab	mitibmwatsonailab	80
+MIT Media Lab	mitmedialab	80
+Oxford VGG	oxfordvgg	80
+Oxford Robotics Institute	oxfordroboticsinstitute	80
+Visual Geometry Group	visualgeometrygroup	80
+Cambridge Machine Learning Group	cambridgemachinelearninggroup	80
+UCL Gatsby	uclgatsby	80
+UCL AI Centre	uclaicentre	80
+Tübingen AI Center	tubingenaicenter	80
+
+# 评估指标、检索指标与生成质量
+F1	f1	140
+F-beta score	fbetascore	80
+true negative rate	truenegativerate	80
+TNR	tnr	140
+ROC	roc	140
+ROC AUC	rocauc	80
+PR AUC	prauc	80
+AP50	ap50	140
+AP75	ap75	140
+AP-small	apsmall	140
+AP-medium	apmedium	140
+AP-large	aplarge	140
+AR	ar	140
+Dice	dice	140
+Dice coefficient	dicecoefficient	80
+Hausdorff distance	hausdorffdistance	80
+HD95	hd95	140
+boundary F1	boundaryf1	80
+segmentation quality	segmentationquality	80
+SQ	sq	140
+recognition quality	recognitionquality	80
+RQ	rq	140
+MPJPE	mpjpe	140
+PA-MPJPE	pampjpe	140
+PCK	pck	140
+PCKh	pckh	140
+OKS	oks	140
+ADE	ade	140
+FDE	fde	140
+minADE	minade	140
+minFDE	minfde	140
+ID switches	idswitches	80
+sacreBLEU	sacrebleu	140
+ROUGE-L	rougel	140
+BLEURT	bleurt	140
+TER	ter	140
+bits per byte	bitsperbyte	80
+BPB	bpb	140
+EM	em	140
+Elo rating	elorating	80
+Bradley-Terry model	bradleyterrymodel	80
+MOS	mos	140
+PESQ	pesq	140
+STOI	stoi	140
+SI-SDR	sisdr	140
+SDR	sdr	140
+FAD	fad	140
+CLAP score	clapscore	80
+IS	is	140
+CLIP-I	clipi	140
+CLIP-T	clipt	140
+DINO score	dinoscore	80
+VIF	vif	140
+Recall@k	recallk	140
+Precision@k	precisionk	140
+Hit@k	hitk	140
+DCG	dcg	140
+NMI	nmi	140
+ARI	ari	140
+silhouette score	silhouettescore	80
+Davies-Bouldin index	daviesbouldinindex	80
+Calinski-Harabasz index	calinskiharabaszindex	80
+RMSE	rmse	140
+RMSLE	rmsle	140
+MAPE	mape	140
+SMAPE	smape	140
+R-squared	rsquared	140
+R2	r2	140
+Spearman correlation	spearmancorrelation	80
+Pearson correlation	pearsoncorrelation	80
+Kendall's tau	kendallstau	80
+MCE	mce	140
+Earth Mover's Distance	earthmoversdistance	80
+EMD	emd	140
+CD	cd	140
+TOPS	tops	140
+MACs	macs	140
+parameter count	parametercount	80
+model size	modelsize	80
+QPS	qps	140
+RPS	rps	140
+GPU utilization	gpuutilization	80
+peak memory	peakmemory	80
+energy efficiency	energyefficiency	80
+power consumption	powerconsumption	80
+joules per token	joulespertoken	80
+compute budget	computebudget	80
+training wall time	trainingwalltime	80
+
+# 科研写作、评审与复现
+abstract	abstract	140
+introduction	introduction	140
+related work	relatedwork	80
+methodology	methodology	140
+preliminaries	preliminaries	140
+problem formulation	problemformulation	80
+experimental setup	experimentalsetup	80
+implementation details	implementationdetails	80
+main results	mainresults	80
+ablation studies	ablationstudies	80
+quantitative results	quantitativeresults	80
+qualitative results	qualitativeresults	80
+case study	casestudy	80
+failure cases	failurecases	80
+error analysis	erroranalysis	80
+limitation	limitation	140
+limitations	limitations	140
+broader impact	broaderimpact	80
+ethical considerations	ethicalconsiderations	80
+conclusion	conclusion	140
+future work	futurework	80
+appendix	appendix	140
+supplementary material	supplementarymaterial	80
+supplementary materials	supplementarymaterials	80
+technical report	technicalreport	80
+preprint	preprint	140
+camera-ready	cameraready	140
+rebuttal	rebuttal	140
+author response	authorresponse	80
+peer review	peerreview	80
+double-blind review	doubleblindreview	80
+single-blind review	singleblindreview	80
+open peer review	openpeerreview	80
+anonymous submission	anonymoussubmission	80
+submission deadline	submissiondeadline	80
+abstract deadline	abstractdeadline	80
+supplementary deadline	supplementarydeadline	80
+notification date	notificationdate	80
+area chair	areachair	80
+senior area chair	seniorareachair	80
+program chair	programchair	80
+reviewer	reviewer	140
+meta-review	metareview	140
+metareview	metareview	140
+desk rejection	deskrejection	80
+borderline accept	borderlineaccept	80
+borderline reject	borderlinereject	80
+weak accept	weakaccept	80
+weak reject	weakreject	80
+strong accept	strongaccept	80
+strong reject	strongreject	80
+oral presentation	oralpresentation	80
+spotlight presentation	spotlightpresentation	80
+poster presentation	posterpresentation	80
+best paper	bestpaper	80
+best paper award	bestpaperaward	80
+honorable mention	honorablemention	80
+outstanding paper	outstandingpaper	80
+main conference	mainconference	80
+workshop paper	workshoppaper	80
+short paper	shortpaper	80
+long paper	longpaper	80
+position paper	positionpaper	80
+survey paper	surveypaper	80
+system demonstration	systemdemonstration	80
+doctoral consortium	doctoralconsortium	80
+benchmark paper	benchmarkpaper	80
+dataset paper	datasetpaper	80
+reproducibility report	reproducibilityreport	80
+artifact evaluation	artifactevaluation	80
+artifact appendix	artifactappendix	80
+artifact availability	artifactavailability	80
+open source	opensource	80
+source code	sourcecode	80
+code release	coderelease	80
+data availability	dataavailability	80
+data availability statement	dataavailabilitystatement	80
+reproducibility checklist	reproducibilitychecklist	80
+seed variance	seedvariance	80
+standard deviation	standarddeviation	80
+standard error	standarderror	80
+significance test	significancetest	80
+paired t-test	pairedttest	80
+Wilcoxon signed-rank test	wilcoxonsignedranktest	80
+bootstrap confidence interval	bootstrapconfidenceinterval	80
+multiple comparisons	multiplecomparisons	80
+Bonferroni correction	bonferronicorrection	80
+power analysis	poweranalysis	80
+baseline	baseline	140
+strong baseline	strongbaseline	80
+competitive baseline	competitivebaseline	80
+state of the art	stateoftheart	80
+SOTA	sota	140
+oracle baseline	oraclebaseline	80
+upper bound	upperbound	80
+lower bound	lowerbound	80
+fair comparison	faircomparison	80
+hyperparameter search	hyperparametersearch	80
+hyperparameter tuning	hyperparametertuning	80
+validation split	validationsplit	80
+train-validation-test split	trainvalidationtestsplit	80
+K-fold cross-validation	kfoldcrossvalidation	80
+evaluation metric	evaluationmetric	80
+annotation guideline	annotationguideline	80
+annotation budget	annotationbudget	80
+data statement	datastatement	80
+model card	modelcard	80
+dataset card	datasetcard	80
+datasheet	datasheet	140
+data provenance	dataprovenance	80
+license	license	140
+permissive license	permissivelicense	80
+copyleft license	copyleftlicense	80
+copyright	copyright	140
+citation	citation	140
+bibliography	bibliography	140
+citation key	citationkey	80
+DOI	doi	140
+ISBN	isbn	140
+ISSN	issn	140
+eISSN	eissn	140
+ORCID iD	orcidid	80
+corresponding author	correspondingauthor	80
+first author	firstauthor	80
+co-first author	cofirstauthor	80
+equal contribution	equalcontribution	80
+author contribution	authorcontribution	80
+conflict of interest	conflictofinterest	80
+funding statement	fundingstatement	80
+acknowledgments	acknowledgments	140
+erratum	erratum	140
+corrigendum	corrigendum	140
+retraction	retraction	140
+version of record	versionofrecord	80
+accepted manuscript	acceptedmanuscript	80
+proof of concept	proofofconcept	80
+proof sketch	proofsketch	80
+theorem	theorem	140
+proposition	proposition	140
+lemma	lemma	140
+corollary	corollary	140
+assumption	assumption	140
+definition	definition	140
+notation	notation	140
+derivation	derivation	140
+convergence proof	convergenceproof	80
+complexity analysis	complexityanalysis	80
+time complexity	timecomplexity	80
+space complexity	spacecomplexity	80
+asymptotic complexity	asymptoticcomplexity	80
+computational complexity	computationalcomplexity	80
+generalization bound	generalizationbound	80
+approximation error	approximationerror	80
+estimation error	estimationerror	80
+optimization error	optimizationerror	80
+negative result	negativeresult	80
+sanity check	sanitycheck	80
+toy example	toyexample	80
+toy experiment	toyexperiment	80
+pilot study	pilotstudy	80
+scaling experiment	scalingexperiment	80
+transfer evaluation	transferevaluation	80
+cross-dataset evaluation	crossdatasetevaluation	80
+out-of-distribution evaluation	outofdistributionevaluation	80
+test-time evaluation	testtimeevaluation	80
+inference-time evaluation	inferencetimeevaluation	80
+in-the-wild evaluation	inthewildevaluation	80
+user study	userstudy	80
+institutional review board	institutionalreviewboard	80
+IRB	irb	140
+informed consent	informedconsent	80
+anonymization	anonymization	140
+de-identification	deidentification	140
+
+# 常用输入别名
+Qwen2.5-VL	qwentwofivevl	180
+Qwen2-VL	qwentwovl	180
+Qwen3-VL	qwenthreevl	180
+GPT-4o	gptfouro	180
+3D Gaussian Splatting	gaussiansplatting	180
+3D Gaussian Splatting	threedgs	180
