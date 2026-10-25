@@ -85,7 +85,7 @@ python3 ~/.config/yadm/scripts/machine-status.py --profile auto --strict
 | 本机持久角色 | `yadm config local.class mac-client` 或 `dl-server` |
 | 本次角色覆盖 | `DOTFILES_MACHINE_PROFILE=mac-client yadm bootstrap` |
 | Mac GUI 软件 | `mac-client` 默认安装现有清单；显式 `DOTFILES_INSTALL_GUI_APPS=0` 跳过本次安装 |
-| 选择 Mac GUI 软件 | `DOTFILES_GUI_APPS=kitty yadm bootstrap`；多个名称用空格分隔，可选 `kitty fcitx5 zotero`。Kitty 自动带上字体；Fcitx5 默认安装[中州韵版与白霜](mac-client.md#fcitx5-中州韵版与白霜)；Zotero 插件由 agent 按 [专门流程](zotero.md) 激活 |
+| 选择 Mac GUI 软件 | `DOTFILES_GUI_APPS=kitty yadm bootstrap`；多个名称用空格分隔，可选 `kitty fcitx5 zotero`。Kitty 自动带上字体；Fcitx5 默认安装[中州韵版与白霜](fcitx5.md)；Zotero 插件由 agent 按 [专门流程](zotero.md) 激活 |
 | 网络 | `.zshrc` 默认使用 `DOTFILES_PROXY_MODE=on`；独立运行 bootstrap 默认 `inherit`；`off` 关闭本次代理 |
 | 跳过系统包安装 | `DOTFILES_SKIP_SYSTEM_PACKAGES=1 yadm bootstrap`；仍需自行准备缺失工具 |
 | 使用发行版 tmux | `DOTFILES_SKIP_TMUX_SOURCE_BUILD=1 yadm bootstrap` 跳过 apt 平台的源码构建 |
